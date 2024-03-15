@@ -111,6 +111,21 @@
 }
 ```
 
+## 构建
+
+构建所有字体到本地 store:
+
+``` shell
+nix build .#tsangertype-fonts
+```
+
+
+更新 shas.nix 中的校验值：
+
+``` nix
+./update.sh
+```
+
 ## 协议
 
 除非特殊说明，你可以在 __Do What The Fuck You Want To Public License, Version 2__ 条款内做任何事。伴随源代码，你应当已收到了该协议的副本，如果没有，请访问 <http://www.wtfpl.net> 查看该协议的描述。
