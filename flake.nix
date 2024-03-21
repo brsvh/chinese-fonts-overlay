@@ -64,6 +64,40 @@
             }:
             let
               inherit (final) symlinkJoin;
+
+              getFonts = ol:
+                intersectAttrs (ol 42 42) final;
+
+              freeFonts = getFonts self.overlays.free;
+
+              unfreeFonts = getFonts self.overlays.unfree;
+
+              allFonts = freeFonts // unfreeFonts;
+
+              getAvailableDerivation = drv:
+                (isDerivation drv) &&
+                (meta.availableOn { inherit system; } drv);
+
+              tsangertype-free-fonts = symlinkJoin rec {
+                name = "${pname}-${version}";
+                paths = filter getAvailableDerivation (attrValues freeFonts);
+                pname = "tsangertype-free-fonts";
+                version = import ./version.nix;
+              };
+
+              tsangertype-unfree-fonts = symlinkJoin rec {
+                name = "${pname}-${version}";
+                paths = filter getAvailableDerivation (attrValues unfreeFonts);
+                pname = "tsangertype-unfree-fonts";
+                version = import ./version.nix;
+              };
+
+              tsangertype-fonts = symlinkJoin rec {
+                name = "${pname}-${version}";
+                paths = filter getAvailableDerivation (attrValues allFonts);
+                pname = "tsangertype-fonts";
+                version = import ./version.nix;
+              };
             in
             {
               _module = {
@@ -76,31 +110,26 @@
 
               overlayAttrs =
                 (self.overlays.free final pkgs) //
-                (self.overlays.unfree final pkgs);
+                (self.overlays.unfree final pkgs) //
+                {
+                  inherit
+                    tsangertype-fonts
+                    tsangertype-free-fonts
+                    tsangertype-unfree-fonts;
+                };
 
               packages =
                 let
                   fonts =
-                    let
-                      getFonts = ol:
-                        intersectAttrs (ol 42 42) final;
-                    in
-                    (getFonts self.overlays.free) //
-                    (getFonts self.overlays.unfree);
+                    getFonts self.overlays.default;
                 in
-                fonts // {
-                  tsangertype-fonts = symlinkJoin rec {
-                    name = "${pname}-${version}";
-                    paths =
-                      filter
-                        (
-                          p:
-                          (isDerivation p) && (meta.availableOn { inherit system; } p)
-                        )
-                        (attrValues fonts);
-                    pname = "tsangertype-fonts";
-                    version = import ./version.nix;
-                  };
+                allFonts // {
+                  inherit
+                    tsangertype-fonts
+                    tsangertype-free-fonts
+                    tsangertype-unfree-fonts;
+
+                  default = tsangertype-fonts;
                 };
 
               treefmt = {

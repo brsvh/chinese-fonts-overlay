@@ -16,11 +16,11 @@
 - default: 仓耳字库的所有字体，即上面两者的合集。
 
 > [!NOTE]
-> 仓耳字库免费商用字体授权声明[^1]中使用了“免费开源字体”等字，但我未找到其源代码。
+> 仓耳字库免费商用字体授权声明[^1]中使用了“免费开源字体”等字样，但我未找到其源代码。
 
 ## 开始上手
 
-你只需要将此仓库的 overlay 添加至你的配置中即可。
+你只需要将此仓库的 overlay 添加至你的配置中然后安装期望的字体即可。
 
 
 ``` nix
@@ -59,16 +59,19 @@
 
               overlays =
                 [
-                  tsangertype-fonts.overlays.free      # 免费商用字体
-                  # tsangertype-fonts.overlays.unfree  # 个人非商业用字体
-                  # tsangertype-fonts.overlays.default # 所有字体
+                  tsangertype-fonts.overlays.default # 所有字体
+                  # tsangertype-fonts.overlays.free    # 免费商用字体
+                  # tsangertype-fonts.overlays.unfree  # 个人非商用字体
                 ];
             };
             
             home = {
               packages = with pkgs;
                 [
-                  tsangertype-font-jinkai01-w01 # 仓耳今楷01-W01
+                  tsangertype-free-fonts          # 所有免费商用字体
+                  # tsangertype-unfree-fonts      # 所有个人非商用字体
+                  # tsangertype-fonts             # 所有字体
+                  # tsangertype-font-jinkai01-w01 # 仓耳今楷01-W01
                   # ...
                 ];
             };
@@ -91,16 +94,19 @@
 
               overlays =
                 [
-                  tsangertype-fonts.overlays.free      # 免费商用字体
-                  # tsangertype-fonts.overlays.unfree  # 个人非商业用字体
-                  # tsangertype-fonts.overlays.default # 所有字体
+                  tsangertype-fonts.overlays.default # 所有字体
+                  # tsangertype-fonts.overlays.free    # 免费商用字体
+                  # tsangertype-fonts.overlays.unfree  # 个人非商用字体
                 ];
             };
             
             environment = {
               systemPackages = with pkgs;
                 [
-                  tsangertype-font-jinkai01-w01 # 仓耳今楷01-W01
+                  tsangertype-free-fonts          # 所有免费商用字体
+                  # tsangertype-unfree-fonts      # 所有个人非商用字体
+                  # tsangertype-fonts             # 所有字体
+                  # tsangertype-font-jinkai01-w01 # 仓耳今楷01-W01
                   # ...
                 ];
             };
@@ -132,8 +138,11 @@ nix build .#tsangertype-fonts
 
 ## 提供的字体
 
+`tsangertype-fonts` 是所有字体的链接。
+
 ### 免费商用
 
+`tsangertype-free-fonts` 是所有免费商用字体的链接。
 
 | 包                                      | 字体             |
 |-----------------------------------------|------------------|
@@ -161,6 +170,8 @@ nix build .#tsangertype-fonts
 | `tsangertype-font-zhoukezhengdabangshu` | 仓耳周珂正大榜书 |
 
 ### 个人非商用
+
+`tsangertype-unfree-fonts` 是所有个人非商用字体的链接。
 
 | 包                                             | 字体                   |
 |------------------------------------------------|------------------------|
