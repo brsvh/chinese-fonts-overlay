@@ -40,7 +40,7 @@
   inputs = {
     home-manager.url = "github:nix-community/home-manager/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    tsangertype-fonts.url = "github:brsvh/tsangertype-fonts.nix/main";
+    tsangertype-fonts.url = "github:brsvh/tsangertype-fonts-overlays/main";
   };
 
   output = { home-manager, nixpkgs, tsangertype-fonts, ... } @ inputs: {

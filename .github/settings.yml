@@ -1,5 +1,5 @@
 repository:
-  name: tsangertype-fonts.nix
+  name: tsangertype-fonts-overlays
   description: TsangerType Fonts for Nix/NixOS user.
   homepage: https://tsanger.cn/product
   topics: nix-flake, nixos-flake, fonts, chinese-fonts
