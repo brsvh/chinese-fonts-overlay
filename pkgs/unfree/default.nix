@@ -237,6 +237,8 @@ in
 
   tsangertype-font-jundongxingshu = callPackage ./jundongxingshu.nix { };
 
+  tsangertype-font-juzhenchangfang = callPackage ./juzhenchangfang.nix { };
+
   tsangertype-font-juziwei = callPackage ./juziwei.nix { };
 
   tsangertype-font-keke = callPackage ./keke.nix { };

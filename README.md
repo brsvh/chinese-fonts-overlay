@@ -292,6 +292,7 @@ nix build .#tsangertype-fonts
 | `tsangertype-font-jinshirongyao`               | 仓耳金石荣耀体         |
 | `tsangertype-font-jundongkaishu`               | 仓耳俊冬楷书           |
 | `tsangertype-font-jundongxingshu`              | 仓耳俊冬行书           |
+| `tsangertype-font-juzhenchangfang`             | 仓耳聚珍长仿           |
 | `tsangertype-font-juziwei`                     | 仓耳橘子味             |
 | `tsangertype-font-keke`                        | 仓耳柯柯体             |
 | `tsangertype-font-konglukaishu`                | 仓耳孔璐楷书           |

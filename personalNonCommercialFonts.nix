@@ -117,6 +117,7 @@
   "jinshirongyao" = "仓耳金石荣耀体";
   "jundongkaishu" = "仓耳俊冬楷书";
   "jundongxingshu" = "仓耳俊冬行书";
+  "juzhenchangfang" = "仓耳聚珍长仿";
   "juziwei" = "仓耳橘子味";
   "keke" = "仓耳柯柯体";
   "konglukaishu" = "仓耳孔璐楷书";
