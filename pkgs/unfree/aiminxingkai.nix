@@ -1,14 +1,10 @@
-{ callPackage
-, lib
-, ...
-}:
+{ callPackage, lib, ... }:
 with builtins;
 with lib;
 let
   mkTsangerTypeFontDerivation = callPackage ../mkTsangerTypeFontDerivation.nix { };
 in
-mkTsangerTypeFontDerivation
-{
+mkTsangerTypeFontDerivation {
   fontName = "aiminxingkai";
   fontChineseName = "仓耳爱民行楷";
   allowCommercialUse = false;

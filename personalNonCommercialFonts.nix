@@ -171,11 +171,11 @@
   "nvwang" = "仓耳女王体";
   "peiban" = "仓耳陪伴体";
   "piaomiao" = "仓耳缥缈体";
-  "qiaole-w01" = "仓耳巧乐W01";
-  "qiaole-w02" = "仓耳巧乐W02";
-  "qiaole-w03" = "仓耳巧乐W03";
-  "qiaole-w04" = "仓耳巧乐W04";
-  "qiaole-w05" = "仓耳巧乐W05";
+  "qiaole-w01" = "仓耳巧乐体W01";
+  "qiaole-w02" = "仓耳巧乐体W02";
+  "qiaole-w03" = "仓耳巧乐体W03";
+  "qiaole-w04" = "仓耳巧乐体W04";
+  "qiaole-w05" = "仓耳巧乐体W05";
   "qiedoudou" = "仓耳企鹅豆豆体";
   "qiming" = "仓耳启明体";
   "qingchunyiniweiming" = "仓耳青春以你为名体";
@@ -207,6 +207,7 @@
   "shangshanruoshui" = "仓耳上善若水";
   "shenniaoxinshengchuangyi" = "神鸟新生创意体";
   "shenqidedoudou" = "仓耳神奇的豆豆体";
+  "shuhei" = "仓耳曙黑";
   "sirou" = "仓耳丝柔体";
   "siyaoxingkai" = "仓耳丝摇行楷";
   "siyecaodexingfu" = "仓耳四叶草的幸福体";
@@ -309,7 +310,6 @@
   "yiyechunfeng" = "仓耳一夜春风体";
   "youran" = "仓耳悠然体";
   "yuanbao" = "仓耳元宝体";
-  # "yuanqimanmandeqingchun" = "仓耳元气满满的青春体";
   "yucheng-w01" = "仓耳羽辰体W01";
   "yucheng-w02" = "仓耳羽辰体W02";
   "yucheng-w03" = "仓耳羽辰体W03";

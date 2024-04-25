@@ -417,6 +417,8 @@ in
 
   tsangertype-font-shenqidedoudou = callPackage ./shenqidedoudou.nix { };
 
+  tsangertype-font-shuhei = callPackage ./shuhei.nix { };
+
   tsangertype-font-sirou = callPackage ./sirou.nix { };
 
   tsangertype-font-siyaoxingkai = callPackage ./siyaoxingkai.nix { };
@@ -622,8 +624,6 @@ in
   tsangertype-font-youran = callPackage ./youran.nix { };
 
   tsangertype-font-yuanbao = callPackage ./yuanbao.nix { };
-
-  # tsangertype-font-yuanqimanmandeqingchun = callPackage ./yuanqimanmandeqingchun.nix { };
 
   tsangertype-font-yucheng-w01 = callPackage ./yucheng-w01.nix { };
 

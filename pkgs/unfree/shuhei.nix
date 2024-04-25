@@ -5,7 +5,7 @@ let
   mkTsangerTypeFontDerivation = callPackage ../mkTsangerTypeFontDerivation.nix { };
 in
 mkTsangerTypeFontDerivation {
-  fontName = "xinghansong";
-  fontChineseName = "仓耳星汉宋";
+  fontName = "shuhei";
+  fontChineseName = "仓耳曙黑";
   allowCommercialUse = false;
 }

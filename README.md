@@ -382,6 +382,7 @@ nix build .#tsangertype-fonts
 | `tsangertype-font-shangshanruoshui`            | 仓耳上善若水           |
 | `tsangertype-font-shenniaoxinshengchuangyi`    | 神鸟新生创意体         |
 | `tsangertype-font-shenqidedoudou`              | 仓耳神奇的豆豆体       |
+| `tsangertype-font-shuhei`                      | 仓耳曙黑               |
 | `tsangertype-font-sirou`                       | 仓耳丝柔体             |
 | `tsangertype-font-siyaoxingkai`                | 仓耳丝摇行楷           |
 | `tsangertype-font-siyecaodexingfu`             | 仓耳四叶草的幸福体     |
