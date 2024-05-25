@@ -1,3 +1,5 @@
+**This project is deprecated, move to <https://github.com/brsvh/nixing> . See <https://brsvh.github.io/nixing/fonts/overlays/proprius-fonts.html> **
+
 # tsangertype fonts
 
 [![brsvh](https://img.shields.io/badge/cachix-brsvh-blue.svg)](https://brsvh.cachix.org)
