@@ -1,2 +1,8 @@
+# .gitignore --- Git untracked files -*- mode: gitignore; -*-
+
+# direnv
+/.envrc
+/.direnv/**/*
+
+# nix
 /result
-/result-*

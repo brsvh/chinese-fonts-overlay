@@ -1,24 +1,27 @@
-**This project is deprecated, move to <https://github.com/brsvh/nixing> . See <https://brsvh.github.io/nixing/fonts/overlays/proprius-fonts.html> **
+# Chinese fonts overlay
 
-# tsangertype fonts
-
-[![brsvh](https://img.shields.io/badge/cachix-brsvh-blue.svg)](https://brsvh.cachix.org)
-
-这个仓库用于提供仓耳字库的所有字体。
+这个仓库用于提供一些中文字体的收集，以 nix packages 的形式提供构建。
 
 ## 简介
 
-这个仓库的 flake 提供了三个 overlay：
+这个仓库目前提供了以下公司、字库的若干产品的构建方式：
 
-> [!WARNING]
-> 此处的 free 与 unfree 是指关于是否允许商用（价格），而不是自由与非自由的区别。
+- [Alibaba]
+- [FounderType]
+- [TrionesType]
+- [TsangerType]
+- [Microsoft]
 
-- free: 包括仓耳字库免费商业授权声明的 22 款免费字体。
-- unfree: 除仓耳字库免费商业授权声明的 22 款免费字体外剩余所有允许个人非商业使用的所有字体。
-- default: 仓耳字库的所有字体，即上面两者的合集。
-
-> [!NOTE]
-> 仓耳字库免费商用字体授权声明[^1]中使用了“免费开源字体”等字样，但我未找到其源代码。
+> [!CAUTION]
+> 
+> 这个仓库包含一些不可再分发的字体，请你在购买相关许可后进行本地构建和
+> 安装，或在学习、交流后从本地 store 中移除下列字体：
+>  - FounderType （方正字库）版权所有的字体；
+>  - Microsoft Corporation, Inc. （微软公司）版权所有或其分发的字体；
+>  - TsangerType （仓耳字库）中未以仓耳字库免费商用字体授权声明 [^1]
+>    许可的字体；
+> 特殊的，仓耳字库免费商用字体授权声明 [^1] 中使用了“免费开源字体”等字
+> 样，但其源代码无法获取。
 
 ## 开始上手
 
@@ -27,508 +30,569 @@
 
 ``` nix
 {
-  nixConfig = {
-    extra-substituters =
-      [
-        "https://brsvh.cachix.org"
-      ];
-
-    extra-trusted-public-keys =
-      [
-        "brsvh.cachix.org-1:DqtlvqnpP9g39l8Eo74AXRftGx1KJLid/ViADTNgDNE="
-      ];
-  };
-  
   inputs = {
     home-manager.url = "github:nix-community/home-manager/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    tsangertype-fonts.url = "github:brsvh/tsangertype-fonts-overlays/main";
+    chinese-fonts-overlay.url = "github:brsvh/chinese-fonts-overlays/main";
   };
 
-  output = { home-manager, nixpkgs, tsangertype-fonts, ... } @ inputs: {
-    homeConfigurations.YOUR-CONFIGURATION-NAME =
-      home-manager.lib.homeManagerConfiguration {
+  output = inputs:
+    {
+      homeConfigurations.YOUR-CONFIGURATION-NAME = inputs.home-manager.lib.homeManagerConfiguration {
         system = "x86_64-linux";
         modules = [
-          { pkgs
-          , ...
-          }:
-          {
-            nixpkgs = {
-              config = {
-                allowUnfree = true;
+          (
+            { pkgs, ... }:
+            {
+              nixpkgs = {
+                config.allowUnfree = true;
+                overlays = [
+                  inputs.chinese-fonts-overlay.overlays.default # 所有字体
+                ];
               };
-
-              overlays =
-                [
-                  tsangertype-fonts.overlays.default # 所有字体
-                  # tsangertype-fonts.overlays.free    # 免费商用字体
-                  # tsangertype-fonts.overlays.unfree  # 个人非商用字体
-                ];
-            };
-            
-            home = {
-              packages = with pkgs;
-                [
-                  tsangertype-free-fonts          # 所有免费商用字体
-                  # tsangertype-unfree-fonts      # 所有个人非商用字体
-                  # tsangertype-fonts             # 所有字体
-                  # tsangertype-font-jinkai01-w01 # 仓耳今楷01-W01
-                  # ...
-                ];
-            };
-          }
+              home.packages = with pkgs; [
+                alibaba-fonts # 所有阿里巴巴普惠体
+                alibabaFonts.puhuiti-3 # 阿里巴巴普惠体 3.0
+                # ...
+              ];
+            }
+          )
         ];
       };
-      
-    nixosConfigurations.YOUR-CONFIGURATOIN-NAME =
-      nixpkgs.lib.nixosSystem {
+
+      nixosConfigurations.YOUR-CONFIGURATOIN-NAME = inputs.nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          { pkgs
-          , ...
-          }:
-          {
-            nixpkgs = {
-              config = {
-                allowUnfree = true;
+          (
+            { pkgs, ... }:
+            {
+              nixpkgs = {
+                config.allowUnfree = true;
+                overlays = [
+                  inputs.chinese-fonts-overlay.overlays.default # 所有字体
+                ];
               };
-
-              overlays =
-                [
-                  tsangertype-fonts.overlays.default # 所有字体
-                  # tsangertype-fonts.overlays.free    # 免费商用字体
-                  # tsangertype-fonts.overlays.unfree  # 个人非商用字体
-                ];
-            };
-            
-            environment = {
-              systemPackages = with pkgs;
-                [
-                  tsangertype-free-fonts          # 所有免费商用字体
-                  # tsangertype-unfree-fonts      # 所有个人非商用字体
-                  # tsangertype-fonts             # 所有字体
-                  # tsangertype-font-jinkai01-w01 # 仓耳今楷01-W01
-                  # ...
-                ];
-            };
-          }
+              fonts.packages = with pkgs; [
+                alibaba-fonts # 所有阿里巴巴普惠体
+                alibabaFonts.puhuiti-3 # 阿里巴巴普惠体 3.0
+                # ...
+              ];
+            }
+          )
         ];
       };
-  };
+    };
 }
 ```
 
-## 构建
+### 排除一部分字体
 
-构建所有字体到本地 store:
+`alibabaFonts`、`foundertypeFonts`、`trionestypeFonts`、`tsangertypeFonts` 这些 scope 均提供了 `combine` 和 `combine'` 来方便你创建满足自定义条件的字体集。
 
-``` shell
-nix build .#tsangertype-fonts
-```
+#### `<scope>.combine`
 
+`combine :: (Derivation -> Bool) -> Derivation` 接收一个 `cond` 条件函数，用于过滤 `<scope>` 中的所有派生满足给定条件的那些。
 
-更新 shas.nix 中的校验值：
+#### `<scope>.combine'`
 
-``` nix
-./update.sh
-```
-
-## 协议
-
-除非特殊说明，你可以在 __Do What The Fuck You Want To Public License, Version 2__ 条款内做任何事。伴随源代码，你应当已收到了该协议的副本，如果没有，请访问 <http://www.wtfpl.net> 查看该协议的描述。
+`combine :: String -> (Derivation -> Bool) -> Derivation` 接收一个 `name` 作为最终字体集合派生的 `pname`，和一个 `cond`，它和 `<scope>.combine` 的 `cond` 相同。
 
 ## 提供的字体
 
+### Alibaba Fonts
+
+| 包                       | 字体               |
+|--------------------------|--------------------|
+| `alibabaFonts.puhuiti-2` | 阿里巴巴普惠体 2.0 |
+| `alibabaFonts.puhuiti-3` | 阿里巴巴普惠体 3.0 |
+
+### FounderType Fonts
+
+`foundertype-fonts` 提供在 CTeX 的 `founder` fontset 依赖的字体，它们有两种情形。
+
+1. 免费字体，在方正商业授权[^2] 和 方正个人非商业授权 [^3] 下可以免费获得的字体。
+2. 付费字体，需要额外进行购买使用和商业发布授权的字体。
+
+这两种情形，您均需要在方正字库官网获得这些字体的授权后进行使用。
+
+> ![NOTE]
+>
+> 方正字库的许可条款较多，请您仔细阅读。如果不想阅读，以下的做法通常不会给您带来法律问题：
+>  - 在购买授权许可后，仅在本地机器用作屏幕显示字体；
+>  - 在购买授权许可后，对使用它们字体创建的文档，不要进行发布和分享；
+> 除此之外的使用场景，您需要仔细阅读相关授权条款自行判断。
+
+#### 免费字体
+
+| 包                       | 字体     |
+|--------------------------|----------|
+| `foundertypeFonts.fzfsk` | 方正仿宋 |
+| `foundertypeFonts.fzhtk` | 方正黑体 |
+| `foundertypeFonts.fzktk` | 方正楷体 |
+| `foundertypeFonts.fzssk` | 方正书宋 |
+
+只安装它们：
+
+``` nix
+foundertypeFonts.combine (
+  font:
+  (lib.attrByPath [
+    "meta"
+    "license"
+    "shortName"
+  ] "unknown" font) == "foundertype-per-ula"
+)
+```
+
+#### 付费字体
+
+> ![CAUTION]
+> 
+> 下列的字体均需要付费获取授权，请您在使用前在方正字库官方网站购买这些字体的使用授权后再在本地进行构建。否则您需要自行承担相关的法律风险。
+
+| 包                       | 字体     |
+|--------------------------|----------|
+| `foundertypeFonts.fzlsk` | 方正隶书 |
+| `foundertypeFonts.fzxbsk` | 方正小标宋 |
+| `foundertypeFonts.fzxh1k` | 方正细黑 |
+| `foundertypeFonts.fzy1k` | 方正细圆一 |
+| `foundertypeFonts.fzy3k` | 方正准圆 |
+| `foundertypeFonts.fzy4k` | 方正粗体 |
+
+### Microsoft Fonts
+
+`windows-fonts` 提供构建 Windows 11 默认集成的所有字体。
+
+> ![CAUTION]
+>
+> 您不能在非 Windows 设备上使用它们。
+
+### TrionesType Fonts
+
+`trionestype-fonts` 是所有字体的链接。
+
+| 包                                | 字体     |
+|-----------------------------------|----------|
+| `trionestypeFonts.ZhuqueFangsong` | 朱雀仿宋 |
+
+### Tsangertype Fonts
+
 `tsangertype-fonts` 是所有字体的链接。
 
-### 免费商用
+安装它们中的一部分：
 
-`tsangertype-free-fonts` 是所有免费商用字体的链接。
+``` nix
+tsangertypeFonts.combine (
+  font:
+  builtins.elem font.pname [
+    "tsangertype-feibai-w01"
+    "tsangertype-feibai-w03"
+    "tsangertype-feibai-w05"
+  ]
+)
+```
+
+#### 免费商用
+
+`tsangertype-gcc-fonts` （这里的 `gcc` 是 *gratis propria commercium*，区别于 *free*）是下列所有免费商用字体的链接。
+
+> [!NOTE]
+> 仓耳字库免费商用字体授权声明[^3]中使用了“免费开源字体”等字样，但我未找到其源代码。
 
 | 包                                      | 字体             |
 |-----------------------------------------|------------------|
-| `tsangertype-font-feibai-w01`           | 仓耳非白W01      |
-| `tsangertype-font-feibai-w02`           | 仓耳非白W02      |
-| `tsangertype-font-feibai-w03`           | 仓耳非白W03      |
-| `tsangertype-font-feibai-w04`           | 仓耳非白W04      |
-| `tsangertype-font-feibai-w05`           | 仓耳非白W05      |
-| `tsangertype-font-shuyuan-w01`          | 仓耳舒圆体W01    |
-| `tsangertype-font-shuyuan-w02`          | 仓耳舒圆体W02    |
-| `tsangertype-font-shuyuan-w03`          | 仓耳舒圆体W03    |
-| `tsangertype-font-shuyuan-w04`          | 仓耳舒圆体W04    |
-| `tsangertype-font-shuyuan-w05`          | 仓耳舒圆体W05    |
-| `tsangertype-font-xiaowanzi`            | 仓耳小丸子       |
-| `tsangertype-font-yumo-w01`             | 仓耳与墨W01      |
-| `tsangertype-font-yumo-w02`             | 仓耳与墨W02      |
-| `tsangertype-font-yumo-w03`             | 仓耳与墨W03      |
-| `tsangertype-font-yumo-w04`             | 仓耳与墨W04      |
-| `tsangertype-font-yumo-w05`             | 仓耳与墨W05      |
-| `tsangertype-font-yuyang-w01`           | 仓耳渔阳体W01    |
-| `tsangertype-font-yuyang-w02`           | 仓耳渔阳体W02    |
-| `tsangertype-font-yuyang-w03`           | 仓耳渔阳体W03    |
-| `tsangertype-font-yuyang-w04`           | 仓耳渔阳体W04    |
-| `tsangertype-font-yuyang-w05`           | 仓耳渔阳体W05    |
-| `tsangertype-font-zhoukezhengdabangshu` | 仓耳周珂正大榜书 |
+| `tsangertypeFonts.feibai-w01`           | 仓耳非白W01      |
+| `tsangertypeFonts.feibai-w02`           | 仓耳非白W02      |
+| `tsangertypeFonts.feibai-w03`           | 仓耳非白W03      |
+| `tsangertypeFonts.feibai-w04`           | 仓耳非白W04      |
+| `tsangertypeFonts.feibai-w05`           | 仓耳非白W05      |
+| `tsangertypeFonts.shuyuan-w01`          | 仓耳舒圆体W01    |
+| `tsangertypeFonts.shuyuan-w02`          | 仓耳舒圆体W02    |
+| `tsangertypeFonts.shuyuan-w03`          | 仓耳舒圆体W03    |
+| `tsangertypeFonts.shuyuan-w04`          | 仓耳舒圆体W04    |
+| `tsangertypeFonts.shuyuan-w05`          | 仓耳舒圆体W05    |
+| `tsangertypeFonts.xiaowanzi`            | 仓耳小丸子       |
+| `tsangertypeFonts.yumo-w01`             | 仓耳与墨W01      |
+| `tsangertypeFonts.yumo-w02`             | 仓耳与墨W02      |
+| `tsangertypeFonts.yumo-w03`             | 仓耳与墨W03      |
+| `tsangertypeFonts.yumo-w04`             | 仓耳与墨W04      |
+| `tsangertypeFonts.yumo-w05`             | 仓耳与墨W05      |
+| `tsangertypeFonts.yuyang-w01`           | 仓耳渔阳体W01    |
+| `tsangertypeFonts.yuyang-w02`           | 仓耳渔阳体W02    |
+| `tsangertypeFonts.yuyang-w03`           | 仓耳渔阳体W03    |
+| `tsangertypeFonts.yuyang-w04`           | 仓耳渔阳体W04    |
+| `tsangertypeFonts.yuyang-w05`           | 仓耳渔阳体W05    |
+| `tsangertypeFonts.zhoukezhengdabangshu` | 仓耳周珂正大榜书 |
 
-### 个人非商用
+#### 个人非商用
 
-`tsangertype-unfree-fonts` 是所有个人非商用字体的链接。
+`tsangertype-gcp-fonts` （这里的 `gcp` 是指 *gratis propria persona*）是下列所有个人非商用字体的链接。
 
 | 包                                             | 字体                   |
 |------------------------------------------------|------------------------|
-| `tsangertype-font-aidekunkun`                  | 仓耳爱的坤坤体         |
-| `tsangertype-font-aiminxiaokai`                | 仓耳爱民小楷           |
-| `tsangertype-font-aiminxingkai`                | 仓耳爱民行楷           |
-| `tsangertype-font-aiminxingshu`                | 仓耳爱民行书           |
-| `tsangertype-font-ainimengmengda`              | 仓耳爱你萌萌哒         |
-| `tsangertype-font-aiqinglianxisheng`           | 仓耳爱情练习生         |
-| `tsangertype-font-babilong`                    | 仓耳吧吡咙体           |
-| `tsangertype-font-bailing-w01`                 | 仓耳百灵W01            |
-| `tsangertype-font-bailing-w02`                 | 仓耳百灵W02            |
-| `tsangertype-font-bailing-w03`                 | 仓耳百灵W03            |
-| `tsangertype-font-bailing-w04`                 | 仓耳百灵W04            |
-| `tsangertype-font-bailing-w05`                 | 仓耳百灵W05            |
-| `tsangertype-font-banghei`                     | 仓耳榜黑               |
-| `tsangertype-font-bantangshouzha`              | 仓耳半糖手札           |
-| `tsangertype-font-benmiaozaici`                | 仓耳本喵在此体         |
-| `tsangertype-font-cangermuxi`                  | 仓耳木兮体             |
-| `tsangertype-font-caolulinshouji`              | 仓耳曹录林手迹         |
-| `tsangertype-font-caozhebinjunxiukaishu`       | 仓耳曹哲斌俊秀楷书     |
-| `tsangertype-font-caozhebinjunxiukaishu-bold`  | 仓耳曹哲斌俊秀楷书加粗 |
-| `tsangertype-font-caozhebinkaishu`             | 仓耳曹哲斌楷书         |
-| `tsangertype-font-caozhebinkaishu-bold`        | 仓耳曹哲斌楷书加粗     |
-| `tsangertype-font-caozhebinlingyunkaishu`      | 仓耳曹哲斌灵韵楷书     |
-| `tsangertype-font-caozhebinlingyunkaishu-bold` | 仓耳曹哲斌灵韵楷书加粗 |
-| `tsangertype-font-caozhebinxingkai`            | 仓耳曹哲斌行楷         |
-| `tsangertype-font-chengshishangkongdefanxing`  | 城市上空的繁星体       |
-| `tsangertype-font-chuangyi-w01`                | 仓耳创意体W01          |
-| `tsangertype-font-chuangyi-w02`                | 仓耳创意体W02          |
-| `tsangertype-font-chuangyi-w03`                | 仓耳创意体W03          |
-| `tsangertype-font-chunfeng`                    | 仓耳春风体             |
-| `tsangertype-font-chuyu`                       | 仓耳初遇体             |
-| `tsangertype-font-daimengxiaomutou`            | 仓耳呆萌小木头体       |
-| `tsangertype-font-dainiushouxie`               | 呆牛手写体             |
-| `tsangertype-font-daji`                        | 仓耳大吉体             |
-| `tsangertype-font-damanman-w01`                | 仓耳大漫漫体W01        |
-| `tsangertype-font-damanman-w02`                | 仓耳大漫漫体W02        |
-| `tsangertype-font-damanman-w03`                | 仓耳大漫漫体W03        |
-| `tsangertype-font-damanman-w04`                | 仓耳大漫漫体W04        |
-| `tsangertype-font-damanman-w05`                | 仓耳大漫漫体W05        |
-| `tsangertype-font-daofengzhanshi`              | 刀锋战士体             |
-| `tsangertype-font-daofengzhanshi-bold`         | 刀锋战士粗体           |
-| `tsangertype-font-dianshichengjin`             | 仓耳点石成金体         |
-| `tsangertype-font-diewu`                       | 仓耳蝶舞体             |
-| `tsangertype-font-diyiyanaishangni`            | 仓耳第一眼爱上你       |
-| `tsangertype-font-dubai`                       | 仓耳独白体             |
-| `tsangertype-font-dudu-w01`                    | 仓耳嘟嘟体W01          |
-| `tsangertype-font-dudu-w02`                    | 仓耳嘟嘟体W02          |
-| `tsangertype-font-dudu-w03`                    | 仓耳嘟嘟体W03          |
-| `tsangertype-font-dudu-w04`                    | 仓耳嘟嘟体W04          |
-| `tsangertype-font-fanghei`                     | 仓耳方黑               |
-| `tsangertype-font-feifei-w01`                  | 仓耳飞飞体W01          |
-| `tsangertype-font-feifei-w02`                  | 仓耳飞飞体W02          |
-| `tsangertype-font-feifei-w03`                  | 仓耳飞飞体W03          |
-| `tsangertype-font-feifei-w04`                  | 仓耳飞飞体W04          |
-| `tsangertype-font-feiteng`                     | 仓耳沸腾体             |
-| `tsangertype-font-fengerchui`                  | 仓耳风儿吹             |
-| `tsangertype-font-fenghei`                     | 仓耳丰黑               |
-| `tsangertype-font-fengwujiutian-w01`           | 仓耳锋舞九天W01        |
-| `tsangertype-font-fengwujiutian-w02`           | 仓耳锋舞九天W02        |
-| `tsangertype-font-fengwujiutian-w03`           | 仓耳锋舞九天W03        |
-| `tsangertype-font-fengwujiutian-w04`           | 仓耳锋舞九天W04        |
-| `tsangertype-font-fengwujiutian-w05`           | 仓耳锋舞九天W05        |
-| `tsangertype-font-fengwujiutian-w06`           | 仓耳锋舞九天W06        |
-| `tsangertype-font-fengyun-w01`                 | 仓耳锋韵W01            |
-| `tsangertype-font-fengyun-w02`                 | 仓耳锋韵W02            |
-| `tsangertype-font-fengyun-w03`                 | 仓耳锋韵W03            |
-| `tsangertype-font-fengyun-w04`                 | 仓耳锋韵W04            |
-| `tsangertype-font-fengyun-w05`                 | 仓耳锋韵W05            |
-| `tsangertype-font-fengyun-w06`                 | 仓耳锋韵W06            |
-| `tsangertype-font-fengyun-w07`                 | 仓耳锋韵W07            |
-| `tsangertype-font-gexingtuya`                  | 仓耳个性涂鸦体         |
-| `tsangertype-font-guateng`                     | 仓耳瓜藤体             |
-| `tsangertype-font-gufengkaishu`                | 仓耳古风楷书           |
-| `tsangertype-font-gufengxingshu`               | 仓耳古风行书           |
-| `tsangertype-font-guli-w01`                    | 仓耳谷力W01            |
-| `tsangertype-font-guli-w02`                    | 仓耳谷力W02            |
-| `tsangertype-font-guli-w03`                    | 仓耳谷力W03            |
-| `tsangertype-font-guli-w04`                    | 仓耳谷力W04            |
-| `tsangertype-font-guli-w05`                    | 仓耳谷力W05            |
-| `tsangertype-font-guodongxixi`                 | 仓耳果冻吸吸体         |
-| `tsangertype-font-guyun`                       | 仓耳古韵体             |
-| `tsangertype-font-haloutuxiansheng`            | 仓耳哈喽兔先生体       |
-| `tsangertype-font-hanshan`                     | 仓耳寒山体             |
-| `tsangertype-font-hefeng`                      | 仓耳荷风体             |
-| `tsangertype-font-huayu`                       | 仓耳花语               |
-| `tsangertype-font-jiaotangmaqiduo`             | 仓耳焦糖玛奇朵体       |
-| `tsangertype-font-jiaxuan`                     | 仓耳佳轩体             |
-| `tsangertype-font-jiekou`                      | 仓耳结扣体             |
-| `tsangertype-font-jiemo`                       | 仓耳芥末体             |
-| `tsangertype-font-jingya`                      | 仓耳静雅体             |
-| `tsangertype-font-jinkai01-w01`                | 仓耳今楷01-W01         |
-| `tsangertype-font-jinkai01-w02`                | 仓耳今楷01-W02         |
-| `tsangertype-font-jinkai01-w03`                | 仓耳今楷01-W03         |
-| `tsangertype-font-jinkai01-w04`                | 仓耳今楷01-W04         |
-| `tsangertype-font-jinkai01-w05`                | 仓耳今楷01-W05         |
-| `tsangertype-font-jinkai02-w01`                | 仓耳今楷02-W01         |
-| `tsangertype-font-jinkai02-w02`                | 仓耳今楷02-W02         |
-| `tsangertype-font-jinkai02-w03`                | 仓耳今楷02-W03         |
-| `tsangertype-font-jinkai02-w04`                | 仓耳今楷02-W04         |
-| `tsangertype-font-jinkai02-w05`                | 仓耳今楷02-W05         |
-| `tsangertype-font-jinkai03-w01`                | 仓耳今楷03-W01         |
-| `tsangertype-font-jinkai03-w02`                | 仓耳今楷03-W02         |
-| `tsangertype-font-jinkai03-w03`                | 仓耳今楷03-W03         |
-| `tsangertype-font-jinkai03-w04`                | 仓耳今楷03-W04         |
-| `tsangertype-font-jinkai03-w05`                | 仓耳今楷03-W05         |
-| `tsangertype-font-jinkai04-w01`                | 仓耳今楷04-W01         |
-| `tsangertype-font-jinkai04-w02`                | 仓耳今楷04-W02         |
-| `tsangertype-font-jinkai04-w03`                | 仓耳今楷04-W03         |
-| `tsangertype-font-jinkai04-w04`                | 仓耳今楷04-W04         |
-| `tsangertype-font-jinkai04-w05`                | 仓耳今楷04-W05         |
-| `tsangertype-font-jinkai05-w01`                | 仓耳今楷05-W01         |
-| `tsangertype-font-jinkai05-w02`                | 仓耳今楷05-W02         |
-| `tsangertype-font-jinkai05-w03`                | 仓耳今楷05-W03         |
-| `tsangertype-font-jinkai05-w04`                | 仓耳今楷05-W04         |
-| `tsangertype-font-jinkai05-w05`                | 仓耳今楷05-W05         |
-| `tsangertype-font-jinshirongyao`               | 仓耳金石荣耀体         |
-| `tsangertype-font-jundongkaishu`               | 仓耳俊冬楷书           |
-| `tsangertype-font-jundongxingshu`              | 仓耳俊冬行书           |
-| `tsangertype-font-juzhenchangfang`             | 仓耳聚珍长仿           |
-| `tsangertype-font-juziwei`                     | 仓耳橘子味             |
-| `tsangertype-font-keke`                        | 仓耳柯柯体             |
-| `tsangertype-font-konglukaishu`                | 仓耳孔璐楷书           |
-| `tsangertype-font-lankai`                      | 仓耳兰楷               |
-| `tsangertype-font-leizhenhanfeng`              | 仓耳雷震汉风体         |
-| `tsangertype-font-lekeke`                      | 仓耳乐可可体           |
-| `tsangertype-font-lelebiji`                    | 乐乐笔记体             |
-| `tsangertype-font-lezhi`                       | 仓耳乐志体             |
-| `tsangertype-font-lianaibiji`                  | 仓耳恋爱笔记体         |
-| `tsangertype-font-lifei`                       | 仓耳利飞体             |
-| `tsangertype-font-linggang-w01`                | 仓耳凌刚体W01          |
-| `tsangertype-font-linggang-w02`                | 仓耳凌刚体W02          |
-| `tsangertype-font-linggang-w03`                | 仓耳凌刚体W03          |
-| `tsangertype-font-linggang-w04`                | 仓耳凌刚体W04          |
-| `tsangertype-font-linggang-w05`                | 仓耳凌刚体W05          |
-| `tsangertype-font-lingyun`                     | 仓耳凌云体             |
-| `tsangertype-font-lishi`                       | 仓耳力士体             |
-| `tsangertype-font-liyuan`                      | 仓耳丽圆               |
-| `tsangertype-font-manmiao`                     | 仓耳曼妙体             |
-| `tsangertype-font-maobohe`                     | 仓耳猫薄荷体           |
-| `tsangertype-font-meixin-w01`                  | 仓耳美心体W01          |
-| `tsangertype-font-meixin-w02`                  | 仓耳美心体W02          |
-| `tsangertype-font-mengbaokeji`                 | 仓耳萌宝柯基体         |
-| `tsangertype-font-mengdaimiaowei`              | 仓耳萌呆喵尾体         |
-| `tsangertype-font-mengdie`                     | 仓耳梦蝶体             |
-| `tsangertype-font-mengduoduo`                  | 仓耳萌朵朵体           |
-| `tsangertype-font-mengmengdaxiaodouzi`         | 萌萌哒小豆子体         |
-| `tsangertype-font-mengmiaojiang`               | 仓耳萌喵酱             |
-| `tsangertype-font-mengtonglishu`               | 仓耳梦桐隶书           |
-| `tsangertype-font-mengxingdelibie`             | 仓耳梦醒的离别体       |
-| `tsangertype-font-minghei-w01`                 | 仓耳明黑W01            |
-| `tsangertype-font-minghei-w02`                 | 仓耳明黑W02            |
-| `tsangertype-font-minghei-w03`                 | 仓耳明黑W03            |
-| `tsangertype-font-minghei-w04`                 | 仓耳明黑W04            |
-| `tsangertype-font-minghei-w05`                 | 仓耳明黑W05            |
-| `tsangertype-font-minghei-w06`                 | 仓耳明黑W06            |
-| `tsangertype-font-minghei-w07`                 | 仓耳明黑W07            |
-| `tsangertype-font-minghei-w08`                 | 仓耳明黑W08            |
-| `tsangertype-font-mingkai-w01`                 | 仓耳明楷W01            |
-| `tsangertype-font-mingkai-w02`                 | 仓耳明楷W02            |
-| `tsangertype-font-mingkai-w03`                 | 仓耳明楷W03            |
-| `tsangertype-font-mingkai-w04`                 | 仓耳明楷W04            |
-| `tsangertype-font-mingyue`                     | 仓耳明月体             |
-| `tsangertype-font-mizhiguo`                    | 仓耳秘之果             |
-| `tsangertype-font-mocha`                       | 仓耳抹茶体             |
-| `tsangertype-font-nihaoshiguang`               | 仓耳你好时光体         |
-| `tsangertype-font-nishiwodequanshijie`         | 你是我的全世界         |
-| `tsangertype-font-nishiwoweiyi`                | 仓耳你是我唯一         |
-| `tsangertype-font-nuannanshouzha`              | 仓耳暖男手札体         |
-| `tsangertype-font-nuanxin`                     | 仓耳暖心体             |
-| `tsangertype-font-nvwang`                      | 仓耳女王体             |
-| `tsangertype-font-peiban`                      | 仓耳陪伴体             |
-| `tsangertype-font-piaomiao`                    | 仓耳缥缈体             |
-| `tsangertype-font-qiaole-w01`                  | 仓耳巧乐W01            |
-| `tsangertype-font-qiaole-w02`                  | 仓耳巧乐W02            |
-| `tsangertype-font-qiaole-w03`                  | 仓耳巧乐W03            |
-| `tsangertype-font-qiaole-w04`                  | 仓耳巧乐W04            |
-| `tsangertype-font-qiaole-w05`                  | 仓耳巧乐W05            |
-| `tsangertype-font-qiedoudou`                   | 仓耳企鹅豆豆体         |
-| `tsangertype-font-qiming`                      | 仓耳启明体             |
-| `tsangertype-font-qingchunyiniweiming`         | 仓耳青春以你为名体     |
-| `tsangertype-font-qingfeng`                    | 仓耳清风体             |
-| `tsangertype-font-qingfengxieyang`             | 仓耳轻风斜阳体         |
-| `tsangertype-font-qinghe-w01`                  | 仓耳青禾体W01          |
-| `tsangertype-font-qinghe-w02`                  | 仓耳青禾体W02          |
-| `tsangertype-font-qinghe-w03`                  | 仓耳青禾体W03          |
-| `tsangertype-font-qinghe-w04`                  | 仓耳青禾体W04          |
-| `tsangertype-font-qinghe-w05`                  | 仓耳青禾体W05          |
-| `tsangertype-font-qinghuan`                    | 仓耳清欢体             |
-| `tsangertype-font-qingji`                      | 仓耳青吉体             |
-| `tsangertype-font-qingmei`                     | 仓耳青梅体             |
-| `tsangertype-font-qingning`                    | 仓耳青柠体             |
-| `tsangertype-font-qingqiuxiaojiu`              | 仓耳青丘小九           |
-| `tsangertype-font-qingque`                     | 仓耳青雀体             |
-| `tsangertype-font-qingsong`                    | 仓耳青宋               |
-| `tsangertype-font-qingxin`                     | 仓耳晴心体             |
-| `tsangertype-font-qingyou`                     | 仓耳轻悠体             |
-| `tsangertype-font-qinqinmeizhuang`             | 亲亲美妆体             |
-| `tsangertype-font-qiuyue`                      | 仓耳秋月体             |
-| `tsangertype-font-quancunzuikeai`              | 仓耳全村最可爱         |
-| `tsangertype-font-quhei`                       | 仓耳趣黑               |
-| `tsangertype-font-rouhei`                      | 仓耳柔黑               |
-| `tsangertype-font-ruihei`                      | 仓耳锐黑               |
-| `tsangertype-font-runhei-w01`                  | 仓耳润黑W01            |
-| `tsangertype-font-runhei-w02`                  | 仓耳润黑W02            |
-| `tsangertype-font-runhei-w03`                  | 仓耳润黑W03            |
-| `tsangertype-font-shangshanruoshui`            | 仓耳上善若水           |
-| `tsangertype-font-shenniaoxinshengchuangyi`    | 神鸟新生创意体         |
-| `tsangertype-font-shenqidedoudou`              | 仓耳神奇的豆豆体       |
-| `tsangertype-font-shuhei`                      | 仓耳曙黑               |
-| `tsangertype-font-sirou`                       | 仓耳丝柔体             |
-| `tsangertype-font-siyaoxingkai`                | 仓耳丝摇行楷           |
-| `tsangertype-font-siyecaodexingfu`             | 仓耳四叶草的幸福体     |
-| `tsangertype-font-songguo`                     | 松果体                 |
-| `tsangertype-font-suxin`                       | 仓耳苏心体             |
-| `tsangertype-font-tianmimi`                    | 仓耳甜蜜蜜体           |
-| `tsangertype-font-tianmu-w01`                  | 仓耳天沐体W01          |
-| `tsangertype-font-tianmu-w02`                  | 仓耳天沐体W02          |
-| `tsangertype-font-tianmu-w03`                  | 仓耳天沐体W03          |
-| `tsangertype-font-tianmu-w04`                  | 仓耳天沐体W04          |
-| `tsangertype-font-tianmu-w05`                  | 仓耳天沐体W05          |
-| `tsangertype-font-tianqunxingkai`              | 仓耳天群行楷           |
-| `tsangertype-font-tiansuolele`                 | 仓耳天锁乐乐体         |
-| `tsangertype-font-tingfeng`                    | 仓耳听风体             |
-| `tsangertype-font-tongzhuo`                    | 仓耳同桌体             |
-| `tsangertype-font-tuya-w01`                    | 仓耳涂鸦体W01          |
-| `tsangertype-font-tuya-w02`                    | 仓耳涂鸦体W02          |
-| `tsangertype-font-tuya-w03`                    | 仓耳涂鸦体W03          |
-| `tsangertype-font-wandongxingshu`              | 仓耳万东行书           |
-| `tsangertype-font-weilairiji`                  | 未来日记体             |
-| `tsangertype-font-wugexingbuqingchun`          | 仓耳无个性不青春体     |
-| `tsangertype-font-wuliangshoufu`               | 仓耳无量寿福体         |
-| `tsangertype-font-xiangzuozouxiangyouzou`      | 仓耳向左走向右走体     |
-| `tsangertype-font-xiaobaikaishu`               | 仓耳小白楷书           |
-| `tsangertype-font-xiaobaiwan`                  | 仓耳小百万             |
-| `tsangertype-font-xiaobaixingshu`              | 仓耳小白行书           |
-| `tsangertype-font-xiaodianer`                  | 仓耳小点儿体           |
-| `tsangertype-font-xiaofang`                    | 仓耳小方体             |
-| `tsangertype-font-xiaokeai-w01`                | 仓耳小可爱体W01        |
-| `tsangertype-font-xiaokeai-w02`                | 仓耳小可爱体W02        |
-| `tsangertype-font-xiaokeai-w03`                | 仓耳小可爱体W03        |
-| `tsangertype-font-xiaokeai-w04`                | 仓耳小可爱体W04        |
-| `tsangertype-font-xiaokeai-w05`                | 仓耳小可爱体W05        |
-| `tsangertype-font-xiaokeai-w06`                | 仓耳小可爱体W06        |
-| `tsangertype-font-xiaomanman-w01`              | 仓耳小漫漫体W01        |
-| `tsangertype-font-xiaomanman-w02`              | 仓耳小漫漫体W02        |
-| `tsangertype-font-xiaomanman-w03`              | 仓耳小漫漫体W03        |
-| `tsangertype-font-xiaomanman-w04`              | 仓耳小漫漫体W04        |
-| `tsangertype-font-xiaomanman-w05`              | 仓耳小漫漫体W05        |
-| `tsangertype-font-feigexiaosaxingshu`          | 飞哥潇洒行书           |
-| `tsangertype-font-xiaoshipin`                  | 仓耳小视频体           |
-| `tsangertype-font-xiaowoniudemeng`             | 仓耳小蜗牛的梦         |
-| `tsangertype-font-xiaoxiaohuochai`             | 仓耳小小火柴体         |
-| `tsangertype-font-xiaoxiaomangguo`             | 仓耳小小芒果体         |
-| `tsangertype-font-xiaoyaoxingshu`              | 仓耳逍遥行书           |
-| `tsangertype-font-xiaoyashouji`                | 仓耳小雅手迹           |
-| `tsangertype-font-xiaoyutongxue`               | 仓耳小雨同学体         |
-| `tsangertype-font-xiayizhanxingfu`             | 仓耳下一站幸福体       |
-| `tsangertype-font-xingchenkaishu`              | 仓耳星辰楷书           |
-| `tsangertype-font-xingfuyuezhang`              | 仓耳幸福乐章体         |
-| `tsangertype-font-xinghansong`                 | 仓耳星汉宋             |
-| `tsangertype-font-xinxing`                     | 仓耳心星体             |
-| `tsangertype-font-xinyan`                      | 仓耳新颜体             |
-| `tsangertype-font-xinyue01`                    | 仓耳新悦体             |
-| `tsangertype-font-xinyue02`                    | 仓耳欣月体             |
-| `tsangertype-font-xiuxianxingshu`              | 仓耳绣线行书           |
-| `tsangertype-font-xiuzhen`                     | 仓耳秀蓁体             |
-| `tsangertype-font-xiyuan`                      | 仓耳细圆体             |
-| `tsangertype-font-xuansan01-w01`               | 仓耳玄三01-W01         |
-| `tsangertype-font-xuansan01-w02`               | 仓耳玄三01-W02         |
-| `tsangertype-font-xuansan01-w03`               | 仓耳玄三01-W03         |
-| `tsangertype-font-xuansan01-w04`               | 仓耳玄三01-W04         |
-| `tsangertype-font-xuansan01-w05`               | 仓耳玄三01-W05         |
-| `tsangertype-font-xuansan02-w01`               | 仓耳玄三02-W01         |
-| `tsangertype-font-xuansan02-w02`               | 仓耳玄三02-W02         |
-| `tsangertype-font-xuansan02-w03`               | 仓耳玄三02-W03         |
-| `tsangertype-font-xuansan02-w04`               | 仓耳玄三02-W04         |
-| `tsangertype-font-xuansan02-w05`               | 仓耳玄三02-W05         |
-| `tsangertype-font-xuansan03-w01`               | 仓耳玄三03-W01         |
-| `tsangertype-font-xuansan03-w02`               | 仓耳玄三03-W02         |
-| `tsangertype-font-xuansan03-w03`               | 仓耳玄三03-W03         |
-| `tsangertype-font-xuansan03-w04`               | 仓耳玄三03-W04         |
-| `tsangertype-font-xuansan03-w05`               | 仓耳玄三03-W05         |
-| `tsangertype-font-xuansan04-w01`               | 仓耳玄三04-W01         |
-| `tsangertype-font-xuansan04-w02`               | 仓耳玄三04-W02         |
-| `tsangertype-font-xuansan04-w03`               | 仓耳玄三04-W03         |
-| `tsangertype-font-xuansan04-w04`               | 仓耳玄三04-W04         |
-| `tsangertype-font-xuansan04-w05`               | 仓耳玄三04-W05         |
-| `tsangertype-font-xuansanm-w01`                | 仓耳玄三M-W01          |
-| `tsangertype-font-xuansanm-w02`                | 仓耳玄三M-W02          |
-| `tsangertype-font-xuansanm-w03`                | 仓耳玄三M-W03          |
-| `tsangertype-font-xuansanm-w04`                | 仓耳玄三M-W04          |
-| `tsangertype-font-xuansanm-w05`                | 仓耳玄三M-W05          |
-| `tsangertype-font-xunmengshilitaohua`          | 寻梦十里桃花体         |
-| `tsangertype-font-xunzhaomoxianshouxie`        | 寻找魔仙手写体         |
-| `tsangertype-font-yangguangmingmei`            | 仓耳阳光明媚体         |
-| `tsangertype-font-yangming`                    | 仓耳阳明体             |
-| `tsangertype-font-yaoguangxingshu`             | 仓耳尧光行书           |
-| `tsangertype-font-yasong`                      | 仓耳雅宋               |
-| `tsangertype-font-yayue`                       | 仓耳雅月体             |
-| `tsangertype-font-yezhiling`                   | 仓耳叶之灵体           |
-| `tsangertype-font-yihei-w01`                   | 仓耳逸黑W01            |
-| `tsangertype-font-yihei-w02`                   | 仓耳逸黑W02            |
-| `tsangertype-font-yihei-w03`                   | 仓耳逸黑W03            |
-| `tsangertype-font-yihei-w04`                   | 仓耳逸黑W04            |
-| `tsangertype-font-yihei-w05`                   | 仓耳逸黑W05            |
-| `tsangertype-font-yinghe`                      | 仓耳硬核体             |
-| `tsangertype-font-yiranyizha`                  | 仓耳易燃易炸体         |
-| `tsangertype-font-yishibuding`                 | 仓耳意式布丁体         |
-| `tsangertype-font-yisong`                      | 仓耳宜宋               |
-| `tsangertype-font-yiyechunfeng`                | 仓耳一夜春风体         |
-| `tsangertype-font-youran`                      | 仓耳悠然体             |
-| `tsangertype-font-yuanbao`                     | 仓耳元宝体             |
-| `tsangertype-font-yucheng-w01`                 | 仓耳羽辰体W01          |
-| `tsangertype-font-yucheng-w02`                 | 仓耳羽辰体W02          |
-| `tsangertype-font-yucheng-w03`                 | 仓耳羽辰体W03          |
-| `tsangertype-font-yucheng-w04`                 | 仓耳羽辰体W04          |
-| `tsangertype-font-yucheng-w05`                 | 仓耳羽辰体W05          |
-| `tsangertype-font-yudong`                      | 仓耳悦动体             |
-| `tsangertype-font-yueman`                      | 仓耳月满体             |
-| `tsangertype-font-yukai`                       | 仓耳玉楷               |
-| `tsangertype-font-yule`                        | 仓耳鱼乐体             |
-| `tsangertype-font-yunhaisongtao`               | 仓耳云海松涛体         |
-| `tsangertype-font-yunhei-w01`                  | 仓耳云黑-W01           |
-| `tsangertype-font-yunhei-w02`                  | 仓耳云黑-W02           |
-| `tsangertype-font-yunhei-w03`                  | 仓耳云黑-W03           |
-| `tsangertype-font-yunhei-w04`                  | 仓耳云黑-W04           |
-| `tsangertype-font-yunhei-w05`                  | 仓耳云黑-W05           |
-| `tsangertype-font-yunhei-w06`                  | 仓耳云黑-W06           |
-| `tsangertype-font-yunhei-w07`                  | 仓耳云黑-W07           |
-| `tsangertype-font-yunhei-w08`                  | 仓耳云黑-W08           |
-| `tsangertype-font-yunxuan`                     | 仓耳云轩体             |
-| `tsangertype-font-yuxiaoxiao`                  | 仓耳雨潇潇体           |
-| `tsangertype-font-zaijiannaxienian`            | 仓耳再见那些年体       |
-| `tsangertype-font-zengguofan`                  | 仓耳曾国藩体           |
-| `tsangertype-font-zhangyuxiaowanzi`            | 仓耳章鱼小丸子体       |
-| `tsangertype-font-zhenzhu`                     | 仓耳珍珠体             |
-| `tsangertype-font-zhiqu-w01`                   | 仓耳知曲体W01          |
-| `tsangertype-font-zhiqu-w02`                   | 仓耳知曲体W02          |
-| `tsangertype-font-zhiqu-w03`                   | 仓耳知曲体W03          |
-| `tsangertype-font-zhiqu-w04`                   | 仓耳知曲体W04          |
-| `tsangertype-font-zhiqu-w05`                   | 仓耳知曲体W05          |
-| `tsangertype-font-zhixiangkanzheni`            | 仓耳只想看着你         |
-| `tsangertype-font-zhixin`                      | 仓耳知新体             |
-| `tsangertype-font-zhiyuxiwenqing`              | 仓耳治愈系文青         |
-| `tsangertype-font-zhouxinyoulong`              | 仓耳周鑫游龙体         |
-| `tsangertype-font-zhuangyuankai`               | 仓耳状元楷             |
-| `tsangertype-font-zhuyan`                      | 仓耳竹言体             |
-| `tsangertype-font-zongheng`                    | 仓耳纵横体             |
+| `tsangertypeFonts.aidekunkun`                  | 仓耳爱的坤坤体         |
+| `tsangertypeFonts.aiminxiaokai`                | 仓耳爱民小楷           |
+| `tsangertypeFonts.aiminxingkai`                | 仓耳爱民行楷           |
+| `tsangertypeFonts.aiminxingshu`                | 仓耳爱民行书           |
+| `tsangertypeFonts.ainimengmengda`              | 仓耳爱你萌萌哒         |
+| `tsangertypeFonts.aiqinglianxisheng`           | 仓耳爱情练习生         |
+| `tsangertypeFonts.babilong`                    | 仓耳吧吡咙体           |
+| `tsangertypeFonts.bailing-w01`                 | 仓耳百灵W01            |
+| `tsangertypeFonts.bailing-w02`                 | 仓耳百灵W02            |
+| `tsangertypeFonts.bailing-w03`                 | 仓耳百灵W03            |
+| `tsangertypeFonts.bailing-w04`                 | 仓耳百灵W04            |
+| `tsangertypeFonts.bailing-w05`                 | 仓耳百灵W05            |
+| `tsangertypeFonts.banghei`                     | 仓耳榜黑               |
+| `tsangertypeFonts.bantangshouzha`              | 仓耳半糖手札           |
+| `tsangertypeFonts.benmiaozaici`                | 仓耳本喵在此体         |
+| `tsangertypeFonts.cangermuxi`                  | 仓耳木兮体             |
+| `tsangertypeFonts.caolulinshouji`              | 仓耳曹录林手迹         |
+| `tsangertypeFonts.caozhebinjunxiukaishu`       | 仓耳曹哲斌俊秀楷书     |
+| `tsangertypeFonts.caozhebinjunxiukaishu-bold`  | 仓耳曹哲斌俊秀楷书加粗 |
+| `tsangertypeFonts.caozhebinkaishu`             | 仓耳曹哲斌楷书         |
+| `tsangertypeFonts.caozhebinkaishu-bold`        | 仓耳曹哲斌楷书加粗     |
+| `tsangertypeFonts.caozhebinlingyunkaishu`      | 仓耳曹哲斌灵韵楷书     |
+| `tsangertypeFonts.caozhebinlingyunkaishu-bold` | 仓耳曹哲斌灵韵楷书加粗 |
+| `tsangertypeFonts.caozhebinxingkai`            | 仓耳曹哲斌行楷         |
+| `tsangertypeFonts.chengshishangkongdefanxing`  | 城市上空的繁星体       |
+| `tsangertypeFonts.chuangyi-w01`                | 仓耳创意体W01          |
+| `tsangertypeFonts.chuangyi-w02`                | 仓耳创意体W02          |
+| `tsangertypeFonts.chuangyi-w03`                | 仓耳创意体W03          |
+| `tsangertypeFonts.chunfeng`                    | 仓耳春风体             |
+| `tsangertypeFonts.chuyu`                       | 仓耳初遇体             |
+| `tsangertypeFonts.daimengxiaomutou`            | 仓耳呆萌小木头体       |
+| `tsangertypeFonts.dainiushouxie`               | 呆牛手写体             |
+| `tsangertypeFonts.daji`                        | 仓耳大吉体             |
+| `tsangertypeFonts.damanman-w01`                | 仓耳大漫漫体W01        |
+| `tsangertypeFonts.damanman-w02`                | 仓耳大漫漫体W02        |
+| `tsangertypeFonts.damanman-w03`                | 仓耳大漫漫体W03        |
+| `tsangertypeFonts.damanman-w04`                | 仓耳大漫漫体W04        |
+| `tsangertypeFonts.damanman-w05`                | 仓耳大漫漫体W05        |
+| `tsangertypeFonts.daofengzhanshi`              | 刀锋战士体             |
+| `tsangertypeFonts.daofengzhanshi-bold`         | 刀锋战士粗体           |
+| `tsangertypeFonts.dianshichengjin`             | 仓耳点石成金体         |
+| `tsangertypeFonts.diewu`                       | 仓耳蝶舞体             |
+| `tsangertypeFonts.diyiyanaishangni`            | 仓耳第一眼爱上你       |
+| `tsangertypeFonts.dubai`                       | 仓耳独白体             |
+| `tsangertypeFonts.dudu-w01`                    | 仓耳嘟嘟体W01          |
+| `tsangertypeFonts.dudu-w02`                    | 仓耳嘟嘟体W02          |
+| `tsangertypeFonts.dudu-w03`                    | 仓耳嘟嘟体W03          |
+| `tsangertypeFonts.dudu-w04`                    | 仓耳嘟嘟体W04          |
+| `tsangertypeFonts.fanghei`                     | 仓耳方黑               |
+| `tsangertypeFonts.feifei-w01`                  | 仓耳飞飞体W01          |
+| `tsangertypeFonts.feifei-w02`                  | 仓耳飞飞体W02          |
+| `tsangertypeFonts.feifei-w03`                  | 仓耳飞飞体W03          |
+| `tsangertypeFonts.feifei-w04`                  | 仓耳飞飞体W04          |
+| `tsangertypeFonts.feiteng`                     | 仓耳沸腾体             |
+| `tsangertypeFonts.fengerchui`                  | 仓耳风儿吹             |
+| `tsangertypeFonts.fenghei`                     | 仓耳丰黑               |
+| `tsangertypeFonts.fengwujiutian-w01`           | 仓耳锋舞九天W01        |
+| `tsangertypeFonts.fengwujiutian-w02`           | 仓耳锋舞九天W02        |
+| `tsangertypeFonts.fengwujiutian-w03`           | 仓耳锋舞九天W03        |
+| `tsangertypeFonts.fengwujiutian-w04`           | 仓耳锋舞九天W04        |
+| `tsangertypeFonts.fengwujiutian-w05`           | 仓耳锋舞九天W05        |
+| `tsangertypeFonts.fengwujiutian-w06`           | 仓耳锋舞九天W06        |
+| `tsangertypeFonts.fengyun-w01`                 | 仓耳锋韵W01            |
+| `tsangertypeFonts.fengyun-w02`                 | 仓耳锋韵W02            |
+| `tsangertypeFonts.fengyun-w03`                 | 仓耳锋韵W03            |
+| `tsangertypeFonts.fengyun-w04`                 | 仓耳锋韵W04            |
+| `tsangertypeFonts.fengyun-w05`                 | 仓耳锋韵W05            |
+| `tsangertypeFonts.fengyun-w06`                 | 仓耳锋韵W06            |
+| `tsangertypeFonts.fengyun-w07`                 | 仓耳锋韵W07            |
+| `tsangertypeFonts.gexingtuya`                  | 仓耳个性涂鸦体         |
+| `tsangertypeFonts.guateng`                     | 仓耳瓜藤体             |
+| `tsangertypeFonts.gufengkaishu`                | 仓耳古风楷书           |
+| `tsangertypeFonts.gufengxingshu`               | 仓耳古风行书           |
+| `tsangertypeFonts.guli-w01`                    | 仓耳谷力W01            |
+| `tsangertypeFonts.guli-w02`                    | 仓耳谷力W02            |
+| `tsangertypeFonts.guli-w03`                    | 仓耳谷力W03            |
+| `tsangertypeFonts.guli-w04`                    | 仓耳谷力W04            |
+| `tsangertypeFonts.guli-w05`                    | 仓耳谷力W05            |
+| `tsangertypeFonts.guodongxixi`                 | 仓耳果冻吸吸体         |
+| `tsangertypeFonts.guyun`                       | 仓耳古韵体             |
+| `tsangertypeFonts.haloutuxiansheng`            | 仓耳哈喽兔先生体       |
+| `tsangertypeFonts.hanshan`                     | 仓耳寒山体             |
+| `tsangertypeFonts.hefeng`                      | 仓耳荷风体             |
+| `tsangertypeFonts.huaxin`                      | 仓耳华新体             |
+| `tsangertypeFonts.huayu`                       | 仓耳花语               |
+| `tsangertypeFonts.jiaotangmaqiduo`             | 仓耳焦糖玛奇朵体       |
+| `tsangertypeFonts.jiaxuan`                     | 仓耳佳轩体             |
+| `tsangertypeFonts.jiekou`                      | 仓耳结扣体             |
+| `tsangertypeFonts.jiemo`                       | 仓耳芥末体             |
+| `tsangertypeFonts.jingya`                      | 仓耳静雅体             |
+| `tsangertypeFonts.jinkai01-w01`                | 仓耳今楷01-W01         |
+| `tsangertypeFonts.jinkai01-w02`                | 仓耳今楷01-W02         |
+| `tsangertypeFonts.jinkai01-w03`                | 仓耳今楷01-W03         |
+| `tsangertypeFonts.jinkai01-w04`                | 仓耳今楷01-W04         |
+| `tsangertypeFonts.jinkai01-w05`                | 仓耳今楷01-W05         |
+| `tsangertypeFonts.jinkai02-w01`                | 仓耳今楷02-W01         |
+| `tsangertypeFonts.jinkai02-w02`                | 仓耳今楷02-W02         |
+| `tsangertypeFonts.jinkai02-w03`                | 仓耳今楷02-W03         |
+| `tsangertypeFonts.jinkai02-w04`                | 仓耳今楷02-W04         |
+| `tsangertypeFonts.jinkai02-w05`                | 仓耳今楷02-W05         |
+| `tsangertypeFonts.jinkai03-w01`                | 仓耳今楷03-W01         |
+| `tsangertypeFonts.jinkai03-w02`                | 仓耳今楷03-W02         |
+| `tsangertypeFonts.jinkai03-w03`                | 仓耳今楷03-W03         |
+| `tsangertypeFonts.jinkai03-w04`                | 仓耳今楷03-W04         |
+| `tsangertypeFonts.jinkai03-w05`                | 仓耳今楷03-W05         |
+| `tsangertypeFonts.jinkai04-w01`                | 仓耳今楷04-W01         |
+| `tsangertypeFonts.jinkai04-w02`                | 仓耳今楷04-W02         |
+| `tsangertypeFonts.jinkai04-w03`                | 仓耳今楷04-W03         |
+| `tsangertypeFonts.jinkai04-w04`                | 仓耳今楷04-W04         |
+| `tsangertypeFonts.jinkai04-w05`                | 仓耳今楷04-W05         |
+| `tsangertypeFonts.jinkai05-w01`                | 仓耳今楷05-W01         |
+| `tsangertypeFonts.jinkai05-w02`                | 仓耳今楷05-W02         |
+| `tsangertypeFonts.jinkai05-w03`                | 仓耳今楷05-W03         |
+| `tsangertypeFonts.jinkai05-w04`                | 仓耳今楷05-W04         |
+| `tsangertypeFonts.jinkai05-w05`                | 仓耳今楷05-W05         |
+| `tsangertypeFonts.jinshirongyao`               | 仓耳金石荣耀体         |
+| `tsangertypeFonts.jundongkaishu`               | 仓耳俊冬楷书           |
+| `tsangertypeFonts.jundongxingshu`              | 仓耳俊冬行书           |
+| `tsangertypeFonts.juzhenchangfang`             | 仓耳聚珍长仿           |
+| `tsangertypeFonts.juziwei`                     | 仓耳橘子味             |
+| `tsangertypeFonts.keke`                        | 仓耳柯柯体             |
+| `tsangertypeFonts.konglukaishu`                | 仓耳孔璐楷书           |
+| `tsangertypeFonts.kuhei`                       | 仓耳酷黑               |
+| `tsangertypeFonts.lankai`                      | 仓耳兰楷               |
+| `tsangertypeFonts.leizhenhanfeng`              | 仓耳雷震汉风体         |
+| `tsangertypeFonts.lekeke`                      | 仓耳乐可可体           |
+| `tsangertypeFonts.lelebiji`                    | 乐乐笔记体             |
+| `tsangertypeFonts.lezhi`                       | 仓耳乐志体             |
+| `tsangertypeFonts.lianaibiji`                  | 仓耳恋爱笔记体         |
+| `tsangertypeFonts.lifei`                       | 仓耳利飞体             |
+| `tsangertypeFonts.linggang-w01`                | 仓耳凌刚体W01          |
+| `tsangertypeFonts.linggang-w02`                | 仓耳凌刚体W02          |
+| `tsangertypeFonts.linggang-w03`                | 仓耳凌刚体W03          |
+| `tsangertypeFonts.linggang-w04`                | 仓耳凌刚体W04          |
+| `tsangertypeFonts.linggang-w05`                | 仓耳凌刚体W05          |
+| `tsangertypeFonts.lingyun`                     | 仓耳凌云体             |
+| `tsangertypeFonts.lishi`                       | 仓耳力士体             |
+| `tsangertypeFonts.liyuan`                      | 仓耳丽圆               |
+| `tsangertypeFonts.manmiao`                     | 仓耳曼妙体             |
+| `tsangertypeFonts.maobohe`                     | 仓耳猫薄荷体           |
+| `tsangertypeFonts.meixin-w01`                  | 仓耳美心体W01          |
+| `tsangertypeFonts.meixin-w02`                  | 仓耳美心体W02          |
+| `tsangertypeFonts.mengbaokeji`                 | 仓耳萌宝柯基体         |
+| `tsangertypeFonts.mengdaimiaowei`              | 仓耳萌呆喵尾体         |
+| `tsangertypeFonts.mengdie`                     | 仓耳梦蝶体             |
+| `tsangertypeFonts.mengduoduo`                  | 仓耳萌朵朵体           |
+| `tsangertypeFonts.mengmengdaxiaodouzi`         | 萌萌哒小豆子体         |
+| `tsangertypeFonts.mengmiaojiang`               | 仓耳萌喵酱             |
+| `tsangertypeFonts.mengtonglishu`               | 仓耳梦桐隶书           |
+| `tsangertypeFonts.mengxingdelibie`             | 仓耳梦醒的离别体       |
+| `tsangertypeFonts.minghei-w01`                 | 仓耳明黑W01            |
+| `tsangertypeFonts.minghei-w02`                 | 仓耳明黑W02            |
+| `tsangertypeFonts.minghei-w03`                 | 仓耳明黑W03            |
+| `tsangertypeFonts.minghei-w04`                 | 仓耳明黑W04            |
+| `tsangertypeFonts.minghei-w05`                 | 仓耳明黑W05            |
+| `tsangertypeFonts.minghei-w06`                 | 仓耳明黑W06            |
+| `tsangertypeFonts.minghei-w07`                 | 仓耳明黑W07            |
+| `tsangertypeFonts.minghei-w08`                 | 仓耳明黑W08            |
+| `tsangertypeFonts.mingkai-w01`                 | 仓耳明楷W01            |
+| `tsangertypeFonts.mingkai-w02`                 | 仓耳明楷W02            |
+| `tsangertypeFonts.mingkai-w03`                 | 仓耳明楷W03            |
+| `tsangertypeFonts.mingkai-w04`                 | 仓耳明楷W04            |
+| `tsangertypeFonts.mingyue`                     | 仓耳明月体             |
+| `tsangertypeFonts.mizhiguo`                    | 仓耳秘之果             |
+| `tsangertypeFonts.mocha`                       | 仓耳抹茶体             |
+| `tsangertypeFonts.nihaoshiguang`               | 仓耳你好时光体         |
+| `tsangertypeFonts.nishiwodequanshijie`         | 你是我的全世界         |
+| `tsangertypeFonts.nishiwoweiyi`                | 仓耳你是我唯一         |
+| `tsangertypeFonts.nuannanshouzha`              | 仓耳暖男手札体         |
+| `tsangertypeFonts.nuanxin`                     | 仓耳暖心体             |
+| `tsangertypeFonts.nvwang`                      | 仓耳女王体             |
+| `tsangertypeFonts.peiban`                      | 仓耳陪伴体             |
+| `tsangertypeFonts.piaomiao`                    | 仓耳缥缈体             |
+| `tsangertypeFonts.qiaole-w01`                  | 仓耳巧乐W01            |
+| `tsangertypeFonts.qiaole-w02`                  | 仓耳巧乐W02            |
+| `tsangertypeFonts.qiaole-w03`                  | 仓耳巧乐W03            |
+| `tsangertypeFonts.qiaole-w04`                  | 仓耳巧乐W04            |
+| `tsangertypeFonts.qiaole-w05`                  | 仓耳巧乐W05            |
+| `tsangertypeFonts.qiedoudou`                   | 仓耳企鹅豆豆体         |
+| `tsangertypeFonts.qiming`                      | 仓耳启明体             |
+| `tsangertypeFonts.qingchunyiniweiming`         | 仓耳青春以你为名体     |
+| `tsangertypeFonts.qingfeng`                    | 仓耳清风体             |
+| `tsangertypeFonts.qingfengxieyang`             | 仓耳轻风斜阳体         |
+| `tsangertypeFonts.qinghe-w01`                  | 仓耳青禾体W01          |
+| `tsangertypeFonts.qinghe-w02`                  | 仓耳青禾体W02          |
+| `tsangertypeFonts.qinghe-w03`                  | 仓耳青禾体W03          |
+| `tsangertypeFonts.qinghe-w04`                  | 仓耳青禾体W04          |
+| `tsangertypeFonts.qinghe-w05`                  | 仓耳青禾体W05          |
+| `tsangertypeFonts.qinghuan`                    | 仓耳清欢体             |
+| `tsangertypeFonts.qingji`                      | 仓耳青吉体             |
+| `tsangertypeFonts.qingmei`                     | 仓耳青梅体             |
+| `tsangertypeFonts.qingning`                    | 仓耳青柠体             |
+| `tsangertypeFonts.qingqiuxiaojiu`              | 仓耳青丘小九           |
+| `tsangertypeFonts.qingque`                     | 仓耳青雀体             |
+| `tsangertypeFonts.qingsong`                    | 仓耳青宋               |
+| `tsangertypeFonts.qingxin`                     | 仓耳晴心体             |
+| `tsangertypeFonts.qingya-fang`                 | 仓耳青雅-方            |
+| `tsangertypeFonts.qingya-yuan`                 | 仓耳青雅-圆            |
+| `tsangertypeFonts.qingyou`                     | 仓耳轻悠体             |
+| `tsangertypeFonts.qinqinmeizhuang`             | 亲亲美妆体             |
+| `tsangertypeFonts.qiuyue`                      | 仓耳秋月体             |
+| `tsangertypeFonts.quancunzuikeai`              | 仓耳全村最可爱         |
+| `tsangertypeFonts.quhei`                       | 仓耳趣黑               |
+| `tsangertypeFonts.rouhei`                      | 仓耳柔黑               |
+| `tsangertypeFonts.ruihei`                      | 仓耳锐黑               |
+| `tsangertypeFonts.runhei-w01`                  | 仓耳润黑W01            |
+| `tsangertypeFonts.runhei-w02`                  | 仓耳润黑W02            |
+| `tsangertypeFonts.runhei-w03`                  | 仓耳润黑W03            |
+| `tsangertypeFonts.shangshanruoshui`            | 仓耳上善若水           |
+| `tsangertypeFonts.shenniaoxinshengchuangyi`    | 神鸟新生创意体         |
+| `tsangertypeFonts.shenqidedoudou`              | 仓耳神奇的豆豆体       |
+| `tsangertypeFonts.shuhei`                      | 仓耳曙黑               |
+| `tsangertypeFonts.sirou`                       | 仓耳丝柔体             |
+| `tsangertypeFonts.siyaoxingkai`                | 仓耳丝摇行楷           |
+| `tsangertypeFonts.siyecaodexingfu`             | 仓耳四叶草的幸福体     |
+| `tsangertypeFonts.songguo`                     | 松果体                 |
+| `tsangertypeFonts.songkai`                     | 仓耳宋楷               |
+| `tsangertypeFonts.suxin`                       | 仓耳苏心体             |
+| `tsangertypeFonts.tianmimi`                    | 仓耳甜蜜蜜体           |
+| `tsangertypeFonts.tianmu-w01`                  | 仓耳天沐体W01          |
+| `tsangertypeFonts.tianmu-w02`                  | 仓耳天沐体W02          |
+| `tsangertypeFonts.tianmu-w03`                  | 仓耳天沐体W03          |
+| `tsangertypeFonts.tianmu-w04`                  | 仓耳天沐体W04          |
+| `tsangertypeFonts.tianmu-w05`                  | 仓耳天沐体W05          |
+| `tsangertypeFonts.tianqunxingkai`              | 仓耳天群行楷           |
+| `tsangertypeFonts.tiansuolele`                 | 仓耳天锁乐乐体         |
+| `tsangertypeFonts.tingfeng`                    | 仓耳听风体             |
+| `tsangertypeFonts.tongzhuo`                    | 仓耳同桌体             |
+| `tsangertypeFonts.tuya-w01`                    | 仓耳涂鸦体W01          |
+| `tsangertypeFonts.tuya-w02`                    | 仓耳涂鸦体W02          |
+| `tsangertypeFonts.tuya-w03`                    | 仓耳涂鸦体W03          |
+| `tsangertypeFonts.wandongxingshu`              | 仓耳万东行书           |
+| `tsangertypeFonts.weilairiji`                  | 未来日记体             |
+| `tsangertypeFonts.wugexingbuqingchun`          | 仓耳无个性不青春体     |
+| `tsangertypeFonts.wuliangshoufu`               | 仓耳无量寿福体         |
+| `tsangertypeFonts.xiangzuozouxiangyouzou`      | 仓耳向左走向右走体     |
+| `tsangertypeFonts.xiaobaikaishu`               | 仓耳小白楷书           |
+| `tsangertypeFonts.xiaobaiwan`                  | 仓耳小百万             |
+| `tsangertypeFonts.xiaobaixingshu`              | 仓耳小白行书           |
+| `tsangertypeFonts.xiaodianer`                  | 仓耳小点儿体           |
+| `tsangertypeFonts.xiaofang`                    | 仓耳小方体             |
+| `tsangertypeFonts.xiaokeai-w01`                | 仓耳小可爱体W01        |
+| `tsangertypeFonts.xiaokeai-w02`                | 仓耳小可爱体W02        |
+| `tsangertypeFonts.xiaokeai-w03`                | 仓耳小可爱体W03        |
+| `tsangertypeFonts.xiaokeai-w04`                | 仓耳小可爱体W04        |
+| `tsangertypeFonts.xiaokeai-w05`                | 仓耳小可爱体W05        |
+| `tsangertypeFonts.xiaokeai-w06`                | 仓耳小可爱体W06        |
+| `tsangertypeFonts.xiaomanman-w01`              | 仓耳小漫漫体W01        |
+| `tsangertypeFonts.xiaomanman-w02`              | 仓耳小漫漫体W02        |
+| `tsangertypeFonts.xiaomanman-w03`              | 仓耳小漫漫体W03        |
+| `tsangertypeFonts.xiaomanman-w04`              | 仓耳小漫漫体W04        |
+| `tsangertypeFonts.xiaomanman-w05`              | 仓耳小漫漫体W05        |
+| `tsangertypeFonts.feigexiaosaxingshu`          | 飞哥潇洒行书           |
+| `tsangertypeFonts.xiaoshipin`                  | 仓耳小视频体           |
+| `tsangertypeFonts.xiaowoniudemeng`             | 仓耳小蜗牛的梦         |
+| `tsangertypeFonts.xiaoxiaohuochai`             | 仓耳小小火柴体         |
+| `tsangertypeFonts.xiaoxiaomangguo`             | 仓耳小小芒果体         |
+| `tsangertypeFonts.xiaoyaoxingshu`              | 仓耳逍遥行书           |
+| `tsangertypeFonts.xiaoyashouji`                | 仓耳小雅手迹           |
+| `tsangertypeFonts.xiaoyutongxue`               | 仓耳小雨同学体         |
+| `tsangertypeFonts.xiayizhanxingfu`             | 仓耳下一站幸福体       |
+| `tsangertypeFonts.xingchenkaishu`              | 仓耳星辰楷书           |
+| `tsangertypeFonts.xingfuyuezhang`              | 仓耳幸福乐章体         |
+| `tsangertypeFonts.xinghansong`                 | 仓耳星汉宋             |
+| `tsangertypeFonts.xinxing`                     | 仓耳心星体             |
+| `tsangertypeFonts.xinyan`                      | 仓耳新颜体             |
+| `tsangertypeFonts.xinyue01`                    | 仓耳新悦体             |
+| `tsangertypeFonts.xinyue02`                    | 仓耳欣月体             |
+| `tsangertypeFonts.xiuxianxingshu`              | 仓耳绣线行书           |
+| `tsangertypeFonts.xiuzhen`                     | 仓耳秀蓁体             |
+| `tsangertypeFonts.xiyuan`                      | 仓耳细圆体             |
+| `tsangertypeFonts.xuansan01-w01`               | 仓耳玄三01-W01         |
+| `tsangertypeFonts.xuansan01-w02`               | 仓耳玄三01-W02         |
+| `tsangertypeFonts.xuansan01-w03`               | 仓耳玄三01-W03         |
+| `tsangertypeFonts.xuansan01-w04`               | 仓耳玄三01-W04         |
+| `tsangertypeFonts.xuansan01-w05`               | 仓耳玄三01-W05         |
+| `tsangertypeFonts.xuansan02-w01`               | 仓耳玄三02-W01         |
+| `tsangertypeFonts.xuansan02-w02`               | 仓耳玄三02-W02         |
+| `tsangertypeFonts.xuansan02-w03`               | 仓耳玄三02-W03         |
+| `tsangertypeFonts.xuansan02-w04`               | 仓耳玄三02-W04         |
+| `tsangertypeFonts.xuansan02-w05`               | 仓耳玄三02-W05         |
+| `tsangertypeFonts.xuansan03-w01`               | 仓耳玄三03-W01         |
+| `tsangertypeFonts.xuansan03-w02`               | 仓耳玄三03-W02         |
+| `tsangertypeFonts.xuansan03-w03`               | 仓耳玄三03-W03         |
+| `tsangertypeFonts.xuansan03-w04`               | 仓耳玄三03-W04         |
+| `tsangertypeFonts.xuansan03-w05`               | 仓耳玄三03-W05         |
+| `tsangertypeFonts.xuansan04-w01`               | 仓耳玄三04-W01         |
+| `tsangertypeFonts.xuansan04-w02`               | 仓耳玄三04-W02         |
+| `tsangertypeFonts.xuansan04-w03`               | 仓耳玄三04-W03         |
+| `tsangertypeFonts.xuansan04-w04`               | 仓耳玄三04-W04         |
+| `tsangertypeFonts.xuansan04-w05`               | 仓耳玄三04-W05         |
+| `tsangertypeFonts.xuansanm-w01`                | 仓耳玄三M-W01          |
+| `tsangertypeFonts.xuansanm-w02`                | 仓耳玄三M-W02          |
+| `tsangertypeFonts.xuansanm-w03`                | 仓耳玄三M-W03          |
+| `tsangertypeFonts.xuansanm-w04`                | 仓耳玄三M-W04          |
+| `tsangertypeFonts.xuansanm-w05`                | 仓耳玄三M-W05          |
+| `tsangertypeFonts.xunmengshilitaohua`          | 寻梦十里桃花体         |
+| `tsangertypeFonts.xunzhaomoxianshouxie`        | 寻找魔仙手写体         |
+| `tsangertypeFonts.yangguangmingmei`            | 仓耳阳光明媚体         |
+| `tsangertypeFonts.yangming`                    | 仓耳阳明体             |
+| `tsangertypeFonts.yaoguangxingshu`             | 仓耳尧光行书           |
+| `tsangertypeFonts.yasong`                      | 仓耳雅宋               |
+| `tsangertypeFonts.yayue`                       | 仓耳雅月体             |
+| `tsangertypeFonts.yezhiling`                   | 仓耳叶之灵体           |
+| `tsangertypeFonts.yihei-w01`                   | 仓耳逸黑W01            |
+| `tsangertypeFonts.yihei-w02`                   | 仓耳逸黑W02            |
+| `tsangertypeFonts.yihei-w03`                   | 仓耳逸黑W03            |
+| `tsangertypeFonts.yihei-w04`                   | 仓耳逸黑W04            |
+| `tsangertypeFonts.yihei-w05`                   | 仓耳逸黑W05            |
+| `tsangertypeFonts.yinghe`                      | 仓耳硬核体             |
+| `tsangertypeFonts.yiranyizha`                  | 仓耳易燃易炸体         |
+| `tsangertypeFonts.yishibuding`                 | 仓耳意式布丁体         |
+| `tsangertypeFonts.yisong`                      | 仓耳宜宋               |
+| `tsangertypeFonts.yiyechunfeng`                | 仓耳一夜春风体         |
+| `tsangertypeFonts.youran`                      | 仓耳悠然体             |
+| `tsangertypeFonts.yuanbao`                     | 仓耳元宝体             |
+| `tsangertypeFonts.yucheng-w01`                 | 仓耳羽辰体W01          |
+| `tsangertypeFonts.yucheng-w02`                 | 仓耳羽辰体W02          |
+| `tsangertypeFonts.yucheng-w03`                 | 仓耳羽辰体W03          |
+| `tsangertypeFonts.yucheng-w04`                 | 仓耳羽辰体W04          |
+| `tsangertypeFonts.yucheng-w05`                 | 仓耳羽辰体W05          |
+| `tsangertypeFonts.yudong`                      | 仓耳悦动体             |
+| `tsangertypeFonts.yueman`                      | 仓耳月满体             |
+| `tsangertypeFonts.yukai`                       | 仓耳玉楷               |
+| `tsangertypeFonts.yule`                        | 仓耳鱼乐体             |
+| `tsangertypeFonts.yunhaisongtao`               | 仓耳云海松涛体         |
+| `tsangertypeFonts.yunhei-w01`                  | 仓耳云黑-W01           |
+| `tsangertypeFonts.yunhei-w02`                  | 仓耳云黑-W02           |
+| `tsangertypeFonts.yunhei-w03`                  | 仓耳云黑-W03           |
+| `tsangertypeFonts.yunhei-w04`                  | 仓耳云黑-W04           |
+| `tsangertypeFonts.yunhei-w05`                  | 仓耳云黑-W05           |
+| `tsangertypeFonts.yunhei-w06`                  | 仓耳云黑-W06           |
+| `tsangertypeFonts.yunhei-w07`                  | 仓耳云黑-W07           |
+| `tsangertypeFonts.yunhei-w08`                  | 仓耳云黑-W08           |
+| `tsangertypeFonts.yunxuan`                     | 仓耳云轩体             |
+| `tsangertypeFonts.yuxiaoxiao`                  | 仓耳雨潇潇体           |
+| `tsangertypeFonts.zaijiannaxienian`            | 仓耳再见那些年体       |
+| `tsangertypeFonts.zengguofan`                  | 仓耳曾国藩体           |
+| `tsangertypeFonts.zhangyuxiaowanzi`            | 仓耳章鱼小丸子体       |
+| `tsangertypeFonts.zhenzhu`                     | 仓耳珍珠体             |
+| `tsangertypeFonts.zhiqu-w01`                   | 仓耳知曲体W01          |
+| `tsangertypeFonts.zhiqu-w02`                   | 仓耳知曲体W02          |
+| `tsangertypeFonts.zhiqu-w03`                   | 仓耳知曲体W03          |
+| `tsangertypeFonts.zhiqu-w04`                   | 仓耳知曲体W04          |
+| `tsangertypeFonts.zhiqu-w05`                   | 仓耳知曲体W05          |
+| `tsangertypeFonts.zhixiangkanzheni`            | 仓耳只想看着你         |
+| `tsangertypeFonts.zhixin`                      | 仓耳知新体             |
+| `tsangertypeFonts.zhiyuxiwenqing`              | 仓耳治愈系文青         |
+| `tsangertypeFonts.zhouxinyoulong`              | 仓耳周鑫游龙体         |
+| `tsangertypeFonts.zhuangyuankai`               | 仓耳状元楷             |
+| `tsangertypeFonts.zhuyan`                      | 仓耳竹言体             |
+| `tsangertypeFonts.zongheng`                    | 仓耳纵横体             |
 
-## 缺失的字体
+#### 缺失的字体
 
 - [仓耳元气满满的青春体], 上游缺失；
 
 [仓耳元气满满的青春体]: http://tsanger.cn/product/251
 
+## 协议
+
+除非特殊说明，你可以在 __Do What The Fuck You Want To Public License, Version 2__ 条款内做任何事。伴随源代码，你应当已收到了该协议的副本，如果没有，请访问 <http://www.wtfpl.net> 查看该协议的描述。
+
 [^1]: http://tsanger.cn/仓耳字库免费商用字体授权声明.pdf
+[^2]: https://www.foundertype.com/index.php/About/powerbus.html
+[^3]: https://www.foundertype.com/index.php/About/powerPer.html

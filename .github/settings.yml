@@ -1,8 +1,7 @@
 repository:
-  name: tsangertype-fonts-overlays
-  description: TsangerType Fonts for Nix/NixOS user.
-  homepage: https://tsanger.cn/product
-  topics: nix-flake, nixos-flake, fonts, chinese-fonts
+  name: chinese-fonts-overlay
+  description: Chinese fonts collection for Nix/NixOS user.
+  topics: chinese-fonts, fonts, nix-flake, nix-packages, nix-overlays, nixos-flake
   private: false
 
   has_issues: true
