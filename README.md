@@ -6,11 +6,11 @@
 
 这个仓库目前提供了以下公司、字库的若干产品的构建方式：
 
-- [Alibaba]
-- [FounderType]
-- [TrionesType]
-- [TsangerType]
-- [Microsoft]
+- Alibaba 字体
+- FounderType 字体
+- TrionesType 字体
+- TsangerType 字体
+- Microsoft 字体
 
 > [!CAUTION]
 > 
