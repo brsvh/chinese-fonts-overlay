@@ -21,8 +21,8 @@ let
   };
 
   src = fetchurl {
-    hash = "sha256-dVqQ1D6CanS54ZMqNHiLiY4CgnJDm3d+VZPe6NU2Iq4=";
-    url = "https://software-static.download.prss.microsoft.com/dbazure/888969d5-f34g-4e03-ac9d-1f9786c66749/26100.1742.240906-0331.ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso";
+    hash = "sha256-FqD9lfDYTlTiYNnxKbOePTFg17KU2YbduzqZs4KNHGI=";
+    url = "https://software-static.download.prss.microsoft.com/dbazure/888969d5-f34g-4e03-ac9d-1f9786c66749/26100.1742.240906-0331.ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_zh-cn.iso";
   };
 
   meta = {
@@ -30,11 +30,11 @@ let
       license
       ;
 
-    description = "Windows fonts distributed by Microsoft Co.";
+    description = "Windows fonts distributed by Microsoft Microsoft Corporation Inc.";
     homepage = "https://learn.microsoft.com/en-us/typography/fonts/font-faq";
 
     longDescription = ''
-      Windows fonts are proprietary software distributed by Microsoft Co.
+      Windows fonts are proprietary software distributed by Microsoft Corporation Inc.
 
       This package does not give you any rights to any of its included
       fonts.
