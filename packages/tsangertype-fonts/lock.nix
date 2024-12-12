@@ -821,6 +821,15 @@
     weight = "02";
   };
 
+  jinkai-03-w03 = {
+    chineseName = "仓耳今楷03-W03";
+    date = "2024-12-22";
+    pinyinName = "jinkai";
+    sha256 = "0by07n97kabjxn04adxwh08x949d4almq1ww89dkp51vj10agckw";
+    variant = "03";
+    weight = "03";
+  };
+
   jinkai-03-w04 = {
     chineseName = "仓耳今楷03-W04";
     date = "2024-05-24";
