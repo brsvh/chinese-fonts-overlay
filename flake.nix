@@ -51,12 +51,13 @@
         in
         {
           inherit (pkgs)
+            TH-fonts
             alibaba-fonts
             foundertype-fonts
+            trionestype-fonts
+            tsangertype-fonts
             tsangertype-gcc-fonts
             tsangertype-gcp-fonts
-            tsangertype-fonts
-            trionestype-fonts
             windows-fonts
             ;
         }

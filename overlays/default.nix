@@ -25,6 +25,10 @@ rec {
 
   foundertypeFonts = callPackage ../packages/foundertype-fonts/package.nix { };
 
+  TH-fonts = THFonts.combine' "TH-fonts" (v: true);
+
+  THFonts = callPackage ../packages/TH-fonts/package.nix { };
+
   tsangertype-gpc-fonts = tsangertypeFonts.combine' "tsangertype-gpc-fonts" (
     v: (licenseShortName v) == "tsangertype-gpc-license"
   );
