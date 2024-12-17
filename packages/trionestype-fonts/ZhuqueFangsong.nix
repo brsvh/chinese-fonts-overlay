@@ -51,8 +51,8 @@ stdenvNoCC.mkDerivation {
   unpackPhase = ''
     runHook preUnpack
 
-    mkdir -p $out/share/fonts/truetype/TrionesType/
-    unzip $src -d $out/share/fonts/truetype/TrionesType/
+    mkdir -p $out/share/fonts/truetype/
+    unzip $src -d $out/share/fonts/truetype/
 
     runHook postUnpack
   '';

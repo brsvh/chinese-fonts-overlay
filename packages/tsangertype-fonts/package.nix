@@ -103,7 +103,7 @@ makeScope newScope (
         installPhase = ''
           runHook preInstall
 
-          install -Dm444 $src $out/share/fonts/truetype/TsangerType/${canonicalName}.ttf;
+          install -Dm444 $src $out/share/fonts/truetype/${canonicalName}.ttf;
 
           runHook postInstall
         '';

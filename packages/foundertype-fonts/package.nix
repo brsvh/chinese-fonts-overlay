@@ -91,7 +91,7 @@ makeScope newScope (
         installPhase = ''
           runHook preInstall
 
-          install -Dm444 $src $out/share/fonts/truetype/FounderType/${name}.ttf;
+          install -Dm444 $src $out/share/fonts/truetype/${name}.ttf;
 
           runHook postInstall
         '';

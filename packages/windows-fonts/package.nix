@@ -78,9 +78,8 @@ stdenvNoCC.mkDerivation rec {
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out/share/fonts/truetype/Microsoft/
-
-    cp fonts/* $out/share/fonts/truetype/Microsoft/
+    find fonts -type f \( -iname "*.ttf" -o -iname "*.ttc" \) -print0 \
+      | xargs -0 install -Dm444 -t $out/share/fonts/truetype/
 
     runHook postInstall
   '';

@@ -49,9 +49,8 @@ stdenvNoCC.mkDerivation {
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out/share/fonts/truetype/AlibabaFonts
-
-    cp -r $src/AlibabaPuHuiTi-2/* $out/share/fonts/truetype/AlibabaFonts
+    find $src/AlibabaPuHuiTi-2/ -type f -iname "*.ttf" -print0 \
+      | xargs -0 install -Dm444 -t $out/share/fonts/truetype/
 
     runHook postInstall
   '';
