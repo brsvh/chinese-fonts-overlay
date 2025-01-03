@@ -8,25 +8,24 @@
 
 - Alibaba 字体
 - FounderType 字体
+- TH 字体
 - TrionesType 字体
 - TsangerType 字体
 - Microsoft 字体
 
 > [!CAUTION]
 > 
-> 这个仓库包含一些不可再分发的字体，请你在购买相关许可后进行本地构建和
-> 安装，或在学习、交流后从本地 store 中移除下列字体：
+> 这个仓库包含一些不可再分发的字体，请你在购买相关许可后进行本地构建和安装，或在学习、交流后从本地 store 中移除下列字体：
 >  - FounderType （方正字库）版权所有的字体；
 >  - Microsoft Corporation, Inc. （微软公司）版权所有或其分发的字体；
->  - TsangerType （仓耳字库）中未以仓耳字库免费商用字体授权声明 [^1]
->    许可的字体；
+>  - TH 字体 (天珩字库) ；
+>  - TsangerType （仓耳字库）中未以仓耳字库免费商用字体授权声明 [^1] 许可的字体；
 > 特殊的，仓耳字库免费商用字体授权声明 [^1] 中使用了“免费开源字体”等字
 > 样，但其源代码无法获取。
 
 ## 开始上手
 
 你只需要将此仓库的 overlay 添加至你的配置中然后安装期望的字体即可。
-
 
 ``` nix
 {
@@ -166,6 +165,28 @@ foundertypeFonts.combine (
 > [!CAUTION]
 >
 > 您不能在非 Windows 设备上使用它们。
+
+### TH Fonts
+
+> [!CAUTION]
+>
+> 天珩字库中字体的字形来自中易、华康、Iwata、Besta、方正等公司，其字体使用必须用于非盈利、学习研究的用途。[^4]
+>
+> 其具体的版权问题比较复杂，建议仅做本地屏显用途。
+
+`TH-fonts` 是所有字体的链接。
+
+| 包           | 字体          |
+|--------------|---------------|
+| `THFonts.Hak`     | 天珩字库-黑体 |
+| `THFonts.Joeng`   | 天珩字库-阳明 |
+| `THFonts.Khaai-P` | 天珩字库-正楷 |
+| `THFonts.Khaai-T` | 天珩字库-标楷 |
+| `THFonts.Ming`    | 天珩字库-花园 |
+| `THFonts.Sung-P`  | 天珩字库-正宋 |
+| `THFonts.Sung-T`  | 天珩字库-标宋 |
+| `THFonts.Sy`      | 天珩字库-书宋 |
+| `THFonts.Tshyn`   | 天珩全字库    |
 
 ### TrionesType Fonts
 
@@ -596,3 +617,4 @@ tsangertypeFonts.combine (
 [^1]: http://tsanger.cn/仓耳字库免费商用字体授权声明.pdf
 [^2]: https://www.foundertype.com/index.php/About/powerbus.html
 [^3]: https://www.foundertype.com/index.php/About/powerPer.html
+[^4]: http://cheonhyeong.com/Simplified/download.html
