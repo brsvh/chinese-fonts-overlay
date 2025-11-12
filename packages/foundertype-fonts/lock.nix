@@ -1,55 +1,24 @@
 {
-  "FZFSK" = {
-    date = "2024-05-22";
+  "FounderType-ShuSong-SC" = {
+    date = "2025-11-12";
     per = true;
-    sha256 = "0gq4biir81zq1j18n0kdxizndmqr932xwv9h6rwwpxc9kficz17g";
+    sha256 = "b5e4a745d7132abc8bbc482c3c096d30ef4c36fe3260a630fc12cfb16394e675";
   };
 
-  "FZHTK" = {
-    date = "2024-05-22";
+  "FounderType-FangSong-SC" = {
+    date = "2025-11-12";
     per = true;
-    sha256 = "1w3ysjfaw1k27k1jr964241wg8m41qp3pd9xz09b012ghsy3vrjv";
+    sha256 = "e7134308aa1638ba13365f83e82cbdd3629b908c39350d47c395e100463f0314";
   };
 
-  "FZKTK" = {
-    date = "2024-05-22";
+  "FounderType-KaiTi-SC" = {
+    date = "2025-11-12";
     per = true;
-    sha256 = "156qyabmw9g50qd2naksqnr7mvsiqing5xv4vgfd3n8l6jjz29v5";
+    sha256 = "2239b43b9decc6c74b353c2dc41e15f7fdede652148afcae6eb959bb03d82aa2";
   };
 
-  "FZLSK" = {
-    date = "2024-05-22";
-    sha256 = "0r00dmp53d71i3pvc7rs1yawjs6a5yma64hhihp0w09h6ph2hd5r";
-  };
-
-  "FZSSK" = {
-    date = "2024-05-22";
-    per = true;
-    sha256 = "0wq21rjvpr2mcjgbx8fvk6izqkz9pydk2y9bs06w1x5a6fsbzz80";
-  };
-
-  "FZXBSK" = {
-    date = "2024-05-22";
-    sha256 = "0a80lg2mnjj4p1j1545cycp9jmfjbvi5ip36xfs29f3qi3pf3r56";
-  };
-
-  "FZXH1K" = {
-    date = "2024-05-22";
-    sha256 = "0qqwa4vq9g07fpr549fvrag7k7bbrq2vmbmjqi65isfzczyclq7w";
-  };
-
-  "FZY1K" = {
-    date = "2024-05-22";
-    sha256 = "0p3wxzrllv8mmgp526rzijsajpwlwc5qdk8gbjz0is1nfb9fsw63";
-  };
-
-  "FZY3K" = {
-    date = "2024-05-22";
-    sha256 = "1s11fj2mkhs6k9bx4js9y05lipdlbr1jad0mjqgiv1ppwcpnmwbr";
-  };
-
-  "FZY4K" = {
-    date = "2024-05-22";
-    sha256 = "09bjdwkdw38f5xxcgdshaj41793cwi8fffw24dg94dc1d2jrypjc";
+  "FounderType-HeiTi-SC" = {
+    date = "2025-11-12";
+    sha256 = "bd99fe368b31c62e29ee8456c8fdeb86277786a17e8e40be00ecbe5e4fc7c275";
   };
 }
