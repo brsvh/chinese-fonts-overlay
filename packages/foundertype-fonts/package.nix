@@ -55,7 +55,7 @@ makeScope newScope (
 
         src = fetchurl {
           sha256 = "${sha256}";
-          url = "https://cdn1.foundertype.com/Public/Uploads/ttf/${name}.TTF";
+          url = "https://github.com/zxp19821005/My_AUR_Files/raw/main/ttf-foundertype-sc-fonts/${name}.TTF";
         };
 
         meta = {
