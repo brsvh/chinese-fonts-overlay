@@ -92,7 +92,7 @@
     chineseName = "仓耳榜黑";
     date = "2024-05-24";
     pinyinName = "banghei";
-    sha256 = "16kpl9v46mvhwr9786n5hs0h5gh0jayqai4ar0fa4liwzg9135j8";
+    sha256 = "1acqks235g0sqbrqb8lpamrs2c7yk9dr0nz7djwhxv7yqvasbgk4";
   };
 
   benmiaozaici = {
@@ -349,7 +349,7 @@
     chineseName = "仓耳方黑";
     date = "2024-05-24";
     pinyinName = "fanghei";
-    sha256 = "0rx817pvp807d96xjvnwir7fqln49j3nx700gw46415640gki44n";
+    sha256 = "096ymnkfag8vm8xicvdbwq4jglhpi8pa447s2b97f9fxpj4296xp";
   };
 
   feibai-w01 = {
@@ -668,7 +668,7 @@
     chineseName = "仓耳华新体";
     date = "2024-11-18";
     pinyinName = "huaxin";
-    sha256 = "11y1xnr45qxgxs4y2ic54nhls3zc34316zxsx35apy8zfrfivk3d";
+    sha256 = "0m559pff9i12fbdxc2zxhlkx2x7ga3qyppav8mg12z1m8acipjb1";
   };
 
   huayu = {
@@ -879,7 +879,7 @@
     chineseName = "仓耳今楷04-W04";
     date = "2024-05-24";
     pinyinName = "jinkai";
-    sha256 = "04s1jhzck3x5p2gjf19xhrkicxy40nwyfdlhcxkdrdhj14a17s3m";
+    sha256 = "1yn94883vw1rn63xylkx2fjpfck2ynza6iycj2k4qqln4xcphpkx";
     variant = "04";
     weight = "04";
   };
@@ -924,7 +924,7 @@
     chineseName = "仓耳今楷05-W04";
     date = "2024-05-24";
     pinyinName = "jinkai";
-    sha256 = "1qgdmax94r672pii9v4ihyrmfz1ay1909bjnd8d9wh5a8nz6k3f2";
+    sha256 = "0zyj6fk9cap0j05ycw080xbcyxgiz2vx6yd06pxkiyds6x4p4d7g";
     variant = "05";
     weight = "04";
   };
@@ -963,7 +963,7 @@
     chineseName = "仓耳聚珍长仿";
     date = "2024-05-24";
     pinyinName = "juzhenchangfang";
-    sha256 = "1mknfmx8nv4rhi28xsl8f321pkamcdmnjdf3b3ick3z3pb6m5zvc";
+    sha256 = "1p7ckf3wsr5n5zmkbms1sr1471vpwk2qm5bkdicmd0rvpknb1ilp";
   };
 
   juziwei = {
@@ -1780,7 +1780,7 @@
     chineseName = "仓耳天群行楷";
     date = "2024-05-24";
     pinyinName = "tianqunxingkai";
-    sha256 = "03ivfa63xr17c64na5244ml61cdc0gkhrk44pfaa88gw6m7j7jji";
+    sha256 = "1k8i319202fpvh4x9f74zmviixaaflq69hgbxa970igl91973cdn";
   };
 
   tiansuolele = {
@@ -2082,7 +2082,7 @@
     chineseName = "仓耳新颜体";
     date = "2024-05-24";
     pinyinName = "xinyan";
-    sha256 = "0asrczmz9p17b3pkhl3mf94nq6ydc97cq8h6prxgqxxfi93h0cr3";
+    sha256 = "02bkrjzz9j516gxd24im5g31bzvbw68rskm7k03dynfb079wd9jb";
   };
 
   xinyue01 = {
@@ -2110,7 +2110,7 @@
     chineseName = "仓耳秀蓁体";
     date = "2024-05-24";
     pinyinName = "xiuzhen";
-    sha256 = "1nnzpm0blqr5q813d5dyd2xpxd9hciw8ysb081m50j9xh2by50x4";
+    sha256 = "1si65iqbhjvpz5c0w6vr1pf33rpgqbxlpnb1q9k158jv05si50c4";
   };
 
   xiyuan = {
@@ -2169,7 +2169,7 @@
     chineseName = "仓耳玄三02-W01";
     date = "2024-05-24";
     pinyinName = "xuansan";
-    sha256 = "115xwj8jdggy36c1nkyx1fdblgk6b3zz15jh8g3rbwg84wfd80qw";
+    sha256 = "1lk68qvka13710552g88sbbgb9sm0hdwbki975crjlpmcs3k7qg1";
     variant = "02";
     weight = "01";
   };
@@ -2178,7 +2178,7 @@
     chineseName = "仓耳玄三02-W02";
     date = "2024-05-24";
     pinyinName = "xuansan";
-    sha256 = "12mmsv7my7ljh3njr8gf7jwq8d4sgzywhkwspq9gxf3zfh6hnxxh";
+    sha256 = "0rzbms9a00kzdwlqsqngh7g5w507bs0wmpqv1qir2rir4p8ksp1q";
     variant = "02";
     weight = "02";
   };
@@ -2187,7 +2187,7 @@
     chineseName = "仓耳玄三02-W03";
     date = "2024-05-24";
     pinyinName = "xuansan";
-    sha256 = "06mm2bzplmfjwd4srfqj3svn7q7ppzqwpidwy1h0v3dnksw5p571";
+    sha256 = "0jcv9y7mjryzn3px9612v5hl6xw22vkkbhrv3q79z3k1vfs42xjb";
     variant = "02";
     weight = "03";
   };
@@ -2196,7 +2196,7 @@
     chineseName = "仓耳玄三02-W04";
     date = "2024-05-24";
     pinyinName = "xuansan";
-    sha256 = "0gpk3w83cc363mj3vqasdb3jqzx3nj74hkjkrax1c4kh90qmlza2";
+    sha256 = "1ynfsilryaj8kv69qhpc5zrj8j84g9p2iad8k0ramqrj1vnp0gdh";
     variant = "02";
     weight = "04";
   };
@@ -2205,7 +2205,7 @@
     chineseName = "仓耳玄三02-W05";
     date = "2024-05-24";
     pinyinName = "xuansan";
-    sha256 = "1iznf5zvhi50mn0wrhaac6ybf69f0kl5g3wqfbaam02f8hgi9cpb";
+    sha256 = "1qv6a72032nzwfzxqmdr5qwxhv1pnp0q3fhlgjfkgmjxfkng52vs";
     variant = "02";
     weight = "05";
   };
@@ -2259,7 +2259,7 @@
     chineseName = "仓耳玄三04-W01";
     date = "2024-05-24";
     pinyinName = "xuansan";
-    sha256 = "1hkjnlcfacww4y3hr9wb2fqr1g1klc0qcn5pli31fawk8h4p2mbr";
+    sha256 = "1w20p4vp4l0y8nmcw8wy3iy6cr2cda6w1n8j9gc7c3vf7y7mdnlk";
     variant = "04";
     weight = "01";
   };
@@ -2268,7 +2268,7 @@
     chineseName = "仓耳玄三04-W02";
     date = "2024-05-24";
     pinyinName = "xuansan";
-    sha256 = "1mjaahqfv705nvmj226bszqz8ab4xsxnrxq545qi5ws0la2xw38v";
+    sha256 = "12mdi2mxjn49kgqndg9569va83ny9hg6kfjzka73rpd2avaw6wap";
     variant = "04";
     weight = "02";
   };
@@ -2277,7 +2277,7 @@
     chineseName = "仓耳玄三04-W03";
     date = "2024-05-24";
     pinyinName = "xuansan";
-    sha256 = "15vbi2c5fqchs99vjbw0jh7p3czbgxjpng28xbskr54r7c2vjccq";
+    sha256 = "1076jh1sajvad9qqsvs9ijkns7v9nn4bfz6rjk937jn08ahy1xrv";
     variant = "04";
     weight = "03";
   };
@@ -2286,7 +2286,7 @@
     chineseName = "仓耳玄三04-W04";
     date = "2024-05-24";
     pinyinName = "xuansan";
-    sha256 = "0d2a8xwjr0wv3zab2p3r0lyy89y196145d1dyddsi8r361r81n8s";
+    sha256 = "0a1w33dcr8j8ri7digfsfhkd67qc4qnrkrafzmf47sz7f6dj8hby";
     variant = "04";
     weight = "04";
   };
@@ -2295,7 +2295,7 @@
     chineseName = "仓耳玄三04-W05";
     date = "2024-05-24";
     pinyinName = "xuansan";
-    sha256 = "1zziqkahd6adw7070yxxnbwr9ry68r33bqnwamy261fhpkcbrhjf";
+    sha256 = "0grq3w0cbn1fzjp326aps11qv45sg5g98dx4qdklqiqr7rpkqbwp";
     variant = "04";
     weight = "05";
   };
@@ -2841,7 +2841,7 @@
     chineseName = "仓耳状元楷";
     date = "2024-05-24";
     pinyinName = "zhuangyuankai";
-    sha256 = "13c9g0in8p108br9dlyakpjxn0wna30lrciw05lnaa1a8l5vpcqw";
+    sha256 = "1m5sdhl4x3jws4377fj1a89l4dh7p3ksnnmpm78hdss5ai7sg28q";
   };
 
   zhuyan = {
