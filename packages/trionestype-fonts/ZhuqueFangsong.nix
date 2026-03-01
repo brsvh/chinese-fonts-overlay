@@ -12,11 +12,11 @@ let
     platforms
     ;
 
-  version = "0.211";
+  version = "0.212";
 
   src = fetchurl {
-    url = "https://github.com/TrionesType/zhuque/releases/download/v${version}/ZhuqueFangsong-Regular-v${version}.zip";
-    hash = "sha256-QUF4Lp82vGadBCQiUF9cUG30eTDue/qCNC2M7GMfjxA=";
+    url = "https://github.com/TrionesType/zhuque/releases/download/v${version}/ZhuqueFangsong-v${version}.zip";
+    hash = "sha256-u4tmGnZD0ilqctnRBTCgCUlBnE5Sf7YXg/c8K6GowGI=";
   };
 
   meta = {
