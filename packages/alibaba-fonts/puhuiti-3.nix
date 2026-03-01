@@ -23,7 +23,11 @@ let
   src = fetchzip {
     hash = "sha256-7ZmurN+sC3binkhABG588Tdvz7KLc06+UvK5TOTjqvY=";
     stripRoot = false;
-    url = "https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-3.zip";
+    url = "https://fonts.alibabadesign.com/AlibabaPuHuiTi-3.zip";
+    curlOptsList = [
+      "-H"
+      "Referer: https://www.alibabafonts.com/"
+    ];
   };
 
   meta = {
