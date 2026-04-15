@@ -32,7 +32,7 @@
   inputs = {
     home-manager.url = "github:nix-community/home-manager/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    chinese-fonts-overlay.url = "github:brsvh/chinese-fonts-overlays/main";
+    chinese-fonts-overlay.url = "github:brsvh/chinese-fonts-overlay/main";
   };
 
   output = inputs:
