@@ -19,11 +19,11 @@ let
     url = "http://cheonhyeong.com/Simplified/download.html";
   };
 
-  version = "4.1.0";
+  version = "5.0.0";
 
   src = fetchurl {
     url = "http://cheonhyeong.com/File/TH-Ming-${version}.7z";
-    hash = "sha256-HzDbcEnljEY7Iji/ilvdlH92bglrw97N1JZwcD08Yw0=";
+    hash = "sha256-cGX7yIjZIaf4ivIGFweyrEtXpvCyjoM0NM9ra9RY6N0=";
   };
 
   meta = {

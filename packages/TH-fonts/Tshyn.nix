@@ -19,11 +19,11 @@ let
     url = "http://cheonhyeong.com/Simplified/download.html";
   };
 
-  version = "4.1.0";
+  version = "5.0.0";
 
   src = fetchurl {
     url = "http://cheonhyeong.com/File/TH-Tshyn-${version}.7z";
-    hash = "sha256-QqDKNGOnrtFK1p5JdoVLQr+PoZr9TvsVICvMxqSxdyA=";
+    hash = "sha256-cqYgRfj3busbxVuQbKYdD+jcx3mDkfUrtFgQDpEdazM=";
   };
 
   meta = {
