@@ -3,7 +3,7 @@
   lib,
   newScope,
   stdenvNoCC,
-  xorg,
+  lndir,
   ...
 }:
 let
@@ -124,7 +124,7 @@ makeScope newScope (
         version = "0-unstable";
 
         buildInputs = [
-          xorg.lndir
+          lndir
         ] ++ drvs;
 
         unpackPhase = "true";
@@ -134,7 +134,7 @@ makeScope newScope (
 
           mkdir -p $out
           for drv in ${concatStringsSep " " drvs}; do
-            ${xorg.lndir}/bin/lndir -silent $drv $out
+            ${lndir}/bin/lndir -silent $drv $out
           done
 
           runHook postInstall
