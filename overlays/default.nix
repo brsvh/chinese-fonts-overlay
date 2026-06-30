@@ -2031,128 +2031,128 @@ in
       tsangertypePackages.tsangerxiyuanti.
     '';
 
-    xuansan01-w01 = throw ''
-      tsangertypeFonts.xuansan01-w01 has been renamed to
+    xuansan-01-w01 = throw ''
+      tsangertypeFonts.xuansan-01-w01 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan01-w02 = throw ''
-      tsangertypeFonts.xuansan01-w02 has been renamed to
+    xuansan-01-w02 = throw ''
+      tsangertypeFonts.xuansan-01-w02 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan01-w03 = throw ''
-      tsangertypeFonts.xuansan01-w03 has been renamed to
+    xuansan-01-w03 = throw ''
+      tsangertypeFonts.xuansan-01-w03 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan01-w04 = throw ''
-      tsangertypeFonts.xuansan01-w04 has been renamed to
+    xuansan-01-w04 = throw ''
+      tsangertypeFonts.xuansan-01-w04 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan01-w05 = throw ''
-      tsangertypeFonts.xuansan01-w05 has been renamed to
+    xuansan-01-w05 = throw ''
+      tsangertypeFonts.xuansan-01-w05 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan02-w01 = throw ''
-      tsangertypeFonts.xuansan02-w01 has been renamed to
+    xuansan-02-w01 = throw ''
+      tsangertypeFonts.xuansan-02-w01 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan02-w02 = throw ''
-      tsangertypeFonts.xuansan02-w02 has been renamed to
+    xuansan-02-w02 = throw ''
+      tsangertypeFonts.xuansan-02-w02 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan02-w03 = throw ''
-      tsangertypeFonts.xuansan02-w03 has been renamed to
+    xuansan-02-w03 = throw ''
+      tsangertypeFonts.xuansan-02-w03 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan02-w04 = throw ''
-      tsangertypeFonts.xuansan02-w04 has been renamed to
+    xuansan-02-w04 = throw ''
+      tsangertypeFonts.xuansan-02-w04 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan02-w05 = throw ''
-      tsangertypeFonts.xuansan02-w05 has been renamed to
+    xuansan-02-w05 = throw ''
+      tsangertypeFonts.xuansan-02-w05 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan03-w01 = throw ''
-      tsangertypeFonts.xuansan03-w01 has been renamed to
+    xuansan-03-w01 = throw ''
+      tsangertypeFonts.xuansan-03-w01 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan03-w02 = throw ''
-      tsangertypeFonts.xuansan03-w02 has been renamed to
+    xuansan-03-w02 = throw ''
+      tsangertypeFonts.xuansan-03-w02 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan03-w03 = throw ''
-      tsangertypeFonts.xuansan03-w03 has been renamed to
+    xuansan-03-w03 = throw ''
+      tsangertypeFonts.xuansan-03-w03 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan03-w04 = throw ''
-      tsangertypeFonts.xuansan03-w04 has been renamed to
+    xuansan-03-w04 = throw ''
+      tsangertypeFonts.xuansan-03-w04 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan03-w05 = throw ''
-      tsangertypeFonts.xuansan03-w05 has been renamed to
+    xuansan-03-w05 = throw ''
+      tsangertypeFonts.xuansan-03-w05 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan04-w01 = throw ''
-      tsangertypeFonts.xuansan04-w01 has been renamed to
+    xuansan-04-w01 = throw ''
+      tsangertypeFonts.xuansan-04-w01 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan04-w02 = throw ''
-      tsangertypeFonts.xuansan04-w02 has been renamed to
+    xuansan-04-w02 = throw ''
+      tsangertypeFonts.xuansan-04-w02 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan04-w03 = throw ''
-      tsangertypeFonts.xuansan04-w03 has been renamed to
+    xuansan-04-w03 = throw ''
+      tsangertypeFonts.xuansan-04-w03 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan04-w04 = throw ''
-      tsangertypeFonts.xuansan04-w04 has been renamed to
+    xuansan-04-w04 = throw ''
+      tsangertypeFonts.xuansan-04-w04 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansan04-w05 = throw ''
-      tsangertypeFonts.xuansan04-w05 has been renamed to
+    xuansan-04-w05 = throw ''
+      tsangertypeFonts.xuansan-04-w05 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansanm-w01 = throw ''
-      tsangertypeFonts.xuansanm-w01 has been renamed to
+    xuansan-m-w01 = throw ''
+      tsangertypeFonts.xuansan-m-w01 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansanm-w02 = throw ''
-      tsangertypeFonts.xuansanm-w02 has been renamed to
+    xuansan-m-w02 = throw ''
+      tsangertypeFonts.xuansan-m-w02 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansanm-w03 = throw ''
-      tsangertypeFonts.xuansanm-w03 has been renamed to
+    xuansan-m-w03 = throw ''
+      tsangertypeFonts.xuansan-m-w03 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansanm-w04 = throw ''
-      tsangertypeFonts.xuansanm-w04 has been renamed to
+    xuansan-m-w04 = throw ''
+      tsangertypeFonts.xuansan-m-w04 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
-    xuansanm-w05 = throw ''
-      tsangertypeFonts.xuansanm-w05 has been renamed to
+    xuansan-m-w05 = throw ''
+      tsangertypeFonts.xuansan-m-w05 has been renamed to
       tsangertypePackages.tsangerxuansan.
     '';
 
@@ -2254,6 +2254,31 @@ in
     yuanbao = throw ''
       tsangertypeFonts.yuanbao has been renamed to
       tsangertypePackages.tsangerybt.
+    '';
+
+    yuanbao-w01 = throw ''
+      tsangertypeFonts.yuanbao-w01 has been renamed to
+      tsangertypePackages.tsangeryctgl.
+    '';
+
+    yuanbao-w02 = throw ''
+      tsangertypeFonts.yuanbao-w02 has been renamed to
+      tsangertypePackages.tsangeryctgl.
+    '';
+
+    yuanbao-w03 = throw ''
+      tsangertypeFonts.yuanbao-w03 has been renamed to
+      tsangertypePackages.tsangeryctgl.
+    '';
+
+    yuanbao-w04 = throw ''
+      tsangertypeFonts.yuanbao-w04 has been renamed to
+      tsangertypePackages.tsangeryctgl.
+    '';
+
+    yuanbao-w05 = throw ''
+      tsangertypeFonts.yuanbao-w05 has been renamed to
+      tsangertypePackages.tsangeryctgl.
     '';
 
     yucheng-w01 = throw ''
