@@ -119,6 +119,16 @@
 `combine :: String -> (Derivation -> Bool) -> Derivation` 接收一个 `name`
 作为最终字体集合派生的 `pname`，和一个 `cond`，它和 `<scope>.combine` 的 `cond` 相同。
 
+#### 回退到旧版
+
+如果您希望回退固定到旧版 overlay，请使用 `v0.1.0` tag。
+
+```nix
+inputs.chinese-fonts-overlay.url = "github:brsvh/chinese-fonts-overlay/v0.1.0";
+```
+
+当您想避免`windows-fonts`更新后它那巨大的ISO重建，这可以一定程度上解决，但仍然推荐您保持直接使用 `main` 分支。
+
 ### Alibaba Design（Alibaba 字体）
 
 Alibaba 字体均可以免费用于合法的商业、非商业使用。
