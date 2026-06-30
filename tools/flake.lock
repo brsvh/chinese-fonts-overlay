@@ -1,0 +1,61 @@
+{
+  "nodes": {
+    "blank": {
+      "locked": {
+        "lastModified": 1625557891,
+        "narHash": "sha256-O8/MWsPBGhhyPoPLHZAuoZiiHo9q6FLlEeIDEXuj6T4=",
+        "ref": "master",
+        "rev": "5a5d2684073d9f563072ed07c871d577a6c614a8",
+        "revCount": 1,
+        "type": "git",
+        "url": "https://github.com/divnix/blank.git"
+      },
+      "original": {
+        "ref": "master",
+        "type": "git",
+        "url": "https://github.com/divnix/blank.git"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1782545840,
+        "narHash": "sha256-PkBPmP5ofNtunCU7/tfn6wi9OLlzFGcHAqqmY+/mwUI=",
+        "ref": "nixpkgs-unstable",
+        "rev": "3d46470bb3030020f7e1361f33514854f5bfa86d",
+        "revCount": 1023445,
+        "type": "git",
+        "url": "https://github.com/NixOS/nixpkgs.git"
+      },
+      "original": {
+        "ref": "nixpkgs-unstable",
+        "type": "git",
+        "url": "https://github.com/NixOS/nixpkgs.git"
+      }
+    },
+    "root": {
+      "inputs": {
+        "blank": "blank",
+        "nixpkgs": "nixpkgs",
+        "systems": "systems"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1680978846,
+        "narHash": "sha256-Gtqg8b/v49BFDpDetjclCYXm8mAnTrUzR0JnE2nv5aw=",
+        "ref": "main",
+        "rev": "2ecfcac5e15790ba6ce360ceccddb15ad16d08a8",
+        "revCount": 3,
+        "type": "git",
+        "url": "https://github.com/nix-systems/x86_64-linux.git"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "https://github.com/nix-systems/x86_64-linux.git"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

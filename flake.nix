@@ -2,65 +2,128 @@
   description = "Chinese fonts collection overlay";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs = {
+      url = "git+https://github.com/NixOS/nixpkgs.git?ref=nixpkgs-unstable";
+    };
   };
 
   outputs =
-    {
+    inputs@{
       nixpkgs,
       self,
       ...
     }:
     let
-      inherit (nixpkgs.lib)
-        genAttrs
-        systems
+      inherit (nixpkgs)
+        lib
         ;
 
-      forAllSystems = genAttrs systems.flakeExposed;
+      inherit (lib.systems)
+        flakeExposed
+        ;
 
-      importPkgs =
-        attrs:
-        import nixpkgs (
-          attrs
-          // {
-            overlays = [
-              self.overlays.default
-            ];
-          }
-        );
+      projectRoot = ./.;
 
-    in
-    {
-      overlays = {
-        default = final: prev: import ./overlays final prev;
-      };
-
-      packages = forAllSystems (
-        system:
-        let
-          pkgs = importPkgs {
+      chinese-fonts-overlay-lib =
+        import (projectRoot + /lib)
+          {
             inherit
-              system
+              lib
               ;
+          };
 
-            config = {
-              allowUnfree = true;
+      inherit (chinese-fonts-overlay-lib)
+        mkFlake
+        ;
+    in
+    mkFlake
+      {
+        inherit
+          inputs
+          ;
+
+        specialArgs = {
+          inherit
+            chinese-fonts-overlay-lib
+            projectRoot
+            ;
+        };
+      }
+      {
+        flake = {
+          lib = chinese-fonts-overlay-lib;
+
+          overlays = {
+            default =
+              final: prev:
+              import (projectRoot + /overlays/default.nix) {
+                inherit
+                  chinese-fonts-overlay-lib
+                  projectRoot
+                  ;
+              } final prev;
+          };
+        };
+
+        perSystem =
+          {
+            pkgs,
+            system,
+            ...
+          }:
+          {
+            _module = {
+              args = {
+                pkgs = import nixpkgs {
+                  inherit
+                    system
+                    ;
+
+                  config = {
+                    allowUnfree = true;
+                  };
+
+                  overlays = [
+                    self.overlays.default
+                  ];
+                };
+              };
+            };
+
+            packages = {
+              inherit (pkgs)
+                alibaba-fonts
+                alimama-fonts
+                dingtalk-fonts
+                foundertype-ctex-fonts
+                foundertype-fonts
+                foundertype-gcu-fonts
+                foundertype-gpu-fonts
+                foundertype-paid-fonts
+                taobao-fonts
+                tianheng-fonts
+                trionestype-fonts
+                tsangertype-fonts
+                tsangertype-gcu-fonts
+                tsangertype-gpu-fonts
+                windows-fonts
+                ;
             };
           };
-        in
-        {
-          inherit (pkgs)
-            TH-fonts
-            alibaba-fonts
-            foundertype-fonts
-            trionestype-fonts
-            tsangertype-fonts
-            tsangertype-gcc-fonts
-            tsangertype-gcp-fonts
-            windows-fonts
-            ;
-        }
-      );
-    };
+
+        private = {
+          directory = projectRoot + /tools;
+
+          modules = [
+            (projectRoot + /tools)
+          ];
+
+          outputs = [
+            "devShells"
+            "formatter"
+          ];
+        };
+
+        systems = flakeExposed;
+      };
 }
