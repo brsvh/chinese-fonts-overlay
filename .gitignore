@@ -1,8 +1,23 @@
 # .gitignore --- Git untracked files -*- mode: gitignore; -*-
 
+# devshells
+/.editorconfig
+/prek.toml
+/treefmt.toml
+
 # direnv
 /.envrc
-/.direnv/**/*
+/.direnv
+
+# emacs
+/.dir-locals.el
 
 # nix
+/repl-result-out
 /result
+/result-*
+
+# previews
+/font-preview-images
+
+# .gitignore ends here
