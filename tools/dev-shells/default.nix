@@ -1,4 +1,5 @@
 {
+  includeFontPreviewTool ? false,
   lib,
   pkgs,
   projectRoot,
@@ -331,8 +332,8 @@ mkShell {
     (concatMap (
       name: files.${name}.packages or [ ]
     ) names)
+    ++ (optional includeFontPreviewTool generate-font-preview-images)
     ++ [
-      generate-font-preview-images
       git
     ];
 

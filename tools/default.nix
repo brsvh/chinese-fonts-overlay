@@ -38,18 +38,26 @@ in
         };
       };
 
-      devShells = {
-        default =
-          import
-            (projectRoot + /tools/dev-shells/default.nix)
-            {
-              inherit
-                lib
-                pkgs
-                projectRoot
-                ;
-            };
-      };
+      devShells =
+        let
+          mkDevShell =
+            includeFontPreviewTool:
+            import
+              (projectRoot + /tools/dev-shells/default.nix)
+              {
+                inherit
+                  includeFontPreviewTool
+                  lib
+                  pkgs
+                  projectRoot
+                  ;
+              };
+        in
+        {
+          default = mkDevShell false;
+
+          generator = mkDevShell true;
+        };
 
       formatter =
         import (projectRoot + /tools/formatter.nix)
