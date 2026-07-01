@@ -50,6 +50,10 @@ Hard requirements:
   conventions;
 - when staged package changes are under `packages/**/<package>/`, derive the
   scope from that package's staged `package.nix` `pname`;
+- when a single staged `packages/**/<package>/package.nix` adds or changes the
+  package `version`, use the package `pname` as the scope and constrain the
+  subject summary to `Init at <version>` for a new package or
+  `Update to <version>` for an existing package version change;
 - keep scope tokens lowercase;
 - use an imperative capitalized verb;
 - omit the trailing period in the subject;

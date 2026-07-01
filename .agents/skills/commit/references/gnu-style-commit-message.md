@@ -44,6 +44,13 @@ Use exactly one of the following forms:
 <scope>: <Verb> <summary>
 ```
 
+Package version subjects described below constrain this form to:
+
+```text
+<pname>: Init at <version>
+<pname>: Update to <version>
+```
+
 Rules:
 
 1. Scope and subscope tokens must be lowercase.
@@ -144,6 +151,33 @@ Common portable scopes include:
 This list is not exhaustive. Prefer the target repository's own vocabulary over
 these generic examples.
 
+## Package version subjects
+
+When a single staged package file at `packages/**/<package>/package.nix` adds or
+changes the package `version`, constrain the subject summary.
+
+Inspect both the staged file and the previous `HEAD` version when it exists:
+
+- Read the new package metadata with `git show :<path>`.
+- Read the old package metadata with `git show HEAD:<path>`.
+- Use the staged `pname` as the subject scope.
+
+If the package file is new, or `HEAD` has no version for that package, use:
+
+```text
+<pname>: Init at <new-version>
+```
+
+If `HEAD` has a different version and the package already existed, use:
+
+```text
+<pname>: Update to <new-version>
+```
+
+Apply this constraint even when the same staged package commit also changes
+hashes, URLs, metadata, or install details. Continue to describe those file
+changes in the body bullets.
+
 ## Deriving `subscope`
 
 `subscope` is optional.
@@ -168,6 +202,9 @@ Rules:
 ## Preferred verbs
 
 Use the most precise imperative verb that matches the staged diff.
+
+For package version subjects governed by the section above, use `Init` or
+`Update` exactly as specified there.
 
 Preferred verbs include:
 
@@ -303,6 +340,8 @@ If scope selection is ambiguous, apply this fallback order:
 
 ## Recommended examples
 
+- `justfont-example: Init at 0.1`
+- `justfont-example: Update to 0.2`
 - `doc: Update installation notes`
 - `build: Fix release artifact naming`
 - `parser: Handle quoted field escapes`
