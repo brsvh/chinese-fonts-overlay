@@ -972,6 +972,16 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
 >
 > 通过 `justfont-fonts` 来安装所有 Justfont 字体。
 
+- `justfontPackages.abbrfesfont` -
+  [簡語生活體 AbbrFesFont](https://justfont.com/justforfun/abbrfesfont)
+
+<p align="center">
+  <img
+    alt="AbbrFesFont"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-abbrfesfont%2BAbbrFesFont.png"
+  >
+</p>
+
 - `justfontPackages.huninn` - [Huninn / 粉圓](https://github.com/justfont/Huninn)
 
 <p align="center">
