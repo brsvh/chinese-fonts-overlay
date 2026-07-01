@@ -88,11 +88,9 @@
 }
 ```
 
-## 提供的字体
+## 说明与帮助
 
-### 说明与帮助
-
-#### 命名约定
+### 命名约定
 
 为了区别于大多数情况代表是否是自由软件的 `free` 和 `unfree`，我们不使用它们来作为价格的区别，转而利用一些缩写来表明某个字体的收费情况。
 
@@ -105,21 +103,21 @@
 
 我们在下文中每个字体出现处的上下文做收费、许可限制的有限说明，如没有说明，则表明该字体为使用开源/开放许可证的字体。
 
-#### 排除一部分字体
+### 排除一部分字体
 
 所有 scope 均提供了 `combine` 和 `combine'` 来方便您创建满足自定义条件的字体集。
 
-##### `<scope>.combine`
+#### `<scope>.combine`
 
 `combine :: (Derivation -> Bool) -> Derivation` 接收一个 `cond` 条件函数，用于过滤 `<scope>`
 中的所有派生满足给定条件的那些。
 
-##### `<scope>.combine'`
+#### `<scope>.combine'`
 
 `combine :: String -> (Derivation -> Bool) -> Derivation` 接收一个 `name`
 作为最终字体集合派生的 `pname`，和一个 `cond`，它和 `<scope>.combine` 的 `cond` 相同。
 
-#### 回退到旧版
+### 回退到旧版
 
 如果您希望回退固定到旧版 overlay，请使用 `v0.1.0` tag。
 
@@ -129,7 +127,9 @@ inputs.chinese-fonts-overlay.url = "github:brsvh/chinese-fonts-overlay/v0.1.0";
 
 当您想避免`windows-fonts`更新后它那巨大的ISO重建，这可以一定程度上解决，但仍然推荐您保持直接使用 `main` 分支。
 
-### Alibaba Design（Alibaba 字体）
+## 提供的字体
+
+### Alibaba Design（Alibaba 字体）- `alibabaPackages`
 
 Alibaba 字体均可以免费用于合法的商业、非商业使用。
 
@@ -599,7 +599,7 @@ Alibaba 字体均可以免费用于合法的商业、非商业使用。
   <br>
 </p>
 
-### Alimama 字体（阿里妈妈字体）
+### Alimama 字体（阿里妈妈字体）- `alimamaPackages`
 
 Alimama 字体均可以免费用于合法的商业、非商业使用，唯一的区别是部分不允许嵌入式使用。
 
@@ -657,7 +657,7 @@ Alimama 字体均可以免费用于合法的商业、非商业使用，唯一的
   >
 </p>
 
-### DingTalk 字体（钉钉字体）
+### DingTalk 字体（钉钉字体）- `dingtalkPackages`
 
 DingTalk 字体均可以免费用于合法的商业、非商业使用。
 
@@ -678,7 +678,7 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
 > \*：该字体的网站许可（语雀文档）链接指向了某个普惠体目录下的链接，但无法查看，
 > 故假设其具有相似的商业与非商业使用授权范围，并按不允许嵌入式使用保守推断。具体使用情形，您应当谨慎的从最保守的情况做考虑。
 
-### FounderType 字库（方正字库）
+### FounderType 字库（方正字库）- `foundertypePackages`
 
 `foundertype-fonts` 提供方正字库的字体，这些字体的协议包括以下情形。
 
@@ -958,7 +958,7 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
-### Microsoft 字体（微软字体）
+### Microsoft 字体（微软字体）- `microsoftPackages`
 
 > [!CAUTION]
 >
@@ -2283,7 +2283,7 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   <br>
 </p>
 
-### Taobao 字体（淘宝字体）
+### Taobao 字体（淘宝字体）- `taobaoPackages`
 
 Taobao 字体均可以免费用于合法的商业、非商业使用。
 
@@ -2301,7 +2301,7 @@ Taobao 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
-### TianHeng 字体（TH/天珩字库）
+### TianHeng 字体（TH/天珩字库）- `tianhengPackages`
 
 > [!CAUTION]
 >
@@ -2403,7 +2403,7 @@ Taobao 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
-### TrionesType 字体（璇璣造字）
+### TrionesType 字体（璇璣造字）- `trionestypePackages`
 
 > [!TIP]
 >
@@ -2419,7 +2419,7 @@ Taobao 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
-### TsangerType 字体（仓耳字库）
+### TsangerType 字体（仓耳字库）- `tsangertypePackages`
 
 TsangerType 的所有字体均允许个人非商业用途使用。
 
