@@ -12,6 +12,7 @@
   justfontPackages,
   lib,
   microsoftPackages,
+  pango,
   taobaoPackages,
   tianhengPackages,
   trionestypePackages,
@@ -89,6 +90,7 @@ let
     };
 
     justfont = {
+      justfont-snailfont = "english";
       justfont-type-jam = "traditional-chinese";
     };
 
@@ -403,48 +405,7 @@ let
     ];
   };
 
-  fontPreviewSkippedFontNames = {
-    alibaba = {
-      alibaba-puhuiti-3 = [
-        "Alibaba PuHuiTi 3.0 55 Regular L3"
-      ];
-    };
-
-    tianheng = {
-      tianheng-khaai-p = [
-        "TH-Khaai-PP2"
-      ];
-
-      tianheng-khaai-t = [
-        "TH-Khaai-TP16"
-        "TH-Khaai-TP2"
-      ];
-
-      tianheng-ming = [
-        "TH-Ming-JP2"
-      ];
-
-      tianheng-sung-p = [
-        "TH-Sung-PP2"
-      ];
-
-      tianheng-sung-t = [
-        "TH-Sung-TP2"
-      ];
-
-      tianheng-sy = [
-        "TH-Sy-P16"
-        "TH-Sy-P2"
-      ];
-
-      tianheng-tshyn = [
-        "TH-Times"
-        "TH-Tshyn-P1"
-        "TH-Tshyn-P16"
-        "TH-Tshyn-P2"
-      ];
-    };
-  };
+  fontPreviewSkippedFontNames = { };
 
   fontPreviewRuntimePackages = [
     coreutils
@@ -453,6 +414,7 @@ let
     git
     gnused
     imagemagick
+    pango
   ];
 
   fontPreviewMissingSampleKey = "__missing_sample_key__";
@@ -618,6 +580,61 @@ in
 
     colors=$(magick identify -format '%k' "$image")
     [ "$colors" -le 1 ]
+  }
+
+  render_with_magick() {
+    local font=$1
+    local output=$2
+    local sample=$3
+
+    magick \
+      -quiet \
+      -background white \
+      -fill black \
+      -font "$font" \
+      -pointsize 64 \
+      -gravity center \
+      -size 1600x360 \
+      "caption:$sample" \
+      -trim \
+      +repage \
+      -bordercolor white \
+      -border 16x16 \
+      "$output"
+  }
+
+  render_with_pango() {
+    local fontconfig_file=$1
+    local font_name=$2
+    local output=$3
+    local pango_image
+    local sample=$4
+
+    pango_image=$(mktemp "$(dirname "$output")/.preview-pango.XXXXXX.png")
+
+    FONTCONFIG_FILE=$fontconfig_file \
+      pango-view \
+        --no-display \
+        --pixels \
+        --background=white \
+        --foreground=black \
+        --font="$font_name 64" \
+        --width=30000 \
+        --align=center \
+        --single-par \
+        --output="$pango_image" \
+        --text="$sample"
+
+    magick \
+      "$pango_image" \
+      -trim \
+      +repage \
+      -resize '1200x360>' \
+      -bordercolor white \
+      -border 16x16 \
+      "$output"
+
+    rm -f "$pango_image"
   }
 
   choose_sample() {
@@ -833,6 +850,15 @@ in
 
     mkdir -p "$scope_dir"
 
+    fontconfig_file=$(mktemp "$scope_dir/.fontconfig.XXXXXX.conf")
+    {
+      printf '%s\n' '<?xml version="1.0"?>'
+      printf '%s\n' '<!DOCTYPE fontconfig SYSTEM "fonts.dtd">'
+      printf '%s\n' '<fontconfig>'
+      printf '  <dir>%s</dir>\n' "$fonts_dir"
+      printf '%s\n' '</fontconfig>'
+    } > "$fontconfig_file"
+
     declare -A family_counts=()
     declare -A image_counts=()
     font_paths=()
@@ -881,20 +907,17 @@ in
       sample=$(choose_sample "$sample_key")
       temporary_image=$(mktemp "$scope_dir/.preview.XXXXXX.png")
 
-      magick \
-        -quiet \
-        -background white \
-        -fill black \
-        -font "$font" \
-        -pointsize 64 \
-        -gravity center \
-        -size 1600x360 \
-        "caption:$sample" \
-        -trim \
-        +repage \
-        -bordercolor white \
-        -border 16x16 \
-        "$temporary_image"
+      render_with_magick "$font" "$temporary_image" "$sample"
+
+      if is_blank_image "$temporary_image"; then
+        rm -f "$temporary_image"
+        temporary_image=$(mktemp "$scope_dir/.preview.XXXXXX.png")
+        render_with_pango \
+          "$fontconfig_file" \
+          "$font_name" \
+          "$temporary_image" \
+          "$sample"
+      fi
 
       if is_blank_image "$temporary_image"; then
         rm -f "$temporary_image"
@@ -905,6 +928,8 @@ in
 
       printf '%s\n' "$image"
     done
+
+    rm -f "$fontconfig_file"
   done < ${fontPreviewManifest}
 '').overrideAttrs
   (_: {
