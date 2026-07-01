@@ -91,6 +91,7 @@ let
 
     justfont = {
       justfont-abbrfesfont = "traditional-chinese";
+      justfont-allpuntype = "traditional-chinese";
       justfont-elffont = "bopomofo";
       justfont-huninn = "traditional-chinese";
       justfont-snailfont = "english";
