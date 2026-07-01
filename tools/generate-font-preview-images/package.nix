@@ -90,6 +90,7 @@ let
     };
 
     justfont = {
+      justfont-abbrfesfont = "traditional-chinese";
       justfont-huninn = "traditional-chinese";
       justfont-snailfont = "english";
       justfont-type-jam = "traditional-chinese";
