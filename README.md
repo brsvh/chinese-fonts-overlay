@@ -2023,6 +2023,23 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
 - `microsoftPackages.segoe-icons` -
   [Segoe Fluent Icons / Segoe MDL2 Assets](https://learn.microsoft.com/en-us/typography/fonts/font-faq)
 
+<p align="center">
+  <img
+    alt="Segoe Fluent Icons"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/microsoft/microsoft-segoe-icons%2BSegoe%20Fluent%20Icons.png"
+  >
+  <br>
+  <sub>Segoe Fluent Icons</sub>
+  <br>
+  <img
+    alt="Segoe MDL2 Assets"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/microsoft/microsoft-segoe-icons%2BSegoe%20MDL2%20Assets.png"
+  >
+  <br>
+  <sub>Segoe MDL2 Assets</sub>
+  <br>
+</p>
+
 - `microsoftPackages.segoe-print` -
   [Segoe Print](https://learn.microsoft.com/en-us/typography/fonts/font-faq)
 
@@ -2163,6 +2180,13 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
   <br>
   <sub>Segoe UI Emoji</sub>
+  <br>
+  <img
+    alt="Segoe UI Historic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/microsoft/microsoft-segoe-ui-symbols%2BSegoe%20UI%20Historic.png"
+  >
+  <br>
+  <sub>Segoe UI Historic</sub>
   <br>
   <img
     alt="Segoe UI Symbol"
