@@ -14,6 +14,7 @@
 - TianHeng 字体（TH/天珩字库）
 - TrionesType 字体（璇璣造字）
 - TsangerType 字体（仓耳字库）
+- ZiHi（社群）字型系列字体（字嗨字型系列字體）
 
 ## 开始上手
 
@@ -6145,6 +6146,67 @@ TsangerType 的所有字体均允许个人非商业用途使用。
 </p>
 
 > \*：该字体在[仓耳字库网站](https://tsanger.cn) 上无法找到对应产品页。
+
+### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
+
+> [!TIP]
+>
+> 通过 `buttaiwan-fonts` 来安装所有 ZiHi（社群）字型系列字体。
+
+- `buttaiwanPackages.genkimin2-jp` -
+  [GenKiMin2 JP / 源起明朝](https://github.com/ButTaiwan/genyo-font)
+
+<p align="center">
+  <img
+    alt="GenKiMin2 JP EL"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genkimin2-jp%2BGenKiMin2%20JP%20EL.png"
+  >
+  <br>
+  <sub>GenKiMin2 JP EL</sub>
+  <br>
+  <img
+    alt="GenKiMin2 JP L"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genkimin2-jp%2BGenKiMin2%20JP%20L.png"
+  >
+  <br>
+  <sub>GenKiMin2 JP L</sub>
+  <br>
+  <img
+    alt="GenKiMin2 JP R"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genkimin2-jp%2BGenKiMin2%20JP%20R.png"
+  >
+  <br>
+  <sub>GenKiMin2 JP R</sub>
+  <br>
+  <img
+    alt="GenKiMin2 JP M"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genkimin2-jp%2BGenKiMin2%20JP%20M.png"
+  >
+  <br>
+  <sub>GenKiMin2 JP M</sub>
+  <br>
+  <img
+    alt="GenKiMin2 JP SB"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genkimin2-jp%2BGenKiMin2%20JP%20SB.png"
+  >
+  <br>
+  <sub>GenKiMin2 JP SB</sub>
+  <br>
+  <img
+    alt="GenKiMin2 JP B"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genkimin2-jp%2BGenKiMin2%20JP%20B.png"
+  >
+  <br>
+  <sub>GenKiMin2 JP B</sub>
+  <br>
+  <img
+    alt="GenKiMin2 JP H"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genkimin2-jp%2BGenKiMin2%20JP%20H.png"
+  >
+  <br>
+  <sub>GenKiMin2 JP H</sub>
+  <br>
+</p>
 
 ## AI 辅助声明
 

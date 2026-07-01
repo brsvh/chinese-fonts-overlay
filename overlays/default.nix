@@ -90,6 +90,24 @@ let
       combine' = link packages;
     };
 
+  buttaiwanPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/buttaiwan;
+      };
+    in
+    packages
+    // {
+      combine = link packages "buttaiwan-fonts";
+
+      combine' = link packages;
+    };
+
   dingtalkPackages =
     let
       packages = packagesFromDirectoryRecursive {
@@ -283,6 +301,7 @@ in
   inherit
     alibabaPackages
     alimamaPackages
+    buttaiwanPackages
     dingtalkPackages
     foundertypePackages
     justfontPackages
@@ -312,6 +331,10 @@ in
 
   alimama-fonts =
     alimamaPackages.combine' "alimama-fonts"
+      (_: true);
+
+  buttaiwan-fonts =
+    buttaiwanPackages.combine' "buttaiwan-fonts"
       (_: true);
 
   dingtalk-fonts =

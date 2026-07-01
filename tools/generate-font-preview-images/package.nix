@@ -1,6 +1,7 @@
 {
   alibabaPackages,
   alimamaPackages,
+  buttaiwanPackages,
   coreutils,
   dingtalkPackages,
   findutils,
@@ -39,6 +40,7 @@ let
   fontPreviewScopes = {
     alibaba = alibabaPackages;
     alimama = alimamaPackages;
+    buttaiwan = buttaiwanPackages;
     dingtalk = dingtalkPackages;
     foundertype = foundertypePackages;
     justfont = justfontPackages;
@@ -70,6 +72,10 @@ let
       alimama-dongfangdakai = "simplified-chinese";
       alimama-fangyuanti = "simplified-chinese";
       alimama-shuheiti = "simplified-chinese";
+    };
+
+    buttaiwan = {
+      buttaiwan-genkimin2-jp = "japanese";
     };
 
     dingtalk = {
