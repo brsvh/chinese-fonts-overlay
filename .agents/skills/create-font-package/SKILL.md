@@ -82,11 +82,12 @@ For `.nix` edits, also use the `nix-coding` skill before changing files.
       name;
     - let that skill choose or repair sample keys, run the generator, and
       validate generated PNGs.
-11. Update `README.md` after preview images exist for every created package:
+11. Update `docs/README.md` after preview images exist for every created
+    package:
     - find the best existing font list for the vendor/package scope, such as a
       vendor heading whose title includes the matching `<scope>Packages`, or a
       more specific subsection that matches licensing or distribution category;
-    - if no matching README section exists, stop before editing `README.md` and
+    - if no matching `docs/README.md` section exists, stop before editing it and
       ask the user to create the appropriate section. Do not create a new
       section or guess a location;
     - add the new package entry in the same style as neighboring entries, using

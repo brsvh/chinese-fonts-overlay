@@ -30,7 +30,8 @@ If scope selection is ambiguous, inspect lightweight local context such as
 recent commit subjects or documented contribution rules:
 
 - `git log --format=%s -n 50`
-- `CONTRIBUTING*`, `HACKING*`, `README*`, or similar repository guidance
+- `CONTRIBUTING*`, `docs/CONTRIBUTING*`, `HACKING*`, `README*`, `docs/README*`,
+  or similar repository guidance
 
 Use this local context only to choose a truthful scope or subscope. Do not copy
 unrelated project names from examples.
@@ -110,8 +111,8 @@ Apply these rules in order:
 
 Project-name scope:
 
-1. Look for a project name in repository-root files in this order: `README`,
-   `README.md`, then `README.org`.
+1. Look for a project name in repository documentation files in this order:
+   `docs/README.md`, `README`, then `README.md`.
 
 2. Prefer the first meaningful document title, such as the first Markdown H1,
    setext heading, Org title/level-one heading, or plain README title line.
@@ -139,14 +140,10 @@ Normalization rules:
 
 Common portable scopes include:
 
-- `build`
-- `ci`
-- `cli`
-- `config`
-- `doc`
+- `docs`
+- `github`
 - `lib`
-- `test`
-- `ui`
+- `tools`
 
 This list is not exhaustive. Prefer the target repository's own vocabulary over
 these generic examples.

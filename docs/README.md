@@ -2,9 +2,7 @@
 
 这个仓库提供一些中文字体，以 nix packages 的形式帮助您进行构建。
 
-## 简介
-
-这个仓库目前提供了以下公司、字库的若干产品的构建方式：
+目前主要提供了以下公司、字库的若干字体产品的构建方式：
 
 - Alibaba Design（Alibaba 字体）
 - Alimama 字体（阿里妈妈字体）
@@ -17,77 +15,86 @@
 - TrionesType 字体（璇璣造字）
 - TsangerType 字体（仓耳字库）
 
-> [!CAUTION]
->
-> 这个仓库包含一些不可再分发的字体，请您避免从本地 store 复制字体向他人传播或上传到 substituter server。
->
-> - Alibaba Design（Alibaba 字体）- 阿里巴巴（中国）有限公司版权所有的字体；
-> - Alimama 字体（阿里妈妈字体）- 淘宝（中国）软件有限公司版权所有的字体；
-> - DingTalk 字体（钉钉字体）- 钉钉（中国）信息技术有限公司版权所有的字体；
-> - FounderType （方正字库）- 北京北大方正电子有限公司版权所有的字体；
-> - Microsoft 字体（微软字体）- 微软股份有限公司版权所有或其分发的字体；
-> - Taobao 字体（淘宝字体）- 淘宝（中国）软件有限公司版权所有的字体；
-> - TianHeng 字体（TH/天珩字库）- 包含来自中易、华康、Iwata、Besta、方正等字库或公司版权所有的字形；
-> - TsangerType 字体（仓耳字体）的商业付费字体 - 北京仓耳文字技术有限公司版权所有的商业付费字体；
-
 ## 开始上手
 
 您只需要将此仓库的 overlay 添加至您的配置中然后安装期望的字体即可。
 
+### 与 NixOS 一起使用
+
+如果您需要 NixOS 配置中添加本仓库支持构建的字体，您需要在配置中启用 overlay 后，将需要的字体加入 `fonts.packages`。
+
+例如：
+
 ```nix
 {
   inputs = {
-    home-manager.url = "github:nix-community/home-manager/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     chinese-fonts-overlay.url = "github:brsvh/chinese-fonts-overlay/main";
   };
 
-  output = inputs:
-    {
-      homeConfigurations.YOUR-CONFIGURATION-NAME = inputs.home-manager.lib.homeManagerConfiguration {
-        system = "x86_64-linux";
-        modules = [
-          (
-            { pkgs, ... }:
-            {
-              nixpkgs = {
-                config.allowUnfree = true;
-                overlays = [
-                  inputs.chinese-fonts-overlay.overlays.default # 所有字体
-                ];
-              };
-              home.packages = with pkgs; [
-                # 替换 vendor 为实际的字库名称。
-                vendorPacakges.font-name
-              ];
-            }
-          )
-        ];
-      };
-
-      nixosConfigurations.YOUR-CONFIGURATOIN-NAME = inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          (
-            { pkgs, ... }:
-            {
-              nixpkgs = {
-                config.allowUnfree = true;
-                overlays = [
-                  inputs.chinese-fonts-overlay.overlays.default # 所有字体
-                ];
-              };
-              fonts.packages = with pkgs; [
-                # 替换 vendor 为实际的字库名称。
-                vendorPacakges.font-name
-              ];
-            }
-          )
-        ];
-      };
+  outputs = { nixpkgs, chinese-fonts-overlay, ... }: {
+    nixosConfigurations.YOUR-HOST = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [ ({ pkgs, ... }: {
+        nixpkgs = {
+          config.allowUnfree = true;
+          overlays = [ chinese-fonts-overlay.overlays.default ];
+        };
+        fonts.packages = with pkgs; [ justfontPackages.huninn ];
+      }) ];
     };
+  };
 }
 ```
+
+### 与 home-manager 一起使用
+
+如果您使用 Home Manager 为当前用户安装字体，在您的 Home Manager 配置中启用本项目 overlay，然后将字体加入
+`home.packages`。
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager/master";
+    chinese-fonts-overlay.url = "github:brsvh/chinese-fonts-overlay/main";
+  };
+
+  outputs = { nixpkgs, home-manager, chinese-fonts-overlay, ... }: {
+    homeConfigurations.YOUR-HOME = home-manager.lib.homeManagerConfiguration {
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+        overlays = [ chinese-fonts-overlay.overlays.default ];
+      };
+      modules = [ ({ pkgs, ... }: {
+        home.packages = with pkgs; [ justfontPackages.huninn ];
+      }) ];
+    };
+  };
+}
+```
+
+### 本地构建字体
+
+如果您只是想试构建某个字体包，可以从仓库根目录注入 overlay，然后进行构建。
+
+例如：
+
+```console
+$ nix build --expr 'with import <nixpkgs> { overlays = [ (import ./default.nix) ]; }; justfontPackages.huninn'
+```
+
+> [!TIP]
+>
+> 当您构建非自由字体时，您需要额外添加环境变量和 `--impure` 参数，比如
+> `NIXPKGS_ALLOW_UNFREE=1 nix build --impure --expr 'with import <nixpkgs> { overlays = [ (import ./default.nix) ]; }; tsangertypePackages.tsangerjinkai'`
+
+## 贡献与开发
+
+如果您想请求添加字体、报告构建失败或提交 PR，请阅读[贡献指南](CONTRIBUTING.md)。
+
+如果您准备直接修改字体包、维护预览图或使用本仓库的开发工具，请阅读[开发文档](development.md)。
 
 ## 说明与帮助
 
@@ -129,6 +136,19 @@ inputs.chinese-fonts-overlay.url = "github:brsvh/chinese-fonts-overlay/v0.1.0";
 当您想避免`windows-fonts`更新后它那巨大的ISO重建，这可以一定程度上解决，但仍然推荐您保持直接使用 `main` 分支。
 
 ## 提供的字体
+
+> [!CAUTION]
+>
+> 这个仓库提供的字体构建支持包含一些不可再分发的字体，请您避免从本地 store 复制这些字体向他人传播或上传到 substituter server。
+>
+> - Alibaba Design（Alibaba 字体）- 阿里巴巴（中国）有限公司版权所有的字体；
+> - Alimama 字体（阿里妈妈字体）- 淘宝（中国）软件有限公司版权所有的字体；
+> - DingTalk 字体（钉钉字体）- 钉钉（中国）信息技术有限公司版权所有的字体；
+> - FounderType （方正字库）- 北京北大方正电子有限公司版权所有的字体；
+> - Microsoft 字体（微软字体）- 微软股份有限公司版权所有或其分发的字体；
+> - Taobao 字体（淘宝字体）- 淘宝（中国）软件有限公司版权所有的字体；
+> - TianHeng 字体（TH/天珩字库）- 包含来自中易、华康、Iwata、Besta、方正等字库或公司版权所有的字形；
+> - TsangerType 字体（仓耳字体）的商业付费字体 - 北京仓耳文字技术有限公司版权所有的商业付费字体；
 
 ### Alibaba Design（Alibaba 字体）- `alibabaPackages`
 
@@ -6124,7 +6144,7 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   >
 </p>
 
-> \*：该字体在[仓耳字库网站](tsanger.cn) 上无法找到对应产品页。
+> \*：该字体在[仓耳字库网站](https://tsanger.cn) 上无法找到对应产品页。
 
 ## AI 辅助声明
 

@@ -1,5 +1,9 @@
 # README for Agents
 
+## Documentation
+
+When a task mentions the project README, treat it as `docs/README.md`.
+
 ## Nix Code
 
 When writing, editing, reviewing, or refactoring `.nix` files, use the
