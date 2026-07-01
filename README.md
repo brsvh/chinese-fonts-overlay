@@ -981,6 +981,26 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
+- `justfontPackages.snailfont` -
+  [螺體 Snail Font](https://justfont.com/justforfun/snail-font)
+
+<p align="center">
+  <img
+    alt="snailfont Sinotaia"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-snailfont%2Bsnailfont%20Sinotaia.png"
+  >
+  <br>
+  <sub>snailfont Sinotaia</sub>
+  <br>
+  <img
+    alt="snailfont Pomacea"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-snailfont%2Bsnailfont%20Pomacea.png"
+  >
+  <br>
+  <sub>snailfont Pomacea</sub>
+  <br>
+</p>
+
 ### Microsoft 字体（微软字体）- `microsoftPackages`
 
 > [!CAUTION]
