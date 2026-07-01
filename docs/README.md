@@ -7306,6 +7306,61 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   <br>
 </p>
 
+- `buttaiwanPackages.genyogothic2-tw` -
+  [GenYoGothic2 TW / 源樣黑體月](https://github.com/ButTaiwan/genyog-font)
+
+<p align="center">
+  <img
+    alt="GenYoGothic2 TW EL"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyogothic2-tw%2BGenYoGothic2%20TW%20EL.png"
+  >
+  <br>
+  <sub>GenYoGothic2 TW EL</sub>
+  <br>
+  <img
+    alt="GenYoGothic2 TW L"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyogothic2-tw%2BGenYoGothic2%20TW%20L.png"
+  >
+  <br>
+  <sub>GenYoGothic2 TW L</sub>
+  <br>
+  <img
+    alt="GenYoGothic2 TW R"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyogothic2-tw%2BGenYoGothic2%20TW%20R.png"
+  >
+  <br>
+  <sub>GenYoGothic2 TW R</sub>
+  <br>
+  <img
+    alt="GenYoGothic2 TW N"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyogothic2-tw%2BGenYoGothic2%20TW%20N.png"
+  >
+  <br>
+  <sub>GenYoGothic2 TW N</sub>
+  <br>
+  <img
+    alt="GenYoGothic2 TW M"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyogothic2-tw%2BGenYoGothic2%20TW%20M.png"
+  >
+  <br>
+  <sub>GenYoGothic2 TW M</sub>
+  <br>
+  <img
+    alt="GenYoGothic2 TW B"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyogothic2-tw%2BGenYoGothic2%20TW%20B.png"
+  >
+  <br>
+  <sub>GenYoGothic2 TW B</sub>
+  <br>
+  <img
+    alt="GenYoGothic2 TW H"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyogothic2-tw%2BGenYoGothic2%20TW%20H.png"
+  >
+  <br>
+  <sub>GenYoGothic2 TW H</sub>
+  <br>
+</p>
+
 ## AI 辅助声明
 
 本项目中的部分代码、测试和文档是在 AI 工具的辅助下开发的。所有 AI 生成的内容均经过维护者的审查，并在必要时进行了修改。维护者对最终内容负全部责任。未向
