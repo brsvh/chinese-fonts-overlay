@@ -455,6 +455,8 @@ let
     imagemagick
   ];
 
+  fontPreviewMissingSampleKey = "__missing_sample_key__";
+
   fontPreviewSampleKey =
     scopeName: pname:
     attrByPath
@@ -462,9 +464,7 @@ let
         scopeName
         pname
       ]
-      (throw ''
-        font preview sample key is not configured for `${scopeName}.${pname}`
-      '')
+      fontPreviewMissingSampleKey
       fontPreviewPackageSampleKeys;
 
   fontPreviewSkippedFontRows = concatLists (
@@ -558,7 +558,8 @@ in
   yi_sample='ꆏꌠꀕꇬꉚꇁꉆ'
 
   usage() {
-    printf 'usage: %s [--override]\n' "$(basename -- "$0")" >&2
+    printf 'usage: %s [--override] [--package-name pname[,pname...]]\n' \
+      "$(basename -- "$0")" >&2
   }
 
   project_root() {
@@ -705,11 +706,99 @@ in
   }
 
   override=false
+  declare -A selected_package_names=()
+  package_name_filter=false
+
+  add_package_names() {
+    local name
+    local -a package_name_items
+    local package_names=$1
+
+    if [ -z "$package_names" ]; then
+      printf 'empty --package-name value\n' >&2
+      exit 2
+    fi
+
+    IFS=, read -r -a package_name_items <<< "$package_names"
+
+    for name in "''${package_name_items[@]}"; do
+      if [ -z "$name" ]; then
+        printf 'empty package name in --package-name value: %s\n' \
+          "$package_names" >&2
+        exit 2
+      fi
+
+      selected_package_names["$name"]=0
+    done
+
+    package_name_filter=true
+  }
+
+  should_generate_package() {
+    local pname=$1
+
+    if [ "$package_name_filter" = false ]; then
+      return 0
+    fi
+
+    if [ "''${selected_package_names[$pname]+set}" = set ]; then
+      selected_package_names["$pname"]=1
+      return 0
+    fi
+
+    return 1
+  }
+
+  validate_package_name_filter() {
+    local manifest=$1
+    local package
+    local pname
+    local sample_key
+    local scope
+
+    if [ "$package_name_filter" = false ]; then
+      return
+    fi
+
+    while IFS=$'\t' read -r scope pname sample_key package; do
+      if [ "''${selected_package_names[$pname]+set}" != set ]; then
+        continue
+      fi
+
+      selected_package_names["$pname"]=1
+
+      if [ "$sample_key" = "__missing_sample_key__" ]; then
+        printf 'font preview sample key is not configured for %s.%s\n' \
+          "$scope" "$pname" >&2
+        exit 1
+      fi
+    done < "$manifest"
+
+    for pname in "''${!selected_package_names[@]}"; do
+      if [ "''${selected_package_names[$pname]}" = 0 ]; then
+        printf 'unknown font preview package name: %s\n' "$pname" >&2
+        exit 1
+      fi
+    done
+  }
 
   while [ "$#" -gt 0 ]; do
     case "$1" in
       --override)
         override=true
+        shift
+        ;;
+      --package-name)
+        if [ "$#" -lt 2 ]; then
+          usage
+          exit 2
+        fi
+
+        add_package_names "$2"
+        shift 2
+        ;;
+      --package-name=*)
+        add_package_names "''${1#--package-name=}"
         shift
         ;;
       *)
@@ -719,12 +808,24 @@ in
     esac
   done
 
+  validate_package_name_filter "${fontPreviewManifest}"
+
   output_dir=$(project_root)/font-preview-images
   mkdir -p "$output_dir"
 
   while IFS=$'\t' read -r scope pname sample_key package; do
+    if ! should_generate_package "$pname"; then
+      continue
+    fi
+
     fonts_dir=$package/share/fonts
     scope_dir=$output_dir/$scope
+
+    if [ "$sample_key" = "__missing_sample_key__" ]; then
+      printf 'font preview sample key is not configured for %s.%s\n' \
+        "$scope" "$pname" >&2
+      exit 1
+    fi
 
     if [ ! -d "$fonts_dir" ]; then
       continue
