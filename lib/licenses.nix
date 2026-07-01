@@ -66,6 +66,14 @@
     url = "https://www.foundertype.com/index.php/About/powerPer.html";
   };
 
+  justfont-elffont-license = {
+    free = false;
+    fullName = "做作的Daphne 與 justfont《精靈文》字型授權規範";
+    redistributable = false;
+    shortName = "justfont-elffont-license";
+    url = "https://github.com/justfont/Elffont/blob/3a5148e11b6636eda95d9564358560f05a0bc7a9/LICENSE";
+  };
+
   justfont-snailfont-license = {
     free = false;
     fullName = "田文社與 justfont《螺體》字型授權規範";
