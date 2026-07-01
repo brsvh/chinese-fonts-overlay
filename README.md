@@ -10,6 +10,7 @@
 - Alimama 字体（阿里妈妈字体）
 - DingTalk 字体（钉钉字体）
 - FounderType 字库（方正字库）
+- Justfont 字体
 - Microsoft 字体（微软字体）
 - Taobao 字体（淘宝字体）
 - TianHeng 字体（TH/天珩字库）
@@ -24,10 +25,10 @@
 > - Alimama 字体（阿里妈妈字体）- 淘宝（中国）软件有限公司版权所有的字体；
 > - DingTalk 字体（钉钉字体）- 钉钉（中国）信息技术有限公司版权所有的字体；
 > - FounderType （方正字库）- 北京北大方正电子有限公司版权所有的字体；
-> - Microsoft 字体（微软字体）- 微软股份有限公司版权所有或其分发的字体
+> - Microsoft 字体（微软字体）- 微软股份有限公司版权所有或其分发的字体；
 > - Taobao 字体（淘宝字体）- 淘宝（中国）软件有限公司版权所有的字体；
-> - TianHeng 字体（TH/天珩字库）- 包含来自中易、华康、Iwata、Besta、方正等字库或公司版权所有的字形。
-> - TsangerType 字体（仓耳字体）的商业付费字体 - 北京仓耳文字技术有限公司版权所有的商业付费字体。
+> - TianHeng 字体（TH/天珩字库）- 包含来自中易、华康、Iwata、Besta、方正等字库或公司版权所有的字形；
+> - TsangerType 字体（仓耳字体）的商业付费字体 - 北京仓耳文字技术有限公司版权所有的商业付费字体；
 
 ## 开始上手
 
@@ -955,6 +956,21 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   <img
     alt="FZZhunYuan-M02"
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/foundertype/foundertype-fzzhunyuan%2BFZZhunYuan-M02.png"
+  >
+</p>
+
+### Justfont 字体 - `justfontPackages`
+
+> [!TIP]
+>
+> 通过 `justfont-fonts` 来安装所有 Justfont 字体。
+
+- `justfontPackages.type-jam` - [草率手寫體 Type Jam](https://typejam.justfont.com/)
+
+<p align="center">
+  <img
+    alt="Type Jam"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-type-jam%2BType%20Jam.png"
   >
 </p>
 

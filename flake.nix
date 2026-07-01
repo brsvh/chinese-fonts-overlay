@@ -100,6 +100,7 @@
                 foundertype-gcu-fonts
                 foundertype-gpu-fonts
                 foundertype-paid-fonts
+                justfont-fonts
                 taobao-fonts
                 tianheng-fonts
                 trionestype-fonts
