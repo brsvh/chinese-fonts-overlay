@@ -76,6 +76,7 @@ let
 
     buttaiwan = {
       buttaiwan-genkimin2-jp = "japanese";
+      buttaiwan-genkimin2-pjp = "japanese";
     };
 
     dingtalk = {
