@@ -94,6 +94,7 @@
               inherit (pkgs)
                 alibaba-fonts
                 alimama-fonts
+                buttaiwan-fonts
                 dingtalk-fonts
                 foundertype-ctex-fonts
                 foundertype-fonts
