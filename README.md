@@ -972,6 +972,15 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
 >
 > 通过 `justfont-fonts` 来安装所有 Justfont 字体。
 
+- `justfontPackages.huninn` - [Huninn / 粉圓](https://github.com/justfont/Huninn)
+
+<p align="center">
+  <img
+    alt="Huninn"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-huninn%2BHuninn.png"
+  >
+</p>
+
 - `justfontPackages.type-jam` - [草率手寫體 Type Jam](https://typejam.justfont.com/)
 
 <p align="center">
