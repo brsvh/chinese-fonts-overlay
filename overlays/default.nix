@@ -149,6 +149,24 @@ let
       fzzhunyuan
     ];
 
+  justfontPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/justfont;
+      };
+    in
+    packages
+    // {
+      combine = link packages "justfont-fonts";
+
+      combine' = link packages;
+    };
+
   microsoftPackages =
     let
       packageScope = makeScope final.newScope (
@@ -267,6 +285,7 @@ in
     alimamaPackages
     dingtalkPackages
     foundertypePackages
+    justfontPackages
     lib
     microsoftPackages
     taobaoPackages
@@ -341,6 +360,10 @@ in
     foundertypePackages.combine'
       "foundertype-paid-fonts"
       (drv: elem drv foundertypePaidPackages);
+
+  justfont-fonts =
+    justfontPackages.combine' "justfont-fonts"
+      (_: true);
 
   foundertypeFonts = {
     FZFSK = throw ''

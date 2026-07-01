@@ -9,6 +9,7 @@
   git,
   gnused,
   imagemagick,
+  justfontPackages,
   lib,
   microsoftPackages,
   taobaoPackages,
@@ -39,6 +40,7 @@ let
     alimama = alimamaPackages;
     dingtalk = dingtalkPackages;
     foundertype = foundertypePackages;
+    justfont = justfontPackages;
     microsoft = microsoftPackages;
     taobao = taobaoPackages;
     tianheng = tianhengPackages;
@@ -84,6 +86,10 @@ let
       foundertype-fzxiheiyi = "simplified-chinese";
       foundertype-fzxiyuan = "simplified-chinese";
       foundertype-fzzhunyuan = "simplified-chinese";
+    };
+
+    justfont = {
+      justfont-type-jam = "traditional-chinese";
     };
 
     microsoft = {
