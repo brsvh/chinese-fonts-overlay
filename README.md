@@ -271,6 +271,13 @@ Alibaba 字体均可以免费用于合法的商业、非商业使用。
   <sub>Alibaba PuHuiTi 3.0 55 Regular</sub>
   <br>
   <img
+    alt="Alibaba PuHuiTi 3.0 55 Regular L3"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/alibaba/alibaba-puhuiti-3%2BAlibaba%20PuHuiTi%203.0%2055%20Regular%20L3.png"
+  >
+  <br>
+  <sub>Alibaba PuHuiTi 3.0 55 Regular L3</sub>
+  <br>
+  <img
     alt="Alibaba PuHuiTi 3.0 65 Medium"
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/alibaba/alibaba-puhuiti-3%2BAlibaba%20PuHuiTi%203.0%2065%20Medium.png"
   >
@@ -2357,6 +2364,16 @@ Taobao 字体均可以免费用于合法的商业、非商业使用。
     alt="TH-Khaai-PP0"
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-khaai-p%2BTH-Khaai-PP0.png"
   >
+  <br>
+  <sub>TH-Khaai-PP0</sub>
+  <br>
+  <img
+    alt="TH-Khaai-PP2"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-khaai-p%2BTH-Khaai-PP2.png"
+  >
+  <br>
+  <sub>TH-Khaai-PP2</sub>
+  <br>
 </p>
 
 - `tianhengPackages.khaai-t` -
@@ -2367,6 +2384,23 @@ Taobao 字体均可以免费用于合法的商业、非商业使用。
     alt="TH-Khaai-TP0"
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-khaai-t%2BTH-Khaai-TP0.png"
   >
+  <br>
+  <sub>TH-Khaai-TP0</sub>
+  <br>
+  <img
+    alt="TH-Khaai-TP2"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-khaai-t%2BTH-Khaai-TP2.png"
+  >
+  <br>
+  <sub>TH-Khaai-TP2</sub>
+  <br>
+  <img
+    alt="TH-Khaai-TP16"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-khaai-t%2BTH-Khaai-TP16.png"
+  >
+  <br>
+  <sub>TH-Khaai-TP16</sub>
+  <br>
 </p>
 
 - `tianhengPackages.ming` -
@@ -2377,6 +2411,16 @@ Taobao 字体均可以免费用于合法的商业、非商业使用。
     alt="TH-Ming-JP0"
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-ming%2BTH-Ming-JP0.png"
   >
+  <br>
+  <sub>TH-Ming-JP0</sub>
+  <br>
+  <img
+    alt="TH-Ming-JP2"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-ming%2BTH-Ming-JP2.png"
+  >
+  <br>
+  <sub>TH-Ming-JP2</sub>
+  <br>
 </p>
 
 - `tianhengPackages.sung-p` -
@@ -2387,6 +2431,16 @@ Taobao 字体均可以免费用于合法的商业、非商业使用。
     alt="TH-Sung-PP0"
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-sung-p%2BTH-Sung-PP0.png"
   >
+  <br>
+  <sub>TH-Sung-PP0</sub>
+  <br>
+  <img
+    alt="TH-Sung-PP2"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-sung-p%2BTH-Sung-PP2.png"
+  >
+  <br>
+  <sub>TH-Sung-PP2</sub>
+  <br>
 </p>
 
 - `tianhengPackages.sung-t` -
@@ -2397,6 +2451,16 @@ Taobao 字体均可以免费用于合法的商业、非商业使用。
     alt="TH-Sung-TP0"
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-sung-t%2BTH-Sung-TP0.png"
   >
+  <br>
+  <sub>TH-Sung-TP0</sub>
+  <br>
+  <img
+    alt="TH-Sung-TP2"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-sung-t%2BTH-Sung-TP2.png"
+  >
+  <br>
+  <sub>TH-Sung-TP2</sub>
+  <br>
 </p>
 
 - `tianhengPackages.sy` -
@@ -2407,6 +2471,23 @@ Taobao 字体均可以免费用于合法的商业、非商业使用。
     alt="TH-Sy-P0"
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-sy%2BTH-Sy-P0.png"
   >
+  <br>
+  <sub>TH-Sy-P0</sub>
+  <br>
+  <img
+    alt="TH-Sy-P2"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-sy%2BTH-Sy-P2.png"
+  >
+  <br>
+  <sub>TH-Sy-P2</sub>
+  <br>
+  <img
+    alt="TH-Sy-P16"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-sy%2BTH-Sy-P16.png"
+  >
+  <br>
+  <sub>TH-Sy-P16</sub>
+  <br>
 </p>
 
 - `tianhengPackages.tshyn` -
@@ -2417,6 +2498,37 @@ Taobao 字体均可以免费用于合法的商业、非商业使用。
     alt="TH-Tshyn-P0"
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-tshyn%2BTH-Tshyn-P0.png"
   >
+  <br>
+  <sub>TH-Tshyn-P0</sub>
+  <br>
+  <img
+    alt="TH-Tshyn-P1"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-tshyn%2BTH-Tshyn-P1.png"
+  >
+  <br>
+  <sub>TH-Tshyn-P1</sub>
+  <br>
+  <img
+    alt="TH-Tshyn-P2"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-tshyn%2BTH-Tshyn-P2.png"
+  >
+  <br>
+  <sub>TH-Tshyn-P2</sub>
+  <br>
+  <img
+    alt="TH-Tshyn-P16"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-tshyn%2BTH-Tshyn-P16.png"
+  >
+  <br>
+  <sub>TH-Tshyn-P16</sub>
+  <br>
+  <img
+    alt="TH-Times"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tianheng/tianheng-tshyn%2BTH-Times.png"
+  >
+  <br>
+  <sub>TH-Times</sub>
+  <br>
 </p>
 
 ### TrionesType 字体（璇璣造字）- `trionestypePackages`
