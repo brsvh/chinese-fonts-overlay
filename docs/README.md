@@ -6373,6 +6373,61 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   <br>
 </p>
 
+- `buttaiwanPackages.genyomin2-jp` -
+  [GenYoMin2 JP / 源樣明朝](https://github.com/ButTaiwan/genyo-font)
+
+<p align="center">
+  <img
+    alt="GenYoMin2 JP EL"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyomin2-jp%2BGenYoMin2%20JP%20EL.png"
+  >
+  <br>
+  <sub>GenYoMin2 JP EL</sub>
+  <br>
+  <img
+    alt="GenYoMin2 JP L"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyomin2-jp%2BGenYoMin2%20JP%20L.png"
+  >
+  <br>
+  <sub>GenYoMin2 JP L</sub>
+  <br>
+  <img
+    alt="GenYoMin2 JP R"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyomin2-jp%2BGenYoMin2%20JP%20R.png"
+  >
+  <br>
+  <sub>GenYoMin2 JP R</sub>
+  <br>
+  <img
+    alt="GenYoMin2 JP M"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyomin2-jp%2BGenYoMin2%20JP%20M.png"
+  >
+  <br>
+  <sub>GenYoMin2 JP M</sub>
+  <br>
+  <img
+    alt="GenYoMin2 JP SB"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyomin2-jp%2BGenYoMin2%20JP%20SB.png"
+  >
+  <br>
+  <sub>GenYoMin2 JP SB</sub>
+  <br>
+  <img
+    alt="GenYoMin2 JP B"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyomin2-jp%2BGenYoMin2%20JP%20B.png"
+  >
+  <br>
+  <sub>GenYoMin2 JP B</sub>
+  <br>
+  <img
+    alt="GenYoMin2 JP H"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genyomin2-jp%2BGenYoMin2%20JP%20H.png"
+  >
+  <br>
+  <sub>GenYoMin2 JP H</sub>
+  <br>
+</p>
+
 ## AI 辅助声明
 
 本项目中的部分代码、测试和文档是在 AI 工具的辅助下开发的。所有 AI 生成的内容均经过维护者的审查，并在必要时进行了修改。维护者对最终内容负全部责任。未向
