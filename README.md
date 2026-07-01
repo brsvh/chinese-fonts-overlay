@@ -982,6 +982,61 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
+- `justfontPackages.allpuntype` -
+  [諧靈附體 AllPunType](https://github.com/justfont/AllPunType)
+
+<p align="center">
+  <img
+    alt="AllPunType ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-allpuntype%2BAllPunType%20ExtraLight.png"
+  >
+  <br>
+  <sub>AllPunType ExtraLight</sub>
+  <br>
+  <img
+    alt="AllPunType Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-allpuntype%2BAllPunType%20Light.png"
+  >
+  <br>
+  <sub>AllPunType Light</sub>
+  <br>
+  <img
+    alt="AllPunType Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-allpuntype%2BAllPunType%20Regular.png"
+  >
+  <br>
+  <sub>AllPunType Regular</sub>
+  <br>
+  <img
+    alt="AllPunType Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-allpuntype%2BAllPunType%20Medium.png"
+  >
+  <br>
+  <sub>AllPunType Medium</sub>
+  <br>
+  <img
+    alt="AllPunType SemiBold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-allpuntype%2BAllPunType%20SemiBold.png"
+  >
+  <br>
+  <sub>AllPunType SemiBold</sub>
+  <br>
+  <img
+    alt="AllPunType Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-allpuntype%2BAllPunType%20Bold.png"
+  >
+  <br>
+  <sub>AllPunType Bold</sub>
+  <br>
+  <img
+    alt="AllPunType Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-allpuntype%2BAllPunType%20Heavy.png"
+  >
+  <br>
+  <sub>AllPunType Heavy</sub>
+  <br>
+</p>
+
 - `justfontPackages.elffont` - [精靈文 Elffont](https://ref.justfont.com/gRbXjtF)
 
 <p align="center">
