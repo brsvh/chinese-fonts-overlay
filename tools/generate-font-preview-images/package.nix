@@ -95,6 +95,7 @@ let
       justfont-elffont = "bopomofo";
       justfont-huninn = "traditional-chinese";
       justfont-snailfont = "english";
+      justfont-the-write-right-font = "traditional-chinese";
       justfont-type-jam = "traditional-chinese";
     };
 

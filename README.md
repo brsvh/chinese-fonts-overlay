@@ -1065,6 +1065,16 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
+- `justfontPackages.the-write-right-font` -
+  [就是不錯字（吧） The Write Right Font](https://github.com/justfont/The-Write-Right-Font)
+
+<p align="center">
+  <img
+    alt="The Write Right Font"
+    src="https://user-images.githubusercontent.com/129033985/229058895-6b4d0c07-fff8-4dde-a608-647275863ff7.gif"
+  >
+</p>
+
 - `justfontPackages.type-jam` - [草率手寫體 Type Jam](https://typejam.justfont.com/)
 
 <p align="center">
