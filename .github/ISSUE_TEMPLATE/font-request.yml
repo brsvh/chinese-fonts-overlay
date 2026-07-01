@@ -1,0 +1,44 @@
+name: 请求添加新字体
+description: 建议将一个新字体加入 chinese-fonts-overlay。
+title: "[字体请求] "
+labels:
+  - font-request
+body:
+  - type: input
+    id: font-name
+    attributes:
+      label: 字体名称
+      description: 请填写字体的正式名称。
+      placeholder: "例如：就是不錯字"
+    validations:
+      required: true
+
+  - type: input
+    id: publisher
+    attributes:
+      label: 字体发行商
+      description: 请填写字体发行商、字库厂商、设计者或项目名称。
+      placeholder: "例如：foo-font"
+    validations:
+      required: true
+
+  - type: input
+    id: source-url
+    attributes:
+      label: 字体 URL
+      description: 请填写能够找到或下载该字体的 URL。
+      placeholder: "例如：https://github.com/foo-font-vendor/foo-font"
+    validations:
+      required: true
+
+  - type: textarea
+    id: license
+    attributes:
+      label: 许可证状况
+      description: 请简要说明字体许可证和再分发条款。
+      placeholder: |
+        例如：
+        该字体使用 SIL Open Font License 1.1 发布。
+        允许再分发。
+    validations:
+      required: false

@@ -1,0 +1,32 @@
+name: 其他问题
+description: 反馈与 chinese-fonts-overlay 有关的其他问题。
+title: "[其他] "
+labels:
+  - needs-triage
+body:
+  - type: textarea
+    id: issue
+    attributes:
+      label: 问题描述
+      description: 请描述你遇到的问题或想讨论的内容。
+      placeholder: "发生了什么？你希望讨论或修改什么？"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 相关信息
+      description: 请补充相关 package name、命令、链接或日志。
+      placeholder: "请补充有助于说明问题的上下文。"
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望结果
+      description: 如果适用，请描述你期望发生的结果。
+      placeholder: "你期望得到什么结果？"
+    validations:
+      required: false

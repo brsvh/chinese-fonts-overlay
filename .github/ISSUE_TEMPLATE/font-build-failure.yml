@@ -1,0 +1,26 @@
+name: 报告字体构建失败
+description: 报告已有字体 package 无法构建。
+title: "[构建失败] "
+labels:
+  - build-failure
+body:
+  - type: input
+    id: package-name
+    attributes:
+      label: 包名
+      description: 请填写构建失败的字体包名。
+      placeholder: "例如：fooPackages.bar"
+    validations:
+      required: true
+
+  - type: textarea
+    id: nix-log
+    attributes:
+      label: nix log 输出
+      description: 请粘贴相关的 nix log 输出。
+      render: text
+      placeholder: |
+        $ nix log /nix/store/...-package.drv
+        ...
+    validations:
+      required: true
