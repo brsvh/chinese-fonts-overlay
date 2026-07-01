@@ -552,7 +552,7 @@ in
   yi_sample='ꆏꌠꀕꇬꉚꇁꉆ'
 
   usage() {
-    printf 'usage: %s\n' "$(basename -- "$0")" >&2
+    printf 'usage: %s [--override]\n' "$(basename -- "$0")" >&2
   }
 
   project_root() {
@@ -698,10 +698,20 @@ in
     [ "''${skipped_font_names[$key]+set}" = set ]
   }
 
-  if [ "$#" -ne 0 ]; then
-    usage
-    exit 2
-  fi
+  override=false
+
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --override)
+        override=true
+        shift
+        ;;
+      *)
+        usage
+        exit 2
+        ;;
+    esac
+  done
 
   output_dir=$(project_root)/font-preview-images
   mkdir -p "$output_dir"
@@ -717,6 +727,7 @@ in
     mkdir -p "$scope_dir"
 
     declare -A family_counts=()
+    declare -A image_counts=()
     font_paths=()
     font_names=()
     font_styles=()
@@ -748,12 +759,17 @@ in
       fi
 
       image=$scope_dir/$pname+$font_name.png
-      suffix=2
+      image_key=$pname+$font_name
+      image_count=''${image_counts[$image_key]:-0}
+      image_counts["$image_key"]=$((image_count + 1))
 
-      while [ -e "$image" ]; do
-        image=$scope_dir/$pname+$font_name-$suffix.png
-        suffix=$((suffix + 1))
-      done
+      if [ "$image_count" -gt 0 ]; then
+        image=$scope_dir/$pname+$font_name-$((image_count + 1)).png
+      fi
+
+      if [ "$override" = false ] && [ -e "$image" ]; then
+        continue
+      fi
 
       sample=$(choose_sample "$sample_key")
       temporary_image=$(mktemp "$scope_dir/.preview.XXXXXX.png")
