@@ -982,6 +982,25 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
+- `justfontPackages.elffont` - [精靈文 Elffont](https://ref.justfont.com/gRbXjtF)
+
+<p align="center">
+  <img
+    alt="elffont fern"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-elffont%2Belffont%20fern.png"
+  >
+  <br>
+  <sub>elffont fern</sub>
+  <br>
+  <img
+    alt="elffont rock"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/justfont/justfont-elffont%2Belffont%20rock.png"
+  >
+  <br>
+  <sub>elffont rock</sub>
+  <br>
+</p>
+
 - `justfontPackages.huninn` - [Huninn / 粉圓](https://github.com/justfont/Huninn)
 
 <p align="center">

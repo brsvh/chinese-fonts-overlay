@@ -91,6 +91,7 @@ let
 
     justfont = {
       justfont-abbrfesfont = "traditional-chinese";
+      justfont-elffont = "bopomofo";
       justfont-huninn = "traditional-chinese";
       justfont-snailfont = "english";
       justfont-type-jam = "traditional-chinese";
@@ -502,6 +503,7 @@ in
 
   export PATH=${makeBinPath fontPreviewRuntimePackages}
 
+  bopomofo_sample='ㄨㄛˇ ㄋㄥˊ ㄊㄨㄣ ㄒㄧㄚˋ ㄅㄛ ˙ㄌㄧ ㄦˊ ㄅㄨˋ ㄕㄤ ㄕㄣ ㄊㄧˇ'
   english_sample='I can eat glass, it does not hurt me'
   devanagari_sample='मैं काँच खा सकता हूँ, मुझे इससे चोट नहीं लगती'
   japanese_sample='私はガラスを食べられます。それは私を傷つけません。'
@@ -643,6 +645,9 @@ in
     local sample_key=$1
 
     case "$sample_key" in
+      bopomofo)
+        printf '%s\n' "$bopomofo_sample"
+        ;;
       english)
         printf '%s\n' "$english_sample"
         ;;
