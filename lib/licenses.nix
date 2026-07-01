@@ -66,6 +66,14 @@
     url = "https://www.foundertype.com/index.php/About/powerPer.html";
   };
 
+  justfont-snailfont-license = {
+    free = false;
+    fullName = "田文社與 justfont《螺體》字型授權規範";
+    redistributable = false;
+    shortName = "justfont-snailfont-license";
+    url = "https://github.com/justfont/Snailfont/blob/7c184e8045cbde5b39818717cc5042695ae01e17/LICENSE.txt";
+  };
+
   microsoft-software-license = {
     free = false;
     fullName = "Microsoft Software License Terms";
