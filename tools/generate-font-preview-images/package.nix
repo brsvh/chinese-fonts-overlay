@@ -100,6 +100,7 @@ let
       buttaiwan-genyogothic2-tc = "traditional-chinese";
       buttaiwan-genyogothic2-tw = "traditional-chinese";
       buttaiwan-genwanmin2-jp = "japanese";
+      buttaiwan-genwanmin2-pjp = "japanese";
     };
 
     dingtalk = {
