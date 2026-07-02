@@ -164,7 +164,7 @@ let
       microsoft-lucida-console = "english";
       microsoft-lucida-sans-unicode = "english";
       microsoft-malgun-gothic = "korean";
-      microsoft-marlett = "english";
+      microsoft-marlett = "marlett";
       microsoft-microsoft-himalaya = "tibetan";
       microsoft-microsoft-jhenghei = "traditional-chinese";
       microsoft-microsoft-new-tai-lue = "tai-lue";
@@ -183,23 +183,23 @@ let
       microsoft-noto-serif-sc = "simplified-chinese";
       microsoft-palatino-linotype = "english";
       microsoft-sans-serif-collection = "english";
-      microsoft-segoe-icons = "symbols";
+      microsoft-segoe-icons = "segoe-icons";
       microsoft-segoe-print = "english";
       microsoft-segoe-script = "english";
       microsoft-segoe-ui = "english";
-      microsoft-segoe-ui-symbols = "symbols";
+      microsoft-segoe-ui-symbols = "segoe-ui-symbols";
       microsoft-segoe-ui-variable = "english";
       microsoft-simhei = "simplified-chinese";
       microsoft-simsun = "simplified-chinese";
       microsoft-sitka = "english";
       microsoft-sylfaen = "english";
-      microsoft-symbol = "math";
+      microsoft-symbol = "symbol-legacy";
       microsoft-tahoma = "english";
       microsoft-times-new-roman = "english";
       microsoft-trebuchet-ms = "english";
       microsoft-verdana = "english";
-      microsoft-webdings = "english";
-      microsoft-wingdings = "english";
+      microsoft-webdings = "webdings";
+      microsoft-wingdings = "wingdings";
       microsoft-yu-gothic = "japanese";
     };
 
@@ -549,18 +549,26 @@ in
   japanese_sample='私はガラスを食べられます。それは私を傷つけません。'
   javanese_sample='Aku bisa mangan kaca tanpa lara'
   korean_sample='나는 유리를 먹을 수 있어요. 그래도 아프지 않아요.'
+  marlett_sample='E +, "#$% *:'
   math_sample='e^{iπ} + 1 = 0'
   mongolian_sample='ᠪᠢ ᠰᠢᠯᠢ ᠢᠳᠡᠶᠦ ᠴᠢᠳᠠᠨᠠ ᠂ ᠨᠠᠳᠤᠷ ᠬᠣᠤᠷᠠᠳᠠᠢ ᠪᠢᠰᠢ'
   myanmar_sample='ကျွန်တော် ကျွန်မ မှန်စားနိုင်တယ်။ ၎င်းကြောင့် ထိခိုက်မှုမရှိပါ။'
   phagspa_sample='ꡢꡡ ꡋꡦꡃ ꡉꡟꡋ ꡜꡠꡝ ꡎꡡ ꡙꡞ ꡝꡖꡞ ꡎꡟ ꡚꡏ ꡚꡞꡋ ꡉꡞ'
+  segoe_icons_sample=$'\uE726 \uE727 \uE814 \uE95E \uE930'
+  segoe_ui_emoji_sample='😋 🪟 → 🙂 ✅'
+  segoe_ui_historic_sample='𐌹 𐌺 𓀀 𓂀 𓏏'
+  segoe_ui_symbol_sample='☕ ◊ → ☺ ⚕ ✓'
   simplified_sample='我能吞下玻璃而不伤身体'
   symbols_sample='p → ¬q, p ∴ ¬q'
+  symbol_legacy_sample='abgde + pq = W'
   tai_le_sample='ᥐᥦᥝᥲ ᥐᥤᥢ ᥘᥭᥲ ᥕᥧᥱ, ᥟᥛᥱ ᥞᥥᥖᥱ ᥞᥬᥲ ᥖᥨᥝ ᥓᥥᥙᥲ'
   tai_lue_sample='ᦅᦵᦂᧁᧉ ᦂᦲᧃ ᦺᦡᧉ ᦢᧈ ᦵᦔᧃ ᦵᦈᧇ ᦎᦷᧅ'
   thai_sample='ฉันกินกระจกได้ แต่มันไม่ทำให้ฉันเจ็บ'
   tibetan_sample='ཤེལ་སྒོ་ཟ་ནས་ང་ན་གི་མ་རེད།'
   traditional_sample='我能吞下玻璃而不傷身體'
   vietnamese_sample='Tôi có thể ăn thủy tinh mà không hại gì.'
+  webdings_sample='m 4 c 4 d 4 a'
+  wingdings_sample='I E $ E B J C'
   yi_sample='ꉢꋤꇓꅝꇬꑌꇭꀧꀋꌸ'
 
   usage() {
@@ -683,6 +691,7 @@ in
 
   choose_sample() {
     local sample_key=$1
+    local font_name=''${2:-}
 
     case "$sample_key" in
       bopomofo)
@@ -703,6 +712,9 @@ in
       korean)
         printf '%s\n' "$korean_sample"
         ;;
+      marlett)
+        printf '%s\n' "$marlett_sample"
+        ;;
       math)
         printf '%s\n' "$math_sample"
         ;;
@@ -715,11 +727,30 @@ in
       phagspa)
         printf '%s\n' "$phagspa_sample"
         ;;
+      segoe-icons)
+        printf '%s\n' "$segoe_icons_sample"
+        ;;
+      segoe-ui-symbols)
+        case "$font_name" in
+          'Segoe UI Emoji')
+            printf '%s\n' "$segoe_ui_emoji_sample"
+            ;;
+          'Segoe UI Historic')
+            printf '%s\n' "$segoe_ui_historic_sample"
+            ;;
+          *)
+            printf '%s\n' "$segoe_ui_symbol_sample"
+            ;;
+        esac
+        ;;
       simplified-chinese)
         printf '%s\n' "$simplified_sample"
         ;;
       symbols)
         printf '%s\n' "$symbols_sample"
+        ;;
+      symbol-legacy)
+        printf '%s\n' "$symbol_legacy_sample"
         ;;
       tai-le)
         printf '%s\n' "$tai_le_sample"
@@ -741,6 +772,12 @@ in
         ;;
       vietnamese)
         printf '%s\n' "$vietnamese_sample"
+        ;;
+      webdings)
+        printf '%s\n' "$webdings_sample"
+        ;;
+      wingdings)
+        printf '%s\n' "$wingdings_sample"
         ;;
       yi)
         printf '%s\n' "$yi_sample"
@@ -951,7 +988,7 @@ in
         continue
       fi
 
-      sample=$(choose_sample "$sample_key")
+      sample=$(choose_sample "$sample_key" "$font_name")
       temporary_image=$(mktemp "$scope_dir/.preview.XXXXXX.png")
 
       render_with_magick "$font" "$temporary_image" "$sample"
