@@ -7484,6 +7484,47 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   <br>
 </p>
 
+- `buttaiwanPackages.genwanmin2-tw` -
+  [GenWanMin2 TW / 源雲明體月](https://github.com/ButTaiwan/genwan-font)
+
+<p align="center">
+  <img
+    alt="GenWanMin2 TW EL"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genwanmin2-tw%2BGenWanMin2%20TW%20EL.png"
+  >
+  <br>
+  <sub>GenWanMin2 TW EL</sub>
+  <br>
+  <img
+    alt="GenWanMin2 TW L"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genwanmin2-tw%2BGenWanMin2%20TW%20L.png"
+  >
+  <br>
+  <sub>GenWanMin2 TW L</sub>
+  <br>
+  <img
+    alt="GenWanMin2 TW R"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genwanmin2-tw%2BGenWanMin2%20TW%20R.png"
+  >
+  <br>
+  <sub>GenWanMin2 TW R</sub>
+  <br>
+  <img
+    alt="GenWanMin2 TW M"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genwanmin2-tw%2BGenWanMin2%20TW%20M.png"
+  >
+  <br>
+  <sub>GenWanMin2 TW M</sub>
+  <br>
+  <img
+    alt="GenWanMin2 TW SB"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genwanmin2-tw%2BGenWanMin2%20TW%20SB.png"
+  >
+  <br>
+  <sub>GenWanMin2 TW SB</sub>
+  <br>
+</p>
+
 ## AI 辅助声明
 
 本项目中的部分代码、测试和文档是在 AI 工具的辅助下开发的。所有 AI 生成的内容均经过维护者的审查，并在必要时进行了修改。维护者对最终内容负全部责任。未向
