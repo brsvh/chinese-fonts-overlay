@@ -761,10 +761,6 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
-> [!NOTE]
->
-> 当前缺少方正甲骨文字体，它同样是商用免费字体。
-
 #### 个人免费字体
 
 `foundertype-gpu-fonts` 提供方正字库的所有个人免费字体（包括商用免费字体）。
@@ -808,14 +804,6 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/foundertype/foundertype-fzshusong%2BFZShuSong-Z01.png"
   >
 </p>
-
-> [!NOTE]
->
-> 当前缺少这些字体，它们被标明为个人非商用免费字体。
->
-> - 方正字迹-青柠体
-> - 方正雕版宋
-> - 方正云流体
 
 #### 付费字体
 
