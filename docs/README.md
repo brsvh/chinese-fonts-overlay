@@ -7580,6 +7580,61 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   <br>
 </p>
 
+- `buttaiwanPackages.genryumin2-pjp` -
+  [GenRyuMin2 PJP / 源流明朝P](https://github.com/ButTaiwan/genryu-font)
+
+<p align="center">
+  <img
+    alt="GenRyuMin2 PJP EL"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genryumin2-pjp%2BGenRyuMin2%20PJP%20EL.png"
+  >
+  <br>
+  <sub>GenRyuMin2 PJP EL</sub>
+  <br>
+  <img
+    alt="GenRyuMin2 PJP L"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genryumin2-pjp%2BGenRyuMin2%20PJP%20L.png"
+  >
+  <br>
+  <sub>GenRyuMin2 PJP L</sub>
+  <br>
+  <img
+    alt="GenRyuMin2 PJP R"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genryumin2-pjp%2BGenRyuMin2%20PJP%20R.png"
+  >
+  <br>
+  <sub>GenRyuMin2 PJP R</sub>
+  <br>
+  <img
+    alt="GenRyuMin2 PJP M"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genryumin2-pjp%2BGenRyuMin2%20PJP%20M.png"
+  >
+  <br>
+  <sub>GenRyuMin2 PJP M</sub>
+  <br>
+  <img
+    alt="GenRyuMin2 PJP SB"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genryumin2-pjp%2BGenRyuMin2%20PJP%20SB.png"
+  >
+  <br>
+  <sub>GenRyuMin2 PJP SB</sub>
+  <br>
+  <img
+    alt="GenRyuMin2 PJP B"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genryumin2-pjp%2BGenRyuMin2%20PJP%20B.png"
+  >
+  <br>
+  <sub>GenRyuMin2 PJP B</sub>
+  <br>
+  <img
+    alt="GenRyuMin2 PJP H"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-genryumin2-pjp%2BGenRyuMin2%20PJP%20H.png"
+  >
+  <br>
+  <sub>GenRyuMin2 PJP H</sub>
+  <br>
+</p>
+
 ## AI 辅助声明
 
 本项目中的部分代码、测试和文档是在 AI 工具的辅助下开发的。所有 AI 生成的内容均经过维护者的审查，并在必要时进行了修改。维护者对最终内容负全部责任。未向
