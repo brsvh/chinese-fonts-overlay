@@ -7745,6 +7745,16 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   <br>
 </p>
 
+- `buttaiwanPackages.iansui` -
+  [Iansui / 芫荽](https://github.com/ButTaiwan/iansui)
+
+<p align="center">
+  <img
+    alt="Iansui"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/buttaiwan/buttaiwan-iansui%2BIansui.png"
+  >
+</p>
+
 ## AI 辅助声明
 
 本项目中的部分代码、测试和文档是在 AI 工具的辅助下开发的。所有 AI 生成的内容均经过维护者的审查，并在必要时进行了修改。维护者对最终内容负全部责任。未向
