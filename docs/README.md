@@ -6668,6 +6668,82 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   >
 </p>
 
+- `xiaomiPackages.misans-devanagari` -
+  [MiSans Devanagari](https://hyperos.mi.com/font/zh/details/devanagari)
+
+<p align="center">
+  <img
+    alt="MiSans Devanagari Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-devanagari%2BMiSans%20Devanagari%20Thin.png"
+  >
+  <br>
+  <sub>MiSans Devanagari Thin</sub>
+  <br>
+  <img
+    alt="MiSans Devanagari ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-devanagari%2BMiSans%20Devanagari%20ExtraLight.png"
+  >
+  <br>
+  <sub>MiSans Devanagari ExtraLight</sub>
+  <br>
+  <img
+    alt="MiSans Devanagari Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-devanagari%2BMiSans%20Devanagari%20Light.png"
+  >
+  <br>
+  <sub>MiSans Devanagari Light</sub>
+  <br>
+  <img
+    alt="MiSans Devanagari Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-devanagari%2BMiSans%20Devanagari%20Regular.png"
+  >
+  <br>
+  <sub>MiSans Devanagari Regular</sub>
+  <br>
+  <img
+    alt="MiSans Devanagari Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-devanagari%2BMiSans%20Devanagari%20Normal.png"
+  >
+  <br>
+  <sub>MiSans Devanagari Normal</sub>
+  <br>
+  <img
+    alt="MiSans Devanagari Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-devanagari%2BMiSans%20Devanagari%20Medium.png"
+  >
+  <br>
+  <sub>MiSans Devanagari Medium</sub>
+  <br>
+  <img
+    alt="MiSans Devanagari Demibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-devanagari%2BMiSans%20Devanagari%20Demibold.png"
+  >
+  <br>
+  <sub>MiSans Devanagari Demibold</sub>
+  <br>
+  <img
+    alt="MiSans Devanagari Semibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-devanagari%2BMiSans%20Devanagari%20Semibold.png"
+  >
+  <br>
+  <sub>MiSans Devanagari Semibold</sub>
+  <br>
+  <img
+    alt="MiSans Devanagari Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-devanagari%2BMiSans%20Devanagari%20Bold.png"
+  >
+  <br>
+  <sub>MiSans Devanagari Bold</sub>
+  <br>
+  <img
+    alt="MiSans Devanagari Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-devanagari%2BMiSans%20Devanagari%20Heavy.png"
+  >
+  <br>
+  <sub>MiSans Devanagari Heavy</sub>
+  <br>
+</p>
+
 ### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
 
 > [!TIP]
