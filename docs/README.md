@@ -6218,6 +6218,16 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   <br>
 </p>
 
+- `xiaomiPackages.misans-vf` -
+  [MiSans VF](https://hyperos.mi.com/font/zh/details/sc)
+
+<p align="center">
+  <img
+    alt="MiSans VF"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-vf%2BMiSans%20VF.png"
+  >
+</p>
+
 ### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
 
 > [!TIP]
