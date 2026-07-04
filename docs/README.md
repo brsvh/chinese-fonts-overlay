@@ -6410,6 +6410,82 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   >
 </p>
 
+- `xiaomiPackages.misans-tibetan` -
+  [MiSans Tibetan](https://hyperos.mi.com/font/zh/details/tibetan)
+
+<p align="center">
+  <img
+    alt="MiSans Tibetan Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tibetan%2BMiSans%20Tibetan%20Thin.png"
+  >
+  <br>
+  <sub>MiSans Tibetan Thin</sub>
+  <br>
+  <img
+    alt="MiSans Tibetan ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tibetan%2BMiSans%20Tibetan%20ExtraLight.png"
+  >
+  <br>
+  <sub>MiSans Tibetan ExtraLight</sub>
+  <br>
+  <img
+    alt="MiSans Tibetan Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tibetan%2BMiSans%20Tibetan%20Light.png"
+  >
+  <br>
+  <sub>MiSans Tibetan Light</sub>
+  <br>
+  <img
+    alt="MiSans Tibetan Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tibetan%2BMiSans%20Tibetan%20Regular.png"
+  >
+  <br>
+  <sub>MiSans Tibetan Regular</sub>
+  <br>
+  <img
+    alt="MiSans Tibetan Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tibetan%2BMiSans%20Tibetan%20Normal.png"
+  >
+  <br>
+  <sub>MiSans Tibetan Normal</sub>
+  <br>
+  <img
+    alt="MiSans Tibetan Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tibetan%2BMiSans%20Tibetan%20Medium.png"
+  >
+  <br>
+  <sub>MiSans Tibetan Medium</sub>
+  <br>
+  <img
+    alt="MiSans Tibetan Demibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tibetan%2BMiSans%20Tibetan%20Demibold.png"
+  >
+  <br>
+  <sub>MiSans Tibetan Demibold</sub>
+  <br>
+  <img
+    alt="MiSans Tibetan Semibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tibetan%2BMiSans%20Tibetan%20Semibold.png"
+  >
+  <br>
+  <sub>MiSans Tibetan Semibold</sub>
+  <br>
+  <img
+    alt="MiSans Tibetan Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tibetan%2BMiSans%20Tibetan%20Bold.png"
+  >
+  <br>
+  <sub>MiSans Tibetan Bold</sub>
+  <br>
+  <img
+    alt="MiSans Tibetan Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tibetan%2BMiSans%20Tibetan%20Heavy.png"
+  >
+  <br>
+  <sub>MiSans Tibetan Heavy</sub>
+  <br>
+</p>
+
 ### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
 
 > [!TIP]
