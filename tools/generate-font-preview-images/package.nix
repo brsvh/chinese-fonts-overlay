@@ -453,6 +453,7 @@ let
       misans-gurmukhi = "gurmukhi";
       misans-gurmukhi-vf = "gurmukhi";
       misans-gujarati = "gujarati";
+      misans-gujarati-vf = "gujarati";
       misans = "simplified-chinese";
       misans-khmer = "khmer";
       misans-khmer-vf = "khmer";

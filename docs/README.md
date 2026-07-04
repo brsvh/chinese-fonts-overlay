@@ -6916,6 +6916,16 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   <br>
 </p>
 
+- `xiaomiPackages.misans-gujarati-vf` -
+  [MiSans Gujarati VF](https://hyperos.mi.com/font/zh/details/gujarati)
+
+<p align="center">
+  <img
+    alt="MiSans Gujarati VF"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gujarati-vf%2BMiSans%20Gujarati%20VF.png"
+  >
+</p>
+
 - `xiaomiPackages.misans-thai` -
   [MiSans Thai](https://hyperos.mi.com/font/zh/details/thai)
 
