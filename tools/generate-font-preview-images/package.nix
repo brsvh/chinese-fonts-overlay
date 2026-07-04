@@ -450,6 +450,7 @@ let
       misans-latin-vf = "english";
       misans-tc = "traditional-chinese";
       misans-tc-vf = "traditional-chinese";
+      misans-tibetan = "tibetan";
       misans-vf = "simplified-chinese";
     };
   };
