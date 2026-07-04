@@ -447,6 +447,7 @@ let
       misans = "simplified-chinese";
       misans-latin = "english";
       misans-latin-vf = "english";
+      misans-tc = "traditional-chinese";
       misans-vf = "simplified-chinese";
     };
   };
