@@ -458,6 +458,7 @@ let
       misans-lao-vf = "lao";
       misans-latin = "english";
       misans-latin-vf = "english";
+      misans-myanmar = "myanmar";
       misans-tc = "traditional-chinese";
       misans-tc-vf = "traditional-chinese";
       misans-thai = "thai";

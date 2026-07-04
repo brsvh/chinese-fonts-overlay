@@ -7012,6 +7012,82 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   >
 </p>
 
+- `xiaomiPackages.misans-myanmar` -
+  [MiSans Myanmar](https://hyperos.mi.com/font/zh/details/myanmar)
+
+<p align="center">
+  <img
+    alt="MiSans Myanmar Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-myanmar%2BMiSans%20Myanmar%20Thin.png"
+  >
+  <br>
+  <sub>MiSans Myanmar Thin</sub>
+  <br>
+  <img
+    alt="MiSans Myanmar ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-myanmar%2BMiSans%20Myanmar%20ExtraLight.png"
+  >
+  <br>
+  <sub>MiSans Myanmar ExtraLight</sub>
+  <br>
+  <img
+    alt="MiSans Myanmar Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-myanmar%2BMiSans%20Myanmar%20Light.png"
+  >
+  <br>
+  <sub>MiSans Myanmar Light</sub>
+  <br>
+  <img
+    alt="MiSans Myanmar Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-myanmar%2BMiSans%20Myanmar%20Regular.png"
+  >
+  <br>
+  <sub>MiSans Myanmar Regular</sub>
+  <br>
+  <img
+    alt="MiSans Myanmar Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-myanmar%2BMiSans%20Myanmar%20Normal.png"
+  >
+  <br>
+  <sub>MiSans Myanmar Normal</sub>
+  <br>
+  <img
+    alt="MiSans Myanmar Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-myanmar%2BMiSans%20Myanmar%20Medium.png"
+  >
+  <br>
+  <sub>MiSans Myanmar Medium</sub>
+  <br>
+  <img
+    alt="MiSans Myanmar Demibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-myanmar%2BMiSans%20Myanmar%20Demibold.png"
+  >
+  <br>
+  <sub>MiSans Myanmar Demibold</sub>
+  <br>
+  <img
+    alt="MiSans Myanmar SemiBold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-myanmar%2BMiSans%20Myanmar%20SemiBold.png"
+  >
+  <br>
+  <sub>MiSans Myanmar SemiBold</sub>
+  <br>
+  <img
+    alt="MiSans Myanmar Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-myanmar%2BMiSans%20Myanmar%20Bold.png"
+  >
+  <br>
+  <sub>MiSans Myanmar Bold</sub>
+  <br>
+  <img
+    alt="MiSans Myanmar Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-myanmar%2BMiSans%20Myanmar%20Heavy.png"
+  >
+  <br>
+  <sub>MiSans Myanmar Heavy</sub>
+  <br>
+</p>
+
 ### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
 
 > [!TIP]
