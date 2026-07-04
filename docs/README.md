@@ -6228,6 +6228,82 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   >
 </p>
 
+- `xiaomiPackages.misans-latin` -
+  [MiSans Latin](https://hyperos.mi.com/font/zh/details/latin)
+
+<p align="center">
+  <img
+    alt="MiSans Latin Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-latin%2BMiSans%20Latin%20Thin.png"
+  >
+  <br>
+  <sub>MiSans Latin Thin</sub>
+  <br>
+  <img
+    alt="MiSans Latin ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-latin%2BMiSans%20Latin%20ExtraLight.png"
+  >
+  <br>
+  <sub>MiSans Latin ExtraLight</sub>
+  <br>
+  <img
+    alt="MiSans Latin Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-latin%2BMiSans%20Latin%20Light.png"
+  >
+  <br>
+  <sub>MiSans Latin Light</sub>
+  <br>
+  <img
+    alt="MiSans Latin Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-latin%2BMiSans%20Latin%20Regular.png"
+  >
+  <br>
+  <sub>MiSans Latin Regular</sub>
+  <br>
+  <img
+    alt="MiSans Latin Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-latin%2BMiSans%20Latin%20Normal.png"
+  >
+  <br>
+  <sub>MiSans Latin Normal</sub>
+  <br>
+  <img
+    alt="MiSans Latin Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-latin%2BMiSans%20Latin%20Medium.png"
+  >
+  <br>
+  <sub>MiSans Latin Medium</sub>
+  <br>
+  <img
+    alt="MiSans Latin Demibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-latin%2BMiSans%20Latin%20Demibold.png"
+  >
+  <br>
+  <sub>MiSans Latin Demibold</sub>
+  <br>
+  <img
+    alt="MiSans Latin Semibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-latin%2BMiSans%20Latin%20Semibold.png"
+  >
+  <br>
+  <sub>MiSans Latin Semibold</sub>
+  <br>
+  <img
+    alt="MiSans Latin Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-latin%2BMiSans%20Latin%20Bold.png"
+  >
+  <br>
+  <sub>MiSans Latin Bold</sub>
+  <br>
+  <img
+    alt="MiSans Latin Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-latin%2BMiSans%20Latin%20Heavy.png"
+  >
+  <br>
+  <sub>MiSans Latin Heavy</sub>
+  <br>
+</p>
+
 ### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
 
 > [!TIP]
