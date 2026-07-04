@@ -459,6 +459,7 @@ let
       misans-tc = "traditional-chinese";
       misans-tc-vf = "traditional-chinese";
       misans-thai = "thai";
+      misans-thai-vf = "thai";
       misans-tibetan = "tibetan";
       misans-tibetan-vf = "tibetan";
       misans-vf = "simplified-chinese";
