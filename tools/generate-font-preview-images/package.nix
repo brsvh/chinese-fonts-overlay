@@ -446,6 +446,7 @@ let
     xiaomi = {
       misans-arabic = "arabic";
       misans-arabic-vf = "arabic";
+      misans-arabic-ui = "arabic";
       misans = "simplified-chinese";
       misans-l3 = "rare-chinese";
       misans-latin = "english";
