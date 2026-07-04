@@ -445,6 +445,7 @@ let
 
     xiaomi = {
       misans = "simplified-chinese";
+      misans-l3 = "rare-chinese";
       misans-latin = "english";
       misans-latin-vf = "english";
       misans-tc = "traditional-chinese";
@@ -565,6 +566,7 @@ in
   mongolian_sample='ᠪᠢ ᠰᠢᠯᠢ ᠢᠳᠡᠶᠦ ᠴᠢᠳᠠᠨᠠ ᠂ ᠨᠠᠳᠤᠷ ᠬᠣᠤᠷᠠᠳᠠᠢ ᠪᠢᠰᠢ'
   myanmar_sample='ကျွန်တော် ကျွန်မ မှန်စားနိုင်တယ်။ ၎င်းကြောင့် ထိခိုက်မှုမရှိပါ။'
   phagspa_sample='ꡢꡡ ꡋꡦꡃ ꡉꡟꡋ ꡜꡠꡝ ꡎꡡ ꡙꡞ ꡝꡖꡞ ꡎꡟ ꡚꡏ ꡚꡞꡋ ꡉꡞ'
+  rare_chinese_sample='𫗦𤥗 𭴊𢦏𦝡'
   segoe_icons_sample=$'\uE726 \uE727 \uE814 \uE95E \uE930'
   segoe_ui_emoji_sample='😋 🪟 → 🙂 ✅'
   segoe_ui_historic_sample='𐌹 𐌺 𓀀 𓂀 𓏏'
@@ -737,6 +739,9 @@ in
         ;;
       phagspa)
         printf '%s\n' "$phagspa_sample"
+        ;;
+      rare-chinese)
+        printf '%s\n' "$rare_chinese_sample"
         ;;
       segoe-icons)
         printf '%s\n' "$segoe_icons_sample"
