@@ -6582,6 +6582,82 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   >
 </p>
 
+- `xiaomiPackages.misans-arabic-ui` -
+  [MiSans Arabic UI](https://hyperos.mi.com/font/zh/details/arabic)
+
+<p align="center">
+  <img
+    alt="MiSans Arabic UI Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-arabic-ui%2BMiSans%20Arabic%20UI%20Thin.png"
+  >
+  <br>
+  <sub>MiSans Arabic UI Thin</sub>
+  <br>
+  <img
+    alt="MiSans Arabic UI ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-arabic-ui%2BMiSans%20Arabic%20UI%20ExtraLight.png"
+  >
+  <br>
+  <sub>MiSans Arabic UI ExtraLight</sub>
+  <br>
+  <img
+    alt="MiSans Arabic UI Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-arabic-ui%2BMiSans%20Arabic%20UI%20Light.png"
+  >
+  <br>
+  <sub>MiSans Arabic UI Light</sub>
+  <br>
+  <img
+    alt="MiSans Arabic UI Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-arabic-ui%2BMiSans%20Arabic%20UI%20Regular.png"
+  >
+  <br>
+  <sub>MiSans Arabic UI Regular</sub>
+  <br>
+  <img
+    alt="MiSans Arabic UI Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-arabic-ui%2BMiSans%20Arabic%20UI%20Normal.png"
+  >
+  <br>
+  <sub>MiSans Arabic UI Normal</sub>
+  <br>
+  <img
+    alt="MiSans Arabic UI Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-arabic-ui%2BMiSans%20Arabic%20UI%20Medium.png"
+  >
+  <br>
+  <sub>MiSans Arabic UI Medium</sub>
+  <br>
+  <img
+    alt="MiSans Arabic UI Demibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-arabic-ui%2BMiSans%20Arabic%20UI%20Demibold.png"
+  >
+  <br>
+  <sub>MiSans Arabic UI Demibold</sub>
+  <br>
+  <img
+    alt="MiSans Arabic UI Semibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-arabic-ui%2BMiSans%20Arabic%20UI%20Semibold.png"
+  >
+  <br>
+  <sub>MiSans Arabic UI Semibold</sub>
+  <br>
+  <img
+    alt="MiSans Arabic UI Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-arabic-ui%2BMiSans%20Arabic%20UI%20Bold.png"
+  >
+  <br>
+  <sub>MiSans Arabic UI Bold</sub>
+  <br>
+  <img
+    alt="MiSans Arabic UI Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-arabic-ui%2BMiSans%20Arabic%20UI%20Heavy.png"
+  >
+  <br>
+  <sub>MiSans Arabic UI Heavy</sub>
+  <br>
+</p>
+
 ### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
 
 > [!TIP]
