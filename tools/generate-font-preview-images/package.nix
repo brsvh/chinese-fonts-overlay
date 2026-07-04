@@ -451,6 +451,7 @@ let
       misans-devanagari = "devanagari";
       misans-devanagari-vf = "devanagari";
       misans-gurmukhi = "gurmukhi";
+      misans-gurmukhi-vf = "gurmukhi";
       misans = "simplified-chinese";
       misans-l3 = "rare-chinese";
       misans-latin = "english";
