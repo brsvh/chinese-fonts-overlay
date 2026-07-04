@@ -296,6 +296,24 @@ let
 
       combine' = link packages;
     };
+
+  xiaomiPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/xiaomi;
+      };
+    in
+    packages
+    // {
+      combine = link packages "xiaomi-fonts";
+
+      combine' = link packages;
+    };
 in
 {
   inherit
@@ -311,6 +329,7 @@ in
     tianhengPackages
     trionestypePackages
     tsangertypePackages
+    xiaomiPackages
     ;
 
   alibaba-fonts =
@@ -540,6 +559,10 @@ in
           || (license == tsangertype-font-license)
         )
       );
+
+  xiaomi-fonts =
+    xiaomiPackages.combine' "xiaomi-fonts"
+      (_: true);
 
   tsangertypeFonts = {
     aidekunkun = throw ''
