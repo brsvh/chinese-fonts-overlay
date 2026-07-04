@@ -448,6 +448,7 @@ let
       misans-arabic-vf = "arabic";
       misans-arabic-ui = "arabic";
       misans-arabic-ui-vf = "arabic";
+      misans-devanagari = "devanagari";
       misans = "simplified-chinese";
       misans-l3 = "rare-chinese";
       misans-latin = "english";
