@@ -455,6 +455,7 @@ let
       misans = "simplified-chinese";
       misans-l3 = "rare-chinese";
       misans-lao = "lao";
+      misans-lao-vf = "lao";
       misans-latin = "english";
       misans-latin-vf = "english";
       misans-tc = "traditional-chinese";
