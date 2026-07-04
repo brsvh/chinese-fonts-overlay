@@ -452,6 +452,7 @@ let
       misans-devanagari-vf = "devanagari";
       misans-gurmukhi = "gurmukhi";
       misans-gurmukhi-vf = "gurmukhi";
+      misans-gujarati = "gujarati";
       misans = "simplified-chinese";
       misans-khmer = "khmer";
       misans-khmer-vf = "khmer";
@@ -578,6 +579,7 @@ in
   english_sample='I can eat glass, it does not hurt me'
   devanagari_sample='मैं काँच खा सकता हूँ, मुझे इससे चोट नहीं लगती'
   gurmukhi_sample='ਮੈਂ ਕੱਚ ਖਾ ਸਕਦਾ ਹਾਂ, ਮੈਨੂੰ ਇਸ ਨਾਲ ਸੱਟ ਨਹੀਂ ਲੱਗਦੀ'
+  gujarati_sample='હું કાચ ખાઈ શકું છું, તે મને ઈજા કરતું નથી'
   japanese_sample='私はガラスを食べられます。それは私を傷つけません。'
   javanese_sample='Aku bisa mangan kaca tanpa lara'
   khmer_sample='ខ្ញុំអាចញ៉ាំកញ្ចក់បាន វាមិនធ្វើឲ្យខ្ញុំឈឺទេ'
@@ -743,6 +745,9 @@ in
         ;;
       gurmukhi)
         printf '%s\n' "$gurmukhi_sample"
+        ;;
+      gujarati)
+        printf '%s\n' "$gujarati_sample"
         ;;
       japanese)
         printf '%s\n' "$japanese_sample"

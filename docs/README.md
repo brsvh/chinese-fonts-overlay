@@ -6840,6 +6840,82 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   >
 </p>
 
+- `xiaomiPackages.misans-gujarati` -
+  [MiSans Gujarati](https://hyperos.mi.com/font/zh/details/gujarati)
+
+<p align="center">
+  <img
+    alt="MiSans Gujarati Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gujarati%2BMiSans%20Gujarati%20Thin.png"
+  >
+  <br>
+  <sub>MiSans Gujarati Thin</sub>
+  <br>
+  <img
+    alt="MiSans Gujarati ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gujarati%2BMiSans%20Gujarati%20ExtraLight.png"
+  >
+  <br>
+  <sub>MiSans Gujarati ExtraLight</sub>
+  <br>
+  <img
+    alt="MiSans Gujarati Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gujarati%2BMiSans%20Gujarati%20Light.png"
+  >
+  <br>
+  <sub>MiSans Gujarati Light</sub>
+  <br>
+  <img
+    alt="MiSans Gujarati Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gujarati%2BMiSans%20Gujarati%20Regular.png"
+  >
+  <br>
+  <sub>MiSans Gujarati Regular</sub>
+  <br>
+  <img
+    alt="MiSans Gujarati Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gujarati%2BMiSans%20Gujarati%20Normal.png"
+  >
+  <br>
+  <sub>MiSans Gujarati Normal</sub>
+  <br>
+  <img
+    alt="MiSans Gujarati Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gujarati%2BMiSans%20Gujarati%20Medium.png"
+  >
+  <br>
+  <sub>MiSans Gujarati Medium</sub>
+  <br>
+  <img
+    alt="MiSans Gujarati Demibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gujarati%2BMiSans%20Gujarati%20Demibold.png"
+  >
+  <br>
+  <sub>MiSans Gujarati Demibold</sub>
+  <br>
+  <img
+    alt="MiSans Gujarati Semibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gujarati%2BMiSans%20Gujarati%20Semibold.png"
+  >
+  <br>
+  <sub>MiSans Gujarati Semibold</sub>
+  <br>
+  <img
+    alt="MiSans Gujarati Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gujarati%2BMiSans%20Gujarati%20Bold.png"
+  >
+  <br>
+  <sub>MiSans Gujarati Bold</sub>
+  <br>
+  <img
+    alt="MiSans Gujarati Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gujarati%2BMiSans%20Gujarati%20Heavy.png"
+  >
+  <br>
+  <sub>MiSans Gujarati Heavy</sub>
+  <br>
+</p>
+
 - `xiaomiPackages.misans-thai` -
   [MiSans Thai](https://hyperos.mi.com/font/zh/details/thai)
 
