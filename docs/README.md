@@ -6926,6 +6926,82 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   >
 </p>
 
+- `xiaomiPackages.misans-lao` -
+  [MiSans Lao](https://hyperos.mi.com/font/zh/details/lao)
+
+<p align="center">
+  <img
+    alt="MiSans Lao Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-lao%2BMiSans%20Lao%20Thin.png"
+  >
+  <br>
+  <sub>MiSans Lao Thin</sub>
+  <br>
+  <img
+    alt="MiSans Lao ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-lao%2BMiSans%20Lao%20ExtraLight.png"
+  >
+  <br>
+  <sub>MiSans Lao ExtraLight</sub>
+  <br>
+  <img
+    alt="MiSans Lao Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-lao%2BMiSans%20Lao%20Light.png"
+  >
+  <br>
+  <sub>MiSans Lao Light</sub>
+  <br>
+  <img
+    alt="MiSans Lao Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-lao%2BMiSans%20Lao%20Regular.png"
+  >
+  <br>
+  <sub>MiSans Lao Regular</sub>
+  <br>
+  <img
+    alt="MiSans Lao Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-lao%2BMiSans%20Lao%20Normal.png"
+  >
+  <br>
+  <sub>MiSans Lao Normal</sub>
+  <br>
+  <img
+    alt="MiSans Lao Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-lao%2BMiSans%20Lao%20Medium.png"
+  >
+  <br>
+  <sub>MiSans Lao Medium</sub>
+  <br>
+  <img
+    alt="MiSans Lao Demibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-lao%2BMiSans%20Lao%20Demibold.png"
+  >
+  <br>
+  <sub>MiSans Lao Demibold</sub>
+  <br>
+  <img
+    alt="MiSans Lao Semibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-lao%2BMiSans%20Lao%20Semibold.png"
+  >
+  <br>
+  <sub>MiSans Lao Semibold</sub>
+  <br>
+  <img
+    alt="MiSans Lao Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-lao%2BMiSans%20Lao%20Bold.png"
+  >
+  <br>
+  <sub>MiSans Lao Bold</sub>
+  <br>
+  <img
+    alt="MiSans Lao Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-lao%2BMiSans%20Lao%20Heavy.png"
+  >
+  <br>
+  <sub>MiSans Lao Heavy</sub>
+  <br>
+</p>
+
 ### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
 
 > [!TIP]

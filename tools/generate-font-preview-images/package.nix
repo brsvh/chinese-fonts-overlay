@@ -454,6 +454,7 @@ let
       misans-gurmukhi-vf = "gurmukhi";
       misans = "simplified-chinese";
       misans-l3 = "rare-chinese";
+      misans-lao = "lao";
       misans-latin = "english";
       misans-latin-vf = "english";
       misans-tc = "traditional-chinese";
@@ -575,6 +576,7 @@ in
   japanese_sample='私はガラスを食べられます。それは私を傷つけません。'
   javanese_sample='Aku bisa mangan kaca tanpa lara'
   korean_sample='나는 유리를 먹을 수 있어요. 그래도 아프지 않아요.'
+  lao_sample='ຂ້ອຍກິນແກ້ວໄດ້ ມັນບໍ່ເຮັດໃຫ້ຂ້ອຍເຈັບ'
   marlett_sample='E +, "#$% *:'
   math_sample='e^{iπ} + 1 = 0'
   mongolian_sample='ᠪᠢ ᠰᠢᠯᠢ ᠢᠳᠡᠶᠦ ᠴᠢᠳᠠᠨᠠ ᠂ ᠨᠠᠳᠤᠷ ᠬᠣᠤᠷᠠᠳᠠᠢ ᠪᠢᠰᠢ'
@@ -744,6 +746,9 @@ in
         ;;
       korean)
         printf '%s\n' "$korean_sample"
+        ;;
+      lao)
+        printf '%s\n' "$lao_sample"
         ;;
       marlett)
         printf '%s\n' "$marlett_sample"
