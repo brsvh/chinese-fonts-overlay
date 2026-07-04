@@ -445,6 +445,7 @@ let
 
     xiaomi = {
       misans = "simplified-chinese";
+      misans-latin = "english";
       misans-vf = "simplified-chinese";
     };
   };
