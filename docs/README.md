@@ -7098,6 +7098,82 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   >
 </p>
 
+- `xiaomiPackages.misans-khmer` -
+  [MiSans Khmer](https://hyperos.mi.com/font/zh/details/khmer)
+
+<p align="center">
+  <img
+    alt="MiSans Khmer Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-khmer%2BMiSans%20Khmer%20Thin.png"
+  >
+  <br>
+  <sub>MiSans Khmer Thin</sub>
+  <br>
+  <img
+    alt="MiSans Khmer ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-khmer%2BMiSans%20Khmer%20ExtraLight.png"
+  >
+  <br>
+  <sub>MiSans Khmer ExtraLight</sub>
+  <br>
+  <img
+    alt="MiSans Khmer Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-khmer%2BMiSans%20Khmer%20Light.png"
+  >
+  <br>
+  <sub>MiSans Khmer Light</sub>
+  <br>
+  <img
+    alt="MiSans Khmer Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-khmer%2BMiSans%20Khmer%20Regular.png"
+  >
+  <br>
+  <sub>MiSans Khmer Regular</sub>
+  <br>
+  <img
+    alt="MiSans Khmer Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-khmer%2BMiSans%20Khmer%20Normal.png"
+  >
+  <br>
+  <sub>MiSans Khmer Normal</sub>
+  <br>
+  <img
+    alt="MiSans Khmer Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-khmer%2BMiSans%20Khmer%20Medium.png"
+  >
+  <br>
+  <sub>MiSans Khmer Medium</sub>
+  <br>
+  <img
+    alt="MiSans Khmer Demibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-khmer%2BMiSans%20Khmer%20Demibold.png"
+  >
+  <br>
+  <sub>MiSans Khmer Demibold</sub>
+  <br>
+  <img
+    alt="MiSans Khmer Semibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-khmer%2BMiSans%20Khmer%20Semibold.png"
+  >
+  <br>
+  <sub>MiSans Khmer Semibold</sub>
+  <br>
+  <img
+    alt="MiSans Khmer Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-khmer%2BMiSans%20Khmer%20Bold.png"
+  >
+  <br>
+  <sub>MiSans Khmer Bold</sub>
+  <br>
+  <img
+    alt="MiSans Khmer Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-khmer%2BMiSans%20Khmer%20Heavy.png"
+  >
+  <br>
+  <sub>MiSans Khmer Heavy</sub>
+  <br>
+</p>
+
 ### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
 
 > [!TIP]

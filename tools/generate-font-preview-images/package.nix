@@ -453,6 +453,7 @@ let
       misans-gurmukhi = "gurmukhi";
       misans-gurmukhi-vf = "gurmukhi";
       misans = "simplified-chinese";
+      misans-khmer = "khmer";
       misans-l3 = "rare-chinese";
       misans-lao = "lao";
       misans-lao-vf = "lao";
@@ -578,6 +579,7 @@ in
   gurmukhi_sample='ਮੈਂ ਕੱਚ ਖਾ ਸਕਦਾ ਹਾਂ, ਮੈਨੂੰ ਇਸ ਨਾਲ ਸੱਟ ਨਹੀਂ ਲੱਗਦੀ'
   japanese_sample='私はガラスを食べられます。それは私を傷つけません。'
   javanese_sample='Aku bisa mangan kaca tanpa lara'
+  khmer_sample='ខ្ញុំអាចញ៉ាំកញ្ចក់បាន វាមិនធ្វើឲ្យខ្ញុំឈឺទេ'
   korean_sample='나는 유리를 먹을 수 있어요. 그래도 아프지 않아요.'
   lao_sample='ຂ້ອຍກິນແກ້ວໄດ້ ມັນບໍ່ເຮັດໃຫ້ຂ້ອຍເຈັບ'
   marlett_sample='E +, "#$% *:'
@@ -746,6 +748,9 @@ in
         ;;
       javanese)
         printf '%s\n' "$javanese_sample"
+        ;;
+      khmer)
+        printf '%s\n' "$khmer_sample"
         ;;
       korean)
         printf '%s\n' "$korean_sample"
