@@ -6754,6 +6754,82 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   >
 </p>
 
+- `xiaomiPackages.misans-gurmukhi` -
+  [MiSans Gurmukhi](https://hyperos.mi.com/font/zh/details/gurmukhi)
+
+<p align="center">
+  <img
+    alt="MiSans Gurmukhi Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gurmukhi%2BMiSans%20Gurmukhi%20Thin.png"
+  >
+  <br>
+  <sub>MiSans Gurmukhi Thin</sub>
+  <br>
+  <img
+    alt="MiSans Gurmukhi ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gurmukhi%2BMiSans%20Gurmukhi%20ExtraLight.png"
+  >
+  <br>
+  <sub>MiSans Gurmukhi ExtraLight</sub>
+  <br>
+  <img
+    alt="MiSans Gurmukhi Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gurmukhi%2BMiSans%20Gurmukhi%20Light.png"
+  >
+  <br>
+  <sub>MiSans Gurmukhi Light</sub>
+  <br>
+  <img
+    alt="MiSans Gurmukhi Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gurmukhi%2BMiSans%20Gurmukhi%20Regular.png"
+  >
+  <br>
+  <sub>MiSans Gurmukhi Regular</sub>
+  <br>
+  <img
+    alt="MiSans Gurmukhi Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gurmukhi%2BMiSans%20Gurmukhi%20Normal.png"
+  >
+  <br>
+  <sub>MiSans Gurmukhi Normal</sub>
+  <br>
+  <img
+    alt="MiSans Gurmukhi Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gurmukhi%2BMiSans%20Gurmukhi%20Medium.png"
+  >
+  <br>
+  <sub>MiSans Gurmukhi Medium</sub>
+  <br>
+  <img
+    alt="MiSans Gurmukhi Demibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gurmukhi%2BMiSans%20Gurmukhi%20Demibold.png"
+  >
+  <br>
+  <sub>MiSans Gurmukhi Demibold</sub>
+  <br>
+  <img
+    alt="MiSans Gurmukhi Semibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gurmukhi%2BMiSans%20Gurmukhi%20Semibold.png"
+  >
+  <br>
+  <sub>MiSans Gurmukhi Semibold</sub>
+  <br>
+  <img
+    alt="MiSans Gurmukhi Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gurmukhi%2BMiSans%20Gurmukhi%20Bold.png"
+  >
+  <br>
+  <sub>MiSans Gurmukhi Bold</sub>
+  <br>
+  <img
+    alt="MiSans Gurmukhi Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-gurmukhi%2BMiSans%20Gurmukhi%20Heavy.png"
+  >
+  <br>
+  <sub>MiSans Gurmukhi Heavy</sub>
+  <br>
+</p>
+
 ### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
 
 > [!TIP]
