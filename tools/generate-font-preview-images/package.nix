@@ -450,6 +450,7 @@ let
       misans-arabic-ui-vf = "arabic";
       misans-devanagari = "devanagari";
       misans-devanagari-vf = "devanagari";
+      misans-gurmukhi = "gurmukhi";
       misans = "simplified-chinese";
       misans-l3 = "rare-chinese";
       misans-latin = "english";
@@ -567,6 +568,7 @@ in
   bopomofo_sample='ㄨㄛˇ ㄋㄥˊ ㄊㄨㄣ ㄒㄧㄚˋ ㄅㄛ ˙ㄌㄧ ㄦˊ ㄅㄨˋ ㄕㄤ ㄕㄣ ㄊㄧˇ'
   english_sample='I can eat glass, it does not hurt me'
   devanagari_sample='मैं काँच खा सकता हूँ, मुझे इससे चोट नहीं लगती'
+  gurmukhi_sample='ਮੈਂ ਕੱਚ ਖਾ ਸਕਦਾ ਹਾਂ, ਮੈਨੂੰ ਇਸ ਨਾਲ ਸੱਟ ਨਹੀਂ ਲੱਗਦੀ'
   japanese_sample='私はガラスを食べられます。それは私を傷つけません。'
   javanese_sample='Aku bisa mangan kaca tanpa lara'
   korean_sample='나는 유리를 먹을 수 있어요. 그래도 아프지 않아요.'
@@ -727,6 +729,9 @@ in
         ;;
       devanagari)
         printf '%s\n' "$devanagari_sample"
+        ;;
+      gurmukhi)
+        printf '%s\n' "$gurmukhi_sample"
         ;;
       japanese)
         printf '%s\n' "$japanese_sample"
