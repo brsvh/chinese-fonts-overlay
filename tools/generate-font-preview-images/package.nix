@@ -444,6 +444,7 @@ let
     };
 
     xiaomi = {
+      misans-arabic = "arabic";
       misans = "simplified-chinese";
       misans-l3 = "rare-chinese";
       misans-latin = "english";
@@ -557,6 +558,7 @@ in
 
   export PATH=${makeBinPath fontPreviewRuntimePackages}
 
+  arabic_sample='أنا أستطيع أكل الزجاج ولا يؤلمني'
   bopomofo_sample='ㄨㄛˇ ㄋㄥˊ ㄊㄨㄣ ㄒㄧㄚˋ ㄅㄛ ˙ㄌㄧ ㄦˊ ㄅㄨˋ ㄕㄤ ㄕㄣ ㄊㄧˇ'
   english_sample='I can eat glass, it does not hurt me'
   devanagari_sample='मैं काँच खा सकता हूँ, मुझे इससे चोट नहीं लगती'
@@ -709,6 +711,9 @@ in
     local font_name=''${2:-}
 
     case "$sample_key" in
+      arabic)
+        printf '%s\n' "$arabic_sample"
+        ;;
       bopomofo)
         printf '%s\n' "$bopomofo_sample"
         ;;
