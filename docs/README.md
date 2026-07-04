@@ -6314,6 +6314,82 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   >
 </p>
 
+- `xiaomiPackages.misans-tc` -
+  [MiSans TC](https://hyperos.mi.com/font/zh/details/tc)
+
+<p align="center">
+  <img
+    alt="MiSans TC Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tc%2BMiSans%20TC%20Thin.png"
+  >
+  <br>
+  <sub>MiSans TC Thin</sub>
+  <br>
+  <img
+    alt="MiSans TC ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tc%2BMiSans%20TC%20ExtraLight.png"
+  >
+  <br>
+  <sub>MiSans TC ExtraLight</sub>
+  <br>
+  <img
+    alt="MiSans TC Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tc%2BMiSans%20TC%20Light.png"
+  >
+  <br>
+  <sub>MiSans TC Light</sub>
+  <br>
+  <img
+    alt="MiSans TC Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tc%2BMiSans%20TC%20Regular.png"
+  >
+  <br>
+  <sub>MiSans TC Regular</sub>
+  <br>
+  <img
+    alt="MiSans TC Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tc%2BMiSans%20TC%20Normal.png"
+  >
+  <br>
+  <sub>MiSans TC Normal</sub>
+  <br>
+  <img
+    alt="MiSans TC Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tc%2BMiSans%20TC%20Medium.png"
+  >
+  <br>
+  <sub>MiSans TC Medium</sub>
+  <br>
+  <img
+    alt="MiSans TC Demibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tc%2BMiSans%20TC%20Demibold.png"
+  >
+  <br>
+  <sub>MiSans TC Demibold</sub>
+  <br>
+  <img
+    alt="MiSans TC Semibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tc%2BMiSans%20TC%20Semibold.png"
+  >
+  <br>
+  <sub>MiSans TC Semibold</sub>
+  <br>
+  <img
+    alt="MiSans TC Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tc%2BMiSans%20TC%20Bold.png"
+  >
+  <br>
+  <sub>MiSans TC Bold</sub>
+  <br>
+  <img
+    alt="MiSans TC Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tc%2BMiSans%20TC%20Heavy.png"
+  >
+  <br>
+  <sub>MiSans TC Heavy</sub>
+  <br>
+</p>
+
 ### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
 
 > [!TIP]
