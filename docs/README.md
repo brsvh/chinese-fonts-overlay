@@ -6486,6 +6486,16 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   <br>
 </p>
 
+- `xiaomiPackages.misans-tibetan-vf` -
+  [MiSans Tibetan VF](https://hyperos.mi.com/font/zh/details/tibetan)
+
+<p align="center">
+  <img
+    alt="MiSans Tibetan VF"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-tibetan-vf%2BMiSans%20Tibetan%20VF.png"
+  >
+</p>
+
 ### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
 
 > [!TIP]
