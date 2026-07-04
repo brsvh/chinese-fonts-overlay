@@ -109,6 +109,7 @@
                 tsangertype-gcu-fonts
                 tsangertype-gpu-fonts
                 windows-fonts
+                xiaomi-fonts
                 ;
             };
           };

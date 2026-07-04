@@ -14,6 +14,7 @@
 - TianHeng 字体（TH/天珩字库）
 - TrionesType 字体（璇璣造字）
 - TsangerType 字体（仓耳字库）
+- Xiaomi 字体（小米字体）
 - ZiHi（社群）字型系列字体（字嗨字型系列字體）
 
 ## 开始上手
@@ -150,6 +151,7 @@ inputs.chinese-fonts-overlay.url = "github:brsvh/chinese-fonts-overlay/v0.1.0";
 > - Taobao 字体（淘宝字体）- 淘宝（中国）软件有限公司版权所有的字体；
 > - TianHeng 字体（TH/天珩字库）- 包含来自中易、华康、Iwata、Besta、方正等字库或公司版权所有的字形；
 > - TsangerType 字体（仓耳字体）的商业付费字体 - 北京仓耳文字技术有限公司版权所有的商业付费字体；
+> - Xiaomi 字体（小米字体）- 小米科技有限责任公司版权所有的字体；
 
 ### Alibaba Design（Alibaba 字体）- `alibabaPackages`
 
@@ -6134,6 +6136,87 @@ TsangerType 的所有字体均允许个人非商业用途使用。
 </p>
 
 > \*：该字体在[仓耳字库网站](https://tsanger.cn) 上无法找到对应产品页。
+
+### Xiaomi 字体（小米字体）- `xiaomiPackages`
+
+> [!TIP]
+>
+> 通过 `xiaomi-fonts` 来安装所有 Xiaomi 字体（小米字体）。
+
+- `xiaomiPackages.misans` - [MiSans](https://hyperos.mi.com/font/zh/details/sc)
+
+<p align="center">
+  <img
+    alt="MiSans Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans%2BMiSans%20Thin.png"
+  >
+  <br>
+  <sub>MiSans Thin</sub>
+  <br>
+  <img
+    alt="MiSans ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans%2BMiSans%20ExtraLight.png"
+  >
+  <br>
+  <sub>MiSans ExtraLight</sub>
+  <br>
+  <img
+    alt="MiSans Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans%2BMiSans%20Light.png"
+  >
+  <br>
+  <sub>MiSans Light</sub>
+  <br>
+  <img
+    alt="MiSans Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans%2BMiSans%20Regular.png"
+  >
+  <br>
+  <sub>MiSans Regular</sub>
+  <br>
+  <img
+    alt="MiSans Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans%2BMiSans%20Normal.png"
+  >
+  <br>
+  <sub>MiSans Normal</sub>
+  <br>
+  <img
+    alt="MiSans Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans%2BMiSans%20Medium.png"
+  >
+  <br>
+  <sub>MiSans Medium</sub>
+  <br>
+  <img
+    alt="MiSans Demibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans%2BMiSans%20Demibold.png"
+  >
+  <br>
+  <sub>MiSans Demibold</sub>
+  <br>
+  <img
+    alt="MiSans Semibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans%2BMiSans%20Semibold.png"
+  >
+  <br>
+  <sub>MiSans Semibold</sub>
+  <br>
+  <img
+    alt="MiSans Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans%2BMiSans%20Bold.png"
+  >
+  <br>
+  <sub>MiSans Bold</sub>
+  <br>
+  <img
+    alt="MiSans Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans%2BMiSans%20Heavy.png"
+  >
+  <br>
+  <sub>MiSans Heavy</sub>
+  <br>
+</p>
 
 ### ZiHi（社群）字型系列字体（字嗨字型系列字體）- `buttaiwanPackages`
 

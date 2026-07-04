@@ -20,6 +20,7 @@
   tsangertypePackages,
   writeShellScriptBin,
   writeText,
+  xiaomiPackages,
   ...
 }:
 let
@@ -49,6 +50,7 @@ let
     tianheng = tianhengPackages;
     trionestype = trionestypePackages;
     tsangertype = tsangertypePackages;
+    xiaomi = xiaomiPackages;
   };
 
   fontPreviewPackageSampleKeys = {
@@ -439,6 +441,10 @@ let
       tsangertype-tsangerzxylt = "simplified-chinese";
       tsangertype-tsangerzyxwq = "simplified-chinese";
       tsangertype-tsangerzyxwzt = "simplified-chinese";
+    };
+
+    xiaomi = {
+      misans = "simplified-chinese";
     };
   };
 
