@@ -6228,6 +6228,16 @@ TsangerType 的所有字体均允许个人非商业用途使用。
   >
 </p>
 
+- `xiaomiPackages.misans-l3` -
+  [MiSans L3](https://hyperos.mi.com/font/zh/rare-word)
+
+<p align="center">
+  <img
+    alt="MiSans L3"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/xiaomi/misans-l3%2BMiSans%20L3.png"
+  >
+</p>
+
 - `xiaomiPackages.misans-latin` -
   [MiSans Latin](https://hyperos.mi.com/font/zh/details/latin)
 
