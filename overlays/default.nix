@@ -167,6 +167,28 @@ let
       fzzhunyuan
     ];
 
+  huaweiPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/huawei;
+      };
+    in
+    packages
+    // {
+      combine = link packages "huawei-fonts";
+
+      combine' = link packages;
+    };
+
+  harmonyosSansPackages = with huaweiPackages; [
+    harmonyos-sans-naskh-arabic
+  ];
+
   justfontPackages =
     let
       packages = packagesFromDirectoryRecursive {
@@ -322,6 +344,7 @@ in
     buttaiwanPackages
     dingtalkPackages
     foundertypePackages
+    huaweiPackages
     justfontPackages
     lib
     microsoftPackages
@@ -402,6 +425,14 @@ in
     foundertypePackages.combine'
       "foundertype-paid-fonts"
       (drv: elem drv foundertypePaidPackages);
+
+  huawei-fonts =
+    huaweiPackages.combine' "huawei-fonts"
+      (_: true);
+
+  harmonyos-sans-fonts =
+    huaweiPackages.combine' "harmonyos-sans-fonts"
+      (drv: elem drv harmonyosSansPackages);
 
   justfont-fonts =
     justfontPackages.combine' "justfont-fonts"
