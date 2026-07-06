@@ -987,7 +987,8 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
 
 > [!TIP]
 >
-> 通过 `harmonyos-sans-fonts` 来安装所有 HarmonyOS Sans 系列字体。
+> 通过 `harmonyos-sans-fonts` 或 `harmonyos-sans-vf-fonts` 来安装所有 HarmonyOS Sans
+> 系列字体。
 
 > [!WARNING]
 >
@@ -1193,6 +1194,40 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
   <br>
   <sub>HarmonyOS Sans Black Italic</sub>
+  <br>
+</p>
+
+- `huaweiPackages.harmonyos-sans-vf` -
+  [HarmonyOS Sans VF](https://developer.huawei.com/consumer/en/design/resource/)
+
+<p align="center">
+  <img
+    alt="HarmonyOS Sans Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-vf%2BHarmonyOS%20Sans%20Regular.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Regular</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-vf%2BHarmonyOS%20Sans%20Condensed.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-vf%2BHarmonyOS%20Sans%20Condensed%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-vf%2BHarmonyOS%20Sans%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Italic</sub>
   <br>
 </p>
 

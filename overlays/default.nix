@@ -193,6 +193,10 @@ let
     harmonyos-sans-naskh-arabic-ui
   ];
 
+  harmonyosSansVfPackages = with huaweiPackages; [
+    harmonyos-sans-vf
+  ];
+
   justfontPackages =
     let
       packages = packagesFromDirectoryRecursive {
@@ -437,6 +441,10 @@ in
   harmonyos-sans-fonts =
     huaweiPackages.combine' "harmonyos-sans-fonts"
       (drv: elem drv harmonyosSansPackages);
+
+  harmonyos-sans-vf-fonts =
+    huaweiPackages.combine' "harmonyos-sans-vf-fonts"
+      (drv: elem drv harmonyosSansVfPackages);
 
   justfont-fonts =
     justfontPackages.combine' "justfont-fonts"
