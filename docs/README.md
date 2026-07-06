@@ -1312,6 +1312,16 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
+- `hanwangPackages.shinkai` -
+  [王漢宗鋼筆行楷系列](https://code.google.com/archive/p/wangfonts/)
+
+<p align="center">
+  <img
+    alt="HanWangGB06"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-shinkai%2BHanWangGB06.png"
+  >
+</p>
+
 ### Huawei 字体（华为字体）- `huaweiPackages`
 
 > [!TIP]
