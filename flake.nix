@@ -102,6 +102,7 @@
                 foundertype-gpu-fonts
                 foundertype-paid-fonts
                 harmonyos-sans-fonts
+                harmonyos-sans-vf-fonts
                 huawei-fonts
                 justfont-fonts
                 taobao-fonts
