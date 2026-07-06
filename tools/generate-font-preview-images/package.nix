@@ -135,6 +135,7 @@ let
 
     hanwang = {
       hanwang-ming = "traditional-chinese";
+      hanwang-yen = "traditional-chinese";
     };
 
     huawei = {
