@@ -9,6 +9,7 @@
   foundertypePackages,
   git,
   gnused,
+  hanwangPackages,
   huaweiPackages,
   imagemagick,
   justfontPackages,
@@ -45,6 +46,7 @@ let
     buttaiwan = buttaiwanPackages;
     dingtalk = dingtalkPackages;
     foundertype = foundertypePackages;
+    hanwang = hanwangPackages;
     huawei = huaweiPackages;
     justfont = justfontPackages;
     microsoft = microsoftPackages;
@@ -129,6 +131,10 @@ let
       foundertype-fzxiheiyi = "simplified-chinese";
       foundertype-fzxiyuan = "simplified-chinese";
       foundertype-fzzhunyuan = "simplified-chinese";
+    };
+
+    hanwang = {
+      hanwang-ming = "traditional-chinese";
     };
 
     huawei = {

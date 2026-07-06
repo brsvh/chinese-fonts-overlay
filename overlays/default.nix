@@ -167,6 +167,24 @@ let
       fzzhunyuan
     ];
 
+  hanwangPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/hanwang;
+      };
+    in
+    packages
+    // {
+      combine = link packages "hanwang-fonts";
+
+      combine' = link packages;
+    };
+
   huaweiPackages =
     let
       packages = packagesFromDirectoryRecursive {
@@ -356,6 +374,7 @@ in
     buttaiwanPackages
     dingtalkPackages
     foundertypePackages
+    hanwangPackages
     huaweiPackages
     justfontPackages
     lib
@@ -437,6 +456,10 @@ in
     foundertypePackages.combine'
       "foundertype-paid-fonts"
       (drv: elem drv foundertypePaidPackages);
+
+  hanwang-fonts =
+    hanwangPackages.combine' "hanwang-fonts"
+      (_: true);
 
   huawei-fonts =
     huaweiPackages.combine' "huawei-fonts"
