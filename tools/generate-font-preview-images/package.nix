@@ -137,6 +137,7 @@ let
       harmonyos-sans-tc = "traditional-chinese";
       harmonyos-sans-vf = "english";
       harmonyos-sans-naskh-arabic = "arabic";
+      harmonyos-sans-naskh-arabic-vf = "arabic";
       harmonyos-sans-naskh-arabic-ui = "arabic";
     };
 

@@ -1410,6 +1410,16 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   <br>
 </p>
 
+- `huaweiPackages.harmonyos-sans-naskh-arabic-vf` -
+  [HarmonyOS Sans Naskh Arabic VF](https://developer.huawei.com/consumer/en/design/resource/)
+
+<p align="center">
+  <img
+    alt="HarmonyOS Sans Naskh Arabic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-naskh-arabic-vf%2BHarmonyOS%20Sans%20Naskh%20Arabic.png"
+  >
+</p>
+
 - `huaweiPackages.harmonyos-sans-naskh-arabic-ui` -
   [HarmonyOS Sans Naskh Arabic UI](https://developer.huawei.com/consumer/en/design/resource/)
 
