@@ -66,6 +66,14 @@
     url = "https://www.foundertype.com/index.php/About/powerPer.html";
   };
 
+  harmonyos-sans-fonts-license = {
+    free = false;
+    fullName = "HarmonyOS Sans Fonts License Agreement";
+    redistributable = false;
+    shortName = "harmonyos-sans-fonts-license";
+    url = "https://raw.gitcode.com/openharmony/global_system_resources/raw/a52632e5d3901cc860b87fe923142077de194b42/LICENSE_Fonts";
+  };
+
   justfont-elffont-license = {
     free = false;
     fullName = "做作的Daphne 與 justfont《精靈文》字型授權規範";
