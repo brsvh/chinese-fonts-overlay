@@ -8,6 +8,7 @@
 - Alimama 字体（阿里妈妈字体）
 - DingTalk 字体（钉钉字体）
 - FounderType 字库（方正字库）
+- Huawei 字体（华为字体）
 - Justfont 字体
 - Microsoft 字体（微软字体）
 - Taobao 字体（淘宝字体）
@@ -147,6 +148,7 @@ inputs.chinese-fonts-overlay.url = "github:brsvh/chinese-fonts-overlay/v0.1.0";
 > - Alimama 字体（阿里妈妈字体）- 淘宝（中国）软件有限公司版权所有的字体；
 > - DingTalk 字体（钉钉字体）- 钉钉（中国）信息技术有限公司版权所有的字体；
 > - FounderType （方正字库）- 北京北大方正电子有限公司版权所有的字体；
+> - Huawei 字体（华为字体）- 华为终端有限公司版权所有的字体；
 > - Microsoft 字体（微软字体）- 微软股份有限公司版权所有或其分发的字体；
 > - Taobao 字体（淘宝字体）- 淘宝（中国）软件有限公司版权所有的字体；
 > - TianHeng 字体（TH/天珩字库）- 包含来自中易、华康、Iwata、Besta、方正等字库或公司版权所有的字形；
@@ -163,7 +165,7 @@ Alibaba 字体均可以免费用于合法的商业、非商业使用。
 
 > [!WARNING]
 >
-> 阿里巴巴（中国）有限公司版权所有的字体字体未明确允许嵌入式使用，嵌入场景未经明确豁免会受再分发限制约束，所以建议不以嵌入式方式使用。
+> 阿里巴巴（中国）有限公司版权所有的字体未明确允许嵌入式使用，嵌入场景未经明确豁免会受再分发限制约束，所以建议不以嵌入式方式使用。
 
 - `alibabaPackages.puhuiti` - [阿里巴巴普惠体](https://www.alibabafonts.com/#/font)
 
@@ -979,6 +981,86 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
     alt="FZZhunYuan-M02"
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/foundertype/foundertype-fzzhunyuan%2BFZZhunYuan-M02.png"
   >
+</p>
+
+### Huawei 字体（华为字体）- `huaweiPackages`
+
+> [!TIP]
+>
+> 通过 `harmonyos-sans-fonts` 来安装所有 HarmonyOS Sans 系列字体。
+
+> [!WARNING]
+>
+> HarmonyOS Sans 系列字体允许嵌入式使用但不允许再分发，即您必须要伴随网站与应用一起分发字体，不能单独再分发字体，所以请您避免从本地 store
+> 复制这些字体包向他人传播或上传到 substituter server。
+
+- `huaweiPackages.harmonyos-sans-naskh-arabic` -
+  [HarmonyOS Sans Naskh Arabic](https://developer.huawei.com/consumer/en/design/resource/)
+
+<p align="center">
+  <img
+    alt="HarmonyOS Sans Naskh Arabic Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-naskh-arabic%2BHarmonyOS%20Sans%20Naskh%20Arabic%20Thin.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Naskh Arabic Thin</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Naskh Arabic UltraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-naskh-arabic%2BHarmonyOS%20Sans%20Naskh%20Arabic%20UltraLight.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Naskh Arabic UltraLight</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Naskh Arabic Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-naskh-arabic%2BHarmonyOS%20Sans%20Naskh%20Arabic%20Light.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Naskh Arabic Light</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Naskh Arabic Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-naskh-arabic%2BHarmonyOS%20Sans%20Naskh%20Arabic%20Regular.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Naskh Arabic Regular</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Naskh Arabic Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-naskh-arabic%2BHarmonyOS%20Sans%20Naskh%20Arabic%20Medium.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Naskh Arabic Medium</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Naskh Arabic SemiBold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-naskh-arabic%2BHarmonyOS%20Sans%20Naskh%20Arabic%20SemiBold.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Naskh Arabic SemiBold</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Naskh Arabic Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-naskh-arabic%2BHarmonyOS%20Sans%20Naskh%20Arabic%20Bold.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Naskh Arabic Bold</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Naskh Arabic Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-naskh-arabic%2BHarmonyOS%20Sans%20Naskh%20Arabic%20Heavy.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Naskh Arabic Heavy</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Naskh Arabic Black"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-naskh-arabic%2BHarmonyOS%20Sans%20Naskh%20Arabic%20Black.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Naskh Arabic Black</sub>
+  <br>
 </p>
 
 ### Justfont 字体 - `justfontPackages`

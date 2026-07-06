@@ -101,6 +101,8 @@
                 foundertype-gcu-fonts
                 foundertype-gpu-fonts
                 foundertype-paid-fonts
+                harmonyos-sans-fonts
+                huawei-fonts
                 justfont-fonts
                 taobao-fonts
                 tianheng-fonts
