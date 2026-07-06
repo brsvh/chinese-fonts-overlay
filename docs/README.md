@@ -1071,6 +1071,33 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   <br>
 </p>
 
+> [!CAUTION]
+>
+> 文鼎科技与王漢宗字型存在纠纷，应当避免商业使用 `hanwangPackages.yen` 中的如下字体：
+>
+> - HanWangYenLight，王漢宗細圓體繁，`wt006.ttf`
+> - HanWangYenHeavy，王漢宗特圓體繁，`wt009.ttf`
+
+- `hanwangPackages.yen` -
+  [王漢宗圓體系列](https://code.google.com/archive/p/wangfonts/)
+
+<p align="center">
+  <img
+    alt="HanWangYenLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-yen%2BHanWangYenLight.png"
+  >
+  <br>
+  <sub>HanWangYenLight</sub>
+  <br>
+  <img
+    alt="HanWangYenHeavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-yen%2BHanWangYenHeavy.png"
+  >
+  <br>
+  <sub>HanWangYenHeavy</sub>
+  <br>
+</p>
+
 ### Huawei 字体（华为字体）- `huaweiPackages`
 
 > [!TIP]
