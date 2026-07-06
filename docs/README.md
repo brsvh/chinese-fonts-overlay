@@ -1208,6 +1208,22 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
+> [!CAUTION]
+>
+> 文鼎科技与王漢宗字型存在纠纷，应当避免商业使用 `hanwangPackages.kandayan` 中的如下字体：
+>
+> - HanWangKanDaYan，王漢宗空疊圓繁，`wt028.ttf`
+
+- `hanwangPackages.kandayan` -
+  [王漢宗空疊圓系列](https://code.google.com/archive/p/wangfonts/)
+
+<p align="center">
+  <img
+    alt="HanWangKanDaYan"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-kandayan%2BHanWangKanDaYan.png"
+  >
+</p>
+
 ### Huawei 字体（华为字体）- `huaweiPackages`
 
 > [!TIP]
