@@ -134,6 +134,7 @@ let
     huawei = {
       harmonyos-sans = "english";
       harmonyos-sans-sc = "simplified-chinese";
+      harmonyos-sans-tc = "traditional-chinese";
       harmonyos-sans-naskh-arabic = "arabic";
       harmonyos-sans-naskh-arabic-ui = "arabic";
     };
