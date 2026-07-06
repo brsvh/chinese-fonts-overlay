@@ -1266,6 +1266,22 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
+> [!CAUTION]
+>
+> 文鼎科技与王漢宗字型存在纠纷，应当避免商业使用 `hanwangPackages.shinsu` 中的如下字体：
+>
+> - HanWangShinSuMedium，王漢宗中行書繁，`wt071.ttf`
+
+- `hanwangPackages.shinsu` -
+  [王漢宗行書系列](https://code.google.com/archive/p/wangfonts/)
+
+<p align="center">
+  <img
+    alt="HanWangShinSuMedium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-shinsu%2BHanWangShinSuMedium.png"
+  >
+</p>
+
 ### Huawei 字体（华为字体）- `huaweiPackages`
 
 > [!TIP]
