@@ -1286,6 +1286,16 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   <br>
 </p>
 
+- `huaweiPackages.harmonyos-sans-sc-vf` -
+  [HarmonyOS Sans SC VF](https://developer.huawei.com/consumer/en/design/resource/)
+
+<p align="center">
+  <img
+    alt="HarmonyOS Sans SC"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-sc-vf%2BHarmonyOS%20Sans%20SC.png"
+  >
+</p>
+
 - `huaweiPackages.harmonyos-sans-tc` -
   [HarmonyOS Sans TC](https://developer.huawei.com/consumer/en/design/resource/)
 

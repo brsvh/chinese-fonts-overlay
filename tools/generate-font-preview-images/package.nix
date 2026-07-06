@@ -134,6 +134,7 @@ let
     huawei = {
       harmonyos-sans = "english";
       harmonyos-sans-sc = "simplified-chinese";
+      harmonyos-sans-sc-vf = "simplified-chinese";
       harmonyos-sans-tc = "traditional-chinese";
       harmonyos-sans-vf = "english";
       harmonyos-sans-naskh-arabic = "arabic";
