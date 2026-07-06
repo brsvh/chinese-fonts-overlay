@@ -137,6 +137,7 @@ let
       hanwang-fangsong = "traditional-chinese";
       hanwang-hei = "traditional-chinese";
       hanwang-kai = "traditional-chinese";
+      hanwang-lisu = "traditional-chinese";
       hanwang-ming = "traditional-chinese";
       hanwang-yen = "traditional-chinese";
     };
