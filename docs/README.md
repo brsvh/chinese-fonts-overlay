@@ -994,6 +994,208 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
 > HarmonyOS Sans 系列字体允许嵌入式使用但不允许再分发，即您必须要伴随网站与应用一起分发字体，不能单独再分发字体，所以请您避免从本地 store
 > 复制这些字体包向他人传播或上传到 substituter server。
 
+- `huaweiPackages.harmonyos-sans` -
+  [HarmonyOS Sans](https://developer.huawei.com/consumer/en/design/resource/)
+
+<p align="center">
+  <img
+    alt="HarmonyOS Sans Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Thin.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Thin</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Light.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Light</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Regular.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Regular</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Medium.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Medium</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Semibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Semibold.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Semibold</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Bold.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Bold</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Black"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Black.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Black</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Thin.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Thin</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Light.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Light</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Regular.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Regular</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Medium.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Medium</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed SemiBold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20SemiBold.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed SemiBold</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Bold.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Bold</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Black"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Black.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Black</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Thin Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Thin%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Thin Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Light Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Light%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Light Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Medium Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Medium%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Medium Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Semibold Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Semibold%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Semibold Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Bold Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Bold%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Bold Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Condensed Black Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Condensed%20Black%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Condensed Black Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Thin Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Thin%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Thin Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Light Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Light%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Light Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Medium Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Medium%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Medium Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans SemiBold Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20SemiBold%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans SemiBold Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Bold Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Bold%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Bold Italic</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans Black Italic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans%2BHarmonyOS%20Sans%20Black%20Italic.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans Black Italic</sub>
+  <br>
+</p>
+
 - `huaweiPackages.harmonyos-sans-naskh-arabic` -
   [HarmonyOS Sans Naskh Arabic](https://developer.huawei.com/consumer/en/design/resource/)
 

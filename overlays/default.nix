@@ -186,6 +186,7 @@ let
     };
 
   harmonyosSansPackages = with huaweiPackages; [
+    harmonyos-sans
     harmonyos-sans-naskh-arabic
     harmonyos-sans-naskh-arabic-ui
   ];
