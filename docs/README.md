@@ -1302,6 +1302,16 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
+- `hanwangPackages.gsolid` -
+  [王漢宗超黑體俏皮動物系列](https://code.google.com/archive/p/wangfonts/)
+
+<p align="center">
+  <img
+    alt="HanWangGSolid06cut1"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-gsolid%2BHanWangGSolid06cut1.png"
+  >
+</p>
+
 ### Huawei 字体（华为字体）- `huaweiPackages`
 
 > [!TIP]
