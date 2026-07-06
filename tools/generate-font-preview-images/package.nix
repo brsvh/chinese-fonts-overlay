@@ -133,6 +133,7 @@ let
 
     huawei = {
       harmonyos-sans-naskh-arabic = "arabic";
+      harmonyos-sans-naskh-arabic-ui = "arabic";
     };
 
     justfont = {
