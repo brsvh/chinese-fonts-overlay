@@ -1098,6 +1098,26 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   <br>
 </p>
 
+- `hanwangPackages.hei` -
+  [王漢宗黑體系列](https://code.google.com/archive/p/wangfonts/)
+
+<p align="center">
+  <img
+    alt="HanWangHeiLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-hei%2BHanWangHeiLight.png"
+  >
+  <br>
+  <sub>HanWangHeiLight</sub>
+  <br>
+  <img
+    alt="HanWangHeiHeavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-hei%2BHanWangHeiHeavy.png"
+  >
+  <br>
+  <sub>HanWangHeiHeavy</sub>
+  <br>
+</p>
+
 ### Huawei 字体（华为字体）- `huaweiPackages`
 
 > [!TIP]
