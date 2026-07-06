@@ -1196,6 +1196,61 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   <br>
 </p>
 
+- `huaweiPackages.harmonyos-sans-sc` -
+  [HarmonyOS Sans SC](https://developer.huawei.com/consumer/en/design/resource/)
+
+<p align="center">
+  <img
+    alt="HarmonyOS Sans SC Thin"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-sc%2BHarmonyOS%20Sans%20SC%20Thin.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans SC Thin</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans SC Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-sc%2BHarmonyOS%20Sans%20SC%20Light.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans SC Light</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans SC Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-sc%2BHarmonyOS%20Sans%20SC%20Regular.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans SC Regular</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans SC Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-sc%2BHarmonyOS%20Sans%20SC%20Medium.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans SC Medium</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans SC Semibold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-sc%2BHarmonyOS%20Sans%20SC%20Semibold.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans SC Semibold</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans SC Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-sc%2BHarmonyOS%20Sans%20SC%20Bold.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans SC Bold</sub>
+  <br>
+  <img
+    alt="HarmonyOS Sans SC Black"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/huawei/harmonyos-sans-sc%2BHarmonyOS%20Sans%20SC%20Black.png"
+  >
+  <br>
+  <sub>HarmonyOS Sans SC Black</sub>
+  <br>
+</p>
+
 - `huaweiPackages.harmonyos-sans-naskh-arabic` -
   [HarmonyOS Sans Naskh Arabic](https://developer.huawei.com/consumer/en/design/resource/)
 
