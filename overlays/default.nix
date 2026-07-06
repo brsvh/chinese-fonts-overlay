@@ -196,6 +196,7 @@ let
   harmonyosSansVfPackages = with huaweiPackages; [
     harmonyos-sans-vf
     harmonyos-sans-naskh-arabic-vf
+    harmonyos-sans-naskh-arabic-ui-vf
   ];
 
   justfontPackages =

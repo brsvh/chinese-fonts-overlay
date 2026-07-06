@@ -139,6 +139,7 @@ let
       harmonyos-sans-naskh-arabic = "arabic";
       harmonyos-sans-naskh-arabic-vf = "arabic";
       harmonyos-sans-naskh-arabic-ui = "arabic";
+      harmonyos-sans-naskh-arabic-ui-vf = "arabic";
     };
 
     justfont = {
