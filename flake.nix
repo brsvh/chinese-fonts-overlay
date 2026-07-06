@@ -101,6 +101,7 @@
                 foundertype-gcu-fonts
                 foundertype-gpu-fonts
                 foundertype-paid-fonts
+                hanwang-fonts
                 harmonyos-sans-fonts
                 harmonyos-sans-vf-fonts
                 huawei-fonts

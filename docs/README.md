@@ -8,6 +8,7 @@
 - Alimama 字体（阿里妈妈字体）
 - DingTalk 字体（钉钉字体）
 - FounderType 字库（方正字库）
+- H.T.Wang Free Fonts（王漢宗自由字型）
 - Huawei 字体（华为字体）
 - Justfont 字体
 - Microsoft 字体（微软字体）
@@ -981,6 +982,93 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
     alt="FZZhunYuan-M02"
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/foundertype/foundertype-fzzhunyuan%2BFZZhunYuan-M02.png"
   >
+</p>
+
+### H.T.Wang Free Fonts（王漢宗自由字型）- `hanwangPackages`
+
+> [!TIP]
+>
+> 通过 `hanwang-fonts` 来安装所有王漢宗自由字型字体。
+
+> [!CAUTION]
+>
+> 文鼎科技与王漢宗字型存在纠纷，应当避免商业使用 `hanwangPackages.ming` 中的如下字体：
+>
+> - HanWangMingMedium，王漢宗中明體繁，`wt002.ttf`
+> - HanWangMingMediumChuIn，王漢宗中明體注音，`wp010-05.ttf`
+> - HanWangMingMediumPoIn1，王漢宗中明體破音一，`wp110-05.ttf`
+> - HanWangMingMediumPoIn2，王漢宗中明體破音二，`wp210-05.ttf`
+> - HanWangMingMediumPoIn3，王漢宗中明體破音三，`wp310-05.ttf`
+> - HanWangMingBold，王漢宗粗明體繁，`wt003.ttf`
+> - HanWangMingHeavy，王漢宗特明體繁，`wt004.ttf`
+
+- `hanwangPackages.ming` -
+  [王漢宗明體系列](https://code.google.com/archive/p/wangfonts/)
+
+<p align="center">
+  <img
+    alt="HanWangMingLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-ming%2BHanWangMingLight.png"
+  >
+  <br>
+  <sub>HanWangMingLight</sub>
+  <br>
+  <img
+    alt="HanWangMingMedium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-ming%2BHanWangMingMedium.png"
+  >
+  <br>
+  <sub>HanWangMingMedium</sub>
+  <br>
+  <img
+    alt="HanWangMingBold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-ming%2BHanWangMingBold.png"
+  >
+  <br>
+  <sub>HanWangMingBold</sub>
+  <br>
+  <img
+    alt="HanWangMingHeavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-ming%2BHanWangMingHeavy.png"
+  >
+  <br>
+  <sub>HanWangMingHeavy</sub>
+  <br>
+  <img
+    alt="HanWangMingBlack"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-ming%2BHanWangMingBlack.png"
+  >
+  <br>
+  <sub>HanWangMingBlack</sub>
+  <br>
+  <img
+    alt="HanWangMingMediumChuIn"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-ming%2BHanWangMingMediumChuIn.png"
+  >
+  <br>
+  <sub>HanWangMingMediumChuIn</sub>
+  <br>
+  <img
+    alt="HanWangMingMediumPoIn1"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-ming%2BHanWangMingMediumPoIn1.png"
+  >
+  <br>
+  <sub>HanWangMingMediumPoIn1</sub>
+  <br>
+  <img
+    alt="HanWangMingMediumPoIn2"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-ming%2BHanWangMingMediumPoIn2.png"
+  >
+  <br>
+  <sub>HanWangMingMediumPoIn2</sub>
+  <br>
+  <img
+    alt="HanWangMingMediumPoIn3"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-ming%2BHanWangMingMediumPoIn3.png"
+  >
+  <br>
+  <sub>HanWangMingMediumPoIn3</sub>
+  <br>
 </p>
 
 ### Huawei 字体（华为字体）- `huaweiPackages`
