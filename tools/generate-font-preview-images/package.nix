@@ -144,6 +144,7 @@ let
       hanwang-kuzheng = "traditional-chinese";
       hanwang-lisu = "traditional-chinese";
       hanwang-ming = "traditional-chinese";
+      hanwang-shinkai = "traditional-chinese";
       hanwang-shinsu = "traditional-chinese";
       hanwang-yankai = "traditional-chinese";
       hanwang-yen = "traditional-chinese";
