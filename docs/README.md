@@ -1165,6 +1165,33 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   <br>
 </p>
 
+> [!CAUTION]
+>
+> 文鼎科技与王漢宗字型存在纠纷，应当避免商业使用 `hanwangPackages.fangsong` 中的如下字体：
+>
+> - HanWangFangSongMedium，王漢宗中仿宋繁，`wt024.ttf`
+> - HanWang FangSongMedium-Gb5，王漢宗中仿宋簡 / 王汉宗中仿宋简，`wts47.ttf`
+
+- `hanwangPackages.fangsong` -
+  [王漢宗仿宋系列](https://code.google.com/archive/p/wangfonts/)
+
+<p align="center">
+  <img
+    alt="HanWangFangSongMedium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-fangsong%2BHanWangFangSongMedium.png"
+  >
+  <br>
+  <sub>HanWangFangSongMedium</sub>
+  <br>
+  <img
+    alt="HanWang FangSongMedium-Gb5"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-fangsong%2BHanWang%20FangSongMedium-Gb5.png"
+  >
+  <br>
+  <sub>HanWang FangSongMedium-Gb5</sub>
+  <br>
+</p>
+
 ### Huawei 字体（华为字体）- `huaweiPackages`
 
 > [!TIP]
