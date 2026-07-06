@@ -1292,6 +1292,16 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
+- `hanwangPackages.kuzheng` -
+  [王漢宗酷正海報系列](https://code.google.com/archive/p/wangfonts/)
+
+<p align="center">
+  <img
+    alt="HanWangCC15"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-kuzheng%2BHanWangCC15.png"
+  >
+</p>
+
 ### Huawei 字体（华为字体）- `huaweiPackages`
 
 > [!TIP]
