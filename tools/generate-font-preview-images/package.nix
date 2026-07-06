@@ -132,6 +132,7 @@ let
     };
 
     huawei = {
+      harmonyos-sans = "english";
       harmonyos-sans-naskh-arabic = "arabic";
       harmonyos-sans-naskh-arabic-ui = "arabic";
     };
