@@ -135,6 +135,7 @@ let
 
     hanwang = {
       hanwang-fangsong = "traditional-chinese";
+      hanwang-gsolid = "traditional-chinese";
       hanwang-hei = "traditional-chinese";
       hanwang-kai = "traditional-chinese";
       hanwang-kandayan = "traditional-chinese";
