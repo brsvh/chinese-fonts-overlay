@@ -1322,6 +1322,16 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
+- `hanwangPackages.weibei` -
+  [王漢宗中魏碑系列](https://code.google.com/archive/p/wangfonts/)
+
+<p align="center">
+  <img
+    alt="HanWang WeiBeiMedium-Gb5"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-weibei%2BHanWang%20WeiBeiMedium-Gb5.png"
+  >
+</p>
+
 ### Huawei 字体（华为字体）- `huaweiPackages`
 
 > [!TIP]
