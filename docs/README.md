@@ -1118,6 +1118,53 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   <br>
 </p>
 
+> [!CAUTION]
+>
+> 文鼎科技与王漢宗字型存在纠纷，应当避免商业使用 `hanwangPackages.kai` 中的如下字体：
+>
+> - HanWang KaiBold-Gb5，王漢宗粗楷體簡 / 王汉宗粗楷体简，`wts11.ttf`
+
+- `hanwangPackages.kai` -
+  [王漢宗楷體系列](https://code.google.com/archive/p/wangfonts/)
+
+<p align="center">
+  <img
+    alt="HanWang KaiBold-Gb5"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-kai%2BHanWang%20KaiBold-Gb5.png"
+  >
+  <br>
+  <sub>HanWang KaiBold-Gb5</sub>
+  <br>
+  <img
+    alt="HanWangKaiMediumChuIn"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-kai%2BHanWangKaiMediumChuIn.png"
+  >
+  <br>
+  <sub>HanWangKaiMediumChuIn</sub>
+  <br>
+  <img
+    alt="HanWangKaiMediumPoIn1"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-kai%2BHanWangKaiMediumPoIn1.png"
+  >
+  <br>
+  <sub>HanWangKaiMediumPoIn1</sub>
+  <br>
+  <img
+    alt="HanWangKaiMediumPoIn2"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-kai%2BHanWangKaiMediumPoIn2.png"
+  >
+  <br>
+  <sub>HanWangKaiMediumPoIn2</sub>
+  <br>
+  <img
+    alt="HanWangKaiMediumPoIn3"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/hanwang/hanwang-kai%2BHanWangKaiMediumPoIn3.png"
+  >
+  <br>
+  <sub>HanWangKaiMediumPoIn3</sub>
+  <br>
+</p>
+
 ### Huawei 字体（华为字体）- `huaweiPackages`
 
 > [!TIP]
