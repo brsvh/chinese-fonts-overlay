@@ -142,6 +142,7 @@ let
       hanwang-lisu = "traditional-chinese";
       hanwang-ming = "traditional-chinese";
       hanwang-yen = "traditional-chinese";
+      hanwang-zonyi = "traditional-chinese";
     };
 
     huawei = {
