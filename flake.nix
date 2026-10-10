@@ -47,6 +47,8 @@
             chinese-fonts-overlay-lib
             projectRoot
             ;
+
+          packageNixpkgs = nixpkgs;
         };
       }
       {
@@ -123,11 +125,15 @@
 
           modules = [
             (projectRoot + /tools)
+            (projectRoot + /ci/hercules.nix)
           ];
 
           outputs = [
+            "apps"
+            "checks"
             "devShells"
             "formatter"
+            "herculesCI"
           ];
         };
 

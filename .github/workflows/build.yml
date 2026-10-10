@@ -1,0 +1,143 @@
+name: Font builds
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: font-build-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  plan:
+    name: Select affected fonts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      count: ${{ steps.plan.outputs.count }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31.11.1
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.34.8/install
+          extra_nix_config: |
+            accept-flake-config = false
+            allow-import-from-derivation = false
+            builders =
+            experimental-features = nix-command flakes ca-derivations
+            extra-substituters = https://cache.bingshan.org
+            extra-trusted-public-keys = cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
+      - id: plan
+        name: Compare derivations and reuse verified successes
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: nix run --no-update-lock-file --no-write-lock-file .#font-ci -- pr-plan
+      - uses: actions/upload-artifact@v4
+        with:
+          name: font-plan-${{ github.run_attempt }}
+          path: .ci-work/plan.json
+          if-no-files-found: error
+          retention-days: 14
+
+  build:
+    name: Build fonts / ${{ matrix.id }}
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: font-plan-${{ github.run_attempt }}
+          path: .ci-work
+      - uses: cachix/install-nix-action@v31.11.1
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.34.8/install
+          extra_nix_config: |
+            accept-flake-config = false
+            allow-import-from-derivation = false
+            builders =
+            experimental-features = nix-command flakes ca-derivations
+            extra-substituters = https://cache.bingshan.org
+            extra-trusted-public-keys = cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
+      - name: Restore audited binary cache; save only redistributable shards
+        uses: nix-community/cache-nix-action@v7
+        with:
+          nix: false
+          save: ${{ matrix.cacheable }}
+          primary-key: fonts-v2-${{ runner.os }}-${{ runner.arch }}-2.34.8-${{ matrix.cacheKey }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-prefixes-first-match: |
+            fonts-v2-${{ runner.os }}-${{ runner.arch }}-2.34.8-${{ matrix.cacheKey }}-
+            fonts-v2-${{ runner.os }}-${{ runner.arch }}-2.34.8-
+          paths: .ci-work/cache
+      - name: Build selected fonts and render new-font previews
+        env:
+          SHARD: ${{ matrix.id }}
+        run: |
+          nix run --no-update-lock-file --no-write-lock-file .#font-ci -- \
+            pr-build --plan .ci-work/plan.json --shard "$SHARD"
+      - name: Upload successful per-package build records
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: font-receipts-${{ github.run_attempt }}-${{ matrix.id }}
+          path: .ci-work/artifacts/receipts.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload validated PNGs and preview manifests
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: font-previews-${{ github.run_attempt }}-${{ matrix.id }}
+          path: .ci-work/artifacts/previews
+          if-no-files-found: ignore
+          retention-days: 14
+
+  result:
+    name: Package builds
+    needs: [plan, build]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Verify build results
+        env:
+          PLAN_RESULT: ${{ needs.plan.result }}
+          COUNT: ${{ needs.plan.outputs.count }}
+          BUILD_RESULT: ${{ needs.build.result }}
+        run: |
+          if [[ "$PLAN_RESULT" != success ]]; then
+            echo 'Font selection failed.' >&2
+            exit 1
+          fi
+          if [[ "$COUNT" == 0 && "$BUILD_RESULT" == skipped ]]; then
+            echo 'No new font builds required; inputs are unchanged or already verified.'
+          elif [[ "$COUNT" != 0 && "$BUILD_RESULT" == success ]]; then
+            echo 'All selected fonts built successfully.'
+          else
+            echo 'One or more font builds failed, were cancelled, or are missing.' >&2
+            exit 1
+          fi

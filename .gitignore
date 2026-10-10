@@ -17,6 +17,9 @@
 /result
 /result-*
 
+# local CI results
+/.ci-work
+
 # previews
 /font-preview-images
 

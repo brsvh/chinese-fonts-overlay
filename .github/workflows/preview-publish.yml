@@ -1,0 +1,85 @@
+name: Publish font previews
+
+on:
+  workflow_run:
+    workflows: [Font builds]
+    types: [in_progress, completed]
+
+permissions:
+  actions: read
+  checks: write
+  contents: write
+  pull-requests: read
+
+jobs:
+  identify:
+    if: github.repository == 'brsvh/chinese-fonts-overlay'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: read
+    outputs:
+      pr: ${{ steps.identify.outputs.pr }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31.11.1
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.34.8/install
+          extra_nix_config: |
+            accept-flake-config = false
+            allow-import-from-derivation = false
+            builders =
+            experimental-features = nix-command flakes
+      - id: identify
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: nix run --no-update-lock-file --no-write-lock-file .#font-ci -- identify
+  publish:
+    needs: identify
+    concurrency:
+      group: font-preview-publication-${{ needs.identify.outputs.pr }}
+      cancel-in-progress: false
+    name: Publish validated preview data
+    if: needs.identify.outputs.pr != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      # workflow_run uses the default branch's workflow and checkout. Never use
+      # the producer's ref here, execute its code, or restore its build caches.
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31.11.1
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.34.8/install
+          extra_nix_config: |
+            accept-flake-config = false
+            allow-import-from-derivation = false
+            builders =
+            experimental-features = nix-command flakes
+      - id: publish
+        name: Validate artifacts, publish PNGs, and report the preview check
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: nix run --no-update-lock-file --no-write-lock-file .#font-ci -- publish
+      - id: comment
+        name: Update the single preview comment
+        if: steps.publish.outputs.pr != ''
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.FONT_PREVIEW_COMMENT_TOKEN }}
+          number: ${{ steps.publish.outputs.pr }}
+          header: font-previews
+          path: .ci-work/comment.md
+      - name: Finalize the required preview check after the comment
+        if: ${{ always() && steps.publish.outputs.pr != '' && steps.publish.outputs.completed == 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          COMMENT_RESULT: ${{ steps.comment.outcome }}
+        run: nix run --no-update-lock-file --no-write-lock-file .#font-ci -- finalize

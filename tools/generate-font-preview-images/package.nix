@@ -1,521 +1,27 @@
 {
-  alibabaPackages,
-  alimamaPackages,
-  buttaiwanPackages,
   coreutils,
-  dingtalkPackages,
   findutils,
   fontconfig,
-  foundertypePackages,
   git,
   gnused,
-  hanwangPackages,
-  huaweiPackages,
   imagemagick,
-  justfontPackages,
   lib,
-  microsoftPackages,
+  nix,
   pango,
-  taobaoPackages,
-  tianhengPackages,
-  trionestypePackages,
-  tsangertypePackages,
   writeShellScriptBin,
   writeText,
-  xiaomiPackages,
   ...
 }:
 let
   inherit (lib)
-    attrByPath
     concatLists
     concatStringsSep
-    elem
-    filterAttrs
-    isDerivation
     licenses
     maintainers
     makeBinPath
     map
     mapAttrsToList
     ;
-
-  fontPreviewScopes = {
-    alibaba = alibabaPackages;
-    alimama = alimamaPackages;
-    buttaiwan = buttaiwanPackages;
-    dingtalk = dingtalkPackages;
-    foundertype = foundertypePackages;
-    hanwang = hanwangPackages;
-    huawei = huaweiPackages;
-    justfont = justfontPackages;
-    microsoft = microsoftPackages;
-    taobao = taobaoPackages;
-    tianheng = tianhengPackages;
-    trionestype = trionestypePackages;
-    tsangertype = tsangertypePackages;
-    xiaomi = xiaomiPackages;
-  };
-
-  fontPreviewPackageSampleKeys = {
-    alibaba = {
-      alibaba-puhuiti = "simplified-chinese";
-      alibaba-puhuiti-2 = "simplified-chinese";
-      alibaba-puhuiti-3 = "simplified-chinese";
-      alibaba-sans = "english";
-      alibaba-sans-hk = "traditional-chinese";
-      alibaba-sans-jp = "japanese";
-      alibaba-sans-kr = "korean";
-      alibaba-sans-sea = "southeast-asian";
-      alibaba-sans-tc = "traditional-chinese";
-      alibaba-sans-thai = "thai";
-      alibaba-sans-viet = "vietnamese";
-    };
-
-    alimama = {
-      alimama-agile = "english";
-      alimama-daoliti = "simplified-chinese";
-      alimama-dongfangdakai = "simplified-chinese";
-      alimama-fangyuanti = "simplified-chinese";
-      alimama-shuheiti = "simplified-chinese";
-    };
-
-    buttaiwan = {
-      buttaiwan-genkimin2-jp = "japanese";
-      buttaiwan-genkimin2-pjp = "japanese";
-      buttaiwan-genkimin2-tc = "traditional-chinese";
-      buttaiwan-genkimin2-tw = "traditional-chinese";
-      buttaiwan-genyomin2-jp = "japanese";
-      buttaiwan-genyomin2-pjp = "japanese";
-      buttaiwan-genyomin2-tc = "traditional-chinese";
-      buttaiwan-genyomin2-tw = "traditional-chinese";
-      buttaiwan-gensenrounded2-jp = "japanese";
-      buttaiwan-gensenrounded2-pjp = "japanese";
-      buttaiwan-gensenrounded2-tc = "traditional-chinese";
-      buttaiwan-gensenrounded2-tw = "traditional-chinese";
-      buttaiwan-gensekigothic2-jp = "japanese";
-      buttaiwan-gensekigothic2-pjp = "japanese";
-      buttaiwan-gensekigothic2-tc = "traditional-chinese";
-      buttaiwan-gensekigothic2-tw = "traditional-chinese";
-      buttaiwan-genkigothic2-jp = "japanese";
-      buttaiwan-genkigothic2-pjp = "japanese";
-      buttaiwan-genkigothic2-tc = "traditional-chinese";
-      buttaiwan-genkigothic2-tw = "traditional-chinese";
-      buttaiwan-genyogothic2-jp = "japanese";
-      buttaiwan-genyogothic2-pjp = "japanese";
-      buttaiwan-genyogothic2-tc = "traditional-chinese";
-      buttaiwan-genyogothic2-tw = "traditional-chinese";
-      buttaiwan-genwanmin2-jp = "japanese";
-      buttaiwan-genwanmin2-pjp = "japanese";
-      buttaiwan-genwanmin2-tc = "traditional-chinese";
-      buttaiwan-genwanmin2-tw = "traditional-chinese";
-      buttaiwan-genryumin2-jp = "japanese";
-      buttaiwan-genryumin2-pjp = "japanese";
-      buttaiwan-genryumin2-tc = "traditional-chinese";
-      buttaiwan-genryumin2-tw = "traditional-chinese";
-      buttaiwan-iansui = "traditional-chinese";
-    };
-
-    dingtalk = {
-      dingtalk-jinbuti = "simplified-chinese";
-    };
-
-    foundertype = {
-      foundertype-fzcuyuan = "simplified-chinese";
-      foundertype-fzfangsong = "simplified-chinese";
-      foundertype-fzheiti = "simplified-chinese";
-      foundertype-fzkaiti = "simplified-chinese";
-      foundertype-fzlishu = "simplified-chinese";
-      foundertype-fzshusong = "simplified-chinese";
-      foundertype-fzxiaobiaosong = "simplified-chinese";
-      foundertype-fzxiheiyi = "simplified-chinese";
-      foundertype-fzxiyuan = "simplified-chinese";
-      foundertype-fzzhunyuan = "simplified-chinese";
-    };
-
-    hanwang = {
-      hanwang-fangsong = "traditional-chinese";
-      hanwang-gsolid = "traditional-chinese";
-      hanwang-hei = "traditional-chinese";
-      hanwang-kai = "traditional-chinese";
-      hanwang-kandayan = "traditional-chinese";
-      hanwang-kantan = "traditional-chinese";
-      hanwang-kuli = "traditional-chinese";
-      hanwang-kuzheng = "traditional-chinese";
-      hanwang-lisu = "traditional-chinese";
-      hanwang-ming = "traditional-chinese";
-      hanwang-shinkai = "traditional-chinese";
-      hanwang-sinsong = "simplified-chinese";
-      hanwang-shinsu = "traditional-chinese";
-      hanwang-weibei = "simplified-chinese";
-      hanwang-yankai = "traditional-chinese";
-      hanwang-yen = "traditional-chinese";
-      hanwang-zonyi = "traditional-chinese";
-    };
-
-    huawei = {
-      harmonyos-sans = "english";
-      harmonyos-sans-sc = "simplified-chinese";
-      harmonyos-sans-sc-vf = "simplified-chinese";
-      harmonyos-sans-tc = "traditional-chinese";
-      harmonyos-sans-tc-vf = "traditional-chinese";
-      harmonyos-sans-vf = "english";
-      harmonyos-sans-naskh-arabic = "arabic";
-      harmonyos-sans-naskh-arabic-vf = "arabic";
-      harmonyos-sans-naskh-arabic-ui = "arabic";
-      harmonyos-sans-naskh-arabic-ui-vf = "arabic";
-    };
-
-    justfont = {
-      justfont-abbrfesfont = "traditional-chinese";
-      justfont-allpuntype = "traditional-chinese";
-      justfont-elffont = "bopomofo";
-      justfont-huninn = "traditional-chinese";
-      justfont-snailfont = "english";
-      justfont-the-write-right-font = "traditional-chinese";
-      justfont-type-jam = "traditional-chinese";
-    };
-
-    microsoft = {
-      microsoft-arial = "english";
-      microsoft-bahnschrift = "english";
-      microsoft-calibri = "english";
-      microsoft-cambria = "english";
-      microsoft-cambria-math = "math";
-      microsoft-candara = "english";
-      microsoft-comic-sans-ms = "english";
-      microsoft-consolas = "english";
-      microsoft-constantia = "english";
-      microsoft-corbel = "english";
-      microsoft-courier-new = "english";
-      microsoft-dengxian = "simplified-chinese";
-      microsoft-ebrima = "english";
-      microsoft-fangsong = "simplified-chinese";
-      microsoft-franklin-gothic-medium = "english";
-      microsoft-gabriola = "english";
-      microsoft-gadugi = "english";
-      microsoft-georgia = "english";
-      microsoft-impact = "english";
-      microsoft-ink-free = "english";
-      microsoft-javanese-text = "javanese";
-      microsoft-kaiti = "simplified-chinese";
-      microsoft-leelawadee-ui = "thai";
-      microsoft-lucida-console = "english";
-      microsoft-lucida-sans-unicode = "english";
-      microsoft-malgun-gothic = "korean";
-      microsoft-marlett = "marlett";
-      microsoft-microsoft-himalaya = "tibetan";
-      microsoft-microsoft-jhenghei = "traditional-chinese";
-      microsoft-microsoft-new-tai-lue = "tai-lue";
-      microsoft-microsoft-phagspa = "phagspa";
-      microsoft-microsoft-sans-serif = "english";
-      microsoft-microsoft-tai-le = "tai-le";
-      microsoft-microsoft-yahei = "simplified-chinese";
-      microsoft-microsoft-yi-baiti = "yi";
-      microsoft-mingliu = "traditional-chinese";
-      microsoft-mongolian-baiti = "mongolian";
-      microsoft-ms-gothic = "japanese";
-      microsoft-mv-boli = "english";
-      microsoft-myanmar-text = "myanmar";
-      microsoft-nirmala = "devanagari";
-      microsoft-noto-sans-sc = "simplified-chinese";
-      microsoft-noto-serif-sc = "simplified-chinese";
-      microsoft-palatino-linotype = "english";
-      microsoft-sans-serif-collection = "english";
-      microsoft-segoe-icons = "segoe-icons";
-      microsoft-segoe-print = "english";
-      microsoft-segoe-script = "english";
-      microsoft-segoe-ui = "english";
-      microsoft-segoe-ui-symbols = "segoe-ui-symbols";
-      microsoft-segoe-ui-variable = "english";
-      microsoft-simhei = "simplified-chinese";
-      microsoft-simsun = "simplified-chinese";
-      microsoft-sitka = "english";
-      microsoft-sylfaen = "english";
-      microsoft-symbol = "symbol-legacy";
-      microsoft-tahoma = "english";
-      microsoft-times-new-roman = "english";
-      microsoft-trebuchet-ms = "english";
-      microsoft-verdana = "english";
-      microsoft-webdings = "webdings";
-      microsoft-wingdings = "wingdings";
-      microsoft-yu-gothic = "japanese";
-    };
-
-    taobao = {
-      taobao-maicaiti = "simplified-chinese";
-    };
-
-    tianheng = {
-      tianheng-hak = "traditional-chinese";
-      tianheng-joeng = "traditional-chinese";
-      tianheng-khaai-p = "traditional-chinese";
-      tianheng-khaai-t = "simplified-chinese";
-      tianheng-ming = "japanese";
-      tianheng-sung-p = "traditional-chinese";
-      tianheng-sung-t = "simplified-chinese";
-      tianheng-sy = "simplified-chinese";
-      tianheng-tshyn = "simplified-chinese";
-    };
-
-    trionestype = {
-      trionestype-zhuque-fangsong = "simplified-chinese";
-    };
-
-    tsangertype = {
-      tsangertype-tsangeradkkt = "simplified-chinese";
-      tsangertype-tsangeramxingkai = "simplified-chinese";
-      tsangertype-tsangeramxk = "simplified-chinese";
-      tsangertype-tsangeramxs = "simplified-chinese";
-      tsangertype-tsangeranmmdt = "simplified-chinese";
-      tsangertype-tsangeraqlxs = "simplified-chinese";
-      tsangertype-tsangerbanghei = "simplified-chinese";
-      tsangertype-tsangerbblt = "simplified-chinese";
-      tsangertype-tsangerblgl = "simplified-chinese";
-      tsangertype-tsangerbmzct = "simplified-chinese";
-      tsangertype-tsangerbtsz = "simplified-chinese";
-      tsangertype-tsangerchuangyi = "simplified-chinese";
-      tsangertype-tsangerchunfeng = "simplified-chinese";
-      tsangertype-tsangercllsj = "simplified-chinese";
-      tsangertype-tsangercsskdfxt = "simplified-chinese";
-      tsangertype-tsangercyt = "simplified-chinese";
-      tsangertype-tsangerczbjxks = "simplified-chinese";
-      tsangertype-tsangerczbksjf = "simplified-chinese";
-      tsangertype-tsangerczblyks = "simplified-chinese";
-      tsangertype-tsangerczbxkjf = "simplified-chinese";
-      tsangertype-tsangerdajiti = "simplified-chinese";
-      tsangertype-tsangerddt = "simplified-chinese";
-      tsangertype-tsangerdfzst = "simplified-chinese";
-      tsangertype-tsangerdmmt = "simplified-chinese";
-      tsangertype-tsangerdmxmtt = "simplified-chinese";
-      tsangertype-tsangerdnsxt = "simplified-chinese";
-      tsangertype-tsangerdscjt = "simplified-chinese";
-      tsangertype-tsangerdubaiti = "simplified-chinese";
-      tsangertype-tsangerdwt = "simplified-chinese";
-      tsangertype-tsangerfanghei = "simplified-chinese";
-      tsangertype-tsangerfec = "simplified-chinese";
-      tsangertype-tsangerfeibai = "simplified-chinese";
-      tsangertype-tsangerfenghei = "simplified-chinese";
-      tsangertype-tsangerfft = "simplified-chinese";
-      tsangertype-tsangerfgxsxst = "simplified-chinese";
-      tsangertype-tsangerftt = "simplified-chinese";
-      tsangertype-tsangerfwjt = "simplified-chinese";
-      tsangertype-tsangerfyt = "simplified-chinese";
-      tsangertype-tsangergdxxt = "simplified-chinese";
-      tsangertype-tsangergfks = "simplified-chinese";
-      tsangertype-tsangergfxs = "simplified-chinese";
-      tsangertype-tsangergqimingti = "simplified-chinese";
-      tsangertype-tsangergtt = "simplified-chinese";
-      tsangertype-tsangerguli = "simplified-chinese";
-      tsangertype-tsangerguyun = "simplified-chinese";
-      tsangertype-tsangergxtyt = "simplified-chinese";
-      tsangertype-tsangergzt = "simplified-chinese";
-      tsangertype-tsangerhby = "simplified-chinese";
-      tsangertype-tsangerhft = "simplified-chinese";
-      tsangertype-tsangerhltxst = "simplified-chinese";
-      tsangertype-tsangerhst = "simplified-chinese";
-      tsangertype-tsangerhuaxinti = "simplified-chinese";
-      tsangertype-tsangerjdks = "simplified-chinese";
-      tsangertype-tsangerjdxs = "simplified-chinese";
-      tsangertype-tsangerjinkai = "simplified-chinese";
-      tsangertype-tsangerjkt = "simplified-chinese";
-      tsangertype-tsangerjmt = "simplified-chinese";
-      tsangertype-tsangerjsryt = "simplified-chinese";
-      tsangertype-tsangerjtmqdt = "simplified-chinese";
-      tsangertype-tsangerjxt = "simplified-chinese";
-      tsangertype-tsangerjyt = "simplified-chinese";
-      tsangertype-tsangerjzcf = "simplified-chinese";
-      tsangertype-tsangerjzw = "simplified-chinese";
-      tsangertype-tsangerkeketi = "simplified-chinese";
-      tsangertype-tsangerklks = "simplified-chinese";
-      tsangertype-tsangerkuhei = "simplified-chinese";
-      tsangertype-tsangerlabjt = "simplified-chinese";
-      tsangertype-tsangerlankai = "simplified-chinese";
-      tsangertype-tsangerlifeiti = "simplified-chinese";
-      tsangertype-tsangerlinggang = "simplified-chinese";
-      tsangertype-tsangerlishiti = "simplified-chinese";
-      tsangertype-tsangerliyuan = "simplified-chinese";
-      tsangertype-tsangerlkkt = "simplified-chinese";
-      tsangertype-tsangerllbjt = "simplified-chinese";
-      tsangertype-tsangerlyt = "simplified-chinese";
-      tsangertype-tsangerlzhft = "simplified-chinese";
-      tsangertype-tsangerlzt = "simplified-chinese";
-      tsangertype-tsangermanmiao = "simplified-chinese";
-      tsangertype-tsangermbht = "simplified-chinese";
-      tsangertype-tsangermbkjt = "simplified-chinese";
-      tsangertype-tsangermddt = "simplified-chinese";
-      tsangertype-tsangermdmwt = "simplified-chinese";
-      tsangertype-tsangermeixin = "simplified-chinese";
-      tsangertype-tsangermengdie = "simplified-chinese";
-      tsangertype-tsangerminghei = "simplified-chinese";
-      tsangertype-tsangermingkai = "simplified-chinese";
-      tsangertype-tsangermingyueti = "simplified-chinese";
-      tsangertype-tsangermmdxdzt = "simplified-chinese";
-      tsangertype-tsangermmjt = "simplified-chinese";
-      tsangertype-tsangermochati = "simplified-chinese";
-      tsangertype-tsangermtls = "simplified-chinese";
-      tsangertype-tsangermxlbt = "simplified-chinese";
-      tsangertype-tsangermxt = "simplified-chinese";
-      tsangertype-tsangermzgt = "simplified-chinese";
-      tsangertype-tsangernhsgt = "simplified-chinese";
-      tsangertype-tsangernnszt = "simplified-chinese";
-      tsangertype-tsangernswdqsj = "simplified-chinese";
-      tsangertype-tsangernswdwy = "simplified-chinese";
-      tsangertype-tsangernwt = "simplified-chinese";
-      tsangertype-tsangernxt = "simplified-chinese";
-      tsangertype-tsangerpbt = "simplified-chinese";
-      tsangertype-tsangerpmt = "simplified-chinese";
-      tsangertype-tsangerqcynwmt = "simplified-chinese";
-      tsangertype-tsangerqczka = "simplified-chinese";
-      tsangertype-tsangerqeddt = "simplified-chinese";
-      tsangertype-tsangerqft = "simplified-chinese";
-      tsangertype-tsangerqfxyt = "simplified-chinese";
-      tsangertype-tsangerqht = "simplified-chinese";
-      tsangertype-tsangerqhtgl = "simplified-chinese";
-      tsangertype-tsangerqiaoleti = "simplified-chinese";
-      tsangertype-tsangerqingjiti = "simplified-chinese";
-      tsangertype-tsangerqingsongti = "simplified-chinese";
-      tsangertype-tsangerqingya = "simplified-chinese";
-      tsangertype-tsangerqingyou = "simplified-chinese";
-      tsangertype-tsangerqmt = "simplified-chinese";
-      tsangertype-tsangerqnt = "simplified-chinese";
-      tsangertype-tsangerqqmzt = "simplified-chinese";
-      tsangertype-tsangerqqt = "simplified-chinese";
-      tsangertype-tsangerqqxj = "simplified-chinese";
-      tsangertype-tsangerquhei = "simplified-chinese";
-      tsangertype-tsangerqxt = "simplified-chinese";
-      tsangertype-tsangerqyt = "simplified-chinese";
-      tsangertype-tsangerrouhei = "simplified-chinese";
-      tsangertype-tsangerruihei = "simplified-chinese";
-      tsangertype-tsangerrunhei = "simplified-chinese";
-      tsangertype-tsangersangqi = "simplified-chinese";
-      tsangertype-tsangersgt = "simplified-chinese";
-      tsangertype-tsangershuhei = "simplified-chinese";
-      tsangertype-tsangershuyuant = "simplified-chinese";
-      tsangertype-tsangersirouti = "simplified-chinese";
-      tsangertype-tsangersnxscyt = "simplified-chinese";
-      tsangertype-tsangersongkai = "simplified-chinese";
-      tsangertype-tsangersqdddt = "simplified-chinese";
-      tsangertype-tsangerssrs = "simplified-chinese";
-      tsangertype-tsangersxt = "simplified-chinese";
-      tsangertype-tsangersycxft = "simplified-chinese";
-      tsangertype-tsangersyxk = "simplified-chinese";
-      tsangertype-tsangertft = "simplified-chinese";
-      tsangertype-tsangertmmt = "simplified-chinese";
-      tsangertype-tsangertmtgl = "simplified-chinese";
-      tsangertype-tsangertqxk = "simplified-chinese";
-      tsangertype-tsangertsllt = "simplified-chinese";
-      tsangertype-tsangerty = "simplified-chinese";
-      tsangertype-tsangertzt = "simplified-chinese";
-      tsangertype-tsangerwdxsjf = "simplified-chinese";
-      tsangertype-tsangerwgxbqct = "simplified-chinese";
-      tsangertype-tsangerwlrjt = "simplified-chinese";
-      tsangertype-tsangerwlsft = "simplified-chinese";
-      tsangertype-tsangerxbks = "simplified-chinese";
-      tsangertype-tsangerxbxs = "simplified-chinese";
-      tsangertype-tsangerxcks = "simplified-chinese";
-      tsangertype-tsangerxdet = "simplified-chinese";
-      tsangertype-tsangerxflzt = "simplified-chinese";
-      tsangertype-tsangerxft = "simplified-chinese";
-      tsangertype-tsangerxhsong = "simplified-chinese";
-      tsangertype-tsangerxka = "simplified-chinese";
-      tsangertype-tsangerxinyanti = "simplified-chinese";
-      tsangertype-tsangerxinyueti = "simplified-chinese";
-      tsangertype-tsangerxiuzhenti = "simplified-chinese";
-      tsangertype-tsangerxiyuanti = "simplified-chinese";
-      tsangertype-tsangerxmmt = "simplified-chinese";
-      tsangertype-tsangerxmsltht = "simplified-chinese";
-      tsangertype-tsangerxspt = "simplified-chinese";
-      tsangertype-tsangerxuansan = "simplified-chinese";
-      tsangertype-tsangerxwndm = "simplified-chinese";
-      tsangertype-tsangerxwz = "simplified-chinese";
-      tsangertype-tsangerxxhct = "simplified-chinese";
-      tsangertype-tsangerxxmgt = "simplified-chinese";
-      tsangertype-tsangerxxt = "simplified-chinese";
-      tsangertype-tsangerxxxs = "simplified-chinese";
-      tsangertype-tsangerxysj = "simplified-chinese";
-      tsangertype-tsangerxyt = "simplified-chinese";
-      tsangertype-tsangerxytxt = "simplified-chinese";
-      tsangertype-tsangerxyxs = "simplified-chinese";
-      tsangertype-tsangerxyzxft = "simplified-chinese";
-      tsangertype-tsangerxzmxsxt = "simplified-chinese";
-      tsangertype-tsangerxzzxyzt = "simplified-chinese";
-      tsangertype-tsangeryangmingti = "simplified-chinese";
-      tsangertype-tsangeryasong = "simplified-chinese";
-      tsangertype-tsangeryayueti = "simplified-chinese";
-      tsangertype-tsangerybt = "simplified-chinese";
-      tsangertype-tsangeryctgl = "simplified-chinese";
-      tsangertype-tsangerygmmt = "simplified-chinese";
-      tsangertype-tsangerygxs = "simplified-chinese";
-      tsangertype-tsangeryhstt = "simplified-chinese";
-      tsangertype-tsangeryihei = "simplified-chinese";
-      tsangertype-tsangeryinghe = "simplified-chinese";
-      tsangertype-tsangeryisong = "simplified-chinese";
-      tsangertype-tsangerylt = "simplified-chinese";
-      tsangertype-tsangerymt = "simplified-chinese";
-      tsangertype-tsangeryouran = "simplified-chinese";
-      tsangertype-tsangeryryzt = "simplified-chinese";
-      tsangertype-tsangerysbdt = "simplified-chinese";
-      tsangertype-tsangeryuedong = "simplified-chinese";
-      tsangertype-tsangeryukai = "simplified-chinese";
-      tsangertype-tsangeryumo = "simplified-chinese";
-      tsangertype-tsangeryunhei = "simplified-chinese";
-      tsangertype-tsangeryuyangt = "simplified-chinese";
-      tsangertype-tsangeryxt = "simplified-chinese";
-      tsangertype-tsangeryxxt = "simplified-chinese";
-      tsangertype-tsangeryycft = "simplified-chinese";
-      tsangertype-tsangeryzlt = "simplified-chinese";
-      tsangertype-tsangerzgft = "simplified-chinese";
-      tsangertype-tsangerzhenzhuti = "simplified-chinese";
-      tsangertype-tsangerzhixinti = "simplified-chinese";
-      tsangertype-tsangerzhoukezhengdabangshu = "simplified-chinese";
-      tsangertype-tsangerzhuangyuankai = "simplified-chinese";
-      tsangertype-tsangerzhuyanti = "simplified-chinese";
-      tsangertype-tsangerzjnxnt = "simplified-chinese";
-      tsangertype-tsangerzongheng = "simplified-chinese";
-      tsangertype-tsangerzqtgl = "simplified-chinese";
-      tsangertype-tsangerzxkzn = "simplified-chinese";
-      tsangertype-tsangerzxylt = "simplified-chinese";
-      tsangertype-tsangerzyxwq = "simplified-chinese";
-      tsangertype-tsangerzyxwzt = "simplified-chinese";
-    };
-
-    xiaomi = {
-      misans-arabic = "arabic";
-      misans-arabic-vf = "arabic";
-      misans-arabic-ui = "arabic";
-      misans-arabic-ui-vf = "arabic";
-      misans-devanagari = "devanagari";
-      misans-devanagari-vf = "devanagari";
-      misans-gurmukhi = "gurmukhi";
-      misans-gurmukhi-vf = "gurmukhi";
-      misans-gujarati = "gujarati";
-      misans-gujarati-vf = "gujarati";
-      misans = "simplified-chinese";
-      misans-khmer = "khmer";
-      misans-khmer-vf = "khmer";
-      misans-l3 = "rare-chinese";
-      misans-lao = "lao";
-      misans-lao-vf = "lao";
-      misans-latin = "english";
-      misans-latin-vf = "english";
-      misans-myanmar = "myanmar";
-      misans-myanmar-vf = "myanmar";
-      misans-tc = "traditional-chinese";
-      misans-tc-vf = "traditional-chinese";
-      misans-thai = "thai";
-      misans-thai-vf = "thai";
-      misans-tibetan = "tibetan";
-      misans-tibetan-vf = "tibetan";
-      misans-vf = "simplified-chinese";
-    };
-  };
-
-  fontPreviewExcludedPackagePnames = {
-    microsoft = [
-      "windows-fonts"
-    ];
-  };
 
   fontPreviewSkippedFontNames = { };
 
@@ -526,20 +32,9 @@ let
     git
     gnused
     imagemagick
+    nix
     pango
   ];
-
-  fontPreviewMissingSampleKey = "__missing_sample_key__";
-
-  fontPreviewSampleKey =
-    scopeName: pname:
-    attrByPath
-      [
-        scopeName
-        pname
-      ]
-      fontPreviewMissingSampleKey
-      fontPreviewPackageSampleKeys;
 
   fontPreviewSkippedFontRows = concatLists (
     mapAttrsToList (
@@ -560,46 +55,6 @@ let
     ) fontPreviewSkippedFontNames
   );
 
-  fontPreviewPackageRows =
-    scopeName: scope:
-    mapAttrsToList
-      (
-        _: package:
-        concatStringsSep "\t" [
-          scopeName
-          package.pname
-          (fontPreviewSampleKey scopeName package.pname)
-          (toString package)
-        ]
-      )
-      (
-        filterAttrs (
-          _: package:
-          (isDerivation package)
-          && (
-            !(elem package.pname (
-              attrByPath
-                [
-                  scopeName
-                ]
-                [ ]
-                fontPreviewExcludedPackagePnames
-            ))
-          )
-        ) scope
-      );
-
-  fontPreviewManifest =
-    writeText "font-preview-packages.tsv"
-      (
-        (concatStringsSep "\n" (
-          concatLists (
-            mapAttrsToList fontPreviewPackageRows fontPreviewScopes
-          )
-        ))
-        + "\n"
-      );
-
   fontPreviewSkippedFontManifest =
     writeText "font-preview-skipped-fonts.tsv"
       (
@@ -611,6 +66,9 @@ in
   set -euo pipefail
 
   export PATH=${makeBinPath fontPreviewRuntimePackages}
+
+  temporary_files=()
+  trap 'rm -f -- "''${temporary_files[@]}"' EXIT
 
   arabic_sample='أنا أستطيع أكل الزجاج ولا يؤلمني'
   bopomofo_sample='ㄨㄛˇ ㄋㄥˊ ㄊㄨㄣ ㄒㄧㄚˋ ㄅㄛ ˙ㄌㄧ ㄦˊ ㄅㄨˋ ㄕㄤ ㄕㄣ ㄊㄧˇ'
@@ -647,7 +105,7 @@ in
   yi_sample='ꉢꋤꇓꅝꇬꑌꇭꀧꀋꌸ'
 
   usage() {
-    printf 'usage: %s [--override] [--package-name pname[,pname...]]\n' \
+    printf 'usage: %s [--override] [--package-name pname[,pname...]] [--manifest FILE] [--output-dir DIR]\n' \
       "$(basename -- "$0")" >&2
   }
 
@@ -701,12 +159,12 @@ in
       }'
   }
 
-  is_blank_image() {
-    local colors
+  is_invalid_image() {
+    local colors width height
     local image=$1
 
-    colors=$(magick identify -format '%k' "$image")
-    [ "$colors" -le 1 ]
+    read -r colors width height < <(magick identify -format '%k %w %h\n' "$image")
+    [ "$colors" -le 1 ] || [ "$width" -le "$height" ]
   }
 
   render_with_magick() {
@@ -721,10 +179,11 @@ in
       -font "$font" \
       -pointsize 64 \
       -gravity center \
-      -size 1600x360 \
+      -size 30000x360 \
       "caption:$sample" \
       -trim \
       +repage \
+      -resize '1200x360>' \
       -bordercolor white \
       -border 16x16 \
       "$output"
@@ -738,6 +197,7 @@ in
     local sample=$4
 
     pango_image=$(mktemp "$(dirname "$output")/.preview-pango.XXXXXX.png")
+    temporary_files+=("$pango_image")
 
     FONTCONFIG_FILE=$fontconfig_file \
       pango-view \
@@ -900,6 +360,8 @@ in
   }
 
   override=false
+  manifest=
+  output_dir=
   declare -A selected_package_names=()
   package_name_filter=false
 
@@ -978,6 +440,18 @@ in
 
   while [ "$#" -gt 0 ]; do
     case "$1" in
+      --manifest|--output-dir)
+        if [ "$#" -lt 2 ] || [ -z "$2" ]; then
+          usage
+          exit 2
+        fi
+        if [ "$1" = --manifest ]; then
+          manifest=$2
+        else
+          output_dir=$2
+        fi
+        shift 2
+        ;;
       --override)
         override=true
         shift
@@ -1002,16 +476,45 @@ in
     esac
   done
 
-  validate_package_name_filter "${fontPreviewManifest}"
+  if [ -z "$manifest" ]; then
+    if [ "$package_name_filter" = false ]; then
+      printf 'select packages with --package-name or provide --manifest\n' >&2
+      exit 2
+    fi
+    manifest=$(mktemp)
+    temporary_files+=("$manifest")
+    package_names=$(IFS=,; printf '%s' "''${!selected_package_names[*]}")
+    nix run --no-update-lock-file --no-write-lock-file \
+      --option accept-flake-config false \
+      --option allow-import-from-derivation false \
+      --option builders "" "$(project_root)#font-ci" -- preview-manifest \
+      --root "$(project_root)" --package-name "$package_names" --output "$manifest"
+  fi
 
-  output_dir=$(project_root)/font-preview-images
+  if [ ! -s "$manifest" ]; then
+    printf 'empty font manifest\n' >&2
+    exit 1
+  fi
+  validate_package_name_filter "$manifest"
+
+  if [ -z "$output_dir" ]; then
+    output_dir=$(project_root)/font-preview-images
+  fi
   mkdir -p "$output_dir"
+  declare -A image_counts=()
 
   while IFS=$'\t' read -r scope pname sample_key package; do
     if ! should_generate_package "$pname"; then
       continue
     fi
 
+    if [[ ! "$scope" =~ ^[a-z0-9][a-z0-9_-]*$ ]] \
+      || [[ ! "$pname" =~ ^[a-z0-9][a-z0-9_+-]*$ ]] \
+      || [[ ! "$sample_key" =~ ^[a-z0-9-]+$ ]] \
+      || [[ ! "$package" =~ ^/nix/store/[0-9a-df-np-sv-z]{32}-[^/[:space:]]+$ ]]; then
+      printf 'invalid font manifest row\n' >&2
+      exit 1
+    fi
     fonts_dir=$package/share/fonts
     scope_dir=$output_dir/$scope
 
@@ -1022,12 +525,14 @@ in
     fi
 
     if [ ! -d "$fonts_dir" ]; then
-      continue
+      printf 'missing font directory: %s\n' "$fonts_dir" >&2
+      exit 1
     fi
 
     mkdir -p "$scope_dir"
 
     fontconfig_file=$(mktemp "$scope_dir/.fontconfig.XXXXXX.conf")
+    temporary_files+=("$fontconfig_file")
     {
       printf '%s\n' '<?xml version="1.0"?>'
       printf '%s\n' '<!DOCTYPE fontconfig SYSTEM "fonts.dtd">'
@@ -1037,7 +542,6 @@ in
     } > "$fontconfig_file"
 
     declare -A family_counts=()
-    declare -A image_counts=()
     font_paths=()
     font_names=()
     font_styles=()
@@ -1049,12 +553,19 @@ in
       font_styles+=("$(font_style_name "$font")")
       family_counts["$font_name"]=$(( ''${family_counts[$font_name]:-0} + 1 ))
     done < <(
-      find "$fonts_dir" \
+      find -L "$fonts_dir" \
         -type f \
         \( -iname '*.otf' -o -iname '*.otc' -o -iname '*.ttf' -o -iname '*.ttc' \) \
-        -print0
+        -print0 | sort -z
     )
 
+    if [ "''${#font_paths[@]}" -eq 0 ]; then
+      printf 'no font files in %s\n' "$fonts_dir" >&2
+      exit 1
+    fi
+
+    expected=0
+    validated=0
     for index in "''${!font_paths[@]}"; do
       font=''${font_paths[$index]}
       font_name=''${font_names[$index]}
@@ -1068,8 +579,9 @@ in
         continue
       fi
 
+      expected=$((expected + 1))
       image=$scope_dir/$pname+$font_name.png
-      image_key=$pname+$font_name
+      image_key=$scope/$pname+$font_name
       image_count=''${image_counts[$image_key]:-0}
       image_counts["$image_key"]=$((image_count + 1))
 
@@ -1078,17 +590,23 @@ in
       fi
 
       if [ "$override" = false ] && [ -e "$image" ]; then
+        if is_invalid_image "$image"; then
+          printf 'invalid existing preview: %s\n' "$image" >&2
+          exit 1
+        fi
+        validated=$((validated + 1))
         continue
       fi
 
       sample=$(choose_sample "$sample_key" "$font_name")
       temporary_image=$(mktemp "$scope_dir/.preview.XXXXXX.png")
 
-      render_with_magick "$font" "$temporary_image" "$sample"
-
-      if is_blank_image "$temporary_image"; then
+      temporary_files+=("$temporary_image")
+      if ! render_with_magick "$font" "$temporary_image" "$sample" \
+        || is_invalid_image "$temporary_image"; then
         rm -f "$temporary_image"
         temporary_image=$(mktemp "$scope_dir/.preview.XXXXXX.png")
+        temporary_files+=("$temporary_image")
         render_with_pango \
           "$fontconfig_file" \
           "$font_name" \
@@ -1096,18 +614,25 @@ in
           "$sample"
       fi
 
-      if is_blank_image "$temporary_image"; then
-        rm -f "$temporary_image"
-        continue
+      if is_invalid_image "$temporary_image"; then
+        printf 'invalid rendered preview: %s\n' "$font" >&2
+        exit 1
       fi
 
+      magick "$temporary_image" -strip -depth 8 \
+        -define png:exclude-chunk=all "PNG24:$temporary_image"
       mv -f "$temporary_image" "$image"
+      validated=$((validated + 1))
 
       printf '%s\n' "$image"
     done
 
+    if [ "$expected" -eq 0 ] || [ "$validated" -ne "$expected" ]; then
+      printf 'preview count mismatch for %s: %s/%s\n' "$pname" "$validated" "$expected" >&2
+      exit 1
+    fi
     rm -f "$fontconfig_file"
-  done < ${fontPreviewManifest}
+  done < "$manifest"
 '').overrideAttrs
   (_: {
     meta = {
@@ -1117,7 +642,4 @@ in
       maintainers = with maintainers; [ brsvh ];
     };
 
-    passthru = {
-      manifest = fontPreviewManifest;
-    };
   })

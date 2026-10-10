@@ -38,6 +38,24 @@ in
         };
       };
 
+      apps = {
+        font-ci = {
+          type = "app";
+
+          meta = {
+            description = "Incremental font CI and preview tools";
+          };
+
+          program = "${
+            import (projectRoot + /ci) { inherit pkgs; }
+          }/bin/font-ci";
+        };
+      };
+
+      checks = import (projectRoot + /ci/checks.nix) {
+        inherit pkgs projectRoot;
+      };
+
       devShells =
         let
           mkDevShell =

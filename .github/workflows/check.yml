@@ -1,0 +1,36 @@
+name: Flake checks
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: font-check-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  flake:
+    name: Flake checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31.11.1
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.34.8/install
+          extra_nix_config: |
+            accept-flake-config = false
+            allow-import-from-derivation = false
+            builders =
+            experimental-features = nix-command flakes ca-derivations
+            extra-substituters = https://cache.bingshan.org
+            extra-trusted-public-keys = cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
+      - name: Check source formatting
+        run: nix fmt --no-update-lock-file --no-write-lock-file -- --fail-on-change
+      - name: Evaluate flake and run CI contract tests
+        run: nix flake check --no-update-lock-file --no-write-lock-file --print-build-logs
