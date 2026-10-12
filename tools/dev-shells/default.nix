@@ -275,6 +275,26 @@ let
     treefmt = {
       data = {
         formatter = {
+          javascript = {
+            command = "biome";
+
+            includes = [
+              "*.cjs"
+              "*.js"
+              "*.jsx"
+              "*.mjs"
+            ];
+
+            options = [
+              "format"
+              "--write"
+              "--indent-style=space"
+              "--indent-width=2"
+              "--line-width=80"
+              "--javascript-formatter-quote-style=single"
+            ];
+          };
+
           markdown = {
             command = "mdformat";
 
@@ -318,6 +338,7 @@ let
         in
         with pkgs;
         [
+          biome
           mdformatWithPlugins
           nixfmt
           treefmt
