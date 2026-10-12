@@ -10,6 +10,7 @@ import {
   command,
   derivationGraph,
   ensure,
+  fetchResponse,
   identifier,
   parseJson,
   pathInfo,
@@ -120,10 +121,9 @@ export async function rootsAvailable(outputs, cache) {
   for (const value of outputs) {
     ensure(storePattern.test(value), 'Invalid cache output');
     const hash = path.basename(value).slice(0, 32);
-    const response = await fetch(cache.url + '/' + hash + '.narinfo', {
+    const response = await fetchResponse(cache.url + '/' + hash + '.narinfo', {
       method: 'HEAD',
       redirect: 'manual',
-      signal: AbortSignal.timeout(30000),
     });
 
     if (response.status === 404) {

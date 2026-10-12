@@ -5,6 +5,7 @@ import {
   bounded,
   bytes,
   ensure,
+  fetchResponse,
   fingerprint,
   identifier,
   maxData,
@@ -103,10 +104,10 @@ export class GitHub {
         url.protocol === 'https:' && !url.username && !url.password,
         'Artifact redirects must use HTTPS without credentials',
       );
-      const response = await fetch(url, {
+      const response = await fetchResponse(url, {
         headers: attempt === 0 ? { authorization: 'Bearer ' + this.token } : {},
         redirect: 'manual',
-        signal: AbortSignal.timeout(60000),
+        timeout: 60000,
       });
 
       if ([301, 302, 303, 307, 308].includes(response.status)) {

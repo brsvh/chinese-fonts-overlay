@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash, randomUUID } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
+import { setTimeout as delay } from 'node:timers/promises';
 
 export const schema = 1;
 export const policy = 2;
@@ -499,6 +500,41 @@ export class ApiError extends Error {
   }
 }
 
+export async function fetchResponse(url, options = {}) {
+  const target = new URL(url);
+  const { method = 'GET', timeout = 30000, ...rest } = options;
+  const retryable = ['GET', 'HEAD'].includes(method);
+
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      return await fetch(target, {
+        ...rest,
+        method,
+        signal: AbortSignal.timeout(timeout),
+      });
+    } catch (error) {
+      const code = error.cause?.code ?? error.name;
+      const transient = [
+        'ECONNRESET',
+        'ETIMEDOUT',
+        'EAI_AGAIN',
+        'UND_ERR_CONNECT_TIMEOUT',
+        'UND_ERR_SOCKET',
+        'TimeoutError',
+      ].includes(code);
+      const context = method + ' ' + target.origin + ' failed (' + code + ')';
+
+      // A failed write may already have reached the server.
+      if (!retryable || !transient || attempt >= 3) {
+        throw new Error(context, { cause: error });
+      }
+
+      console.error(context + '; retry ' + attempt + '/2');
+      await delay(1000 * attempt);
+    }
+  }
+}
+
 export async function request(url, token, options = {}) {
   const { method = 'GET', body, missing = false } = options;
   const target = new URL(url);
@@ -506,7 +542,7 @@ export async function request(url, token, options = {}) {
     target.protocol === 'https:' && !target.username && !target.password,
     'Invalid API URL',
   );
-  const response = await fetch(target, {
+  const response = await fetchResponse(target, {
     method,
     headers: {
       accept: 'application/vnd.github+json',
@@ -521,7 +557,6 @@ export async function request(url, token, options = {}) {
     },
     body: body === undefined ? undefined : JSON.stringify(body),
     redirect: 'manual',
-    signal: AbortSignal.timeout(30000),
   });
 
   if (missing && response.status === 404) {
