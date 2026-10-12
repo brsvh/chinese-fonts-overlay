@@ -2,13 +2,8 @@ repository:
   name: chinese-fonts-overlay
   description: Chinese fonts collection for Nix/NixOS user.
   private: false
-  topics:
-    - chinese-fonts
-    - fonts
-    - nix-flake
-    - nix-overlays
-    - nix-packages
-    - nixos-flake
+  topics: >-
+    chinese-fonts, fonts, nix-flake, nix-overlays, nix-packages, nixos-flake
 
   has_issues: true
   has_discussions: false
