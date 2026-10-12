@@ -124,7 +124,15 @@ $ NIXPKGS_ALLOW_UNFREE=1 nix build --impure --expr 'with import <nixpkgs> { over
 
 普通贡献者不一定需要自己生成预览图。
 
-新增字体需要预览时，可以在 PR 中请求 __@brsvh__ 处理。
+新增字体时，在 `tools/generate-font-preview-images/sample-keys.nix` 为包的 `pname` 配置样本。
+
+本地生成仍可使用：
+
+```console
+$ nix develop .#generator -c generate-font-preview-images --package-name <pname>
+```
+
+工具只构建显式选择的字体。
 
 维护者可使用 `create-font-preview` skill 或相关工具生成和校验。
 

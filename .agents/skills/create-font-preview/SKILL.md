@@ -31,8 +31,8 @@ If editing `.nix` files, also use the `nix-coding` skill before changing them.
      before moving or deleting anything.
 3. Find the package and sample-key status.
    - Locate the package with `rg -n 'pname = "<pname>"' packages`.
-   - Check `tools/generate-font-preview-images/package.nix` for an entry in
-     `fontPreviewPackageSampleKeys`.
+   - Check `tools/generate-font-preview-images/sample-keys.nix` for the package
+     `pname` in its vendor attribute set.
    - If a sample key is already configured, keep it unless there is direct
      evidence that it targets the wrong script or language.
    - If no sample key is configured, inspect the package fonts with
@@ -56,7 +56,8 @@ If editing `.nix` files, also use the `nix-coding` skill before changing them.
      category missing from the generator; ask before adding one-off or
      package-specific sample text.
    - If the sample key must be added or changed, edit
-     `tools/generate-font-preview-images/package.nix` and run `nix fmt` on it.
+     `tools/generate-font-preview-images/sample-keys.nix` and run `nix fmt` on
+     it.
 5. Generate previews incrementally through the generator devShell:
    - Use
      `nix develop .#generator -c generate-font-preview-images --package-name <pname>`.
