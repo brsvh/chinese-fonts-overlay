@@ -52,10 +52,6 @@ in
         };
       };
 
-      checks = import (projectRoot + /ci/checks.nix) {
-        inherit pkgs projectRoot;
-      };
-
       devShells =
         let
           mkDevShell =

@@ -87,29 +87,6 @@ let
     url = "https://cache.bingshan.org";
   };
 
-  modules = import ./default.nix {
-    inherit pkgs;
-    mode = "modules";
-  };
-
-  program = pkgs.writeText "font-ci-main.mjs" (
-    import ./main.nix {
-      inherit (modules) common github previews;
-    }
-  );
-
-  entry = pkgs.writeText "font-ci-effect.mjs" ''
-    import { readJson } from '${modules.common}';
-    import { run } from '${program}';
-
-    try {
-      await run(readJson(process.argv[2]));
-    } catch (error) {
-      console.error(error.message);
-      process.exitCode = 1;
-    }
-  '';
-
   renderer = pkgs.callPackage (
     projectRoot
     + /tools/generate-font-preview-images/package.nix
@@ -197,7 +174,7 @@ let
 
         effectScript = ''
           set -euo pipefail
-          node ${entry} ${metadata}
+          node ${./.}/main.mjs ${metadata}
         '';
 
         inputs = with pkgs; [
@@ -289,12 +266,6 @@ in
                 && tag == null
               )
               {
-                checks = {
-                  outputs = {
-                    checks = self.checks.${system};
-                  };
-                };
-
                 plan = {
                   outputs = {
                     effects = {

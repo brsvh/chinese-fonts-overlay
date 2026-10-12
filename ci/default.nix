@@ -112,80 +112,6 @@ let
     + /tools/generate-font-preview-images/package.nix
   ) { };
 
-  common = pkgs.writeText "font-ci-common.mjs" (
-    import ./common.nix {
-      evaluator = "${./.}/default.nix";
-    }
-  );
-
-  previews = pkgs.writeText "font-ci-previews.mjs" (
-    import ./previews.nix {
-      inherit common;
-    }
-  );
-
-  github = pkgs.writeText "font-ci-github.mjs" (
-    import ./github.nix {
-      inherit common previews;
-    }
-  );
-
-  actions = pkgs.writeText "font-ci-actions.mjs" (
-    import ./actions.nix {
-      inherit common github previews;
-    }
-  );
-
-  entry = pkgs.writeText "font-ci.mjs" ''
-    import { parseArgs } from 'node:util';
-    import { ensure, inventory, readJson, writeJson } from '${common}';
-    import { GitHub, publishCommand } from '${github}';
-    import { validatePlan } from '${previews}';
-    import {
-      buildShard, preparePlan, previewManifest,
-    } from '${actions}';
-
-    const { values, positionals } = parseArgs({
-      allowPositionals: true,
-      options: {
-        root: { type: 'string', default: '.' },
-        directory: { type: 'string', default: '.ci-work' },
-        output: { type: 'string' },
-        plan: { type: 'string' },
-        shard: { type: 'string' },
-        'package-name': { type: 'string' },
-      },
-    });
-
-    try {
-      ensure(positionals.length === 1, 'Exactly one command is required');
-      const [command] = positionals;
-
-      if (command === 'inventory') {
-        writeJson(values.output, inventory(values.root));
-      } else if (command === 'preview-manifest') {
-        previewManifest(values.root, values['package-name'], values.output);
-      } else if (command === 'pr-plan') {
-        await preparePlan(values.root, values.directory,
-          readJson(process.env.GITHUB_EVENT_PATH),
-          new GitHub(process.env.GITHUB_TOKEN));
-      } else if (command === 'pr-build') {
-        const shard = Number(values.shard);
-        ensure(Number.isSafeInteger(shard) && shard >= 0, 'Invalid shard');
-        const ok = buildShard(values.root,
-          validatePlan(readJson(values.plan)), shard, values.directory,
-          readJson(process.env.GITHUB_EVENT_PATH));
-        process.exitCode = ok ? 0 : 1;
-      } else if (['identify', 'publish', 'finalize'].includes(command)) {
-        await publishCommand(command);
-      } else {
-        throw new Error('Unknown command: ' + command);
-      }
-    } catch (error) {
-      console.error(error.message, error.details ?? "");
-      process.exitCode = 1;
-    }
-  '';
 in
 if mode == "requests" then
   previewRequests
@@ -239,17 +165,8 @@ else if mode == "runtime" then
     ];
 
     text = ''
-      exec node ${entry} "$@"
+      exec node ${./.}/cli.mjs "$@"
     '';
-  }
-else if mode == "modules" then
-  {
-    inherit
-      actions
-      common
-      github
-      previews
-      ;
   }
 else
   throw "Unknown CI mode ${mode}"
