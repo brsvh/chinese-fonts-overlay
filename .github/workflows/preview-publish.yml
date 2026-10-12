@@ -68,12 +68,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: nix run --no-update-lock-file --no-write-lock-file .#font-ci -- publish
+      - id: comment-token
+        name: Create a repository-scoped token for the preview bot
+        if: steps.publish.outputs.pr != ''
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.CHINESE_FONTS_OVERLAY_PREVIEW_CLIENT_ID }}
+          private-key: ${{ secrets.CHINESE_FONTS_OVERLAY_PREVIEW_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-pull-requests: write
       - id: comment
         name: Update the single preview comment
         if: steps.publish.outputs.pr != ''
         uses: marocchino/sticky-pull-request-comment@v3
         with:
-          GITHUB_TOKEN: ${{ secrets.FONT_PREVIEW_COMMENT_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.comment-token.outputs.token }}
           number: ${{ steps.publish.outputs.pr }}
           header: font-previews
           path: .ci-work/comment.md
