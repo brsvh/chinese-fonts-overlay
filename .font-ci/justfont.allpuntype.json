@@ -1,0 +1,56 @@
+{
+  "buildKey": "d1de4b877f5b0bba52499ad52056e25bb45b3e788aae0e72eae044f7168630f2",
+  "images": [
+    {
+      "height": 95,
+      "path": "justfont/justfont-allpuntype+AllPunType Bold.png",
+      "sha256": "b12ef22720528415dce2fd569af0c70bc01ddbbc23b6991c1fb7339a189332df",
+      "width": 732
+    },
+    {
+      "height": 93,
+      "path": "justfont/justfont-allpuntype+AllPunType ExtraLight.png",
+      "sha256": "6fa5c22b859c9598979ca753200611287148ee8b82bf41c293c3aebf8a503102",
+      "width": 730
+    },
+    {
+      "height": 96,
+      "path": "justfont/justfont-allpuntype+AllPunType Heavy.png",
+      "sha256": "1ae6db0adb88efa86c004e3b4243208260afe032f2c7ae7b48dd43dbb454f024",
+      "width": 733
+    },
+    {
+      "height": 93,
+      "path": "justfont/justfont-allpuntype+AllPunType Light.png",
+      "sha256": "60f882c25f6b9c4c188fffed989fc5691e7a5d59db3949270d773eb5357aa6e0",
+      "width": 731
+    },
+    {
+      "height": 94,
+      "path": "justfont/justfont-allpuntype+AllPunType Medium.png",
+      "sha256": "9215c7634ad48db36d5b0ef6529788a32a43f9a5c25e84010ce303fbbfd7fa8d",
+      "width": 731
+    },
+    {
+      "height": 93,
+      "path": "justfont/justfont-allpuntype+AllPunType Regular.png",
+      "sha256": "3f86abcc27c735e4872145c81ddb587629291ff25b2b4cbf3116d3ac47ef500c",
+      "width": 731
+    },
+    {
+      "height": 94,
+      "path": "justfont/justfont-allpuntype+AllPunType SemiBold.png",
+      "sha256": "bc9ac3f4a654e87062679a10dba549d4bc242587fa60a6eedf821e7cbd7d504f",
+      "width": 731
+    }
+  ],
+  "package": "justfont.allpuntype",
+  "pname": "justfont-allpuntype",
+  "previewKey": "0111fa074e17331e255201546ff7732f036b9363040d1ae696ec66ac5e8acb4a",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "justfont"
+}
