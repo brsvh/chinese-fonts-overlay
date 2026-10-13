@@ -1,0 +1,20 @@
+{
+  "buildKey": "584f45e44c28562db8f7bc9753d31a5fa2320047474aeb6bb42d93a793297527",
+  "images": [
+    {
+      "height": 89,
+      "path": "justfont/justfont-abbrfesfont+AbbrFesFont.png",
+      "sha256": "0fc91e49a14bd9c0d98d42a9d11f943386331f6b9efa467822dc2124105c2a3f",
+      "width": 620
+    }
+  ],
+  "package": "justfont.abbrfesfont",
+  "pname": "justfont-abbrfesfont",
+  "previewKey": "5e747c408264a101465803acc70ca9febc7a2f93e6000d2f9239af5b5b6efb06",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "justfont"
+}
