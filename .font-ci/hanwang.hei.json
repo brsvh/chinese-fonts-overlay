@@ -1,0 +1,26 @@
+{
+  "buildKey": "bfadb64d767126bbba8ed8e5f894f1e1ed01543341d2432319f1f0c047443954",
+  "images": [
+    {
+      "height": 91,
+      "path": "hanwang/hanwang-hei+HanWangHeiHeavy.png",
+      "sha256": "d31a73a74c555a29c3f8b2e7164ef83192c69951b3d03fee305bf6ef2dcbfc00",
+      "width": 731
+    },
+    {
+      "height": 90,
+      "path": "hanwang/hanwang-hei+HanWangHeiLight.png",
+      "sha256": "49cf6baed20f139f9dc35f6601a1b1d70380f4c893705de2c5b524ee3221447c",
+      "width": 730
+    }
+  ],
+  "package": "hanwang.hei",
+  "pname": "hanwang-hei",
+  "previewKey": "cdc777726c5ea4df52206047b8846dfa3e77b21f00d25904445efea963962324",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
