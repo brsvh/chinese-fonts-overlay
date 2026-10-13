@@ -1,0 +1,20 @@
+{
+  "buildKey": "c345003294f5661eeff27e1f6cb50f2fb830b12b566f3d272f20014c28034c1b",
+  "images": [
+    {
+      "height": 83,
+      "path": "hanwang/hanwang-lisu+HanWangLiSuMedium.png",
+      "sha256": "c265d0777d90af86bc15c6271a5df080cd6e21839b7656bfcd75c6ced2b2ef96",
+      "width": 729
+    }
+  ],
+  "package": "hanwang.lisu",
+  "pname": "hanwang-lisu",
+  "previewKey": "4b981c0a4d7e5a05332c138c5342d53657f31c0d78bc88d76ca71d80f5337c61",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
