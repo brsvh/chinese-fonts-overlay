@@ -1,0 +1,56 @@
+{
+  "buildKey": "e00958c607ca675d335de73bfb3f77550a0a99b25b3c1a17fd5fd3cff70a1ef5",
+  "images": [
+    {
+      "height": 93,
+      "path": "buttaiwan/buttaiwan-genkimin2-tc+GenKiMin2 TC B.png",
+      "sha256": "13fc56e0f01e7da1ea07a0631f7d8c0ca7372c64d83ccc578e83ded23c5ce181",
+      "width": 734
+    },
+    {
+      "height": 91,
+      "path": "buttaiwan/buttaiwan-genkimin2-tc+GenKiMin2 TC EL.png",
+      "sha256": "092d80ff8f05f667a1903c7e31c8e8d259148943f5050fd0ceb301c82db7e752",
+      "width": 733
+    },
+    {
+      "height": 95,
+      "path": "buttaiwan/buttaiwan-genkimin2-tc+GenKiMin2 TC H.png",
+      "sha256": "83c76c5d5465ce65a70e25380d07203fe1e2f6bdc4f9dd8892009ce9dd4aead1",
+      "width": 735
+    },
+    {
+      "height": 91,
+      "path": "buttaiwan/buttaiwan-genkimin2-tc+GenKiMin2 TC L.png",
+      "sha256": "dc38cb9d93934da3efe7d760ebb185fc7d170f5603f96be322a9b4ba3c08e47d",
+      "width": 733
+    },
+    {
+      "height": 92,
+      "path": "buttaiwan/buttaiwan-genkimin2-tc+GenKiMin2 TC M.png",
+      "sha256": "5ff443da8afc412ecef8a94f293de1a63f2159243462950ceee9427992b3b709",
+      "width": 733
+    },
+    {
+      "height": 92,
+      "path": "buttaiwan/buttaiwan-genkimin2-tc+GenKiMin2 TC R.png",
+      "sha256": "2c55a19c37d8199f215bd9d847a70e5d8f6480157aebb7ab704585c057aec169",
+      "width": 733
+    },
+    {
+      "height": 93,
+      "path": "buttaiwan/buttaiwan-genkimin2-tc+GenKiMin2 TC SB.png",
+      "sha256": "b6c3860fd8238be14aa40fc678ac74b5e5ea8a49fe9f9f46779b59ea026a5a1b",
+      "width": 733
+    }
+  ],
+  "package": "buttaiwan.genkimin2-tc",
+  "pname": "buttaiwan-genkimin2-tc",
+  "previewKey": "9facc29d61fe2771173041d0020037da15d71f7bbcc23a55a37fdd8842d1c297",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "buttaiwan"
+}
