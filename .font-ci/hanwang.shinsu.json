@@ -1,0 +1,20 @@
+{
+  "buildKey": "05deb1ecd67b1175cf3a6a61b11557d223cdce460d5cde962c6a80e7c3317ead",
+  "images": [
+    {
+      "height": 93,
+      "path": "hanwang/hanwang-shinsu+HanWangShinSuMedium.png",
+      "sha256": "c4332704612c9f2a86606e175911bafb890ccea0a57a7974a9cb73aafd6efa9d",
+      "width": 723
+    }
+  ],
+  "package": "hanwang.shinsu",
+  "pname": "hanwang-shinsu",
+  "previewKey": "e1f023bca0dbf4e8a621df65611312fb3d0ecac9850967694f6e50eaea279789",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
