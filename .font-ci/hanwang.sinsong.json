@@ -1,0 +1,20 @@
+{
+  "buildKey": "73cb4decea4923a3a88736ec49c81a504ba552e675f3b561c0f559172067ab2d",
+  "images": [
+    {
+      "height": 91,
+      "path": "hanwang/hanwang-sinsong+HanWang SinSongThin-Gb5.png",
+      "sha256": "674806518659b087b8dd61077f7e88614833ef487ed284f3800f4069e76604d6",
+      "width": 729
+    }
+  ],
+  "package": "hanwang.sinsong",
+  "pname": "hanwang-sinsong",
+  "previewKey": "0021fbd708024be70f1243527b593ac450c520d574e691b0d54b2374e47767c3",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
