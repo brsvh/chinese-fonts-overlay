@@ -1,0 +1,20 @@
+{
+  "buildKey": "160c0f3ba7a5fc7f1a0b3c3bcc680b90c9139be9207acdfb28efe12a892b86a7",
+  "images": [
+    {
+      "height": 91,
+      "path": "justfont/justfont-huninn+Huninn.png",
+      "sha256": "d33c486af4cc912f3ff32bab6657d78834d60ce441747da77bfed3b3e79b0711",
+      "width": 730
+    }
+  ],
+  "package": "justfont.huninn",
+  "pname": "justfont-huninn",
+  "previewKey": "fe48405b3bce23a77cd1e137d2d62a40c991e562cd03f87bd7c62e7430043999",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "justfont"
+}
