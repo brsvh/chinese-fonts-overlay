@@ -1,0 +1,20 @@
+{
+  "buildKey": "ba5700cb06e5824fdefbd39105999359374a86e190df400ac7f68b5dd0724c36",
+  "images": [
+    {
+      "height": 93,
+      "path": "tsangertype/tsangertype-tsangerxwz+TsangerXWZ.png",
+      "sha256": "86306a00891512263a309cf87f8c5e1704ac12103cb1874a1b9e0d87ccd920a2",
+      "width": 731
+    }
+  ],
+  "package": "tsangertype.tsangerxwz",
+  "pname": "tsangertype-tsangerxwz",
+  "previewKey": "bd321611de4758df78c3c35eacf53eed9c2dd94eab438872bdebbe392798c46b",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "tsangertype"
+}
