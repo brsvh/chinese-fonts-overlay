@@ -1,0 +1,44 @@
+{
+  "buildKey": "fc83469f579ac1b9c4f83e333674754f74fedf7ffbae0fe4bac40c79f18d0b59",
+  "images": [
+    {
+      "height": 94,
+      "path": "hanwang/hanwang-kai+HanWang KaiBold-Gb5.png",
+      "sha256": "d73299fb1a9838873c42aabfcdf9bb81c6b499ec47958f3f3b3849d56bcce7d8",
+      "width": 730
+    },
+    {
+      "height": 91,
+      "path": "hanwang/hanwang-kai+HanWangKaiMediumChuIn.png",
+      "sha256": "33a874d1be9042bb5a93beb30b03d45daafc334c4bb171b321540b4d430ffa65",
+      "width": 1079
+    },
+    {
+      "height": 90,
+      "path": "hanwang/hanwang-kai+HanWangKaiMediumPoIn1.png",
+      "sha256": "688233c54f95dc8510f3e81e1e38bbf8841be1166f4d5267a5ab24ed351e9411",
+      "width": 408
+    },
+    {
+      "height": 87,
+      "path": "hanwang/hanwang-kai+HanWangKaiMediumPoIn2.png",
+      "sha256": "01558f4b382e7c272b5456ec190a1bb0a5e14733f645b1e2d815a97d7316a74e",
+      "width": 408
+    },
+    {
+      "height": 87,
+      "path": "hanwang/hanwang-kai+HanWangKaiMediumPoIn3.png",
+      "sha256": "65d85d58b93cdf7d09fde42dfc0560770cb78bab094c100e45396ec46fffc8ec",
+      "width": 408
+    }
+  ],
+  "package": "hanwang.kai",
+  "pname": "hanwang-kai",
+  "previewKey": "9635c02ab32c721032a3466b8e123f838ccb7925d9ca5e446901a84701e905de",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
