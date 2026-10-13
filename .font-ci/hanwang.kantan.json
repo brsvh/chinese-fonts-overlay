@@ -1,0 +1,20 @@
+{
+  "buildKey": "c36256ce827d3aac98524f2c19af8484fb25a71ac2928e39a3db8e1b47d1e0af",
+  "images": [
+    {
+      "height": 95,
+      "path": "hanwang/hanwang-kantan+HanWangKanTan.png",
+      "sha256": "a86c21af8e77202fb062535957bbbf54eb7c283bee488feb421db6d5ec5f5a2c",
+      "width": 732
+    }
+  ],
+  "package": "hanwang.kantan",
+  "pname": "hanwang-kantan",
+  "previewKey": "00db04ab50199d10ace4dcc1940fb22d24628bb817bccd90101d6c26b0873cd5",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
