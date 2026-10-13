@@ -494,8 +494,8 @@ export async function bounded(response, limit = maxData) {
 }
 
 export class ApiError extends Error {
-  constructor(status) {
-    super('API returned HTTP ' + status);
+  constructor(status, method, url) {
+    super(method + ' ' + new URL(url).origin + ' returned HTTP ' + status);
     this.status = status;
   }
 }
@@ -506,8 +506,10 @@ export async function fetchResponse(url, options = {}) {
   const retryable = ['GET', 'HEAD'].includes(method);
 
   for (let attempt = 1; ; attempt += 1) {
+    let response;
+
     try {
-      return await fetch(target, {
+      response = await fetch(target, {
         ...rest,
         method,
         signal: AbortSignal.timeout(timeout),
@@ -531,7 +533,21 @@ export async function fetchResponse(url, options = {}) {
 
       console.error(context + '; retry ' + attempt + '/2');
       await delay(1000 * attempt);
+      continue;
     }
+
+    if (
+      !retryable ||
+      ![502, 503, 504].includes(response.status) ||
+      attempt >= 3
+    ) {
+      return response;
+    }
+
+    await response.body?.cancel();
+    const context = method + ' ' + target.origin + ' returned HTTP ';
+    console.error(context + response.status + '; retry ' + attempt + '/2');
+    await delay(1000 * attempt);
   }
 }
 
@@ -564,7 +580,7 @@ export async function request(url, token, options = {}) {
   }
 
   if (!response.ok) {
-    throw new ApiError(response.status);
+    throw new ApiError(response.status, method, target);
   }
 
   const data = await bounded(response, options.limit);

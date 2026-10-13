@@ -117,7 +117,7 @@ export class GitHub {
       }
 
       if (!response.ok) {
-        throw new ApiError(response.status);
+        throw new ApiError(response.status, 'GET', url);
       }
 
       return bounded(response, limit);

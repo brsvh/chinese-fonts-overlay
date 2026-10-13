@@ -131,7 +131,7 @@ export async function rootsAvailable(outputs, cache) {
     }
 
     if (!response.ok) {
-      throw new ApiError(response.status);
+      throw new ApiError(response.status, 'HEAD', cache.url);
     }
   }
 
