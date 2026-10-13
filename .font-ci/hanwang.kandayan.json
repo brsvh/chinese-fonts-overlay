@@ -1,0 +1,20 @@
+{
+  "buildKey": "cffb9f0072482f5733b2058d664c3917266720b46ff4435e76d31f142d4debf6",
+  "images": [
+    {
+      "height": 95,
+      "path": "hanwang/hanwang-kandayan+HanWangKanDaYan.png",
+      "sha256": "cbc8f9f0a03351422e5e31eecf49544bedbbf3de1aa6b045db86f0b6877315ed",
+      "width": 732
+    }
+  ],
+  "package": "hanwang.kandayan",
+  "pname": "hanwang-kandayan",
+  "previewKey": "6ea348a078fc80fc955e152310644211c567d70855d56d630164081bd73578fc",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
