@@ -1,0 +1,68 @@
+{
+  "buildKey": "dad96e61e73a19a0514a345c709e9cce5a6e0035dd5bc694cb5147f401dff517",
+  "images": [
+    {
+      "height": 93,
+      "path": "hanwang/hanwang-ming+HanWangMingBlack.png",
+      "sha256": "b788e4301a4449b6310b3fad7f47f34dd5cbc229c7e35fa24a730fa5abd2a08e",
+      "width": 733
+    },
+    {
+      "height": 93,
+      "path": "hanwang/hanwang-ming+HanWangMingBold.png",
+      "sha256": "8120826064e12a5e40a0481ae23058864742e2ee19eb3dae14998d0797ec4f61",
+      "width": 732
+    },
+    {
+      "height": 95,
+      "path": "hanwang/hanwang-ming+HanWangMingHeavy.png",
+      "sha256": "e6cc5d0762af74b3a0292954d7d835c026e6294b64a3562401a9959a7e141163",
+      "width": 732
+    },
+    {
+      "height": 92,
+      "path": "hanwang/hanwang-ming+HanWangMingLight.png",
+      "sha256": "3556ee75b54319af122faa608ea59d0549aef271a10111d6a66630d56e4d5fa9",
+      "width": 733
+    },
+    {
+      "height": 93,
+      "path": "hanwang/hanwang-ming+HanWangMingMedium.png",
+      "sha256": "542783ad390cab7d5ddec75e56189805cc7bbc8ccd2394e1c1abaf41b939a719",
+      "width": 729
+    },
+    {
+      "height": 93,
+      "path": "hanwang/hanwang-ming+HanWangMingMediumChuIn.png",
+      "sha256": "43f8394754ef3cde699f62d6d25e64e1969df9ab5d814a08af1cd3287aa43a16",
+      "width": 1082
+    },
+    {
+      "height": 92,
+      "path": "hanwang/hanwang-ming+HanWangMingMediumPoIn1.png",
+      "sha256": "7f869f1ab869978a1cc9877c0a3ca89c3b6d515256ca928aa686f6ded8598eab",
+      "width": 411
+    },
+    {
+      "height": 92,
+      "path": "hanwang/hanwang-ming+HanWangMingMediumPoIn2.png",
+      "sha256": "15a0c3ff62bb683194f46b09a9db5bbc8e9f3dfafaf74da3b9075d995b85da5c",
+      "width": 411
+    },
+    {
+      "height": 92,
+      "path": "hanwang/hanwang-ming+HanWangMingMediumPoIn3.png",
+      "sha256": "0f254fa3a520a9f77fe348ce8fb5867ef8e8b86665542e80a51991badc94cbcb",
+      "width": 411
+    }
+  ],
+  "package": "hanwang.ming",
+  "pname": "hanwang-ming",
+  "previewKey": "bbec61f117e83e37585bd2fc9c0665b898c840e75699a0bfbaaae0a56d960bc0",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
