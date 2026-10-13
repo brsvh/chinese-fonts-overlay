@@ -1,0 +1,20 @@
+{
+  "buildKey": "c935349086812190fad46ea1c34223473cabf530b6af4c906f847806a3faea54",
+  "images": [
+    {
+      "height": 94,
+      "path": "hanwang/hanwang-zonyi+HanWangZonYi.png",
+      "sha256": "2e2c53b8689ed2d32e351a3f960ecfe517c82f376f30a36669405c040bee0772",
+      "width": 732
+    }
+  ],
+  "package": "hanwang.zonyi",
+  "pname": "hanwang-zonyi",
+  "previewKey": "e5381a3bc015f43a9173e29a03f0019082ca9ef30f2dc8499b3899c2f866c1b6",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
