@@ -1,0 +1,44 @@
+{
+  "buildKey": "e34b94de296b304a9d37693770afd3f8d92b29d6f3b8ea9dad9a29402fa9e647",
+  "images": [
+    {
+      "height": 94,
+      "path": "tsangertype/tsangertype-tsangershuyuant+TsangerShuYuanT W01.png",
+      "sha256": "a63c46a2aa2cee45beeeb541361451e0b8d0a6dfe94d516d0b5c950fa6f7b215",
+      "width": 730
+    },
+    {
+      "height": 94,
+      "path": "tsangertype/tsangertype-tsangershuyuant+TsangerShuYuanT W02.png",
+      "sha256": "c40f674f075fd9b42d39eb3040c30b087050fc8645ff166ea31ac99c3689df74",
+      "width": 731
+    },
+    {
+      "height": 95,
+      "path": "tsangertype/tsangertype-tsangershuyuant+TsangerShuYuanT W03.png",
+      "sha256": "c5b704167c7801985bfa84b589847c83e4c22e7da4a4193141f6ec79b212bfbd",
+      "width": 731
+    },
+    {
+      "height": 96,
+      "path": "tsangertype/tsangertype-tsangershuyuant+TsangerShuYuanT W04.png",
+      "sha256": "17506ad806e10e8eeb79601822db91303f43a1547b372b17a289a2a38ec9081b",
+      "width": 733
+    },
+    {
+      "height": 97,
+      "path": "tsangertype/tsangertype-tsangershuyuant+TsangerShuYuanT W05.png",
+      "sha256": "2cce99013232bf53a03e5a956fe168c85f53815ceeb1689addadbac459265628",
+      "width": 734
+    }
+  ],
+  "package": "tsangertype.tsangershuyuant",
+  "pname": "tsangertype-tsangershuyuant",
+  "previewKey": "0d3ebf975fcc0b2b2c1306d14e021fd126592c0d37f5c8d65cec7898f8d8e5a5",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "tsangertype"
+}
