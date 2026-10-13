@@ -1,0 +1,44 @@
+{
+  "buildKey": "23c4d070739faf20c82e2e0a5df3139825252cae96094d8508d0ae4b6dc9ec8e",
+  "images": [
+    {
+      "height": 94,
+      "path": "tsangertype/tsangertype-tsangeryumo+TsangerYuMo W01.png",
+      "sha256": "be12b75dc24628301716a8da1d6747e7cd223b4b4c632935448e87cc93341541",
+      "width": 730
+    },
+    {
+      "height": 93,
+      "path": "tsangertype/tsangertype-tsangeryumo+TsangerYuMo W02.png",
+      "sha256": "03ee2576b9816a7dbebc9354f9818ebede87fa02ca3e25b729541ef0ff20369c",
+      "width": 732
+    },
+    {
+      "height": 95,
+      "path": "tsangertype/tsangertype-tsangeryumo+TsangerYuMo W03.png",
+      "sha256": "16262519b7794bd0684f6f3bed682733dca99db0236964962130df629b4f04e1",
+      "width": 734
+    },
+    {
+      "height": 95,
+      "path": "tsangertype/tsangertype-tsangeryumo+TsangerYuMo W04.png",
+      "sha256": "05f208891274b8064a2cefd58cf07d7ceefcec7e0134050b93b91af51fc3afcb",
+      "width": 734
+    },
+    {
+      "height": 96,
+      "path": "tsangertype/tsangertype-tsangeryumo+TsangerYuMo W05.png",
+      "sha256": "337e688f7c2778fa4a0c9f9e3b642de3331bef65dc885512926b384441040fb1",
+      "width": 736
+    }
+  ],
+  "package": "tsangertype.tsangeryumo",
+  "pname": "tsangertype-tsangeryumo",
+  "previewKey": "91029f7919f5789abd8501241ceb57bac0079074f9f8517860e9d81796f13c57",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "tsangertype"
+}
