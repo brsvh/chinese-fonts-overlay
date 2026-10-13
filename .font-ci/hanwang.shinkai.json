@@ -1,0 +1,20 @@
+{
+  "buildKey": "2b72b87118d1b20b776353dd6c955734301a89a17f8535a834759c5c1025f47e",
+  "images": [
+    {
+      "height": 91,
+      "path": "hanwang/hanwang-shinkai+HanWangGB06.png",
+      "sha256": "3286951eb79824b88638bfedd22b2dae5d2b59c49f099c9a45e6d2a1fb54eabf",
+      "width": 719
+    }
+  ],
+  "package": "hanwang.shinkai",
+  "pname": "hanwang-shinkai",
+  "previewKey": "cb8463826590006ba61a0d3ea2d7851711e2465a8894d2e572ebd80c89549865",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
