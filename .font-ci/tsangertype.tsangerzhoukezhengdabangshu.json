@@ -1,0 +1,20 @@
+{
+  "buildKey": "8244dbd47adaeb0d310489bcc77b1f8f86b42420e1531d033be8dc455f1bb43b",
+  "images": [
+    {
+      "height": 94,
+      "path": "tsangertype/tsangertype-tsangerzhoukezhengdabangshu+TsangerZhoukeZhengdabangshu.png",
+      "sha256": "330999fd3007c0b3d50158b7e652e7aeac393466d20eb0e0d4142f23f3c360e8",
+      "width": 730
+    }
+  ],
+  "package": "tsangertype.tsangerzhoukezhengdabangshu",
+  "pname": "tsangertype-tsangerzhoukezhengdabangshu",
+  "previewKey": "e42e5e16802e6eff5511ab54e5a454fc50bbfcdb98db2a26b866baed6d7f5e3a",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "tsangertype"
+}
