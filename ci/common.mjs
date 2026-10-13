@@ -502,10 +502,15 @@ export class ApiError extends Error {
 
 export async function fetchResponse(url, options = {}) {
   const target = new URL(url);
-  const { method = 'GET', timeout = 30000, ...rest } = options;
-  const retryable = ['GET', 'HEAD'].includes(method);
+  const { method = 'GET', timeout = 30000, retryPut, ...rest } = options;
+  const guardedPut = method === 'PUT' && typeof retryPut === 'function';
+  const retryable = ['GET', 'HEAD'].includes(method) || guardedPut;
 
   for (let attempt = 1; ; attempt += 1) {
+    if (attempt > 1 && guardedPut) {
+      await retryPut();
+    }
+
     let response;
 
     try {
@@ -526,7 +531,7 @@ export async function fetchResponse(url, options = {}) {
       ].includes(code);
       const context = method + ' ' + target.origin + ' failed (' + code + ')';
 
-      // A failed write may already have reached the server.
+      // Only state PUTs opt in to replaying a write, with a freshness guard.
       if (!retryable || !transient || attempt >= 3) {
         throw new Error(context, { cause: error });
       }
@@ -560,6 +565,7 @@ export async function request(url, token, options = {}) {
   );
   const response = await fetchResponse(target, {
     method,
+    retryPut: options.retryPut,
     headers: {
       accept: 'application/vnd.github+json',
       'user-agent': 'chinese-fonts-overlay-ci',

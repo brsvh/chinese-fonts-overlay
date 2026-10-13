@@ -41,11 +41,13 @@ const planKey = 'main-plan';
 const kinds = ['cache', 'preview'];
 
 export class State {
-  constructor(token, baseUrl) {
+  constructor(token, baseUrl, guard) {
     const url = new URL(baseUrl);
     ensure(url.protocol === 'https:' && token, 'Invalid state connection');
+    ensure(typeof guard === 'function', 'Missing state write guard');
     this.token = token;
     this.url = baseUrl.replace(/\/$/, '') + '/api/v1/current-task/state/';
+    this.guard = guard;
   }
 
   async access(name, value) {
@@ -56,6 +58,11 @@ export class State {
       missing: value === undefined,
       limit: 32 * 1024 * 1024,
       contentType: 'application/octet-stream',
+      headers: {
+        accept:
+          value === undefined ? 'application/octet-stream' : 'application/json',
+      },
+      retryPut: this.guard,
     });
   }
 
@@ -623,6 +630,7 @@ export async function run(metadata) {
   const state = new State(
     secrets['hercules-ci'].data.token,
     process.env.HERCULES_CI_API_BASE_URL,
+    () => current(api, metadata.rev),
   );
   const raw = metadata.inventory;
   const inventory = previewKeys(
