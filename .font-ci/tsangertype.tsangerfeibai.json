@@ -1,0 +1,44 @@
+{
+  "buildKey": "0b1e87e660dce128ae484ee6a2d29b02e800719cf286d2c7429507feab00075a",
+  "images": [
+    {
+      "height": 94,
+      "path": "tsangertype/tsangertype-tsangerfeibai+TsangerFeiBai W01.png",
+      "sha256": "51350734f2dd073d1615e208697726e98afa2f746016bf3395470dea8b1f681f",
+      "width": 733
+    },
+    {
+      "height": 94,
+      "path": "tsangertype/tsangertype-tsangerfeibai+TsangerFeiBai W02.png",
+      "sha256": "e54a2555c99c9e4a9cbe396a76b8003d6246d80725c829c1cc2605bf67b83232",
+      "width": 733
+    },
+    {
+      "height": 94,
+      "path": "tsangertype/tsangertype-tsangerfeibai+TsangerFeiBai W03.png",
+      "sha256": "5320ff5222128cac55ae4badfa824fec909f7d0b65c324fea5b90423187495de",
+      "width": 733
+    },
+    {
+      "height": 94,
+      "path": "tsangertype/tsangertype-tsangerfeibai+TsangerFeiBai W04.png",
+      "sha256": "099f9ce84ab62582863bdd3e4a322752ad0694d0379d5fa5ab24ed5163e69871",
+      "width": 733
+    },
+    {
+      "height": 94,
+      "path": "tsangertype/tsangertype-tsangerfeibai+TsangerFeiBai W05.png",
+      "sha256": "02fecbac39809b81776ac19f2357bcf4370a549f194812318ca8996422aec910",
+      "width": 733
+    }
+  ],
+  "package": "tsangertype.tsangerfeibai",
+  "pname": "tsangertype-tsangerfeibai",
+  "previewKey": "abbb265bc6b4239793666723aaf737254865b1ec34902262784e7bc91d72facb",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "tsangertype"
+}
