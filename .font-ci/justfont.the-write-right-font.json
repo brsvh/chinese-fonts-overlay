@@ -1,0 +1,20 @@
+{
+  "buildKey": "0984276b7596b025caa447c45f3703b196591ea5403538298b346385e29291a4",
+  "images": [
+    {
+      "height": 93,
+      "path": "justfont/justfont-the-write-right-font+The Write Right Font.png",
+      "sha256": "dff84d8e373dee0d8bd5b9ff9fdbec7073747b3bdd263ce34197d1cd0c15821c",
+      "width": 732
+    }
+  ],
+  "package": "justfont.the-write-right-font",
+  "pname": "justfont-the-write-right-font",
+  "previewKey": "b7bff50ffad67cd06e598ed4df0592d43e7cc012de98639ebec7368d3f5823c9",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "justfont"
+}
