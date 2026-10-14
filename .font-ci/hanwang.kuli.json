@@ -1,0 +1,20 @@
+{
+  "buildKey": "da05cb56c723129eba40f3931b3e1563d155d3a8b5fee3d7ff0da730a5417cf2",
+  "images": [
+    {
+      "height": 91,
+      "path": "hanwang/hanwang-kuli+HanWangCC02.png",
+      "sha256": "be6ff3bc3d16ebb15ec26424e7ab98b0e2e6bc1e9436965716560ebcfbc14105",
+      "width": 727
+    }
+  ],
+  "package": "hanwang.kuli",
+  "pname": "hanwang-kuli",
+  "previewKey": "6f3d4e25fd7d22fc969bd15477337bd6e8b99eb5b0eb8d59c45696e416079054",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
