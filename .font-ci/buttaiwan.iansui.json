@@ -1,0 +1,20 @@
+{
+  "buildKey": "beb5c4b0e478016ec05adc78ba1a747c1b912e89e8f3560a42db07a2301903fc",
+  "images": [
+    {
+      "height": 93,
+      "path": "buttaiwan/buttaiwan-iansui+Iansui.png",
+      "sha256": "a72c305d471e980c872f9480e96dc16d7b533f9f825ef70ad22244322da1d238",
+      "width": 732
+    }
+  ],
+  "package": "buttaiwan.iansui",
+  "pname": "buttaiwan-iansui",
+  "previewKey": "545b206e78c1b247a5c79a8d311bc5ebf6083dc47fd32c521b7d5e486c990f16",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "buttaiwan"
+}
