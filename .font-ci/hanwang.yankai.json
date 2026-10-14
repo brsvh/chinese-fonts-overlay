@@ -1,0 +1,20 @@
+{
+  "buildKey": "f34794d18537b8d842c16c469942e6d6a264cf26037516666ce3be5273bba8d8",
+  "images": [
+    {
+      "height": 89,
+      "path": "hanwang/hanwang-yankai+HanWangYanKai.png",
+      "sha256": "7214fcb11531798cb349d08643680595478ec4f7faf5acc54e71e3f77897d25d",
+      "width": 723
+    }
+  ],
+  "package": "hanwang.yankai",
+  "pname": "hanwang-yankai",
+  "previewKey": "d0c0c202ab9bb981767e6a19dd6b70175ea5241ba24e88a95297e5e2451d701e",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
