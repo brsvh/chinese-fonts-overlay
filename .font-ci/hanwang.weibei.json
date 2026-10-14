@@ -1,0 +1,20 @@
+{
+  "buildKey": "cb71afb74302675458d808f43b963484aacd79cfeca782a028aacaf31ae2cb42",
+  "images": [
+    {
+      "height": 91,
+      "path": "hanwang/hanwang-weibei+HanWang WeiBeiMedium-Gb5.png",
+      "sha256": "17d73e69fe669ab84fd021c86c60a96ae7d3bc49fa3c7ad5353d15c0642af387",
+      "width": 726
+    }
+  ],
+  "package": "hanwang.weibei",
+  "pname": "hanwang-weibei",
+  "previewKey": "4de19a1be63a35a3976ef0def95079d2a20761448437b2178f35517378bd978a",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
