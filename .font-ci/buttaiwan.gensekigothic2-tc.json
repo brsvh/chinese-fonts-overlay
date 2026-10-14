@@ -1,0 +1,44 @@
+{
+  "buildKey": "dc49fb694b34146255ac2544045987f986a03b9b5d312339191d2ca9dc9f1632",
+  "images": [
+    {
+      "height": 94,
+      "path": "buttaiwan/buttaiwan-gensekigothic2-tc+GenSekiGothic2 TC B.png",
+      "sha256": "7d8b0bd6276fe11f20b4fcfe0d186bcc24a666c175edffb7aa345b3e31644753",
+      "width": 732
+    },
+    {
+      "height": 95,
+      "path": "buttaiwan/buttaiwan-gensekigothic2-tc+GenSekiGothic2 TC H.png",
+      "sha256": "a189e9376e8ab025bf5271f4c2707ad34c2f6b3346cd58435102fafb7398052c",
+      "width": 733
+    },
+    {
+      "height": 92,
+      "path": "buttaiwan/buttaiwan-gensekigothic2-tc+GenSekiGothic2 TC L.png",
+      "sha256": "3146eefb2986de095575016a5d9ec4c6260909737bbe5a1909f419462452a3d7",
+      "width": 730
+    },
+    {
+      "height": 93,
+      "path": "buttaiwan/buttaiwan-gensekigothic2-tc+GenSekiGothic2 TC M.png",
+      "sha256": "11425f5ef14cc5f204a71ee5992f5f786dc4376e9e16e157abb3bfdf4fdc2f30",
+      "width": 732
+    },
+    {
+      "height": 93,
+      "path": "buttaiwan/buttaiwan-gensekigothic2-tc+GenSekiGothic2 TC R.png",
+      "sha256": "8a112e9189134d2165d1a9879d4379d87938c465419c0c84e436932cc8278556",
+      "width": 731
+    }
+  ],
+  "package": "buttaiwan.gensekigothic2-tc",
+  "pname": "buttaiwan-gensekigothic2-tc",
+  "previewKey": "d48eb494cc3a5d663b1ff473694567e10e71029e84ee4e2357add5887fd0d4ba",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "buttaiwan"
+}
