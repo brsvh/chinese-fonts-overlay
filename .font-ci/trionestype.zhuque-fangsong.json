@@ -1,0 +1,20 @@
+{
+  "buildKey": "ddba259b44ffdb658230732ab86d6e97b8395aef6d5c53a858a3433874d72552",
+  "images": [
+    {
+      "height": 94,
+      "path": "trionestype/trionestype-zhuque-fangsong+Zhuque Fangsong (technical preview).png",
+      "sha256": "38255a4b2508d08e65083980e910e265b02ab72afb3109282eb87ac2d8d34e82",
+      "width": 731
+    }
+  ],
+  "package": "trionestype.zhuque-fangsong",
+  "pname": "trionestype-zhuque-fangsong",
+  "previewKey": "5ec23f9ba5d44b8998647668a1dd3d4ea79dbd9593e2add1cda3a80046b5963d",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "trionestype"
+}
