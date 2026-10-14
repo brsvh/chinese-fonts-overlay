@@ -1,0 +1,26 @@
+{
+  "buildKey": "d0ded6ca604788c892d93635b64cdf1a619a6dc60ff544b8c7e677f77a2d228d",
+  "images": [
+    {
+      "height": 93,
+      "path": "hanwang/hanwang-fangsong+HanWang FangSongMedium-Gb5.png",
+      "sha256": "b4404333e1a6e17b44ae82d451f6ba4680f424ca63634ef8bdd1411dafc9faae",
+      "width": 729
+    },
+    {
+      "height": 94,
+      "path": "hanwang/hanwang-fangsong+HanWangFangSongMedium.png",
+      "sha256": "93b6eb177e6efc588dfaf2fa0172c098a36a2df25745eb6cecc9686ddeae3249",
+      "width": 725
+    }
+  ],
+  "package": "hanwang.fangsong",
+  "pname": "hanwang-fangsong",
+  "previewKey": "d4e58f21502d7ca7060419aee5ba2a0fefd00451c22d5d2943fcc190fe9ccf32",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "hanwang"
+}
