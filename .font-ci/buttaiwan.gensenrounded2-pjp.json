@@ -1,0 +1,50 @@
+{
+  "buildKey": "a023c95517eacd34a75d863d4194f23373c28cce19d4109ae49d2deca49b0a12",
+  "images": [
+    {
+      "height": 82,
+      "path": "buttaiwan/buttaiwan-gensenrounded2-pjp+GenSenRounded2 PJP B.png",
+      "sha256": "8e0755a1f04ea200f5104b9f8c50ab0b6bd970eaabe14b107d7895b4609a9597",
+      "width": 1232
+    },
+    {
+      "height": 81,
+      "path": "buttaiwan/buttaiwan-gensenrounded2-pjp+GenSenRounded2 PJP EL.png",
+      "sha256": "9bf34746acf18d1dc440fe127701a394a03e1e307da0c4084c7d536159659174",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "buttaiwan/buttaiwan-gensenrounded2-pjp+GenSenRounded2 PJP H.png",
+      "sha256": "15fba0d63c5cf8e9bfc4be35b3a9c1fe477d23d0a8552be3053f87f819501b75",
+      "width": 1232
+    },
+    {
+      "height": 81,
+      "path": "buttaiwan/buttaiwan-gensenrounded2-pjp+GenSenRounded2 PJP L.png",
+      "sha256": "927c76225cfffc70411b49078a1017780d5f21e623a489e14b275d56d0fa2e9a",
+      "width": 1232
+    },
+    {
+      "height": 82,
+      "path": "buttaiwan/buttaiwan-gensenrounded2-pjp+GenSenRounded2 PJP M.png",
+      "sha256": "3ae0e3001209ce459ed81b027475745ab89ae9fc218774e3b3cc7c5574e16100",
+      "width": 1232
+    },
+    {
+      "height": 81,
+      "path": "buttaiwan/buttaiwan-gensenrounded2-pjp+GenSenRounded2 PJP R.png",
+      "sha256": "9fcf107c71931f7e4c7da02b89272871f6c673224f1e1cc1b7dbebc4ae34f350",
+      "width": 1232
+    }
+  ],
+  "package": "buttaiwan.gensenrounded2-pjp",
+  "pname": "buttaiwan-gensenrounded2-pjp",
+  "previewKey": "b556949e41c2711d6653371a844b2e4c88fba94656bd4475a418cd3bedacc401",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+  },
+  "vendor": "buttaiwan"
+}
