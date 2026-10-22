@@ -94,6 +94,56 @@ $ nix build --impure --expr 'with import <nixpkgs> { overlays = [ (import ./defa
 > 当您构建非自由字体时，您需要额外添加环境变量 `NIXPKGS_ALLOW_UNFREE`，比如
 > `NIXPKGS_ALLOW_UNFREE=1 nix build --impure --expr 'with import <nixpkgs> { overlays = [ (import ./default.nix) ]; }; tsangertypePackages.tsangerjinkai'`
 
+### 使用二进制缓存
+
+本项目通过 <https://cache.bingshan.org> 提供部分字体包的二进制缓存。如果缓存中存在与您的配置一致的构建结果，Nix
+会直接下载，无需在本地重新构建。
+
+> [!NOTE]
+>
+> 该二进制缓存服务在中国大陆地区的访问速度可能较慢。
+
+如果您使用 NixOS，可以在系统配置中添加：
+
+```nix
+{
+  nix = {
+    settings = {
+      extra-substituters = [
+        "https://cache.bingshan.org"
+      ];
+
+      extra-trusted-public-keys = [
+        "cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk="
+      ];
+    };
+  };
+}
+```
+
+重新部署系统配置后，您可以继续按照上文的方式安装字体。在 NixOS 上使用 Home Manager 时，也请将缓存配置放在系统配置中。
+
+如果您在其他系统上使用 Nix 或独立的 Home Manager，可以在 `/etc/nix/nix.conf` 中添加：
+
+```ini
+extra-substituters = https://cache.bingshan.org
+extra-trusted-public-keys = cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
+```
+
+使用 Nix daemon 时，修改后需要重启 `nix-daemon` 服务。单用户安装也可以将上述配置放在 `~/.config/nix/nix.conf`
+中。`extra-` 前缀会向现有配置追加缓存地址和公钥，保留您已经配置的其他缓存。
+
+目前缓存提供 `main` 分支在 `x86_64-linux` 上构建并发布的字体包，覆盖范围如下：
+
+- 只提供明确允许再分发的字体包，即 `meta.redistributable = true`，包括符合条件的自由字体和非自由字体。
+- 不提供不可再分发、未明确标注允许再分发，或依赖这些字体或其来源文件的包。
+- 不提供 `microsoftPackages` 中的 Windows 字体及 `windows-fonts`，也不缓存对应的 Windows 安装镜像。
+
+缓存中的字体仍然适用原有许可证。安装非自由字体时，您仍需要像上文一样允许使用 unfree 包。
+
+缓存不保证包含所有符合条件的字体版本。您使用的 overlay 版本、nixpkgs
+版本、平台或包配置不同，都可能无法命中缓存；未收录或不匹配的包仍需本地构建。
+
 ## 贡献与开发
 
 如果您想请求添加字体、报告构建失败或提交 PR，请阅读[贡献指南](CONTRIBUTING.md)。
