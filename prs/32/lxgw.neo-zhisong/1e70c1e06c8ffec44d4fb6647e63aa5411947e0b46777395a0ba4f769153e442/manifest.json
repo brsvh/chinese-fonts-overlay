@@ -1,0 +1,41 @@
+{
+  "buildKey": "1047c7d4881ca94f5a1a7c5513e90f9799fadaad9f71e9aa20ad89ad2abcf5eb",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-neo-zhisong+LXGW Neo ZhiSong Plus.png",
+      "sha256": "1c5e00b3f8a451ebcae3c84241070ef430b4c251df2769a85dc736ef6ee67955",
+      "width": 730
+    },
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-neo-zhisong+LXGW Neo ZhiSong Screen Full.png",
+      "sha256": "0d7f70def25d978c72a6ec68a5e20bb284819296ae1f7ec75169863cf8645a9e",
+      "width": 732
+    },
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-neo-zhisong+LXGW Neo ZhiSong Screen.png",
+      "sha256": "0d7f70def25d978c72a6ec68a5e20bb284819296ae1f7ec75169863cf8645a9e",
+      "width": 732
+    },
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-neo-zhisong+LXGW Neo ZhiSong.png",
+      "sha256": "1c5e00b3f8a451ebcae3c84241070ef430b4c251df2769a85dc736ef6ee67955",
+      "width": 730
+    }
+  ],
+  "package": "lxgw.neo-zhisong",
+  "pname": "lxgw-neo-zhisong",
+  "previewKey": "1e70c1e06c8ffec44d4fb6647e63aa5411947e0b46777395a0ba4f769153e442",
+  "schema": 1,
+  "source": {
+    "headSha": "f62c49c1d7e8b3822a9aa9575f2e84a141c076ca",
+    "kind": "pr",
+    "mergeSha": "1231f8816d0f5c51f7b9ba4825a3a623523202b1",
+    "runAttempt": 1,
+    "runId": 40219687889
+  },
+  "vendor": "lxgw"
+}

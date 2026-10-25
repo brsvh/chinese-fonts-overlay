@@ -96,21 +96,24 @@
       "runId": 40217916006
     },
     "lxgw.neo-zhisong": {
-      "buildKey": "88cc99d17af12be3c3099c0184b97b1080727e9d62de4f610bbf910d371caa4c",
+      "buildKey": "1047c7d4881ca94f5a1a7c5513e90f9799fadaad9f71e9aa20ad89ad2abcf5eb",
       "buildSucceeded": true,
-      "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
-      "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+      "headSha": "f62c49c1d7e8b3822a9aa9575f2e84a141c076ca",
+      "mergeSha": "1231f8816d0f5c51f7b9ba4825a3a623523202b1",
       "pname": "lxgw-neo-zhisong",
       "policy": 2,
       "previewFiles": {
+        "lxgw/lxgw-neo-zhisong+LXGW Neo ZhiSong Plus.png": "e3d1804e34fe253d63c68dccb4490959474cc81b",
+        "lxgw/lxgw-neo-zhisong+LXGW Neo ZhiSong Screen Full.png": "3193b5eb69c44d7d086de1d0e7eae9783815cac2",
+        "lxgw/lxgw-neo-zhisong+LXGW Neo ZhiSong Screen.png": "3193b5eb69c44d7d086de1d0e7eae9783815cac2",
         "lxgw/lxgw-neo-zhisong+LXGW Neo ZhiSong.png": "e3d1804e34fe253d63c68dccb4490959474cc81b",
-        "manifest.json": "86c100e0ad6c2e2e1acc643383e8b2a7d3cc8e05"
+        "manifest.json": "9c615caa36370bf5f3c941eca16f5b08362fe8bc"
       },
-      "previewKey": "bf4d5d4fd66927198d01b8b78cf66ec8661204daac922dc68513992ef6eea736",
-      "previewPath": "prs/32/lxgw.neo-zhisong/bf4d5d4fd66927198d01b8b78cf66ec8661204daac922dc68513992ef6eea736",
+      "previewKey": "1e70c1e06c8ffec44d4fb6647e63aa5411947e0b46777395a0ba4f769153e442",
+      "previewPath": "prs/32/lxgw.neo-zhisong/1e70c1e06c8ffec44d4fb6647e63aa5411947e0b46777395a0ba4f769153e442",
       "previewPublished": true,
       "runAttempt": 1,
-      "runId": 40216326373
+      "runId": 40219687889
     },
     "lxgw.neo-zhisong-plus": {
       "buildKey": "8fe650faba010ee9ac554204492f498f991a571e6e2c78794f5a369b96b1294f",
@@ -198,21 +201,22 @@
       "runId": 40216326373
     },
     "lxgw.xiaolai": {
-      "buildKey": "ed9d8b216fb15a7fd12a1fda5fa304fd042cc3260e93110854ed0787caf6f62b",
+      "buildKey": "fd6da981f763724e6e5ac5660c4ed0b5a9623bcc4c3e4c2b526897b729255718",
       "buildSucceeded": true,
-      "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
-      "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+      "headSha": "f62c49c1d7e8b3822a9aa9575f2e84a141c076ca",
+      "mergeSha": "1231f8816d0f5c51f7b9ba4825a3a623523202b1",
       "pname": "lxgw-xiaolai",
       "policy": 2,
       "previewFiles": {
+        "lxgw/lxgw-xiaolai+Xiaolai Mono.png": "ac5e2336893c42fdb2a569e4bc2d3a1b81f52a4a",
         "lxgw/lxgw-xiaolai+Xiaolai.png": "ac5e2336893c42fdb2a569e4bc2d3a1b81f52a4a",
-        "manifest.json": "ff62e5fcb1e096e50d6e5efb9e89c05b98bc05ff"
+        "manifest.json": "f4c5dc9d309eff7097f63c84085f84585f9e7543"
       },
-      "previewKey": "05ce2ad860f3137addb2f1aab1987115fe7bd15d8a26a84b2bba9bfe36278e69",
-      "previewPath": "prs/32/lxgw.xiaolai/05ce2ad860f3137addb2f1aab1987115fe7bd15d8a26a84b2bba9bfe36278e69",
+      "previewKey": "ae2dd84fb7436219ee92684586ddbd301c4044583b6ccffc8c818b3d10eb3396",
+      "previewPath": "prs/32/lxgw.xiaolai/ae2dd84fb7436219ee92684586ddbd301c4044583b6ccffc8c818b3d10eb3396",
       "previewPublished": true,
       "runAttempt": 1,
-      "runId": 40216326373
+      "runId": 40219687889
     },
     "lxgw.xiaolai-mono": {
       "buildKey": "556a9746359b7bb6222ca219d7272c1ce9320e525df12583ec0a277de21e8de6",
@@ -230,6 +234,24 @@
       "previewPublished": true,
       "runAttempt": 1,
       "runId": 40216326373
+    },
+    "lxgw.xihei": {
+      "buildKey": "7a6e1962b1b873771334c0525d0aa501acc1dedc2ca1c9b7206f6b7534a60aa0",
+      "buildSucceeded": true,
+      "headSha": "f62c49c1d7e8b3822a9aa9575f2e84a141c076ca",
+      "mergeSha": "1231f8816d0f5c51f7b9ba4825a3a623523202b1",
+      "pname": "lxgw-xihei",
+      "policy": 2,
+      "previewFiles": {
+        "lxgw/lxgw-xihei+LXGW XiHei CL.png": "3c17d6a483e25323ffa89c12434f0d1609d9bcde",
+        "lxgw/lxgw-xihei+LXGW XiHei MN.png": "7e7d521a22f6895f7f4d96602406b9147df7172b",
+        "manifest.json": "e4ead819370029009f0fde48371dcf843728739f"
+      },
+      "previewKey": "af536152dddcb9eaa66d494c3c1d672b4af6ba1e0d4b0d9f7c9684360c1f4113",
+      "previewPath": "prs/32/lxgw.xihei/af536152dddcb9eaa66d494c3c1d672b4af6ba1e0d4b0d9f7c9684360c1f4113",
+      "previewPublished": true,
+      "runAttempt": 1,
+      "runId": 40219687889
     },
     "lxgw.xihei-cl": {
       "buildKey": "f1f46ebf3ed4059479126c1f3bef40441455dbc9bca6206e126e645a859b3755",
@@ -249,21 +271,22 @@
       "runId": 40216326373
     },
     "lxgw.xihei-code": {
-      "buildKey": "a48a8d879c0d16b0d6fd956d493d5986aad686421e833660f1a7a524579cdfff",
+      "buildKey": "9d15b132be02837d28847e95bd812451aa868f46ad29fca5f3c8542d4fd1b2cb",
       "buildSucceeded": true,
-      "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
-      "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+      "headSha": "f62c49c1d7e8b3822a9aa9575f2e84a141c076ca",
+      "mergeSha": "1231f8816d0f5c51f7b9ba4825a3a623523202b1",
       "pname": "lxgw-xihei-code",
       "policy": 2,
       "previewFiles": {
+        "lxgw/lxgw-xihei-code+NeoXiHei Code.png": "6d104b79da490ade70a243a9740defbeab109bbe",
         "lxgw/lxgw-xihei-code+XiHei Code.png": "a2daaeb58dad4d716c704ea45769ae7e0083d3e3",
-        "manifest.json": "580aced4edb206866134b1ad4edd564046555a20"
+        "manifest.json": "6377e9567fb7145670d5ebbbc05f2659bba736f7"
       },
-      "previewKey": "55a1ab5ba2ac50e7262774cfc95bcbfd3d00c79db67b37f0084aae5328d4f4e7",
-      "previewPath": "prs/32/lxgw.xihei-code/55a1ab5ba2ac50e7262774cfc95bcbfd3d00c79db67b37f0084aae5328d4f4e7",
+      "previewKey": "dc2c0b1283cda1ec2038a6f98b278f9f4bd04b3a482f9476b862f3d21ae2f92d",
+      "previewPath": "prs/32/lxgw.xihei-code/dc2c0b1283cda1ec2038a6f98b278f9f4bd04b3a482f9476b862f3d21ae2f92d",
       "previewPublished": true,
       "runAttempt": 1,
-      "runId": 40216326373
+      "runId": 40219687889
     },
     "lxgw.xihei-mn": {
       "buildKey": "0fe0a448fd45f24c41ac63b4dd3f4f90d6be8e2d7586c5e0deb6b4f739ed66b0",
@@ -300,6 +323,25 @@
       "previewPublished": true,
       "runAttempt": 1,
       "runId": 40216326373
+    },
+    "lxgw.zhenkai": {
+      "buildKey": "8e8cdc9cddb38f3ab98a0015ae3083d1a792b60ed61d05fe0836eb3dc02d69d4",
+      "buildSucceeded": true,
+      "headSha": "f62c49c1d7e8b3822a9aa9575f2e84a141c076ca",
+      "mergeSha": "1231f8816d0f5c51f7b9ba4825a3a623523202b1",
+      "pname": "lxgw-zhenkai",
+      "policy": 2,
+      "previewFiles": {
+        "lxgw/lxgw-zhenkai+LXGW ZhenKai GB.png": "21c76a13c21e08220165d354dd987be71081e4b2",
+        "lxgw/lxgw-zhenkai+LXGW ZhenKai Slab GB.png": "f1f91970527317748dcacd4bb2a22d1784c34e4f",
+        "lxgw/lxgw-zhenkai+ZhenKai_GBK.png": "21c76a13c21e08220165d354dd987be71081e4b2",
+        "manifest.json": "06efb91bee8f42911a75e235e09c69d5c0b20e01"
+      },
+      "previewKey": "040fb11547c4a67ca916cc4c4b98284eaa06cb5dc5668587c5ebce762ecbd3b8",
+      "previewPath": "prs/32/lxgw.zhenkai/040fb11547c4a67ca916cc4c4b98284eaa06cb5dc5668587c5ebce762ecbd3b8",
+      "previewPublished": true,
+      "runAttempt": 1,
+      "runId": 40219687889
     },
     "lxgw.zhenkai-gb": {
       "buildKey": "07baf031fb259792ac02e3afbc690ec7e36a7ff9dff5967382324cb5d6b36023",
@@ -351,6 +393,24 @@
       "previewPublished": true,
       "runAttempt": 1,
       "runId": 40216326373
+    },
+    "lxgw.zhisong": {
+      "buildKey": "8aaf96239e02a8eab53d56f2f869a62f9497bede23a6dabd45419356a0f3b742",
+      "buildSucceeded": true,
+      "headSha": "f62c49c1d7e8b3822a9aa9575f2e84a141c076ca",
+      "mergeSha": "1231f8816d0f5c51f7b9ba4825a3a623523202b1",
+      "pname": "lxgw-zhisong",
+      "policy": 2,
+      "previewFiles": {
+        "lxgw/lxgw-zhisong+LXGW ZhiSong CL.png": "d443dcec06e8b246d8d6a5d570a9b501a9f45cf6",
+        "lxgw/lxgw-zhisong+LXGW ZhiSong MN.png": "05d5af4fad4d71577b10a69766e18737d5c65749",
+        "manifest.json": "b1e503552d64d5202d2bec560eaf4e666746d9f5"
+      },
+      "previewKey": "17d0030f3a7558e25781ba6989f69edf3a46abc9914b60b89b00ea0873d7f1b7",
+      "previewPath": "prs/32/lxgw.zhisong/17d0030f3a7558e25781ba6989f69edf3a46abc9914b60b89b00ea0873d7f1b7",
+      "previewPublished": true,
+      "runAttempt": 1,
+      "runId": 40219687889
     },
     "lxgw.zhisong-cl": {
       "buildKey": "87c736a80d14e7d259b19167d08c863d32403bc5a994ae273b5617b9d9eedbcc",
