@@ -121,6 +121,7 @@
     lxgw-975-hei-sc = "simplified-chinese";
     lxgw-975-yuan-sc = "simplified-chinese";
     lxgw-b5xihei = "traditional-chinese";
+    lxgw-b5zhiming = "traditional-chinese";
     lxgw-marker-gothic = "simplified-chinese";
   };
 
