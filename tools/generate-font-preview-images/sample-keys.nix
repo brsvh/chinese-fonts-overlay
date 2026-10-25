@@ -119,6 +119,7 @@
 
   lxgw = {
     lxgw-975-hei-sc = "simplified-chinese";
+    lxgw-b5xihei = "traditional-chinese";
   };
 
   microsoft = {
