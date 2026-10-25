@@ -237,6 +237,24 @@ let
       combine' = link packages;
     };
 
+  lxgwPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/lxgw;
+      };
+    in
+    packages
+    // {
+      combine = link packages "lxgw-fonts";
+
+      combine' = link packages;
+    };
+
   microsoftPackages =
     let
       packageScope = makeScope final.newScope (
@@ -378,6 +396,7 @@ in
     huaweiPackages
     justfontPackages
     lib
+    lxgwPackages
     microsoftPackages
     taobaoPackages
     tianhengPackages
@@ -476,6 +495,10 @@ in
   justfont-fonts =
     justfontPackages.combine' "justfont-fonts"
       (_: true);
+
+  lxgw-fonts = lxgwPackages.combine' "lxgw-fonts" (
+    _: true
+  );
 
   foundertypeFonts = {
     FZFSK = throw ''

@@ -108,6 +108,7 @@
                 harmonyos-sans-vf-fonts
                 huawei-fonts
                 justfont-fonts
+                lxgw-fonts
                 taobao-fonts
                 tianheng-fonts
                 trionestype-fonts
