@@ -1,0 +1,26 @@
+{
+  "buildKey": "8aaf96239e02a8eab53d56f2f869a62f9497bede23a6dabd45419356a0f3b742",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-zhisong+LXGW ZhiSong CL.png",
+      "sha256": "f25c7d1922458a40d1fa1ae3d90e58560813969163f805dca6cc7df6499689e4",
+      "width": 730
+    },
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-zhisong+LXGW ZhiSong MN.png",
+      "sha256": "866d7c7198774c346e2bf33bcc142244eaf7d691369330767bf9093ced302f5b",
+      "width": 730
+    }
+  ],
+  "package": "lxgw.zhisong",
+  "pname": "lxgw-zhisong",
+  "previewKey": "17d0030f3a7558e25781ba6989f69edf3a46abc9914b60b89b00ea0873d7f1b7",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "4f3f1ed8866fceaadca2a32fca5acd74c527a3fe"
+  },
+  "vendor": "lxgw"
+}
