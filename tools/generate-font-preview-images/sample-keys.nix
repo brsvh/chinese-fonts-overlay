@@ -123,6 +123,7 @@
     lxgw-b5xihei = "traditional-chinese";
     lxgw-b5zhiming = "traditional-chinese";
     lxgw-marker-gothic = "simplified-chinese";
+    lxgw-neo-zhisong = "simplified-chinese";
   };
 
   microsoft = {
