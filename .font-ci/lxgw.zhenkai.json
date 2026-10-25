@@ -1,0 +1,32 @@
+{
+  "buildKey": "8e8cdc9cddb38f3ab98a0015ae3083d1a792b60ed61d05fe0836eb3dc02d69d4",
+  "images": [
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-zhenkai+LXGW ZhenKai GB.png",
+      "sha256": "6403a8bb713ec3e175f40561d0d7ebdffe736836e30aa2295f6d0ce1797bf3a1",
+      "width": 731
+    },
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-zhenkai+LXGW ZhenKai Slab GB.png",
+      "sha256": "ce928099f46e0153eb6a76053ca178bc71e474cca76e96e7f433d7ee2334a8da",
+      "width": 731
+    },
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-zhenkai+ZhenKai_GBK.png",
+      "sha256": "6403a8bb713ec3e175f40561d0d7ebdffe736836e30aa2295f6d0ce1797bf3a1",
+      "width": 731
+    }
+  ],
+  "package": "lxgw.zhenkai",
+  "pname": "lxgw-zhenkai",
+  "previewKey": "040fb11547c4a67ca916cc4c4b98284eaa06cb5dc5668587c5ebce762ecbd3b8",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "4f3f1ed8866fceaadca2a32fca5acd74c527a3fe"
+  },
+  "vendor": "lxgw"
+}
