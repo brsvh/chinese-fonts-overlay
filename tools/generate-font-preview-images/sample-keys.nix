@@ -126,6 +126,7 @@
     lxgw-neo-zhisong = "simplified-chinese";
     lxgw-pengli-wenkai = "traditional-chinese";
     lxgw-simxihei = "simplified-chinese";
+    lxgw-simzhisong = "simplified-chinese";
   };
 
   microsoft = {
