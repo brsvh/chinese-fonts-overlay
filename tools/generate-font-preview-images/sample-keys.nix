@@ -129,6 +129,7 @@
     lxgw-simzhisong = "simplified-chinese";
     lxgw-xiaolai = "simplified-chinese";
     lxgw-xihei = "traditional-chinese";
+    lxgw-xihei-code = "traditional-chinese";
   };
 
   microsoft = {
