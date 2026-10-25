@@ -131,6 +131,7 @@
     lxgw-xihei = "traditional-chinese";
     lxgw-xihei-code = "traditional-chinese";
     lxgw-yozai = "simplified-chinese";
+    lxgw-zhenkai = "simplified-chinese";
   };
 
   microsoft = {
