@@ -534,8 +534,14 @@ export async function consume(api, run, pull) {
 
   for (const shard of plan.shards) {
     try {
+      const label =
+        shard.tasks.length === 1
+          ? plan.packages[shard.tasks[0]].pname
+          : String(shard.id);
       const matching = jobs.filter(
-        (job) => job.name === 'Build fonts / ' + shard.id,
+        (job) =>
+          job.name === 'Build fonts / ' + shard.id ||
+          job.name === 'Build fonts / ' + label,
       );
       ensure(
         matching.length === 1 && matching[0].status === 'completed',
