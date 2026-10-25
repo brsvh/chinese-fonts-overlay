@@ -54,7 +54,7 @@ jobs:
           retention-days: 14
 
   build:
-    name: Build fonts / ${{ matrix.id }}
+    name: Build fonts / ${{ matrix.label }}
     needs: plan
     if: needs.plan.outputs.count != '0'
     runs-on: ubuntu-24.04
