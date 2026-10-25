@@ -1,0 +1,47 @@
+{
+  "buildKey": "381ef26fdf0b9f766843dd6c75e38bf0357175be66946e3bcc5a11d9a4c1f44c",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-975-hei-sc+LXGW 975 Hei SC 200W.png",
+      "sha256": "030bdae575619d792ed1787603ebe51f396959e51fbd4a682649dd96491868e4",
+      "width": 731
+    },
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-975-hei-sc+LXGW 975 Hei SC 300W.png",
+      "sha256": "be0eaf26e22ce4ccbe958d9928e2ac10a1199531d9a3d25de713aaf7c523ec1b",
+      "width": 731
+    },
+    {
+      "height": 92,
+      "path": "lxgw/lxgw-975-hei-sc+LXGW 975 Hei SC 400W.png",
+      "sha256": "62aaa15144125fb5ef7ce02ecbd9746469f0829ecd5592c5b499c5d5f3249b3d",
+      "width": 732
+    },
+    {
+      "height": 92,
+      "path": "lxgw/lxgw-975-hei-sc+LXGW 975 Hei SC 500W.png",
+      "sha256": "b8bf656fee30769eadf0395c91d5fa736c1c84929da033540edbaad31a5b19d9",
+      "width": 733
+    },
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-975-hei-sc+LXGW 975 Hei SC 700W.png",
+      "sha256": "30d8457e9e02e495353581d94b8abb889e81e2ffbb40f4c0c6537f343a55b024",
+      "width": 733
+    }
+  ],
+  "package": "lxgw.975-hei-sc",
+  "pname": "lxgw-975-hei-sc",
+  "previewKey": "e9aa877c76d4f3632d075d1101d8feb515fd39a43f21c35cec5526974d33f60c",
+  "schema": 1,
+  "source": {
+    "headSha": "cb968109ba08b5ec3c6fe797fcb933d0d63c3cdd",
+    "kind": "pr",
+    "mergeSha": "99beb2f0d520f0ec4e3aacf547ac17bd2c4eb631",
+    "runAttempt": 1,
+    "runId": 40217432069
+  },
+  "vendor": "lxgw"
+}
