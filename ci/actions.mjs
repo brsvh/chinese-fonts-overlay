@@ -163,6 +163,10 @@ export async function preparePlan(root, directory, event, api) {
     matrix: JSON.stringify(
       value.shards.map((shard) => ({
         id: shard.id,
+        label:
+          shard.tasks.length === 1
+            ? packages[shard.tasks[0]].pname
+            : String(shard.id),
         cacheable: shard.cacheable,
         cacheKey: digest(shard.tasks.map((name) => packages[name].buildKey)),
       })),
