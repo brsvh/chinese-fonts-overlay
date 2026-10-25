@@ -117,6 +117,10 @@
     justfont-type-jam = "traditional-chinese";
   };
 
+  lxgw = {
+    lxgw-975-hei-sc = "simplified-chinese";
+  };
+
   microsoft = {
     microsoft-arial = "english";
     microsoft-bahnschrift = "english";
