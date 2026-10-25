@@ -1,0 +1,20 @@
+{
+  "buildKey": "b6c15812236bdc5b902d20447c04ee3a1cfb6e6b3dab715a15b51ac154f7bb18",
+  "images": [
+    {
+      "height": 92,
+      "path": "lxgw/lxgw-b5xihei+B5XiHei.png",
+      "sha256": "168d2b1cd33305dac0eb1bc1042aace2d19ba552ae92efe3d46b4da7e339bad9",
+      "width": 730
+    }
+  ],
+  "package": "lxgw.b5xihei",
+  "pname": "lxgw-b5xihei",
+  "previewKey": "aa753baf7ee068b61fe5cbf89afef47d851bf966674ab1995f2f15c34b24acd5",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "4f3f1ed8866fceaadca2a32fca5acd74c527a3fe"
+  },
+  "vendor": "lxgw"
+}
