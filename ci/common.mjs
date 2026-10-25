@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createHash, randomUUID } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
@@ -143,14 +143,16 @@ export function evaluate(root, mode, selection = [], build = false) {
   args.push('--expr', expression, ...nixFlags);
 
   if (process.env.FONT_CI_CACHE_PATH) {
-    const cache = new URL(
-      'file://' + path.resolve(process.env.FONT_CI_CACHE_PATH),
-    );
-    args.push(
-      '--option',
-      'extra-substituters',
-      'https://cache.bingshan.org ' + cache.href + '?trusted=1',
-    );
+    const cache = path.resolve(process.env.FONT_CI_CACHE_PATH);
+    const substituters = ['https://cache.bingshan.org'];
+
+    // Opening a missing file cache lets the daemon create root-owned paths
+    // that the runner cannot remove when exporting the audited closure.
+    if (fs.existsSync(path.join(cache, 'nix-cache-info'))) {
+      substituters.push(pathToFileURL(cache).href + '?trusted=1');
+    }
+
+    args.push('--option', 'extra-substituters', substituters.join(' '));
   }
 
   return parseJson(
