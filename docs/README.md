@@ -2073,6 +2073,298 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   <br>
 </p>
 
+### LXGW 字体（落霞孤鹜）- `lxgwPackages`
+
+> [!TIP]
+>
+> 通过 `lxgw-fonts` 来安装所有 LXGW 字体。
+
+- `lxgwPackages."975-hei-sc"` - [霞鹜975黑体SC](https://github.com/lxgw/975Hei)
+
+<p align="center">
+  <img
+    alt="LXGW 975 Hei SC 200W"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-975-hei-sc%2BLXGW%20975%20Hei%20SC%20200W.png"
+  >
+  <br>
+  <sub>LXGW 975 Hei SC 200W</sub>
+  <br>
+  <img
+    alt="LXGW 975 Hei SC 300W"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-975-hei-sc%2BLXGW%20975%20Hei%20SC%20300W.png"
+  >
+  <br>
+  <sub>LXGW 975 Hei SC 300W</sub>
+  <br>
+  <img
+    alt="LXGW 975 Hei SC 400W"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-975-hei-sc%2BLXGW%20975%20Hei%20SC%20400W.png"
+  >
+  <br>
+  <sub>LXGW 975 Hei SC 400W</sub>
+  <br>
+  <img
+    alt="LXGW 975 Hei SC 500W"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-975-hei-sc%2BLXGW%20975%20Hei%20SC%20500W.png"
+  >
+  <br>
+  <sub>LXGW 975 Hei SC 500W</sub>
+  <br>
+  <img
+    alt="LXGW 975 Hei SC 700W"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-975-hei-sc%2BLXGW%20975%20Hei%20SC%20700W.png"
+  >
+  <br>
+  <sub>LXGW 975 Hei SC 700W</sub>
+  <br>
+</p>
+
+- `lxgwPackages."975-yuan-sc"` - [霞鹜975圆体SC](https://github.com/lxgw/975Yuan)
+
+<p align="center">
+  <img
+    alt="LXGW 975 Yuan SC 400W"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-975-yuan-sc%2BLXGW%20975%20Yuan%20SC%20400W.png"
+  >
+  <br>
+  <sub>LXGW 975 Yuan SC 400W</sub>
+  <br>
+  <img
+    alt="LXGW 975 Yuan SC 500W"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-975-yuan-sc%2BLXGW%20975%20Yuan%20SC%20500W.png"
+  >
+  <br>
+  <sub>LXGW 975 Yuan SC 500W</sub>
+  <br>
+  <img
+    alt="LXGW 975 Yuan SC 700W"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-975-yuan-sc%2BLXGW%20975%20Yuan%20SC%20700W.png"
+  >
+  <br>
+  <sub>LXGW 975 Yuan SC 700W</sub>
+  <br>
+</p>
+
+- `lxgwPackages.b5xihei` - [Ｂ５晰黑體](https://github.com/lxgw/B5XiZhi)
+
+<p align="center">
+  <img
+    alt="B5XiHei"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-b5xihei%2BB5XiHei.png"
+  >
+</p>
+
+- `lxgwPackages.b5zhiming` - [Ｂ５緻明體](https://github.com/lxgw/B5XiZhi)
+
+<p align="center">
+  <img
+    alt="B5ZhiMing"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-b5zhiming%2BB5ZhiMing.png"
+  >
+</p>
+
+- `lxgwPackages.marker-gothic` -
+  [霞鹜漫黑](https://github.com/lxgw/LxgwMarkerGothic)
+
+<p align="center">
+  <img
+    alt="LXGW Marker Gothic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-marker-gothic%2BLXGW%20Marker%20Gothic.png"
+  >
+</p>
+
+- `lxgwPackages.neo-zhisong` -
+  [霞鹜新致宋（含 Plus、Screen 和 Screen Full）](https://github.com/lxgw/LxgwNeoZhiSong)
+
+<p align="center">
+  <img
+    alt="LXGW Neo ZhiSong Plus"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-neo-zhisong%2BLXGW%20Neo%20ZhiSong%20Plus.png"
+  >
+  <br>
+  <sub>LXGW Neo ZhiSong Plus</sub>
+  <br>
+  <img
+    alt="LXGW Neo ZhiSong Screen Full"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-neo-zhisong%2BLXGW%20Neo%20ZhiSong%20Screen%20Full.png"
+  >
+  <br>
+  <sub>LXGW Neo ZhiSong Screen Full</sub>
+  <br>
+  <img
+    alt="LXGW Neo ZhiSong Screen"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-neo-zhisong%2BLXGW%20Neo%20ZhiSong%20Screen.png"
+  >
+  <br>
+  <sub>LXGW Neo ZhiSong Screen</sub>
+  <br>
+  <img
+    alt="LXGW Neo ZhiSong"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-neo-zhisong%2BLXGW%20Neo%20ZhiSong.png"
+  >
+  <br>
+  <sub>LXGW Neo ZhiSong</sub>
+  <br>
+</p>
+
+- `lxgwPackages.pengli-wenkai` - [彭蠡文楷](https://github.com/lxgw/Pengli)
+
+<p align="center">
+  <img
+    alt="Pengli WenKai"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-pengli-wenkai%2BPengli%20WenKai.png"
+  >
+</p>
+
+- `lxgwPackages.simxihei` - [新晰黑体](https://github.com/lxgw/SimXiZhi)
+
+<p align="center">
+  <img
+    alt="SimXiHei"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-simxihei%2BSimXiHei.png"
+  >
+</p>
+
+- `lxgwPackages.simzhisong` - [新致宋体](https://github.com/lxgw/SimXiZhi)
+
+<p align="center">
+  <img
+    alt="SimZhiSong"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-simzhisong%2BSimZhiSong.png"
+  >
+</p>
+
+- `lxgwPackages.xiaolai` -
+  [小赖字体 / 小賴字體（含等宽版）](https://github.com/lxgw/kose-font)
+
+<p align="center">
+  <img
+    alt="Xiaolai Mono"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-xiaolai%2BXiaolai%20Mono.png"
+  >
+  <br>
+  <sub>Xiaolai Mono</sub>
+  <br>
+  <img
+    alt="Xiaolai"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-xiaolai%2BXiaolai.png"
+  >
+  <br>
+  <sub>Xiaolai</sub>
+  <br>
+</p>
+
+- `lxgwPackages.xihei` - [霞鶩晰黑（CL / MN）](https://github.com/lxgw/LxgwXiHei)
+
+<p align="center">
+  <img
+    alt="LXGW XiHei CL"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-xihei%2BLXGW%20XiHei%20CL.png"
+  >
+  <br>
+  <sub>LXGW XiHei CL</sub>
+  <br>
+  <img
+    alt="LXGW XiHei MN"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-xihei%2BLXGW%20XiHei%20MN.png"
+  >
+  <br>
+  <sub>LXGW XiHei MN</sub>
+  <br>
+</p>
+
+- `lxgwPackages.xihei-code` -
+  [晰黑 Code / 新晰黑 Code](https://github.com/lxgw/NeoXiHei-Code)
+
+<p align="center">
+  <img
+    alt="NeoXiHei Code"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-xihei-code%2BNeoXiHei%20Code.png"
+  >
+  <br>
+  <sub>NeoXiHei Code</sub>
+  <br>
+  <img
+    alt="XiHei Code"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-xihei-code%2BXiHei%20Code.png"
+  >
+  <br>
+  <sub>XiHei Code</sub>
+  <br>
+</p>
+
+- `lxgwPackages.yozai` - [悠哉字体](https://github.com/lxgw/yozai-font)
+
+<p align="center">
+  <img
+    alt="Yozai Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-yozai%2BYozai%20Light.png"
+  >
+  <br>
+  <sub>Yozai Light</sub>
+  <br>
+  <img
+    alt="Yozai Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-yozai%2BYozai%20Regular.png"
+  >
+  <br>
+  <sub>Yozai Regular</sub>
+  <br>
+  <img
+    alt="Yozai Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-yozai%2BYozai%20Medium.png"
+  >
+  <br>
+  <sub>Yozai Medium</sub>
+  <br>
+</p>
+
+- `lxgwPackages.zhenkai` -
+  [霞鹜臻楷（GB / GBK / Slab GB）](https://github.com/lxgw/LxgwZhenKai)
+
+<p align="center">
+  <img
+    alt="LXGW ZhenKai GB"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-zhenkai%2BLXGW%20ZhenKai%20GB.png"
+  >
+  <br>
+  <sub>LXGW ZhenKai GB</sub>
+  <br>
+  <img
+    alt="LXGW ZhenKai Slab GB"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-zhenkai%2BLXGW%20ZhenKai%20Slab%20GB.png"
+  >
+  <br>
+  <sub>LXGW ZhenKai Slab GB</sub>
+  <br>
+  <img
+    alt="ZhenKai_GBK"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-zhenkai%2BZhenKai_GBK.png"
+  >
+  <br>
+  <sub>ZhenKai_GBK</sub>
+  <br>
+</p>
+
+- `lxgwPackages.zhisong` - [霞鶩緻宋（CL / MN）](https://github.com/lxgw/LxgwZhiSong)
+
+<p align="center">
+  <img
+    alt="LXGW ZhiSong CL"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-zhisong%2BLXGW%20ZhiSong%20CL.png"
+  >
+  <br>
+  <sub>LXGW ZhiSong CL</sub>
+  <br>
+  <img
+    alt="LXGW ZhiSong MN"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lxgw/lxgw-zhisong%2BLXGW%20ZhiSong%20MN.png"
+  >
+  <br>
+  <sub>LXGW ZhiSong MN</sub>
+  <br>
+</p>
+
 ### Microsoft 字体（微软字体）- `microsoftPackages`
 
 > [!CAUTION]
