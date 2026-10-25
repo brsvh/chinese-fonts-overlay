@@ -1,0 +1,26 @@
+{
+  "buildKey": "fd6da981f763724e6e5ac5660c4ed0b5a9623bcc4c3e4c2b526897b729255718",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-xiaolai+Xiaolai Mono.png",
+      "sha256": "de8889976582b2e52e695873e73c006d8dd51fcbabce2dbd6a032baee4ee7c1d",
+      "width": 729
+    },
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-xiaolai+Xiaolai.png",
+      "sha256": "de8889976582b2e52e695873e73c006d8dd51fcbabce2dbd6a032baee4ee7c1d",
+      "width": 729
+    }
+  ],
+  "package": "lxgw.xiaolai",
+  "pname": "lxgw-xiaolai",
+  "previewKey": "ae2dd84fb7436219ee92684586ddbd301c4044583b6ccffc8c818b3d10eb3396",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "4f3f1ed8866fceaadca2a32fca5acd74c527a3fe"
+  },
+  "vendor": "lxgw"
+}
