@@ -37,11 +37,11 @@
   "previewKey": "95a2fe4e90aac28285f0d8dfbc275bbe492d8762103282a9b722d13c1d0df9ae",
   "schema": 1,
   "source": {
-    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "headSha": "76ddd24f2fce0b631fed5ef7fcd4a28b0b2755ac",
     "kind": "pr",
-    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "mergeSha": "cf8f04eb05232b13c55807c1915243e41bbbcc0b",
     "runAttempt": 1,
-    "runId": 40216326373
+    "runId": 40217916006
   },
   "vendor": "lxgw"
 }

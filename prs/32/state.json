@@ -1,14 +1,14 @@
 {
-  "controller": "ee89f9ff934aec6dd03bb80b0428f3cef5df4b25ea73c16273a243ea01b0c223",
+  "controller": "784416f518e723c5d83d75ee81a366ad5ed95e5925788f60ca0b1d1cf33837d5",
   "headRepository": "brsvh/chinese-fonts-overlay",
-  "headSha": "cb968109ba08b5ec3c6fe797fcb933d0d63c3cdd",
+  "headSha": "76ddd24f2fce0b631fed5ef7fcd4a28b0b2755ac",
   "pr": 32,
   "receipts": {
     "lxgw.975-hei-sc": {
       "buildKey": "381ef26fdf0b9f766843dd6c75e38bf0357175be66946e3bcc5a11d9a4c1f44c",
       "buildSucceeded": true,
-      "headSha": "cb968109ba08b5ec3c6fe797fcb933d0d63c3cdd",
-      "mergeSha": "99beb2f0d520f0ec4e3aacf547ac17bd2c4eb631",
+      "headSha": "76ddd24f2fce0b631fed5ef7fcd4a28b0b2755ac",
+      "mergeSha": "cf8f04eb05232b13c55807c1915243e41bbbcc0b",
       "pname": "lxgw-975-hei-sc",
       "policy": 2,
       "previewFiles": {
@@ -17,13 +17,13 @@
         "lxgw/lxgw-975-hei-sc+LXGW 975 Hei SC 400W.png": "971bb9b7cc268e86e8f000a079c41410f646567b",
         "lxgw/lxgw-975-hei-sc+LXGW 975 Hei SC 500W.png": "e378a7705a800503cec1f6ef02dc6367ec7835a6",
         "lxgw/lxgw-975-hei-sc+LXGW 975 Hei SC 700W.png": "4b9ff404b1313fa36609784d9b2d4ae0cc4faea6",
-        "manifest.json": "d1caace4ff2455b171e088d5c7fbfab105bf18a2"
+        "manifest.json": "d0bfaae641b1a4ab1cd0e195266f03556692bfed"
       },
-      "previewKey": "e9aa877c76d4f3632d075d1101d8feb515fd39a43f21c35cec5526974d33f60c",
-      "previewPath": "prs/32/lxgw.975-hei-sc/e9aa877c76d4f3632d075d1101d8feb515fd39a43f21c35cec5526974d33f60c",
+      "previewKey": "95a2fe4e90aac28285f0d8dfbc275bbe492d8762103282a9b722d13c1d0df9ae",
+      "previewPath": "prs/32/lxgw.975-hei-sc/95a2fe4e90aac28285f0d8dfbc275bbe492d8762103282a9b722d13c1d0df9ae",
       "previewPublished": true,
       "runAttempt": 1,
-      "runId": 40217432069
+      "runId": 40217916006
     },
     "lxgw.975-yuan-sc": {
       "buildKey": "90db222a6beed65b3af5aaff6885cd12dfda3c795df3f32d27a9f7b9fa2aff23",
@@ -47,19 +47,19 @@
     "lxgw.b5xihei": {
       "buildKey": "b6c15812236bdc5b902d20447c04ee3a1cfb6e6b3dab715a15b51ac154f7bb18",
       "buildSucceeded": true,
-      "headSha": "cb968109ba08b5ec3c6fe797fcb933d0d63c3cdd",
-      "mergeSha": "99beb2f0d520f0ec4e3aacf547ac17bd2c4eb631",
+      "headSha": "76ddd24f2fce0b631fed5ef7fcd4a28b0b2755ac",
+      "mergeSha": "cf8f04eb05232b13c55807c1915243e41bbbcc0b",
       "pname": "lxgw-b5xihei",
       "policy": 2,
       "previewFiles": {
         "lxgw/lxgw-b5xihei+B5XiHei.png": "7e7d521a22f6895f7f4d96602406b9147df7172b",
-        "manifest.json": "c6abd6a862b8648bdbdb445ab3612e3087e169b1"
+        "manifest.json": "7cbcdcfe6242d3de391f9e9441d23c03c481a73e"
       },
-      "previewKey": "5d3ea9f193945d517ee0430531062928216fda11b7fc1b88a4f36984d3509058",
-      "previewPath": "prs/32/lxgw.b5xihei/5d3ea9f193945d517ee0430531062928216fda11b7fc1b88a4f36984d3509058",
+      "previewKey": "aa753baf7ee068b61fe5cbf89afef47d851bf966674ab1995f2f15c34b24acd5",
+      "previewPath": "prs/32/lxgw.b5xihei/aa753baf7ee068b61fe5cbf89afef47d851bf966674ab1995f2f15c34b24acd5",
       "previewPublished": true,
       "runAttempt": 1,
-      "runId": 40217432069
+      "runId": 40217916006
     },
     "lxgw.b5zhiming": {
       "buildKey": "a51a553c0cbece5c351f04226488bb6301ace93f1f16717ec4d95f0f918ecf01",
@@ -81,19 +81,19 @@
     "lxgw.marker-gothic": {
       "buildKey": "3d889f6c273057dc2355d414fad0140056b12c1657864fcb45f72888ff752d6c",
       "buildSucceeded": true,
-      "headSha": "cb968109ba08b5ec3c6fe797fcb933d0d63c3cdd",
-      "mergeSha": "99beb2f0d520f0ec4e3aacf547ac17bd2c4eb631",
+      "headSha": "76ddd24f2fce0b631fed5ef7fcd4a28b0b2755ac",
+      "mergeSha": "cf8f04eb05232b13c55807c1915243e41bbbcc0b",
       "pname": "lxgw-marker-gothic",
       "policy": 2,
       "previewFiles": {
         "lxgw/lxgw-marker-gothic+LXGW Marker Gothic.png": "3a5a8ea7e5d5e874ec99f1f6f459b0067470fe09",
-        "manifest.json": "aae2b180f4578d05cd306297f77545380e921dcb"
+        "manifest.json": "5979f5b98f5c14f9635a9f8f7d27024fb2229d0e"
       },
-      "previewKey": "f7f3e0dab6d33f418dba26505b3ab084574c8205d250f4393d12ac4e9987e1b8",
-      "previewPath": "prs/32/lxgw.marker-gothic/f7f3e0dab6d33f418dba26505b3ab084574c8205d250f4393d12ac4e9987e1b8",
+      "previewKey": "5b38e606155199956447076167ceb0057b36ebc50da6f737112eb52da33bfd8f",
+      "previewPath": "prs/32/lxgw.marker-gothic/5b38e606155199956447076167ceb0057b36ebc50da6f737112eb52da33bfd8f",
       "previewPublished": true,
       "runAttempt": 1,
-      "runId": 40217432069
+      "runId": 40217916006
     },
     "lxgw.neo-zhisong": {
       "buildKey": "88cc99d17af12be3c3099c0184b97b1080727e9d62de4f610bbf910d371caa4c",
@@ -389,6 +389,6 @@
   },
   "repository": "brsvh/chinese-fonts-overlay",
   "runAttempt": 1,
-  "runId": 40217432069,
+  "runId": 40217916006,
   "schema": 1
 }

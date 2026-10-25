@@ -13,11 +13,11 @@
   "previewKey": "aa753baf7ee068b61fe5cbf89afef47d851bf966674ab1995f2f15c34b24acd5",
   "schema": 1,
   "source": {
-    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "headSha": "76ddd24f2fce0b631fed5ef7fcd4a28b0b2755ac",
     "kind": "pr",
-    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "mergeSha": "cf8f04eb05232b13c55807c1915243e41bbbcc0b",
     "runAttempt": 1,
-    "runId": 40216326373
+    "runId": 40217916006
   },
   "vendor": "lxgw"
 }
