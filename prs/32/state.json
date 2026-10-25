@@ -1,7 +1,7 @@
 {
-  "controller": "41fc4418cd48c5ad4236c4ba1f773d71d0fb551e2f28291b06a8255927eab8de",
+  "controller": "784416f518e723c5d83d75ee81a366ad5ed95e5925788f60ca0b1d1cf33837d5",
   "headRepository": "brsvh/chinese-fonts-overlay",
-  "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+  "headSha": "29a9b1e506313e3d185d9555a461f54c3756b949",
   "pr": 32,
   "receipts": {
     "lxgw.975-hei-sc": {
@@ -389,6 +389,6 @@
   },
   "repository": "brsvh/chinese-fonts-overlay",
   "runAttempt": 1,
-  "runId": 40216326373,
+  "runId": 40217175343,
   "schema": 1
 }
