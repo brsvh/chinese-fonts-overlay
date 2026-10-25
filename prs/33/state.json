@@ -1,0 +1,11 @@
+{
+  "controller": "f1b13cdc3299b22d49fb3ba231e8de4d357cf4612d8d076d296997854e70998e",
+  "headRepository": "brsvh/chinese-fonts-overlay",
+  "headSha": "96c16c1ff3f0307c5470f66132b238a5578e8362",
+  "pr": 33,
+  "receipts": {},
+  "repository": "brsvh/chinese-fonts-overlay",
+  "runAttempt": 1,
+  "runId": 40220293491,
+  "schema": 1
+}
