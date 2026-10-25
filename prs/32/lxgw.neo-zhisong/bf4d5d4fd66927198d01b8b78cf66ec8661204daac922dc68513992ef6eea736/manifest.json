@@ -1,0 +1,23 @@
+{
+  "buildKey": "88cc99d17af12be3c3099c0184b97b1080727e9d62de4f610bbf910d371caa4c",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-neo-zhisong+LXGW Neo ZhiSong.png",
+      "sha256": "1c5e00b3f8a451ebcae3c84241070ef430b4c251df2769a85dc736ef6ee67955",
+      "width": 730
+    }
+  ],
+  "package": "lxgw.neo-zhisong",
+  "pname": "lxgw-neo-zhisong",
+  "previewKey": "bf4d5d4fd66927198d01b8b78cf66ec8661204daac922dc68513992ef6eea736",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

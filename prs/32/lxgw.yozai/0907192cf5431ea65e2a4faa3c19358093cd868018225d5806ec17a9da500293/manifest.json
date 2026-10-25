@@ -1,0 +1,35 @@
+{
+  "buildKey": "9cf9ff7aacbcd0e74776047fe0d568463ac3fafba0d8bb985899bf2f5f5dbb6d",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-yozai+Yozai Light.png",
+      "sha256": "49decbbe73825130d78c973d4c1aec5a5a2380328100de39ae7d4cd6541f42e5",
+      "width": 727
+    },
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-yozai+Yozai Medium.png",
+      "sha256": "b7f08273ad6a730584115b64ffa5c0ed77e11b1a33c4e7958b77ea85cba47799",
+      "width": 728
+    },
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-yozai+Yozai Regular.png",
+      "sha256": "4596a692d3126610266c7979f6da22de0efb54e9772db0d3a8ed54a75c98abda",
+      "width": 728
+    }
+  ],
+  "package": "lxgw.yozai",
+  "pname": "lxgw-yozai",
+  "previewKey": "0907192cf5431ea65e2a4faa3c19358093cd868018225d5806ec17a9da500293",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

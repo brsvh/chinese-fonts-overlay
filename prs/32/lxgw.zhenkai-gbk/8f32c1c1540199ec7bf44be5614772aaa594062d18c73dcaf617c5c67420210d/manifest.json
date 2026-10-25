@@ -1,0 +1,23 @@
+{
+  "buildKey": "01391e7bcbf2a05fe3230ca74673f207cd7172880b81383fd28e82ffe0b1e234",
+  "images": [
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-zhenkai-gbk+ZhenKai_GBK.png",
+      "sha256": "6403a8bb713ec3e175f40561d0d7ebdffe736836e30aa2295f6d0ce1797bf3a1",
+      "width": 731
+    }
+  ],
+  "package": "lxgw.zhenkai-gbk",
+  "pname": "lxgw-zhenkai-gbk",
+  "previewKey": "8f32c1c1540199ec7bf44be5614772aaa594062d18c73dcaf617c5c67420210d",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

@@ -1,0 +1,23 @@
+{
+  "buildKey": "e9fa43cd197d39c860b30645f13a1deca7a45845052b85395c352f1a86fcd3d8",
+  "images": [
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-simxihei+SimXiHei.png",
+      "sha256": "75381cd7df7e38a631519b33a5dda5d7e941a6ef598747275efadd19c04700b8",
+      "width": 729
+    }
+  ],
+  "package": "lxgw.simxihei",
+  "pname": "lxgw-simxihei",
+  "previewKey": "128f9bb2d1622068d3a54299f7234dae7f718934fd1b15b9f8b9f68fc8dbfdd9",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

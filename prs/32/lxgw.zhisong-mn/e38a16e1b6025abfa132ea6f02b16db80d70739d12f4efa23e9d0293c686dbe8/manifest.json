@@ -1,0 +1,23 @@
+{
+  "buildKey": "fa8b777e87104979c3a02132c67580f09f4daabb4e0f45c2be0b8abd67cc584c",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-zhisong-mn+LXGW ZhiSong MN.png",
+      "sha256": "866d7c7198774c346e2bf33bcc142244eaf7d691369330767bf9093ced302f5b",
+      "width": 730
+    }
+  ],
+  "package": "lxgw.zhisong-mn",
+  "pname": "lxgw-zhisong-mn",
+  "previewKey": "e38a16e1b6025abfa132ea6f02b16db80d70739d12f4efa23e9d0293c686dbe8",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

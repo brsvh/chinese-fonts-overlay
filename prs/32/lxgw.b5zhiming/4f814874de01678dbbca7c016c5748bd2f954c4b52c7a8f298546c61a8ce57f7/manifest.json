@@ -1,0 +1,23 @@
+{
+  "buildKey": "a51a553c0cbece5c351f04226488bb6301ace93f1f16717ec4d95f0f918ecf01",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-b5zhiming+B5ZhiMing.png",
+      "sha256": "866d7c7198774c346e2bf33bcc142244eaf7d691369330767bf9093ced302f5b",
+      "width": 730
+    }
+  ],
+  "package": "lxgw.b5zhiming",
+  "pname": "lxgw-b5zhiming",
+  "previewKey": "4f814874de01678dbbca7c016c5748bd2f954c4b52c7a8f298546c61a8ce57f7",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

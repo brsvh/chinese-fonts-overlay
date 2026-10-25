@@ -1,0 +1,23 @@
+{
+  "buildKey": "9cea00a597854f70a30d04f56c3d90be47c0c5b1b1e9074f3659474eecada81d",
+  "images": [
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-zhenkai-slab-gb+LXGW ZhenKai Slab GB.png",
+      "sha256": "ce928099f46e0153eb6a76053ca178bc71e474cca76e96e7f433d7ee2334a8da",
+      "width": 731
+    }
+  ],
+  "package": "lxgw.zhenkai-slab-gb",
+  "pname": "lxgw-zhenkai-slab-gb",
+  "previewKey": "f61a5a4ce6c235d2e3161b464c9f1ec426cf2ef9625fa78990d0eaef8a6bc344",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

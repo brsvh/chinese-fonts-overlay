@@ -1,0 +1,23 @@
+{
+  "buildKey": "87c736a80d14e7d259b19167d08c863d32403bc5a994ae273b5617b9d9eedbcc",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-zhisong-cl+LXGW ZhiSong CL.png",
+      "sha256": "f25c7d1922458a40d1fa1ae3d90e58560813969163f805dca6cc7df6499689e4",
+      "width": 730
+    }
+  ],
+  "package": "lxgw.zhisong-cl",
+  "pname": "lxgw-zhisong-cl",
+  "previewKey": "1dce49ef780948dd6fe43e48f26662fe0e7ff7d609e28e3b6e720d070b3a6838",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

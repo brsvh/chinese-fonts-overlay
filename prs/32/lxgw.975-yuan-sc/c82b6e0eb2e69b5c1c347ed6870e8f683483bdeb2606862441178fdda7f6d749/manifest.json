@@ -1,0 +1,35 @@
+{
+  "buildKey": "90db222a6beed65b3af5aaff6885cd12dfda3c795df3f32d27a9f7b9fa2aff23",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-975-yuan-sc+LXGW 975 Yuan SC 400W.png",
+      "sha256": "3fab723cd709ac00c1f90c83bc43413db505961cbca017de3885812980f822e8",
+      "width": 731
+    },
+    {
+      "height": 92,
+      "path": "lxgw/lxgw-975-yuan-sc+LXGW 975 Yuan SC 500W.png",
+      "sha256": "ad34c9fec36b7b4972d820b41f44a54960b1b13fe9c3972fbe3acd57cd3f2555",
+      "width": 730
+    },
+    {
+      "height": 92,
+      "path": "lxgw/lxgw-975-yuan-sc+LXGW 975 Yuan SC 700W.png",
+      "sha256": "7379e7546a7bab9dd1c6eb7c0add5de15e34e58237b50566b8865b787fd8f461",
+      "width": 731
+    }
+  ],
+  "package": "lxgw.975-yuan-sc",
+  "pname": "lxgw-975-yuan-sc",
+  "previewKey": "c82b6e0eb2e69b5c1c347ed6870e8f683483bdeb2606862441178fdda7f6d749",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

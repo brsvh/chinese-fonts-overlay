@@ -1,0 +1,23 @@
+{
+  "buildKey": "556a9746359b7bb6222ca219d7272c1ce9320e525df12583ec0a277de21e8de6",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-xiaolai-mono+Xiaolai Mono.png",
+      "sha256": "de8889976582b2e52e695873e73c006d8dd51fcbabce2dbd6a032baee4ee7c1d",
+      "width": 729
+    }
+  ],
+  "package": "lxgw.xiaolai-mono",
+  "pname": "lxgw-xiaolai-mono",
+  "previewKey": "192acc527b883bca3dd9daf7807652104ba878f1bc6a3669764abd06067e8c33",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

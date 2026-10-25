@@ -1,0 +1,23 @@
+{
+  "buildKey": "07baf031fb259792ac02e3afbc690ec7e36a7ff9dff5967382324cb5d6b36023",
+  "images": [
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-zhenkai-gb+LXGW ZhenKai GB.png",
+      "sha256": "6403a8bb713ec3e175f40561d0d7ebdffe736836e30aa2295f6d0ce1797bf3a1",
+      "width": 731
+    }
+  ],
+  "package": "lxgw.zhenkai-gb",
+  "pname": "lxgw-zhenkai-gb",
+  "previewKey": "e145bab39db87f358fb779b95aaf082b02c1ee99b5122e485bfba20d0be5ea9c",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

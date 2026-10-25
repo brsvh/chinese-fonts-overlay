@@ -1,0 +1,23 @@
+{
+  "buildKey": "ed9d8b216fb15a7fd12a1fda5fa304fd042cc3260e93110854ed0787caf6f62b",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-xiaolai+Xiaolai.png",
+      "sha256": "de8889976582b2e52e695873e73c006d8dd51fcbabce2dbd6a032baee4ee7c1d",
+      "width": 729
+    }
+  ],
+  "package": "lxgw.xiaolai",
+  "pname": "lxgw-xiaolai",
+  "previewKey": "05ce2ad860f3137addb2f1aab1987115fe7bd15d8a26a84b2bba9bfe36278e69",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

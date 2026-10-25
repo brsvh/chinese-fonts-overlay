@@ -1,0 +1,23 @@
+{
+  "buildKey": "0fe0a448fd45f24c41ac63b4dd3f4f90d6be8e2d7586c5e0deb6b4f739ed66b0",
+  "images": [
+    {
+      "height": 92,
+      "path": "lxgw/lxgw-xihei-mn+LXGW XiHei MN.png",
+      "sha256": "168d2b1cd33305dac0eb1bc1042aace2d19ba552ae92efe3d46b4da7e339bad9",
+      "width": 730
+    }
+  ],
+  "package": "lxgw.xihei-mn",
+  "pname": "lxgw-xihei-mn",
+  "previewKey": "caa201213fbb3179e3745daa8fac222c60600803128b9c1e526447754648e916",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

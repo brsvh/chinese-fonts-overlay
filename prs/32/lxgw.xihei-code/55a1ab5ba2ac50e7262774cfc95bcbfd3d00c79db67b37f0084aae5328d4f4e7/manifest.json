@@ -1,0 +1,23 @@
+{
+  "buildKey": "a48a8d879c0d16b0d6fd956d493d5986aad686421e833660f1a7a524579cdfff",
+  "images": [
+    {
+      "height": 92,
+      "path": "lxgw/lxgw-xihei-code+XiHei Code.png",
+      "sha256": "ada5aac145a7ca46e5e04c752dffdbf73dd346a53b83f716dc68bfcf372b3506",
+      "width": 730
+    }
+  ],
+  "package": "lxgw.xihei-code",
+  "pname": "lxgw-xihei-code",
+  "previewKey": "55a1ab5ba2ac50e7262774cfc95bcbfd3d00c79db67b37f0084aae5328d4f4e7",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}

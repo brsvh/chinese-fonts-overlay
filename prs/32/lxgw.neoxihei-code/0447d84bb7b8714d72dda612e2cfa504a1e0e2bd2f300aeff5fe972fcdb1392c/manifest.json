@@ -1,0 +1,23 @@
+{
+  "buildKey": "97f9f0998306c9da81c1e5ff97637634e978a2bf1ef528720dd7aa907dcd51d2",
+  "images": [
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-neoxihei-code+NeoXiHei Code.png",
+      "sha256": "a81887c8f349bb812e6f4b21a0b0b5b1b05f6dbb7b5e2a468fe14a53a20f72d9",
+      "width": 729
+    }
+  ],
+  "package": "lxgw.neoxihei-code",
+  "pname": "lxgw-neoxihei-code",
+  "previewKey": "0447d84bb7b8714d72dda612e2cfa504a1e0e2bd2f300aeff5fe972fcdb1392c",
+  "schema": 1,
+  "source": {
+    "headSha": "d58fd761fce7b5cd198dea5af9365ea919bd9f9b",
+    "kind": "pr",
+    "mergeSha": "5129cea32d082c95c303d922d0dd9a44f3760254",
+    "runAttempt": 1,
+    "runId": 40216326373
+  },
+  "vendor": "lxgw"
+}
