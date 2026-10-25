@@ -1,0 +1,20 @@
+{
+  "buildKey": "a93be1e6cc1b324ccceddf2e44b786cc7f867bbd169b0a26e133d631c6218a8a",
+  "images": [
+    {
+      "height": 93,
+      "path": "lxgw/lxgw-pengli-wenkai+Pengli WenKai.png",
+      "sha256": "eebe59fde7634b78255223fd6c8d2678ca82dad35ff67b38b7bfd72e290fbafe",
+      "width": 732
+    }
+  ],
+  "package": "lxgw.pengli-wenkai",
+  "pname": "lxgw-pengli-wenkai",
+  "previewKey": "1611edf6c879418bcef3e4405c1e99c7fd2cff2bd89cfab4908562866b5c403d",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "4f3f1ed8866fceaadca2a32fca5acd74c527a3fe"
+  },
+  "vendor": "lxgw"
+}
