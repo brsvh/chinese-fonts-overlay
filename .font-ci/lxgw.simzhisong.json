@@ -1,0 +1,20 @@
+{
+  "buildKey": "381aee2cf5535ad8a69b7a0ee00201ba55e241287526e998d7cb549aae72de82",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-simzhisong+SimZhiSong.png",
+      "sha256": "1c5e00b3f8a451ebcae3c84241070ef430b4c251df2769a85dc736ef6ee67955",
+      "width": 730
+    }
+  ],
+  "package": "lxgw.simzhisong",
+  "pname": "lxgw-simzhisong",
+  "previewKey": "34efe98ced03f09fb0c3e91945acc07571c4b9b6ca818ca89983aa03756e6ab7",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "4f3f1ed8866fceaadca2a32fca5acd74c527a3fe"
+  },
+  "vendor": "lxgw"
+}
