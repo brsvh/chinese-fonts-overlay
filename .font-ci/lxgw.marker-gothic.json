@@ -1,0 +1,20 @@
+{
+  "buildKey": "3d889f6c273057dc2355d414fad0140056b12c1657864fcb45f72888ff752d6c",
+  "images": [
+    {
+      "height": 91,
+      "path": "lxgw/lxgw-marker-gothic+LXGW Marker Gothic.png",
+      "sha256": "dda1d2451bd7a6eb79d0c309a707b855a5b296b93ab855fe53ce8a396b92f995",
+      "width": 729
+    }
+  ],
+  "package": "lxgw.marker-gothic",
+  "pname": "lxgw-marker-gothic",
+  "previewKey": "5b38e606155199956447076167ceb0057b36ebc50da6f737112eb52da33bfd8f",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "4f3f1ed8866fceaadca2a32fca5acd74c527a3fe"
+  },
+  "vendor": "lxgw"
+}
