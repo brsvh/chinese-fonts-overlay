@@ -11,6 +11,7 @@
 - H.T.Wang Free Fonts（王漢宗自由字型）
 - Huawei 字体（华为字体）
 - Justfont 字体
+- LXGW 字体（落霞孤鹜）
 - Microsoft 字体（微软字体）
 - Taobao 字体（淘宝字体）
 - TianHeng 字体（TH/天珩字库）
@@ -176,7 +177,7 @@ extra-trusted-public-keys = cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0
 
 #### `<scope>.combine'`
 
-`combine :: String -> (Derivation -> Bool) -> Derivation` 接收一个 `name`
+`combine' :: String -> (Derivation -> Bool) -> Derivation` 接收一个 `name`
 作为最终字体集合派生的 `pname`，和一个 `cond`，它和 `<scope>.combine` 的 `cond` 相同。
 
 ### 回退到旧版
