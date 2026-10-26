@@ -35,7 +35,18 @@
 
 请将链接中的 `YOUR_BRANCH` 替换为您的分支名。
 
-当然，如果您实在无法使用模板，我们同样接受您的自定义内容的 PR，但会在讨论过程中会要求您提供相应模板中所需的必要信息。
+请使用与改动对应的模板，并填写适用的字段。通过命令行创建 PR 时，也请按照
+[模板内容](../.github/PULL_REQUEST_TEMPLATE)填写正文；如果无法直接使用模板，请提供其中要求的信息。
+
+### 提交组织与提交信息
+
+涉及多个字体包时，每个包单独提交，同一字体的相关变体在同一包内维护。工具、CI 和文档改动单独提交，便于逐项评审。新增字体的 README
+预览条目放在图片验证之后，作为最后的文档提交。
+
+提交信息使用 GNU 风格：标题为 `scope: Verb summary`，正文按文件路径排序，以 `* path: Change.`
+列出改动。新增或更新字体包时，标题使用包的 `pname`，分别写作 `<pname>: Init at <version>` 和
+`<pname>: Update to <version>`。具体要求见
+[commit Skill](../.agents/skills/commit/SKILL.md)。
 
 ## 添加新字体
 
@@ -48,9 +59,19 @@
 - `package.nix` 中的 `meta.license`、`meta.homepage` 和 `meta.redistributable`
   符合实际情况。
 - 字体包已经接入对应的 vendor scope。
-- README 中的字体列表或说明已经更新。
+- 已检查同一字体的 Mono、Screen 等变体，避免遗漏或把相关变体拆成多个包。
+- 已按包的 `pname` 配置预览样本，并验证实际生成的图片。
+- README 中的字库清单、字体条目和预览链接已经更新。
 
-如果新增字体需要预览图，请在 PR 中请求 `@brsvh` 生成或更新字体预览图片。
+新增字体的预览由 PR 工作流自动生成。请先提交包定义和
+[`sample-keys.nix`](../tools/generate-font-preview-images/sample-keys.nix)
+中的样本配置，再检查 PR 里的预览评论，确认图片非空白、方向正确且覆盖包内变体，最后更新 `docs/README.md`。
+
+README 使用评论中列出的预计正式路径，不使用 `font-preview-prs`
+分支的临时图片链接。允许发布的正式图片在合入主线后生成，因此合入前正式链接可能尚不可访问。 Windows 字体不参与自动构建和预览；不可再分发字体的 PR
+预览也不会自动成为主线正式图片。这些情况请在 PR 中说明验证方式和预览安排。
+
+已有字体需要重新生成预览时，请按[开发文档](development.md#%E5%AD%97%E4%BD%93%E9%A2%84%E8%A7%88%E5%9B%BE%E7%BB%B4%E6%8A%A4)添加明确的刷新请求。
 
 ## 修复构建失败
 
@@ -65,9 +86,19 @@
 
 ## 验证构建
 
-请验证您实际改动的字体包，并在 PR 中列出执行过的命令和结果。
+从仓库根目录进入开发环境并运行检查：
 
-可以用下面的形式从仓库根目录注入 overlay 并构建单个字体包：
+```console
+$ nix develop
+$ nix fmt
+$ nix flake check --no-update-lock-file --no-write-lock-file --print-build-logs
+```
+
+开发环境会安装格式化工具和提交前检查。请检查格式化后的差异，并构建实际修改的字体包； `nix flake check`
+不会替代逐包构建。文档改动无需构建整个字体集合。
+
+单包构建建议使用[开发文档中的锁定输入命令](development.md#%E6%9C%AC%E5%9C%B0%E6%9E%84%E5%BB%BA%E5%8D%95%E4%B8%AA%E5%AD%97%E4%BD%93%E5%8C%85)。如果需要验证本机
+`<nixpkgs>` 下的兼容性，也可以注入 overlay：
 
 ```console
 $ NIXPKGS_ALLOW_UNFREE=1 nix build --impure --expr 'with import <nixpkgs> { overlays = [ (import ./default.nix) ]; }; tsangertypePackages.tsangerjinkai'
@@ -75,7 +106,17 @@ $ NIXPKGS_ALLOW_UNFREE=1 nix build --impure --expr 'with import <nixpkgs> { over
 
 请把 `tsangertypePackages.tsangerjinkai` 替换为实际字体包名。
 
-如果字体是自由许可证且不需要 unfree 支持，也可以省略 `NIXPKGS_ALLOW_UNFREE=1`。不确定时保留它即可。
+如果字体是自由许可证且不需要 unfree 支持，也可以省略 `NIXPKGS_ALLOW_UNFREE=1`。请在 PR
+中列出实际执行的命令和结果，包括未能完成的验证。
+
+### PR 检查
+
+- `Flake checks`：检查格式并执行 `nix flake check`。
+- `Package builds`：汇总受影响字体包的构建结果；没有需要重新构建的包时，构建任务可以跳过。
+- `Font previews`：校验预览产物并更新 PR 预览评论；需要预览时，请实际查看评论中的图片。
+
+工作流会复用同一 PR 中已验证且输入未变化的结果。只更新 README 通常不会重新构建字体。 PR
+检查通过与主线发布完成是两个阶段，详见[开发文档的 CI 说明](development.md#ci-%E4%B8%8E%E5%8F%91%E5%B8%83)。
 
 ## 许可证注意事项
 
