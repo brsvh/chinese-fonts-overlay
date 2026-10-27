@@ -18,6 +18,7 @@
 - LingDong Huang 字体（令東）
 - LXGW 字体（落霞孤鹜）
 - Microsoft 字体（微软字体）
+- OPPO 字体
 - たぬきフォント
 - Taobao 字体（淘宝字体）
 - TianHeng 字体（TH/天珩字库）
@@ -215,6 +216,7 @@ generation 更新后自动清理，使用 `fontconfig`的应用可能继续读�
 > - FounderType （方正字库）- 北京北大方正电子有限公司版权所有的字体；
 > - Huawei 字体（华为字体）- 华为终端有限公司版权所有的字体；
 > - Microsoft 字体（微软字体）- 微软股份有限公司版权所有或其分发的字体；
+> - OPPO 字体 - OPPO 广东移动通信有限公司版权所有的字体；
 > - たぬきフォント - たぬき侍版权所有的字体；
 > - Taobao 字体（淘宝字体）- 淘宝（中国）软件有限公司版权所有的字体；
 > - TianHeng 字体（TH/天珩字库）- 包含来自中易、华康、Iwata、Besta、方正等字库或公司版权所有的字形；
@@ -4552,16 +4554,45 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   <br>
 </p>
 
+### OPPO 字体 - `oppoPackages`
+
+> [!TIP]
+>
+> 通过 `oppo-fonts` 来安装所有 OPPO 字体。
+
+> [!WARNING]
+>
+> OPPO Sans 字体允许免费用于个人及商业用途，但不允许改编、二次开发、出售字体、提供其他下载渠道或用于违法用途。[^6]
+
+- `oppoPackages.sans` -
+  [OPPO Sans 4.0](https://www.coloros.com/article/A00000074/)
+
+<p align="center">
+  <img
+    alt="OPPO Sans 4.0"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/oppo/oppo-sans%2BOPPO%20Sans%204.0.png"
+  >
+</p>
+
 ### たぬきフォント - `tanukiPackages`
 
 > [!TIP]
 >
 > 通过 `tanuki-fonts` 来安装たぬきフォント的所有字体。
 
-可免费用于个人或商业作品，包括嵌入文档和应用。出售字体文件或其修改版需要许可，字体文件的单独再分发未获明确授权。
+> [!WARNING]
+>
+> たぬき油性マジック 字体允许免费用于个人及商业用途，但不允许擅自出售字体文件或出售修改、描摹后的字体文件。上游未明确允许单独再分发字体文件。[^7]
 
 - `tanukiPackages.permanent-marker` -
   [たぬき油性マジック](https://tanukifont.com/tanuki-permanent-marker)
+
+<p align="center">
+  <img
+    alt="Tanuki Permanent Marker"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/tanuki/tanuki-permanent-marker%2BTanuki%20Permanent%20Marker.png"
+  >
+</p>
 
 ### Taobao 字体（淘宝字体）- `taobaoPackages`
 
@@ -11001,3 +11032,5 @@ AI 工具有意提供任何机密信息、用户隐私数据或其他敏感信�
 [^3]: http://cheonhyeong.com/Simplified/download.html
 [^4]: https://tsanger.cn/%E4%BB%93%E8%80%B3%E5%AD%97%E5%BA%93%E5%85%8D%E8%B4%B9%E5%95%86%E7%94%A8%E5%AD%97%E4%BD%93%E6%8E%88%E6%9D%83%E5%A3%B0%E6%98%8E.pdf
 [^5]: https://hyperos.mi.com/font-download/MiSans%E5%AD%97%E4%BD%93%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE.pdf
+[^6]: https://www.coloros.com/article/A00000074/
+[^7]: https://tanukifont.com/tanuki-permanent-marker
