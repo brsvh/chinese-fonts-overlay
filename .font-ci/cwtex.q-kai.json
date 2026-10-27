@@ -1,0 +1,26 @@
+{
+  "buildKey": "a802f1bf2466222ce9050915d2197ba6abe6e5d0f2c16585ebeb66399ac2b8a3",
+  "images": [
+    {
+      "height": 88,
+      "path": "cwtex/cwtex-q-kai+cwTeX Q Kai.png",
+      "sha256": "dee6c8ff9ad4853d3b7cb5e752dd8184998a794bd133de8e3647df6047a31234",
+      "width": 657
+    },
+    {
+      "height": 88,
+      "path": "cwtex/cwtex-q-kai+cwTeX Q KaiZH.png",
+      "sha256": "dee6c8ff9ad4853d3b7cb5e752dd8184998a794bd133de8e3647df6047a31234",
+      "width": 657
+    }
+  ],
+  "package": "cwtex.q-kai",
+  "pname": "cwtex-q-kai",
+  "previewKey": "197bcd0f9172817acce1c80f98ccccb2f102ef0c94a816a9eb5e7a602ee35199",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "ff5c3affe9e6f58adc1a70bceb40a2668f44a815"
+  },
+  "vendor": "cwtex"
+}
