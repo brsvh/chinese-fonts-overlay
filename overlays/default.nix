@@ -385,6 +385,24 @@ let
       combine' = link fontPackages;
     };
 
+  oppoPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/oppo;
+      };
+    in
+    packages
+    // {
+      combine = link packages "oppo-fonts";
+
+      combine' = link packages;
+    };
+
   taobaoPackages =
     let
       packages = packagesFromDirectoryRecursive {
@@ -493,6 +511,7 @@ in
     lingdongPackages
     lxgwPackages
     microsoftPackages
+    oppoPackages
     taobaoPackages
     tianhengPackages
     trionestypePackages
@@ -666,6 +685,10 @@ in
       foundertypePackages.fzcuyuan.
     '';
   };
+
+  oppo-fonts = oppoPackages.combine' "oppo-fonts" (
+    _: true
+  );
 
   taobao-fonts =
     taobaoPackages.combine' "taobao-fonts"
