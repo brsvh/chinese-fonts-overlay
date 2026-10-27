@@ -59,6 +59,7 @@
 
   cwtex = {
     cwtex-q-fangsong = "traditional-chinese";
+    cwtex-q-hei = "traditional-chinese";
   };
 
   dingtalk = {
