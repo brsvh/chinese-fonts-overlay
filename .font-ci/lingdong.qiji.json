@@ -1,0 +1,32 @@
+{
+  "buildKey": "ab0ee33be9631fb11cca5eb363b96ac0c9cd5acba69851eaa7f69e1afc9528dc",
+  "images": [
+    {
+      "height": 87,
+      "path": "lingdong/lingdong-qiji+QIJI.png",
+      "sha256": "cf69452035f523f4c6f89ac757950bda9ab4b432484841029bc3f9ee8cadee58",
+      "width": 594
+    },
+    {
+      "height": 87,
+      "path": "lingdong/lingdong-qiji+QIJIC.png",
+      "sha256": "771d8d67a633d63efa1d149d3a9fbd399c40ffac974675e85c67d58103412580",
+      "width": 594
+    },
+    {
+      "height": 79,
+      "path": "lingdong/lingdong-qiji+QIJIFALLBACK.png",
+      "sha256": "2b47f6686a343061aa64f8daf8fea9dd764f21f5ea50fdae4475d7ea49abe00d",
+      "width": 582
+    }
+  ],
+  "package": "lingdong.qiji",
+  "pname": "lingdong-qiji",
+  "previewKey": "df5e790c138d69eb79ac18b7ee5a78eccb655251f28e9863b4004335ce9afb2c",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "ff5c3affe9e6f58adc1a70bceb40a2668f44a815"
+  },
+  "vendor": "lingdong"
+}
