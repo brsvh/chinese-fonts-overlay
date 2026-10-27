@@ -126,6 +126,7 @@
   };
 
   jikasei = {
+    jikasei-genjyuu-gothic = "japanese";
     jikasei-genshin-gothic = "japanese";
   };
 
