@@ -1,0 +1,29 @@
+{
+  "buildKey": "1b4d9f91848ac3e34719de09fe8b5f8166f9a545b90c3ea1b0adb89cb72cd0eb",
+  "images": [
+    {
+      "height": 84,
+      "path": "cwtex/cwtex-q-fangsong+cwTeX Q Fangsong.png",
+      "sha256": "57fcfe47763b85b456ad2a316ef826de00d2a8c2f0737862f1bf42debaee2d3c",
+      "width": 657
+    },
+    {
+      "height": 84,
+      "path": "cwtex/cwtex-q-fangsong+cwTeX Q FangsongZH.png",
+      "sha256": "a80861a7f24b40f4c6b71df0131e6d11616e468b71eae3ae2a7364646b718359",
+      "width": 657
+    }
+  ],
+  "package": "cwtex.q-fangsong",
+  "pname": "cwtex-q-fangsong",
+  "previewKey": "9e89835937a2be48f9cf11d64805e79ca8affe90f8475d2eacbc757fcf281439",
+  "schema": 1,
+  "source": {
+    "headSha": "7562b8d83efacf01199ef5884eb1e71c447f6968",
+    "kind": "pr",
+    "mergeSha": "393e043cc277055fb0fb0e6e4ffe59e6f5420322",
+    "runAttempt": 1,
+    "runId": 40439280767
+  },
+  "vendor": "cwtex"
+}

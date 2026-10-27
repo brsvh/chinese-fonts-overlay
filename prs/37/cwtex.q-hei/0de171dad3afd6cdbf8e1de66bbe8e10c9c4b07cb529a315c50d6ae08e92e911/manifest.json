@@ -1,0 +1,29 @@
+{
+  "buildKey": "cb5fb028be964a54c3ba29c4e6718b443c34bea091497f09b99ee70fab79c69b",
+  "images": [
+    {
+      "height": 86,
+      "path": "cwtex/cwtex-q-hei+cwTeX Q Hei.png",
+      "sha256": "7f2634dfbf74c036c307c25112f3cb4d59f489ed8ca368a308f640f058837349",
+      "width": 707
+    },
+    {
+      "height": 86,
+      "path": "cwtex/cwtex-q-hei+cwTeX Q HeiZH.png",
+      "sha256": "7f2634dfbf74c036c307c25112f3cb4d59f489ed8ca368a308f640f058837349",
+      "width": 707
+    }
+  ],
+  "package": "cwtex.q-hei",
+  "pname": "cwtex-q-hei",
+  "previewKey": "0de171dad3afd6cdbf8e1de66bbe8e10c9c4b07cb529a315c50d6ae08e92e911",
+  "schema": 1,
+  "source": {
+    "headSha": "7562b8d83efacf01199ef5884eb1e71c447f6968",
+    "kind": "pr",
+    "mergeSha": "393e043cc277055fb0fb0e6e4ffe59e6f5420322",
+    "runAttempt": 1,
+    "runId": 40439280767
+  },
+  "vendor": "cwtex"
+}

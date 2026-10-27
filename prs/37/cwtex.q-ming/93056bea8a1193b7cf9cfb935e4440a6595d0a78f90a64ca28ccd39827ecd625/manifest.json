@@ -1,0 +1,29 @@
+{
+  "buildKey": "1b526602af3d4658485b52ef27b391711788cefb1f701f05f53dc657649d34cf",
+  "images": [
+    {
+      "height": 89,
+      "path": "cwtex/cwtex-q-ming+cwTeX Q Ming.png",
+      "sha256": "82b43edbfa4d4da12ca220c2c04e16c5d7195b57007be9da88b5ae384b233a3c",
+      "width": 661
+    },
+    {
+      "height": 89,
+      "path": "cwtex/cwtex-q-ming+cwTeX Q MingZH.png",
+      "sha256": "82b43edbfa4d4da12ca220c2c04e16c5d7195b57007be9da88b5ae384b233a3c",
+      "width": 661
+    }
+  ],
+  "package": "cwtex.q-ming",
+  "pname": "cwtex-q-ming",
+  "previewKey": "93056bea8a1193b7cf9cfb935e4440a6595d0a78f90a64ca28ccd39827ecd625",
+  "schema": 1,
+  "source": {
+    "headSha": "7562b8d83efacf01199ef5884eb1e71c447f6968",
+    "kind": "pr",
+    "mergeSha": "393e043cc277055fb0fb0e6e4ffe59e6f5420322",
+    "runAttempt": 1,
+    "runId": 40439280767
+  },
+  "vendor": "cwtex"
+}

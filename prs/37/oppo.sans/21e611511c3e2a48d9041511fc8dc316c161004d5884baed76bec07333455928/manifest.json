@@ -1,0 +1,23 @@
+{
+  "buildKey": "136c02552f76bf4feb9390ca57dfdbc14b81919de62440068dc80b8bc6f30cef",
+  "images": [
+    {
+      "height": 93,
+      "path": "oppo/oppo-sans+OPPO Sans 4.0.png",
+      "sha256": "363fbab654090a4bf2e61ac9ce459bd0ceaf33aa844b808c4f4c1cf223d66706",
+      "width": 722
+    }
+  ],
+  "package": "oppo.sans",
+  "pname": "oppo-sans",
+  "previewKey": "21e611511c3e2a48d9041511fc8dc316c161004d5884baed76bec07333455928",
+  "schema": 1,
+  "source": {
+    "headSha": "7562b8d83efacf01199ef5884eb1e71c447f6968",
+    "kind": "pr",
+    "mergeSha": "393e043cc277055fb0fb0e6e4ffe59e6f5420322",
+    "runAttempt": 1,
+    "runId": 40439280767
+  },
+  "vendor": "oppo"
+}

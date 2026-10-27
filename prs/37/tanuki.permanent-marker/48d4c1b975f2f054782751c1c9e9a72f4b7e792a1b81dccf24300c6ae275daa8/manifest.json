@@ -1,0 +1,23 @@
+{
+  "buildKey": "7ae155d819d22c72c08a480aec9072280a6a67e9f7af06db75c0bfee7129c20a",
+  "images": [
+    {
+      "height": 78,
+      "path": "tanuki/tanuki-permanent-marker+Tanuki Permanent Marker.png",
+      "sha256": "9e4255f997f599fc330df443743e8313104b97f37c7b3d9fb34669e149b48587",
+      "width": 1232
+    }
+  ],
+  "package": "tanuki.permanent-marker",
+  "pname": "tanuki-permanent-marker",
+  "previewKey": "48d4c1b975f2f054782751c1c9e9a72f4b7e792a1b81dccf24300c6ae275daa8",
+  "schema": 1,
+  "source": {
+    "headSha": "7562b8d83efacf01199ef5884eb1e71c447f6968",
+    "kind": "pr",
+    "mergeSha": "393e043cc277055fb0fb0e6e4ffe59e6f5420322",
+    "runAttempt": 1,
+    "runId": 40439280767
+  },
+  "vendor": "tanuki"
+}

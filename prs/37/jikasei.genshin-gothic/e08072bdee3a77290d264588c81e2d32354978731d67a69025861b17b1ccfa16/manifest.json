@@ -1,0 +1,143 @@
+{
+  "buildKey": "013159d73c09d08a3f7a54ec2eebea075f5ca4efcc38319d5c5849255a04cd7d",
+  "images": [
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Bold.png",
+      "sha256": "698aec3bee49d0d034bf739606864ca295db566d0e8a8ff74653df01f1887da9",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic ExtraLight.png",
+      "sha256": "bf86ff35d7caa412cf7778e50ee6d4dc06637f5544d1739875b64524b0c50605",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Heavy.png",
+      "sha256": "7fe73f6a826bc339d46d0eb33f3b91ac96c27e93eb277d7424052ebecf433a16",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Light.png",
+      "sha256": "29bc077e19ec62df6847c14c8899fbdfd24d8e4df28f1a7989d8ed02e7dc9483",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Medium.png",
+      "sha256": "dd0af25f7f5d91abbd26ad3decfc6d17065f7d1e67fb600097da5db3bff4ad85",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Monospace Bold.png",
+      "sha256": "698aec3bee49d0d034bf739606864ca295db566d0e8a8ff74653df01f1887da9",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Monospace ExtraLight.png",
+      "sha256": "bf86ff35d7caa412cf7778e50ee6d4dc06637f5544d1739875b64524b0c50605",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Monospace Heavy.png",
+      "sha256": "7fe73f6a826bc339d46d0eb33f3b91ac96c27e93eb277d7424052ebecf433a16",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Monospace Light.png",
+      "sha256": "29bc077e19ec62df6847c14c8899fbdfd24d8e4df28f1a7989d8ed02e7dc9483",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Monospace Medium.png",
+      "sha256": "dd0af25f7f5d91abbd26ad3decfc6d17065f7d1e67fb600097da5db3bff4ad85",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Monospace Normal.png",
+      "sha256": "08bcc568a72db88e66967161c5191e527ed52dda9199c2b8f8802996faf23bb9",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Monospace Regular.png",
+      "sha256": "896616684f7c07fa18dd6a1d719f2589705b296ecfafd2d96b3b0a39321a210e",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Normal.png",
+      "sha256": "08bcc568a72db88e66967161c5191e527ed52dda9199c2b8f8802996faf23bb9",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic P Bold.png",
+      "sha256": "e33540bed7fc2fec3b567b998b36a2affa094cc2832d59f24bc48c51058ecdb8",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic P ExtraLight.png",
+      "sha256": "7d7c7efb72edd0ddb884117cc4d3664061d849fcc0f6121f7b542e9b797ce493",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic P Heavy.png",
+      "sha256": "73487e871aa29c665f725f923d47ab603242e56c9cc34ae6cd78be926f0d733e",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic P Light.png",
+      "sha256": "d6c7bb5d6b6de9740d8373a0de43525853f29dfac23e793bf205e6fefd0f7e64",
+      "width": 1232
+    },
+    {
+      "height": 82,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic P Medium.png",
+      "sha256": "64679b3fe894830cc7ef03104c6ca12af9050755cdd6a480cebf818a7c271284",
+      "width": 1232
+    },
+    {
+      "height": 82,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic P Normal.png",
+      "sha256": "624be6d082492af4c4804331fd348dc13b60544ec4a2d3e5329d28f77432cebc",
+      "width": 1232
+    },
+    {
+      "height": 82,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic P Regular.png",
+      "sha256": "fa6ea7576b683ffea45a97843a94c4dd37742ff157c7e54c62799ff4ce699a97",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genshin-gothic+Gen Shin Gothic Regular.png",
+      "sha256": "896616684f7c07fa18dd6a1d719f2589705b296ecfafd2d96b3b0a39321a210e",
+      "width": 1232
+    }
+  ],
+  "package": "jikasei.genshin-gothic",
+  "pname": "jikasei-genshin-gothic",
+  "previewKey": "e08072bdee3a77290d264588c81e2d32354978731d67a69025861b17b1ccfa16",
+  "schema": 1,
+  "source": {
+    "headSha": "7562b8d83efacf01199ef5884eb1e71c447f6968",
+    "kind": "pr",
+    "mergeSha": "393e043cc277055fb0fb0e6e4ffe59e6f5420322",
+    "runAttempt": 1,
+    "runId": 40439280767
+  },
+  "vendor": "jikasei"
+}

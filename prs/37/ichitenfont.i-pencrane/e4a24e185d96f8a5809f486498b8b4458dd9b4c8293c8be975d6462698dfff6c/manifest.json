@@ -1,0 +1,23 @@
+{
+  "buildKey": "dcabed7674722def30fc76a0b3630bae0615e3ecf5e8448fff8a7ffb93c11326",
+  "images": [
+    {
+      "height": 95,
+      "path": "ichitenfont/ichitenfont-i-pencrane+I.PenCrane-B.png",
+      "sha256": "607e4a0c80d06302b8fdb0595983e8c2f879efbf79c575076b036c6b7c1ab664",
+      "width": 731
+    }
+  ],
+  "package": "ichitenfont.i-pencrane",
+  "pname": "ichitenfont-i-pencrane",
+  "previewKey": "e4a24e185d96f8a5809f486498b8b4458dd9b4c8293c8be975d6462698dfff6c",
+  "schema": 1,
+  "source": {
+    "headSha": "7562b8d83efacf01199ef5884eb1e71c447f6968",
+    "kind": "pr",
+    "mergeSha": "393e043cc277055fb0fb0e6e4ffe59e6f5420322",
+    "runAttempt": 1,
+    "runId": 40439280767
+  },
+  "vendor": "ichitenfont"
+}

@@ -1,0 +1,53 @@
+{
+  "buildKey": "37d55ceb60c0fb32ba2fe01f9470c6fb5c09ae1944da1c67315fa817363144f1",
+  "images": [
+    {
+      "height": 91,
+      "path": "ichitenfont/ichitenfont-i-ming+I.Ming.png",
+      "sha256": "9c02f8ffe3ecac6a48cbee2b73f55acec37d2776ff3d2d92b5c35faf2377ef38",
+      "width": 730
+    },
+    {
+      "height": 91,
+      "path": "ichitenfont/ichitenfont-i-ming+I.MingCP.png",
+      "sha256": "9c02f8ffe3ecac6a48cbee2b73f55acec37d2776ff3d2d92b5c35faf2377ef38",
+      "width": 730
+    },
+    {
+      "height": 91,
+      "path": "ichitenfont/ichitenfont-i-ming+I.MingVar.png",
+      "sha256": "9c02f8ffe3ecac6a48cbee2b73f55acec37d2776ff3d2d92b5c35faf2377ef38",
+      "width": 730
+    },
+    {
+      "height": 91,
+      "path": "ichitenfont/ichitenfont-i-ming+I.MingVarCP.png",
+      "sha256": "9c02f8ffe3ecac6a48cbee2b73f55acec37d2776ff3d2d92b5c35faf2377ef38",
+      "width": 730
+    },
+    {
+      "height": 91,
+      "path": "ichitenfont/ichitenfont-i-ming+PMingI.U.png",
+      "sha256": "9c02f8ffe3ecac6a48cbee2b73f55acec37d2776ff3d2d92b5c35faf2377ef38",
+      "width": 730
+    },
+    {
+      "height": 91,
+      "path": "ichitenfont/ichitenfont-i-ming+PMingI.UVar.png",
+      "sha256": "9c02f8ffe3ecac6a48cbee2b73f55acec37d2776ff3d2d92b5c35faf2377ef38",
+      "width": 730
+    }
+  ],
+  "package": "ichitenfont.i-ming",
+  "pname": "ichitenfont-i-ming",
+  "previewKey": "f979c742421cff7582b4d167e2964d1ca08d91c381089f21af1a4e145e161977",
+  "schema": 1,
+  "source": {
+    "headSha": "7562b8d83efacf01199ef5884eb1e71c447f6968",
+    "kind": "pr",
+    "mergeSha": "393e043cc277055fb0fb0e6e4ffe59e6f5420322",
+    "runAttempt": 1,
+    "runId": 40439280767
+  },
+  "vendor": "ichitenfont"
+}
