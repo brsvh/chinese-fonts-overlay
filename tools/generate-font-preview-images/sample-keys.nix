@@ -57,6 +57,10 @@
     buttaiwan-iansui = "traditional-chinese";
   };
 
+  cwtex = {
+    cwtex-q-fangsong = "traditional-chinese";
+  };
+
   dingtalk = {
     dingtalk-jinbuti = "simplified-chinese";
   };
