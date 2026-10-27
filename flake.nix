@@ -112,6 +112,7 @@
                 ito-fonts
                 jikasei-fonts
                 justfont-fonts
+                lingdong-fonts
                 lxgw-fonts
                 taobao-fonts
                 tianheng-fonts
