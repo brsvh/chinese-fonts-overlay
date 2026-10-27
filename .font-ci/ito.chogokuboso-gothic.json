@@ -1,0 +1,20 @@
+{
+  "buildKey": "534bb7b15cd411cdd18bf73b2b392b36a382647fd63433e206f2176309ee1880",
+  "images": [
+    {
+      "height": 78,
+      "path": "ito/ito-chogokuboso-gothic+Chogokuboso Gothic.png",
+      "sha256": "361d5be61b9fa37972c71cefb17ae287af7c4c7b126a3091e78cfc79038ff360",
+      "width": 1232
+    }
+  ],
+  "package": "ito.chogokuboso-gothic",
+  "pname": "ito-chogokuboso-gothic",
+  "previewKey": "43634c3ebbd857ea64a1d0503e6b6d9d259edd186fcd8c62f7bad861340f0a58",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "ff5c3affe9e6f58adc1a70bceb40a2668f44a815"
+  },
+  "vendor": "ito"
+}
