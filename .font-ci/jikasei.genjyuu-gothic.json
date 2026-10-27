@@ -1,0 +1,392 @@
+{
+  "buildKey": "2d57ac84fd9d5e1dc54d96e9cd9021c13137632a7563ba88131d6368ab4c6a0f",
+  "images": [
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Bold.png",
+      "sha256": "42c37964125c087f14e7de413c425a7a02cff014695d87f6bb5be0130d0fd641",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic ExtraLight.png",
+      "sha256": "5092870994a1a4f76ef004e7c84c44f68ef73344ff4c4291d02ab9d6c79df70a",
+      "width": 1232
+    },
+    {
+      "height": 81,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Heavy.png",
+      "sha256": "1223ba481d1d7dc4bc5c9e53597c6a5ea26d1922e9054af43b2e16a4a548b667",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic L Monospace Bold.png",
+      "sha256": "4e5d5cadda01a3acb7b25552f42c85ce346ddb61be2ba581a430ec3aac03c706",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic L Monospace ExtraLight.png",
+      "sha256": "5092870994a1a4f76ef004e7c84c44f68ef73344ff4c4291d02ab9d6c79df70a",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic L Monospace Heavy.png",
+      "sha256": "5103da9fbd1d2dfb328efa51ab2b6c55344fc63ccd877a6eee34ad913cfd8a19",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic L Monospace Light.png",
+      "sha256": "f23a8581b1acb18e42e83ae729004919d5d7812a44c2ee50c95393b6adb42381",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic L Monospace Medium.png",
+      "sha256": "7fa5092a5f60a9f03a0e6863b792a83b7e246be0ea46d6bda57f0c201082fbba",
+      "width": 1232
+    },
+    {
+      "height": 79,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic L Monospace Normal.png",
+      "sha256": "3e623e06e5f08b6e902ddce3bac9386b2c887e5a4becdb5cc4cf3e6164ea164f",
+      "width": 1232
+    },
+    {
+      "height": 79,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic L Monospace Regular.png",
+      "sha256": "93dd783d4bc31f8f19287499951834d8d27a82512ed313473913fe1427908979",
+      "width": 1232
+    },
+    {
+      "height": 84,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic LP Bold.png",
+      "sha256": "31b8d71425df20d514fc998894670f1220fb5d15c5fb73ab623b1b090c14f529",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic LP ExtraLight.png",
+      "sha256": "adf71f860963d1ff50e8fe7297ab14a14c5b9735dbfa6a8c9437e72962c25680",
+      "width": 1232
+    },
+    {
+      "height": 84,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic LP Heavy.png",
+      "sha256": "180a1c2cc3b76c64a622a811c60ddf654f8bc56bc5fd12eba0e730a87c0ae881",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic LP Light.png",
+      "sha256": "b73d7c63b94a841d434d8fca8e634e980041d54ab49991fb0db74c8be89ccde9",
+      "width": 1232
+    },
+    {
+      "height": 84,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic LP Medium.png",
+      "sha256": "a84ddafd303edff50ede8b79e77d3756a3213e30e1a5c1d3a9eb3588fef14974",
+      "width": 1232
+    },
+    {
+      "height": 84,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic LP Normal.png",
+      "sha256": "530d00a3e352d325f972560f140be04d51d8dc29d38f1e003b44fde7392db13d",
+      "width": 1232
+    },
+    {
+      "height": 84,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic LP Regular.png",
+      "sha256": "3c283aef444bb3d0050172fe7084f7714efb678c6d8b8da9c6abb37ef1ac42b9",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Light.png",
+      "sha256": "0f10c53c0c4cf3f354effe5060ef3dba06201a73f98becc9bd0b58f9d004e6e1",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Medium.png",
+      "sha256": "2d7cd1ea6f5494da4c9274153f7d45c33d0685ad2bb57b10eb24cf4a63cb32bb",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Monospace Bold.png",
+      "sha256": "42c37964125c087f14e7de413c425a7a02cff014695d87f6bb5be0130d0fd641",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Monospace ExtraLight.png",
+      "sha256": "5092870994a1a4f76ef004e7c84c44f68ef73344ff4c4291d02ab9d6c79df70a",
+      "width": 1232
+    },
+    {
+      "height": 81,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Monospace Heavy.png",
+      "sha256": "1223ba481d1d7dc4bc5c9e53597c6a5ea26d1922e9054af43b2e16a4a548b667",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Monospace Light.png",
+      "sha256": "0f10c53c0c4cf3f354effe5060ef3dba06201a73f98becc9bd0b58f9d004e6e1",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Monospace Medium.png",
+      "sha256": "2d7cd1ea6f5494da4c9274153f7d45c33d0685ad2bb57b10eb24cf4a63cb32bb",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Monospace Normal.png",
+      "sha256": "762e96f873e0c7f5c5dbcdb81ab6b20bbd7d4306e0d66f9631d6f8c52fb51f7e",
+      "width": 1232
+    },
+    {
+      "height": 79,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Monospace Regular.png",
+      "sha256": "d2d3ee7c9aff836ca1cb12918ce023b8ae93919ab9964930a5a08fa3b954c13f",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Normal.png",
+      "sha256": "762e96f873e0c7f5c5dbcdb81ab6b20bbd7d4306e0d66f9631d6f8c52fb51f7e",
+      "width": 1232
+    },
+    {
+      "height": 84,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic P Bold.png",
+      "sha256": "4a67b020f3c2785a6b8fc71b0cda3ba310861a61f6d0da9f6aa0adf4f9ad7753",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic P ExtraLight.png",
+      "sha256": "adf71f860963d1ff50e8fe7297ab14a14c5b9735dbfa6a8c9437e72962c25680",
+      "width": 1232
+    },
+    {
+      "height": 86,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic P Heavy.png",
+      "sha256": "96f6271e2ffd9aa3aeba6c2423b4bb31ca7c1f322342dc54798191ea3ddb5d32",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic P Light.png",
+      "sha256": "447ef4ec5b2881c3762f613e2955e8c5503bde6aaa031dd24b8b867d0dbd1749",
+      "width": 1232
+    },
+    {
+      "height": 85,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic P Medium.png",
+      "sha256": "f1e87feaa1898afce49d20b28202e40ddb59da9cd70c5d368bbed34cf434405f",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic P Normal.png",
+      "sha256": "0dcad2c89f881afe8e31ebec7fcc22519213c96e107caa82af0fb2111322d5db",
+      "width": 1232
+    },
+    {
+      "height": 84,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic P Regular.png",
+      "sha256": "fa260cfdedd72c55aef7802021ac1d035f2e058f80ffe153fba6905045afd35e",
+      "width": 1232
+    },
+    {
+      "height": 79,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic Regular.png",
+      "sha256": "d2d3ee7c9aff836ca1cb12918ce023b8ae93919ab9964930a5a08fa3b954c13f",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic X Monospace Bold.png",
+      "sha256": "04253d26a9e875595a8c73d598cf9ca8b3de773978e97a90e7cf03a276fca462",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic X Monospace ExtraLight.png",
+      "sha256": "5092870994a1a4f76ef004e7c84c44f68ef73344ff4c4291d02ab9d6c79df70a",
+      "width": 1232
+    },
+    {
+      "height": 81,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic X Monospace Heavy.png",
+      "sha256": "d3e3eb0dcc4d195b323c5042cf3337a7440ac6fce29fe5e8a7b88b9166fcdbd1",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic X Monospace Light.png",
+      "sha256": "0f10c53c0c4cf3f354effe5060ef3dba06201a73f98becc9bd0b58f9d004e6e1",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic X Monospace Medium.png",
+      "sha256": "46c409baddc0cce70adef28442f125878834dd047cb6194c217ac79f29d3f6a2",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic X Monospace Normal.png",
+      "sha256": "762e96f873e0c7f5c5dbcdb81ab6b20bbd7d4306e0d66f9631d6f8c52fb51f7e",
+      "width": 1232
+    },
+    {
+      "height": 79,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic X Monospace Regular.png",
+      "sha256": "4c34b6897400de8c244b7d61e818ca32af91f66f5dca1b7f1652fed800813c58",
+      "width": 1232
+    },
+    {
+      "height": 85,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic XP Bold.png",
+      "sha256": "ced4e034b4ce82d23e5430e52baadc5b246ab5d0484d90ed23aeb5d15fc2895b",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic XP ExtraLight.png",
+      "sha256": "adf71f860963d1ff50e8fe7297ab14a14c5b9735dbfa6a8c9437e72962c25680",
+      "width": 1232
+    },
+    {
+      "height": 85,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic XP Heavy.png",
+      "sha256": "d3a9505a711e9782feda8f3b74403ac200739c911e077a1af47d980f7879792c",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic XP Light.png",
+      "sha256": "447ef4ec5b2881c3762f613e2955e8c5503bde6aaa031dd24b8b867d0dbd1749",
+      "width": 1232
+    },
+    {
+      "height": 85,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic XP Medium.png",
+      "sha256": "b2b537f9f05eb555cf4e6af10363a2a647d7f1c5294fdf2358e20477a31d2088",
+      "width": 1232
+    },
+    {
+      "height": 83,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic XP Normal.png",
+      "sha256": "0dcad2c89f881afe8e31ebec7fcc22519213c96e107caa82af0fb2111322d5db",
+      "width": 1232
+    },
+    {
+      "height": 84,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu Gothic XP Regular.png",
+      "sha256": "08aacf7fb120cc1692c52517984aaa383214b4d6e5cf521991a0c5c053149820",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicL Bold.png",
+      "sha256": "4e5d5cadda01a3acb7b25552f42c85ce346ddb61be2ba581a430ec3aac03c706",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicL ExtraLight.png",
+      "sha256": "5092870994a1a4f76ef004e7c84c44f68ef73344ff4c4291d02ab9d6c79df70a",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicL Heavy.png",
+      "sha256": "5103da9fbd1d2dfb328efa51ab2b6c55344fc63ccd877a6eee34ad913cfd8a19",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicL Light.png",
+      "sha256": "f23a8581b1acb18e42e83ae729004919d5d7812a44c2ee50c95393b6adb42381",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicL Medium.png",
+      "sha256": "7fa5092a5f60a9f03a0e6863b792a83b7e246be0ea46d6bda57f0c201082fbba",
+      "width": 1232
+    },
+    {
+      "height": 79,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicL Normal.png",
+      "sha256": "3e623e06e5f08b6e902ddce3bac9386b2c887e5a4becdb5cc4cf3e6164ea164f",
+      "width": 1232
+    },
+    {
+      "height": 79,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicL Regular.png",
+      "sha256": "93dd783d4bc31f8f19287499951834d8d27a82512ed313473913fe1427908979",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicX Bold.png",
+      "sha256": "04253d26a9e875595a8c73d598cf9ca8b3de773978e97a90e7cf03a276fca462",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicX ExtraLight.png",
+      "sha256": "5092870994a1a4f76ef004e7c84c44f68ef73344ff4c4291d02ab9d6c79df70a",
+      "width": 1232
+    },
+    {
+      "height": 81,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicX Heavy.png",
+      "sha256": "d3e3eb0dcc4d195b323c5042cf3337a7440ac6fce29fe5e8a7b88b9166fcdbd1",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicX Light.png",
+      "sha256": "0f10c53c0c4cf3f354effe5060ef3dba06201a73f98becc9bd0b58f9d004e6e1",
+      "width": 1232
+    },
+    {
+      "height": 80,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicX Medium.png",
+      "sha256": "46c409baddc0cce70adef28442f125878834dd047cb6194c217ac79f29d3f6a2",
+      "width": 1232
+    },
+    {
+      "height": 78,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicX Normal.png",
+      "sha256": "762e96f873e0c7f5c5dbcdb81ab6b20bbd7d4306e0d66f9631d6f8c52fb51f7e",
+      "width": 1232
+    },
+    {
+      "height": 79,
+      "path": "jikasei/jikasei-genjyuu-gothic+Gen Jyuu GothicX Regular.png",
+      "sha256": "4c34b6897400de8c244b7d61e818ca32af91f66f5dca1b7f1652fed800813c58",
+      "width": 1232
+    }
+  ],
+  "package": "jikasei.genjyuu-gothic",
+  "pname": "jikasei-genjyuu-gothic",
+  "previewKey": "00ab95b9dc70741cfbc7f33bfce9fd1e99d1326742265b1e1f6be9aa9825c8c8",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "ff5c3affe9e6f58adc1a70bceb40a2668f44a815"
+  },
+  "vendor": "jikasei"
+}
