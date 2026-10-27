@@ -125,6 +125,10 @@
     ito-chogokuboso-gothic = "japanese";
   };
 
+  jikasei = {
+    jikasei-genshin-gothic = "japanese";
+  };
+
   justfont = {
     justfont-abbrfesfont = "traditional-chinese";
     justfont-allpuntype = "traditional-chinese";

@@ -110,6 +110,7 @@
                 huawei-fonts
                 ichitenfont-fonts
                 ito-fonts
+                jikasei-fonts
                 justfont-fonts
                 lxgw-fonts
                 taobao-fonts
