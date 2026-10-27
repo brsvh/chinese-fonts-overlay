@@ -6,13 +6,19 @@
 
 - Alibaba Design（Alibaba 字体）
 - Alimama 字体（阿里妈妈字体）
+- cwTeX Q 字体
 - DingTalk 字体（钉钉字体）
 - FounderType 字库（方正字库）
 - H.T.Wang Free Fonts（王漢宗自由字型）
 - Huawei 字体（华为字体）
+- I.字坊／刻石錄字体
+- 糸 FONT 字体
+- 自家製フォント工房
 - Justfont 字体
+- LingDong Huang 字体（令東）
 - LXGW 字体（落霞孤鹜）
 - Microsoft 字体（微软字体）
+- たぬきフォント
 - Taobao 字体（淘宝字体）
 - TianHeng 字体（TH/天珩字库）
 - TrionesType 字体（璇璣造字）
@@ -209,6 +215,7 @@ generation 更新后自动清理，使用 `fontconfig`的应用可能继续读�
 > - FounderType （方正字库）- 北京北大方正电子有限公司版权所有的字体；
 > - Huawei 字体（华为字体）- 华为终端有限公司版权所有的字体；
 > - Microsoft 字体（微软字体）- 微软股份有限公司版权所有或其分发的字体；
+> - たぬきフォント - たぬき侍版权所有的字体；
 > - Taobao 字体（淘宝字体）- 淘宝（中国）软件有限公司版权所有的字体；
 > - TianHeng 字体（TH/天珩字库）- 包含来自中易、华康、Iwata、Besta、方正等字库或公司版权所有的字形；
 > - TsangerType 字体（仓耳字体）的商业付费字体 - 北京仓耳文字技术有限公司版权所有的商业付费字体；
@@ -751,6 +758,110 @@ Alimama 字体均可以免费用于合法的商业、非商业使用，唯一的
     alt="Alimama ShuHeiTi"
     src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/alimama/alimama-shuheiti%2BAlimama%20ShuHeiTi.png"
   >
+</p>
+
+### cwTeX Q 字体 - `cwtexPackages`
+
+> [!TIP]
+>
+> 通过 `cwtex-fonts` 来安装所有 cwTeX Q 字体。
+
+- `cwtexPackages.q-fangsong` -
+  [cwTeX Q 仿宋](https://github.com/l10n-tw/cwtex-q-fonts)
+
+<p align="center">
+  <img
+    alt="cwTeX Q Fangsong"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/cwtex/cwtex-q-fangsong%2BcwTeX%20Q%20Fangsong.png"
+  >
+  <br>
+  <sub>cwTeX Q Fangsong</sub>
+  <br>
+  <img
+    alt="cwTeX Q FangsongZH"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/cwtex/cwtex-q-fangsong%2BcwTeX%20Q%20FangsongZH.png"
+  >
+  <br>
+  <sub>cwTeX Q FangsongZH</sub>
+  <br>
+</p>
+
+- `cwtexPackages.q-hei` - [cwTeX Q 黑體](https://github.com/l10n-tw/cwtex-q-fonts)
+
+<p align="center">
+  <img
+    alt="cwTeX Q Hei"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/cwtex/cwtex-q-hei%2BcwTeX%20Q%20Hei.png"
+  >
+  <br>
+  <sub>cwTeX Q Hei</sub>
+  <br>
+  <img
+    alt="cwTeX Q HeiZH"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/cwtex/cwtex-q-hei%2BcwTeX%20Q%20HeiZH.png"
+  >
+  <br>
+  <sub>cwTeX Q HeiZH</sub>
+  <br>
+</p>
+
+- `cwtexPackages.q-kai` - [cwTeX Q 楷體](https://github.com/l10n-tw/cwtex-q-fonts)
+
+<p align="center">
+  <img
+    alt="cwTeX Q Kai"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/cwtex/cwtex-q-kai%2BcwTeX%20Q%20Kai.png"
+  >
+  <br>
+  <sub>cwTeX Q Kai</sub>
+  <br>
+  <img
+    alt="cwTeX Q KaiZH"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/cwtex/cwtex-q-kai%2BcwTeX%20Q%20KaiZH.png"
+  >
+  <br>
+  <sub>cwTeX Q KaiZH</sub>
+  <br>
+</p>
+
+- `cwtexPackages.q-ming` -
+  [cwTeX Q 明體](https://github.com/l10n-tw/cwtex-q-fonts)
+
+<p align="center">
+  <img
+    alt="cwTeX Q Ming"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/cwtex/cwtex-q-ming%2BcwTeX%20Q%20Ming.png"
+  >
+  <br>
+  <sub>cwTeX Q Ming</sub>
+  <br>
+  <img
+    alt="cwTeX Q MingZH"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/cwtex/cwtex-q-ming%2BcwTeX%20Q%20MingZH.png"
+  >
+  <br>
+  <sub>cwTeX Q MingZH</sub>
+  <br>
+</p>
+
+- `cwtexPackages.q-yuan` -
+  [cwTeX Q 圓體](https://github.com/l10n-tw/cwtex-q-fonts)
+
+<p align="center">
+  <img
+    alt="cwTeX Q Yuan"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/cwtex/cwtex-q-yuan%2BcwTeX%20Q%20Yuan.png"
+  >
+  <br>
+  <sub>cwTeX Q Yuan</sub>
+  <br>
+  <img
+    alt="cwTeX Q YuanZH"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/cwtex/cwtex-q-yuan%2BcwTeX%20Q%20YuanZH.png"
+  >
+  <br>
+  <sub>cwTeX Q YuanZH</sub>
+  <br>
 </p>
 
 ### DingTalk 字体（钉钉字体）- `dingtalkPackages`
@@ -1936,6 +2047,700 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
 </p>
 
+### I.字坊／刻石錄字体 - `ichitenfontPackages`
+
+> [!TIP]
+>
+> 通过 `ichitenfont-fonts` 来安装所有 I.字坊／刻石錄字体。
+
+- `ichitenfontPackages.i-ming` -
+  [I.Ming（一點明體）](https://github.com/ichitenfont/I.Ming)
+
+<p align="center">
+  <img
+    alt="I.Ming"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/ichitenfont/ichitenfont-i-ming%2BI.Ming.png"
+  >
+  <br>
+  <sub>I.Ming</sub>
+  <br>
+  <img
+    alt="I.MingCP"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/ichitenfont/ichitenfont-i-ming%2BI.MingCP.png"
+  >
+  <br>
+  <sub>I.MingCP</sub>
+  <br>
+  <img
+    alt="I.MingVar"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/ichitenfont/ichitenfont-i-ming%2BI.MingVar.png"
+  >
+  <br>
+  <sub>I.MingVar</sub>
+  <br>
+  <img
+    alt="I.MingVarCP"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/ichitenfont/ichitenfont-i-ming%2BI.MingVarCP.png"
+  >
+  <br>
+  <sub>I.MingVarCP</sub>
+  <br>
+  <img
+    alt="PMingI.U"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/ichitenfont/ichitenfont-i-ming%2BPMingI.U.png"
+  >
+  <br>
+  <sub>PMingI.U</sub>
+  <br>
+  <img
+    alt="PMingI.UVar"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/ichitenfont/ichitenfont-i-ming%2BPMingI.UVar.png"
+  >
+  <br>
+  <sub>PMingI.UVar</sub>
+  <br>
+</p>
+
+- `ichitenfontPackages.i-ngaan` -
+  [I.顏體](http://founder.acgvlyric.org/iu/doku.php/%E9%80%A0%E5%AD%97:%E9%96%8B%E6%BA%90%E5%AD%97%E5%9E%8B_i.%E9%A1%8F%E9%AB%94)
+
+<p align="center">
+  <img
+    alt="I.Ngaan"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/ichitenfont/ichitenfont-i-ngaan%2BI.Ngaan.png"
+  >
+</p>
+
+- `ichitenfontPackages.i-pencrane` -
+  [I.鋼筆鶴體](http://founder.acgvlyric.org/iu/doku.php/%E9%80%A0%E5%AD%97:%E9%96%8B%E6%BA%90%E5%AD%97%E5%9E%8B_i.%E9%8B%BC%E7%AD%86%E9%B6%B4%E9%AB%94)
+
+<p align="center">
+  <img
+    alt="I.PenCrane-B"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/ichitenfont/ichitenfont-i-pencrane%2BI.PenCrane-B.png"
+  >
+</p>
+
+### 糸 FONT 字体 - `itoPackages`
+
+> [!TIP]
+>
+> 通过 `ito-fonts` 来安装所有糸 FONT 字体。
+
+- `itoPackages.chogokuboso-gothic` -
+  [超極細ゴシック](https://font.websozai.jp/line-font-mihon.html)
+
+<p align="center">
+  <img
+    alt="Chogokuboso Gothic"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/ito/ito-chogokuboso-gothic%2BChogokuboso%20Gothic.png"
+  >
+</p>
+
+### 自家製フォント工房 - `jikaseiPackages`
+
+> [!TIP]
+>
+> 通过 `jikasei-fonts` 来安装自家製フォント工房的所有字体。
+
+- `jikaseiPackages.genshin-gothic` - [源真ゴシック](http://jikasei.me/font/genshin/)
+
+<p align="center">
+  <img
+    alt="Gen Shin Gothic ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20ExtraLight.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic ExtraLight</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Light.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Light</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Normal.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Normal</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Regular.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Regular</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Medium.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Medium</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Bold.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Bold</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Heavy.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Heavy</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Monospace ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Monospace%20ExtraLight.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Monospace ExtraLight</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Monospace Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Monospace%20Light.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Monospace Light</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Monospace Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Monospace%20Normal.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Monospace Normal</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Monospace Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Monospace%20Regular.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Monospace Regular</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Monospace Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Monospace%20Medium.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Monospace Medium</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Monospace Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Monospace%20Bold.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Monospace Bold</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic Monospace Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20Monospace%20Heavy.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic Monospace Heavy</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic P ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20P%20ExtraLight.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic P ExtraLight</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic P Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20P%20Light.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic P Light</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic P Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20P%20Normal.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic P Normal</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic P Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20P%20Regular.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic P Regular</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic P Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20P%20Medium.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic P Medium</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic P Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20P%20Bold.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic P Bold</sub>
+  <br>
+  <img
+    alt="Gen Shin Gothic P Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genshin-gothic%2BGen%20Shin%20Gothic%20P%20Heavy.png"
+  >
+  <br>
+  <sub>Gen Shin Gothic P Heavy</sub>
+  <br>
+</p>
+
+- `jikaseiPackages.genjyuu-gothic` - [源柔ゴシック](http://jikasei.me/font/genjyuu/)
+
+<p align="center">
+  <img
+    alt="Gen Jyuu Gothic ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20ExtraLight.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic ExtraLight</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Light.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Light</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Normal.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Normal</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Regular.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Regular</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Medium.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Medium</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Bold.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Bold</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Heavy.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Heavy</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic L Monospace ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20L%20Monospace%20ExtraLight.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic L Monospace ExtraLight</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic L Monospace Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20L%20Monospace%20Light.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic L Monospace Light</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic L Monospace Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20L%20Monospace%20Normal.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic L Monospace Normal</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic L Monospace Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20L%20Monospace%20Regular.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic L Monospace Regular</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic L Monospace Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20L%20Monospace%20Medium.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic L Monospace Medium</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic L Monospace Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20L%20Monospace%20Bold.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic L Monospace Bold</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic L Monospace Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20L%20Monospace%20Heavy.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic L Monospace Heavy</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic LP ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20LP%20ExtraLight.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic LP ExtraLight</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic LP Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20LP%20Light.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic LP Light</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic LP Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20LP%20Normal.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic LP Normal</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic LP Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20LP%20Regular.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic LP Regular</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic LP Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20LP%20Medium.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic LP Medium</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic LP Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20LP%20Bold.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic LP Bold</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic LP Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20LP%20Heavy.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic LP Heavy</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Monospace ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Monospace%20ExtraLight.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Monospace ExtraLight</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Monospace Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Monospace%20Light.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Monospace Light</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Monospace Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Monospace%20Normal.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Monospace Normal</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Monospace Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Monospace%20Regular.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Monospace Regular</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Monospace Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Monospace%20Medium.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Monospace Medium</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Monospace Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Monospace%20Bold.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Monospace Bold</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic Monospace Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20Monospace%20Heavy.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic Monospace Heavy</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic P ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20P%20ExtraLight.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic P ExtraLight</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic P Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20P%20Light.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic P Light</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic P Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20P%20Normal.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic P Normal</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic P Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20P%20Regular.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic P Regular</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic P Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20P%20Medium.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic P Medium</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic P Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20P%20Bold.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic P Bold</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic P Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20P%20Heavy.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic P Heavy</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic X Monospace ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20X%20Monospace%20ExtraLight.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic X Monospace ExtraLight</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic X Monospace Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20X%20Monospace%20Light.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic X Monospace Light</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic X Monospace Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20X%20Monospace%20Normal.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic X Monospace Normal</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic X Monospace Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20X%20Monospace%20Regular.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic X Monospace Regular</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic X Monospace Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20X%20Monospace%20Medium.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic X Monospace Medium</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic X Monospace Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20X%20Monospace%20Bold.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic X Monospace Bold</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic X Monospace Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20X%20Monospace%20Heavy.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic X Monospace Heavy</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic XP ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20XP%20ExtraLight.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic XP ExtraLight</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic XP Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20XP%20Light.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic XP Light</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic XP Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20XP%20Normal.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic XP Normal</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic XP Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20XP%20Regular.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic XP Regular</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic XP Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20XP%20Medium.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic XP Medium</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic XP Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20XP%20Bold.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic XP Bold</sub>
+  <br>
+  <img
+    alt="Gen Jyuu Gothic XP Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20Gothic%20XP%20Heavy.png"
+  >
+  <br>
+  <sub>Gen Jyuu Gothic XP Heavy</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicL ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicL%20ExtraLight.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicL ExtraLight</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicL Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicL%20Light.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicL Light</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicL Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicL%20Normal.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicL Normal</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicL Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicL%20Regular.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicL Regular</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicL Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicL%20Medium.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicL Medium</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicL Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicL%20Bold.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicL Bold</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicL Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicL%20Heavy.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicL Heavy</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicX ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicX%20ExtraLight.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicX ExtraLight</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicX Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicX%20Light.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicX Light</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicX Normal"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicX%20Normal.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicX Normal</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicX Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicX%20Regular.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicX Regular</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicX Medium"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicX%20Medium.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicX Medium</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicX Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicX%20Bold.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicX Bold</sub>
+  <br>
+  <img
+    alt="Gen Jyuu GothicX Heavy"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/jikasei/jikasei-genjyuu-gothic%2BGen%20Jyuu%20GothicX%20Heavy.png"
+  >
+  <br>
+  <sub>Gen Jyuu GothicX Heavy</sub>
+  <br>
+</p>
+
 ### Justfont 字体 - `justfontPackages`
 
 > [!TIP]
@@ -2071,6 +2876,38 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
   <br>
   <sub>snailfont Pomacea</sub>
+  <br>
+</p>
+
+### LingDong Huang 字体（令東） - `lingdongPackages`
+
+> [!TIP]
+>
+> 通过 `lingdong-fonts` 来安装所有 LingDong Huang 字体。
+
+- `lingdongPackages.qiji` - [齊伋體](https://github.com/LingDong-/qiji-font)
+
+<p align="center">
+  <img
+    alt="QIJI"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lingdong/lingdong-qiji%2BQIJI.png"
+  >
+  <br>
+  <sub>QIJI</sub>
+  <br>
+  <img
+    alt="QIJIC"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lingdong/lingdong-qiji%2BQIJIC.png"
+  >
+  <br>
+  <sub>QIJIC</sub>
+  <br>
+  <img
+    alt="QIJIFALLBACK"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/lingdong/lingdong-qiji%2BQIJIFALLBACK.png"
+  >
+  <br>
+  <sub>QIJIFALLBACK</sub>
   <br>
 </p>
 
@@ -3714,6 +4551,17 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   <sub>Yu Gothic Bold</sub>
   <br>
 </p>
+
+### たぬきフォント - `tanukiPackages`
+
+> [!TIP]
+>
+> 通过 `tanuki-fonts` 来安装たぬきフォント的所有字体。
+
+可免费用于个人或商业作品，包括嵌入文档和应用。出售字体文件或其修改版需要许可，字体文件的单独再分发未获明确授权。
+
+- `tanukiPackages.permanent-marker` -
+  [たぬき油性マジック](https://tanukifont.com/tanuki-permanent-marker)
 
 ### Taobao 字体（淘宝字体）- `taobaoPackages`
 
