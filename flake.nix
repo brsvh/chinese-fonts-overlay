@@ -109,6 +109,7 @@
                 harmonyos-sans-vf-fonts
                 huawei-fonts
                 ichitenfont-fonts
+                ito-fonts
                 justfont-fonts
                 lxgw-fonts
                 taobao-fonts

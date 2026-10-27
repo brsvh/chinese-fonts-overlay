@@ -255,6 +255,24 @@ let
       combine' = link packages;
     };
 
+  itoPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/ito;
+      };
+    in
+    packages
+    // {
+      combine = link packages "ito-fonts";
+
+      combine' = link packages;
+    };
+
   justfontPackages =
     let
       packages = packagesFromDirectoryRecursive {
@@ -432,6 +450,7 @@ in
     hanwangPackages
     huaweiPackages
     ichitenfontPackages
+    itoPackages
     justfontPackages
     lib
     lxgwPackages
@@ -537,6 +556,10 @@ in
   ichitenfont-fonts =
     ichitenfontPackages.combine' "ichitenfont-fonts"
       (_: true);
+
+  ito-fonts = itoPackages.combine' "ito-fonts" (
+    _: true
+  );
 
   justfont-fonts =
     justfontPackages.combine' "justfont-fonts"
