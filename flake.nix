@@ -114,6 +114,7 @@
                 justfont-fonts
                 lingdong-fonts
                 lxgw-fonts
+                oppo-fonts
                 taobao-fonts
                 tianheng-fonts
                 trionestype-fonts

@@ -228,6 +228,10 @@
     microsoft-yu-gothic = "japanese";
   };
 
+  oppo = {
+    oppo-sans = "simplified-chinese";
+  };
+
   taobao = {
     taobao-maicaiti = "simplified-chinese";
   };

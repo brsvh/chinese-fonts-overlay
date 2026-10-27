@@ -106,6 +106,14 @@
     url = "https://hyperos.mi.com/font-download/MiSans字体知识产权许可协议.pdf";
   };
 
+  oppo-sans-fonts-license = {
+    free = false;
+    fullName = "OPPO Sans Fonts License Agreement";
+    redistributable = false;
+    shortName = "oppo-sans-fonts-license";
+    url = "https://www.coloros.com/article/A00000074/";
+  };
+
   taobao-maicaiti-license = {
     free = false;
     fullName = "《淘宝买菜体》法律声明";
