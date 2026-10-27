@@ -121,6 +121,10 @@
     ichitenfont-i-pencrane = "traditional-chinese";
   };
 
+  ito = {
+    ito-chogokuboso-gothic = "japanese";
+  };
+
   justfont = {
     justfont-abbrfesfont = "traditional-chinese";
     justfont-allpuntype = "traditional-chinese";
