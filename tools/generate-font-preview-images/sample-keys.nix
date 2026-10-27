@@ -117,6 +117,7 @@
 
   ichitenfont = {
     ichitenfont-i-ming = "traditional-chinese";
+    ichitenfont-i-ngaan = "traditional-chinese";
   };
 
   justfont = {
