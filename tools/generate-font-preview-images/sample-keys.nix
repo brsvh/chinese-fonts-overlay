@@ -140,6 +140,10 @@
     justfont-type-jam = "traditional-chinese";
   };
 
+  lingdong = {
+    lingdong-qiji = "traditional-chinese";
+  };
+
   lxgw = {
     lxgw-975-hei-sc = "simplified-chinese";
     lxgw-975-yuan-sc = "simplified-chinese";

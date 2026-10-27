@@ -309,6 +309,24 @@ let
       combine' = link packages;
     };
 
+  lingdongPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/lingdong;
+      };
+    in
+    packages
+    // {
+      combine = link packages "lingdong-fonts";
+
+      combine' = link packages;
+    };
+
   lxgwPackages =
     let
       packages = packagesFromDirectoryRecursive {
@@ -472,6 +490,7 @@ in
     jikaseiPackages
     justfontPackages
     lib
+    lingdongPackages
     lxgwPackages
     microsoftPackages
     taobaoPackages
@@ -586,6 +605,10 @@ in
 
   justfont-fonts =
     justfontPackages.combine' "justfont-fonts"
+      (_: true);
+
+  lingdong-fonts =
+    lingdongPackages.combine' "lingdong-fonts"
       (_: true);
 
   lxgw-fonts = lxgwPackages.combine' "lxgw-fonts" (
