@@ -273,6 +273,24 @@ let
       combine' = link packages;
     };
 
+  jikaseiPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/jikasei;
+      };
+    in
+    packages
+    // {
+      combine = link packages "jikasei-fonts";
+
+      combine' = link packages;
+    };
+
   justfontPackages =
     let
       packages = packagesFromDirectoryRecursive {
@@ -451,6 +469,7 @@ in
     huaweiPackages
     ichitenfontPackages
     itoPackages
+    jikaseiPackages
     justfontPackages
     lib
     lxgwPackages
@@ -560,6 +579,10 @@ in
   ito-fonts = itoPackages.combine' "ito-fonts" (
     _: true
   );
+
+  jikasei-fonts =
+    jikaseiPackages.combine' "jikasei-fonts"
+      (_: true);
 
   justfont-fonts =
     justfontPackages.combine' "justfont-fonts"
