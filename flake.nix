@@ -115,6 +115,7 @@
                 lingdong-fonts
                 lxgw-fonts
                 oppo-fonts
+                tanuki-fonts
                 taobao-fonts
                 tianheng-fonts
                 trionestype-fonts

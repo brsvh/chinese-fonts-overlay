@@ -403,6 +403,24 @@ let
       combine' = link packages;
     };
 
+  tanukiPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/tanuki;
+      };
+    in
+    packages
+    // {
+      combine = link packages "tanuki-fonts";
+
+      combine' = link packages;
+    };
+
   taobaoPackages =
     let
       packages = packagesFromDirectoryRecursive {
@@ -512,6 +530,7 @@ in
     lxgwPackages
     microsoftPackages
     oppoPackages
+    tanukiPackages
     taobaoPackages
     tianhengPackages
     trionestypePackages
@@ -689,6 +708,10 @@ in
   oppo-fonts = oppoPackages.combine' "oppo-fonts" (
     _: true
   );
+
+  tanuki-fonts =
+    tanukiPackages.combine' "tanuki-fonts"
+      (_: true);
 
   taobao-fonts =
     taobaoPackages.combine' "taobao-fonts"
