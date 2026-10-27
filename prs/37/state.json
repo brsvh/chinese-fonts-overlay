@@ -1,7 +1,7 @@
 {
   "controller": "8c62c5080de5b6b670b480c6179c0694dca99252b076b306c574f0e0d9120e86",
   "headRepository": "brsvh/chinese-fonts-overlay",
-  "headSha": "7562b8d83efacf01199ef5884eb1e71c447f6968",
+  "headSha": "473591331ef1693cf5813b8e7d3e513f8a9ab9d9",
   "pr": 37,
   "receipts": {
     "cwtex.q-fangsong": {
@@ -339,6 +339,6 @@
   },
   "repository": "brsvh/chinese-fonts-overlay",
   "runAttempt": 1,
-  "runId": 40439280767,
+  "runId": 40440850495,
   "schema": 1
 }
