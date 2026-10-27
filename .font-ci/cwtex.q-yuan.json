@@ -1,0 +1,26 @@
+{
+  "buildKey": "33697cd1b0badde97437102852804d8887bd4b34ad1e5bf37a1199bdb8a6bf7c",
+  "images": [
+    {
+      "height": 88,
+      "path": "cwtex/cwtex-q-yuan+cwTeX Q Yuan.png",
+      "sha256": "9feb831a0a38e598436435bd1d88a6166f388b6514d6357c7042535d763d4f45",
+      "width": 721
+    },
+    {
+      "height": 88,
+      "path": "cwtex/cwtex-q-yuan+cwTeX Q YuanZH.png",
+      "sha256": "9feb831a0a38e598436435bd1d88a6166f388b6514d6357c7042535d763d4f45",
+      "width": 721
+    }
+  ],
+  "package": "cwtex.q-yuan",
+  "pname": "cwtex-q-yuan",
+  "previewKey": "661a22fe1afa726dea63cd31e0d61babbd6219d8e34ec692444cd64f7fd7ad3f",
+  "schema": 1,
+  "source": {
+    "kind": "main",
+    "rev": "ff5c3affe9e6f58adc1a70bceb40a2668f44a815"
+  },
+  "vendor": "cwtex"
+}
