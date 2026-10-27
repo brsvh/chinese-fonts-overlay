@@ -61,6 +61,7 @@
     cwtex-q-fangsong = "traditional-chinese";
     cwtex-q-hei = "traditional-chinese";
     cwtex-q-kai = "traditional-chinese";
+    cwtex-q-ming = "traditional-chinese";
   };
 
   dingtalk = {
