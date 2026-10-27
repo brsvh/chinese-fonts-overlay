@@ -108,6 +108,24 @@ let
       combine' = link packages;
     };
 
+  cwtexPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/cwtex;
+      };
+    in
+    packages
+    // {
+      combine = link packages "cwtex-fonts";
+
+      combine' = link packages;
+    };
+
   dingtalkPackages =
     let
       packages = packagesFromDirectoryRecursive {
@@ -390,6 +408,7 @@ in
     alibabaPackages
     alimamaPackages
     buttaiwanPackages
+    cwtexPackages
     dingtalkPackages
     foundertypePackages
     hanwangPackages
@@ -427,6 +446,10 @@ in
 
   buttaiwan-fonts =
     buttaiwanPackages.combine' "buttaiwan-fonts"
+      (_: true);
+
+  cwtex-fonts =
+    cwtexPackages.combine' "cwtex-fonts"
       (_: true);
 
   dingtalk-fonts =
