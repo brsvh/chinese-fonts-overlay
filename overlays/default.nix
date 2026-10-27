@@ -237,6 +237,24 @@ let
     harmonyos-sans-naskh-arabic-ui-vf
   ];
 
+  ichitenfontPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/ichitenfont;
+      };
+    in
+    packages
+    // {
+      combine = link packages "ichitenfont-fonts";
+
+      combine' = link packages;
+    };
+
   justfontPackages =
     let
       packages = packagesFromDirectoryRecursive {
@@ -413,6 +431,7 @@ in
     foundertypePackages
     hanwangPackages
     huaweiPackages
+    ichitenfontPackages
     justfontPackages
     lib
     lxgwPackages
@@ -514,6 +533,10 @@ in
   harmonyos-sans-vf-fonts =
     huaweiPackages.combine' "harmonyos-sans-vf-fonts"
       (drv: elem drv harmonyosSansVfPackages);
+
+  ichitenfont-fonts =
+    ichitenfontPackages.combine' "ichitenfont-fonts"
+      (_: true);
 
   justfont-fonts =
     justfontPackages.combine' "justfont-fonts"

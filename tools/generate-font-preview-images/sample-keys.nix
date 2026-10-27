@@ -115,6 +115,10 @@
     harmonyos-sans-naskh-arabic-ui-vf = "arabic";
   };
 
+  ichitenfont = {
+    ichitenfont-i-ming = "traditional-chinese";
+  };
+
   justfont = {
     justfont-abbrfesfont = "traditional-chinese";
     justfont-allpuntype = "traditional-chinese";
