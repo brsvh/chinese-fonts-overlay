@@ -114,6 +114,14 @@
     url = "https://www.coloros.com/article/A00000074/";
   };
 
+  tanuki-permanent-marker-license = {
+    free = false;
+    fullName = "たぬき油性マジック 使用条件（たぬき侍）";
+    redistributable = false;
+    shortName = "tanuki-permanent-marker-license";
+    url = "https://tanukifont.com/tanuki-permanent-marker";
+  };
+
   taobao-maicaiti-license = {
     free = false;
     fullName = "《淘宝买菜体》法律声明";

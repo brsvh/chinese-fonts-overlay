@@ -232,6 +232,10 @@
     oppo-sans = "simplified-chinese";
   };
 
+  tanuki = {
+    tanuki-permanent-marker = "japanese";
+  };
+
   taobao = {
     taobao-maicaiti = "simplified-chinese";
   };
