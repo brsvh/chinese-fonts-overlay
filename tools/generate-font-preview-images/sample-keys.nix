@@ -228,6 +228,10 @@
     microsoft-yu-gothic = "japanese";
   };
 
+  naver = {
+    naver-maru-buri = "korean";
+  };
+
   oppo = {
     oppo-sans = "simplified-chinese";
   };
