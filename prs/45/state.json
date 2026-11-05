@@ -1,7 +1,7 @@
 {
   "controller": "8c62c5080de5b6b670b480c6179c0694dca99252b076b306c574f0e0d9120e86",
   "headRepository": "brsvh/chinese-fonts-overlay",
-  "headSha": "6f324f1d02cc711d84515fa1126d2c1b0410e543",
+  "headSha": "90db26a96c0d50ed61498e54a1c6dc4ac1942c12",
   "pr": 45,
   "receipts": {
     "naver.maru-buri": {
@@ -28,6 +28,6 @@
   },
   "repository": "brsvh/chinese-fonts-overlay",
   "runAttempt": 1,
-  "runId": 41956718069,
+  "runId": 41958185549,
   "schema": 1
 }
