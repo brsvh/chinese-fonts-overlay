@@ -114,6 +114,7 @@
                 justfont-fonts
                 lingdong-fonts
                 lxgw-fonts
+                naver-fonts
                 oppo-fonts
                 tanuki-fonts
                 taobao-fonts

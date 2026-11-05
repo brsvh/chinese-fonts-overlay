@@ -385,6 +385,24 @@ let
       combine' = link fontPackages;
     };
 
+  naverPackages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        inherit (final)
+          callPackage
+          newScope
+          ;
+
+        directory = projectRoot + /packages/naver;
+      };
+    in
+    packages
+    // {
+      combine = link packages "naver-fonts";
+
+      combine' = link packages;
+    };
+
   oppoPackages =
     let
       packages = packagesFromDirectoryRecursive {
@@ -529,6 +547,7 @@ in
     lingdongPackages
     lxgwPackages
     microsoftPackages
+    naverPackages
     oppoPackages
     tanukiPackages
     taobaoPackages
@@ -704,6 +723,10 @@ in
       foundertypePackages.fzcuyuan.
     '';
   };
+
+  naver-fonts =
+    naverPackages.combine' "naver-fonts"
+      (_: true);
 
   oppo-fonts = oppoPackages.combine' "oppo-fonts" (
     _: true

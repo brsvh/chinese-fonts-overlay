@@ -1,6 +1,10 @@
 # Chinese Fonts Overlay
 
-这个仓库提供一些中文字体，以 nix packages 的形式帮助您进行构建。
+这个仓库提供一些中文字体包，以 nix packages 的形式帮助您进行构建。
+
+> [!TIP]
+>
+> 除中文字体外，同样收录了一些偶然用一下引入的日文与韩文字体，以及一些发行商配套发行的阿拉伯文、彝文、符号字体。
 
 目前主要提供了以下公司、字库的若干字体产品的构建方式：
 
@@ -18,6 +22,7 @@
 - LingDong Huang 字体（令東）
 - LXGW 字体（落霞孤鹜）
 - Microsoft 字体（微软字体）
+- NAVER 字体
 - OPPO 字体
 - たぬきフォント
 - Taobao 字体（淘宝字体）
@@ -4551,6 +4556,56 @@ DingTalk 字体均可以免费用于合法的商业、非商业使用。
   >
   <br>
   <sub>Yu Gothic Bold</sub>
+  <br>
+</p>
+
+### NAVER 字体 - `naverPackages`
+
+> [!TIP]
+>
+> 通过 `naver-fonts` 来安装所有 NAVER 字体。
+
+- `naverPackages.maru-buri` -
+  [Maru Buri / 마루 부리](https://hangeul.naver.com/font)
+
+包含 TTF 格式的 ExtraLight、Light、Regular、SemiBold 和 Bold 五个字重，采用
+[SIL Open Font License 1.1](https://help.naver.com/service/30016/contents/18088?osType=PC&lang=ko)。
+
+<p align="center">
+  <img
+    alt="MaruBuri ExtraLight"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/naver/naver-maru-buri%2BMaruBuri%20ExtraLight.png"
+  >
+  <br>
+  <sub>MaruBuri ExtraLight</sub>
+  <br>
+  <img
+    alt="MaruBuri Light"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/naver/naver-maru-buri%2BMaruBuri%20Light.png"
+  >
+  <br>
+  <sub>MaruBuri Light</sub>
+  <br>
+  <img
+    alt="MaruBuri Regular"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/naver/naver-maru-buri%2BMaruBuri%20Regular.png"
+  >
+  <br>
+  <sub>MaruBuri Regular</sub>
+  <br>
+  <img
+    alt="MaruBuri SemiBold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/naver/naver-maru-buri%2BMaruBuri%20SemiBold.png"
+  >
+  <br>
+  <sub>MaruBuri SemiBold</sub>
+  <br>
+  <img
+    alt="MaruBuri Bold"
+    src="https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/naver/naver-maru-buri%2BMaruBuri%20Bold.png"
+  >
+  <br>
+  <sub>MaruBuri Bold</sub>
   <br>
 </p>
 
