@@ -1,0 +1,47 @@
+{
+  "buildKey": "85c852f3d63ddf930aa1e44f342244e977b83d2adc320474d581747e33a73511",
+  "images": [
+    {
+      "height": 87,
+      "path": "naver/naver-maru-buri+MaruBuri Bold.png",
+      "sha256": "ad232e035c13024b4066065259ae68376ebb9159a59df46cf9abed4db45ea6fe",
+      "width": 1232
+    },
+    {
+      "height": 86,
+      "path": "naver/naver-maru-buri+MaruBuri ExtraLight.png",
+      "sha256": "0744dbb5cc49ab44336486ca6baa71b0bc052bdd473393105f0bbc41686c476b",
+      "width": 1232
+    },
+    {
+      "height": 87,
+      "path": "naver/naver-maru-buri+MaruBuri Light.png",
+      "sha256": "18113024c6953fe51e9459dd98fe392ef8d7de1aa6c1327b92820b5fd3d8365b",
+      "width": 1232
+    },
+    {
+      "height": 87,
+      "path": "naver/naver-maru-buri+MaruBuri Regular.png",
+      "sha256": "a96572b8555c4e72f453d7bc3e5c8740fce7bb26a86efc1ab5fc6f6c587eaa46",
+      "width": 1232
+    },
+    {
+      "height": 87,
+      "path": "naver/naver-maru-buri+MaruBuri SemiBold.png",
+      "sha256": "7a45b599565329cadebbfb7cb219ddcadbcaa39f56114214b651e93e39ae1236",
+      "width": 1232
+    }
+  ],
+  "package": "naver.maru-buri",
+  "pname": "naver-maru-buri",
+  "previewKey": "e6b0a19b160ebc7128779daf6f9be4cb0afa36460e29d03894bb28aa3017ce27",
+  "schema": 1,
+  "source": {
+    "headSha": "b3591e9e70f34231dd020b83790737efe4e94232",
+    "kind": "pr",
+    "mergeSha": "dd8182f40713ed167274047d90b8233cc7d6d7f0",
+    "runAttempt": 1,
+    "runId": 41955754661
+  },
+  "vendor": "naver"
+}

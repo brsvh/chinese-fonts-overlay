@@ -1,0 +1,33 @@
+{
+  "controller": "8c62c5080de5b6b670b480c6179c0694dca99252b076b306c574f0e0d9120e86",
+  "headRepository": "brsvh/chinese-fonts-overlay",
+  "headSha": "b3591e9e70f34231dd020b83790737efe4e94232",
+  "pr": 45,
+  "receipts": {
+    "naver.maru-buri": {
+      "buildKey": "85c852f3d63ddf930aa1e44f342244e977b83d2adc320474d581747e33a73511",
+      "buildSucceeded": true,
+      "headSha": "b3591e9e70f34231dd020b83790737efe4e94232",
+      "mergeSha": "dd8182f40713ed167274047d90b8233cc7d6d7f0",
+      "pname": "naver-maru-buri",
+      "policy": 2,
+      "previewFiles": {
+        "manifest.json": "341957da523c1367569746bda4cfc158c20ece6e",
+        "naver/naver-maru-buri+MaruBuri Bold.png": "6c5efbfd58e8ca366622ecad6191fb596ef28077",
+        "naver/naver-maru-buri+MaruBuri ExtraLight.png": "e6f1e6298ecec05511f36be85cd3e7a6a0b476d5",
+        "naver/naver-maru-buri+MaruBuri Light.png": "174d7b6fb3fbf8fc8062f0f3e4644cf1c34f925c",
+        "naver/naver-maru-buri+MaruBuri Regular.png": "a2b7231d032414c6f76a3157f8e281f0db63bb5e",
+        "naver/naver-maru-buri+MaruBuri SemiBold.png": "3e7bcc66f3baa7b2624767ab34606ab74a643f04"
+      },
+      "previewKey": "e6b0a19b160ebc7128779daf6f9be4cb0afa36460e29d03894bb28aa3017ce27",
+      "previewPath": "prs/45/naver.maru-buri/e6b0a19b160ebc7128779daf6f9be4cb0afa36460e29d03894bb28aa3017ce27",
+      "previewPublished": true,
+      "runAttempt": 1,
+      "runId": 41955754661
+    }
+  },
+  "repository": "brsvh/chinese-fonts-overlay",
+  "runAttempt": 1,
+  "runId": 41955754661,
+  "schema": 1
+}
