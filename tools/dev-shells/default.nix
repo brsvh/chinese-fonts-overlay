@@ -97,6 +97,30 @@ let
   ) { };
 
   files = {
+    clang-format = {
+      data = {
+        BasedOnStyle = "GNU";
+      };
+
+      engine =
+        request:
+        let
+          inherit (request)
+            data
+            output
+            ;
+        in
+        (pkgs.formats.yaml { }).generate
+          (baseNameOf output)
+          data;
+
+      output = ".clang-format";
+
+      packages = with pkgs; [
+        clang-tools
+      ];
+    };
+
     editorconfig = {
       data = {
         root = true;
@@ -131,6 +155,12 @@ let
           indent_style = "unset";
           max_line_length = "unset";
         };
+
+        "{GNUmakefile,Makefile,Makefile.am,makefile,*.mk}" =
+          {
+            indent_style = "tab";
+            max_line_length = 80;
+          };
       };
 
       engine =
@@ -159,6 +189,26 @@ let
 
       packages = with pkgs; [
         editorconfig-checker
+      ];
+    };
+
+    mbake = {
+      data = {
+        formatter = {
+          auto_insert_phony_declarations = false;
+          ensure_final_newline = true;
+          group_phony_declarations = false;
+          max_line_length = 80;
+          phony_at_top = false;
+          tab_width = 2;
+        };
+      };
+
+      engine = toml;
+      output = ".bake.toml";
+
+      packages = with pkgs; [
+        mbake
       ];
     };
 

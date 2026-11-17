@@ -1,6 +1,8 @@
 # .gitignore --- Git untracked files -*- mode: gitignore; -*-
 
 # devshells
+/.bake.toml
+/.clang-format
 /.editorconfig
 /prek.toml
 /treefmt.toml

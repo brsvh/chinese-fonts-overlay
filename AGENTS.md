@@ -25,6 +25,30 @@ Select the relevant skill by execution target:
 Use both native Guile and Hoot guidance for modules that run on both targets. Do
 not assume that a compiler-side Guile dependency is available in Wasm.
 
+## Development configuration
+
+The devshell configuration is maintained in `tools/dev-shells/default.nix`.
+`nix develop` generates `.bake.toml`, `.clang-format`, `.editorconfig`,
+`prek.toml`, and `treefmt.toml` as ignored symlinks. Change their Nix
+definitions rather than editing or committing the generated files.
+
+C follows GNU style. The devshell supplies clang-format with the GNU preset;
+running it is optional. Do not turn it into a required treefmt, commit, or CI
+check without an explicit request. Format only relevant authored sources and
+review the result.
+
+Handwritten Makefiles (`Makefile`, `GNUmakefile`, `makefile`, `*.mk`, and
+`Makefile.am`) use at most 80 columns and literal Tab prefixes for recipes. The
+devshell provides mbake from the bake project with `max_line_length = 80`. From
+the repository root, run `mbake format --config .bake.toml FILE` as needed; add
+`--check` to inspect formatting without editing. Use
+`editorconfig-checker -disable-indentation FILE` to check the line limit: the
+locked mbake version does not wrap or reject long lines. Let mbake check
+Makefile indentation so valid space-indented variable continuations are not
+rejected by a generic Tab rule. Split long lines at valid Make/shell
+continuation boundaries and review quoting and whitespace semantics. Keep
+generated `Makefile.in` and configured Makefiles out of formatter runs.
+
 ## Commits
 
 When creating a commit, use the `commit` skill. Load

@@ -27,12 +27,30 @@ LXGW 使用 `packages/lxgw/`、`lxgwPackages` 和 `lxgw-fonts`。
 $ nix develop
 ```
 
-该环境提供 Git、treefmt、nixfmt、mdformat、Biome 和 prek，并安装提交前格式检查。需要字体预览工具时，使用
-`nix develop .#generator`。
+该环境提供 Git、treefmt、nixfmt、mdformat、Biome、clang-format、mbake 和
+prek，并安装提交前格式检查。需要字体预览工具时，使用 `nix develop .#generator`。
 
-进入环境会生成 `.editorconfig`、`prek.toml` 和 `treefmt.toml` 的符号链接。这些文件不提交到仓库；修改配置时应编辑
+进入环境会生成 `.bake.toml`、`.clang-format`、`.editorconfig`、`prek.toml` 和
+`treefmt.toml` 的符号链接。这些文件不提交到仓库；修改配置时应编辑
 `tools/dev-shells/default.nix`。开发工具与字体包使用不同的锁定输入，更新依赖时请确认修改的是根目录还是 `tools/`
 下的锁文件。
+
+`.clang-format` 使用 GNU 预设。clang-format 是可选工具，不加入 treefmt 或提交检查；可以手动运行
+`clang-format --style=file -i site/src/font-info.c`，并检查格式化差异。
+
+Makefile 格式化使用 bake 项目的 `mbake`。手写的 Makefile、`*.mk` 和 `Makefile.am` 最多 80
+列，命令行前缀保留 Tab。从仓库根目录按需运行：
+
+```console
+$ mbake format --config .bake.toml site/Makefile.am
+$ mbake format --config .bake.toml --check site/Makefile.am
+$ editorconfig-checker -disable-indentation site/Makefile.am
+```
+
+当前锁定的 mbake 不会根据 `max_line_length` 自动拆行或报告超长行，行宽由 EditorConfig 检查；超长内容需在保持 Make
+和 shell 语义的前提下手动续行。缩进交给 mbake 检查，避免将合法的变量续行空格误报为缺少 Tab。 这里只提供开发工具，不加入 treefmt
+或提交检查。 不要格式化生成的 `Makefile.in` 或配置后的 Makefile；`Makefile.am` 的语法仍通过 Automake
+和构建检查验证。
 
 ## 本地构建单个字体包
 
