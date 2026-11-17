@@ -1,5 +1,15 @@
 # README for Agents
 
+## Directory instructions
+
+These instructions apply throughout the repository. Read more specific
+`AGENTS.md` files for the directories involved in a task.
+
+For website work, read [site/AGENTS.md](site/AGENTS.md), including when changing
+its Nix registration or development tooling outside `site/`. Keep website
+architecture, data, and publication rules there rather than duplicating them in
+language skills. Skills provide implementation conventions and workflows.
+
 ## Documentation
 
 When a task mentions the project README, treat it as `docs/README.md`.

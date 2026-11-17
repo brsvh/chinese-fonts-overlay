@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>字体预览原型</title>
+    <script src="./reflect.js" defer></script>
+    <script src="./bridge.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <h1>字体预览原型</h1>
+      <p>浏览仓库中的字体包、许可与源代码。</p>
+      <script id="language-labels" type="application/json">
+        <!-- language-labels -->
+      </script>
+      <p id="status" role="status">正在准备字体目录……</p>
+      <noscript>
+        <p>字体目录与源代码可直接阅读；交互功能需要启用 JavaScript。</p>
+      </noscript>
+      <fieldset id="filters" data-interactive disabled>
+        <legend>字体目录筛选</legend>
+        <p>
+          <label for="query">搜索包名、字库、款式、描述或许可</label>
+          <input id="query" type="search">
+        </p>
+        <p>
+          <label for="vendor">字库</label>
+          <select id="vendor">
+            <option value="">全部字库</option>
+            <!-- vendor-options -->
+          </select>
+        </p>
+        <p>
+          <label for="license-cost">许可证费用</label>
+          <select id="license-cost">
+            <option value="">全部费用</option>
+            <!-- license-cost-options -->
+          </select>
+        </p>
+        <p>
+          <label for="license">许可证</label>
+          <select id="license">
+            <option value="">全部许可证</option>
+            <!-- license-options -->
+          </select>
+        </p>
+        <p>
+          <label for="redistribution">再分发</label>
+          <select id="redistribution">
+            <option value="">全部</option>
+            <option value="true">允许</option>
+            <option value="false">不允许</option>
+          </select>
+        </p>
+        <p>
+          <label for="language">语言</label>
+          <select id="language">
+            <option value="">全部语言</option>
+            <!-- language-options -->
+          </select>
+        </p>
+        <p>
+          <label for="style">风格</label>
+          <select id="style">
+            <option value="">全部风格</option>
+            <!-- style-options -->
+          </select>
+        </p>
+        <p>
+          语言筛选同时切换样本图片，默认显示中文。
+          包的语言覆盖取各款式的并集；
+          部分款式可能没有所选语言的样本。
+        </p>
+        <button id="reset-filters" type="button">清除筛选</button>
+      </fieldset>
+      <section aria-labelledby="catalog-heading">
+        <h2 id="catalog-heading">字体目录</h2>
+        <p>包内全部字重、集合成员和可变字体的命名款式均列出。</p>
+        <p id="result-count" role="status">
+          显示 <!-- count --> / <!-- count --> 个字体包
+        </p>
+        <p id="empty-results" hidden>没有符合条件的字体包。请调整或清除筛选。</p>
+        <p><a href="./catalog.json">下载目录 JSON</a></p>
+        <ul id="packages"><!-- packages --></ul>
+      </section>
+    </main>
+  </body>
+</html>

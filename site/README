@@ -1,0 +1,18 @@
+# -*- mode: org; -*-
+#+title: Chinese Fonts Site
+
+A static font catalog with language-specific transparent previews.
+
+* Run locally
+
+From the repository root:
+
+#+begin_src sh
+nix run .#site -- --port 8080
+#+end_src
+
+Open [[http://127.0.0.1:8080/][the local preview]].
+Use =nix run .#site -- --build= to generate files only.
+
+See [[file:../docs/development.md][development documentation]] for details.
+License: [[file:../COPYING][CC0]].

@@ -1,0 +1,9 @@
+These minimal fonts were generated from the former site's test fixture
+builder. All glyph outlines are the same simple triangle. They contain no
+third-party font designs and are provided under the project's CC0 dedication.
+
+static.ttf: two characters A/B.
+variable.ttf: three named weights (Light, Regular, Bold).
+collection.ttc: two separately named members.
+english.ttf: the characters in the English sample.
+symbols.ttf: the characters in the unknown-language sample.

@@ -1,0 +1,1828 @@
+{
+  "aa": {
+    "text": "Â Ê Î Ô Û â ê î ô û",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ab": {
+    "text": "Ё В Ж К Н С Х Щ Э б е й м р ф ш ь ё Ҧ Ҭ ҳ ҷ ҿ ӡ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ae": {
+    "text": "𐬀 𐬂 𐬅 𐬇 𐬉 𐬌 𐬎 𐬐 𐬒 𐬕 𐬗 𐬙 𐬜 𐬞 𐬠 𐬣 𐬥 𐬧 𐬩 𐬬 𐬮 𐬰 𐬳 𐬵",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "af": {
+    "text": "Ek kan glas eet, maar dit doen my nie skade nie.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "È É Ê Ë Î Ï Ô Û è é ê ë î ï ô û ŉ"
+  },
+  "agr": {
+    "text": "A C F H J L O Q S U X Z b d g i k m p r t v y ú",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "aho": {
+    "text": "𑜀 𑜂 𑜄 𑜆 𑜈 𑜊 𑜌 𑜎 𑜐 𑜒 𑜔 𑜖 𑜗 𑜙 𑜰 𑜲 𑜴 𑜶 𑜸 𑜺 𑝀 𑝂 𑝄 𑝆",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ak": {
+    "text": "Ã Ñ Õ ã ñ õ Ĩ ĩ Ũ ũ Ɔ Ɛ ɔ ɛ Ẽ ẽ Ỹ ỹ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "akk": {
+    "text": "𒀀 𒀵 𒁫 𒂠 𒃖 𒄋 𒅀 𒅶 𒆫 𒇡 𒈖 𒉋 𒊁 𒊶 𒋫 𒌡 𒍖 𒎌 𒐧 𒑜 𒒣 𒓘 𒔎 𒕃",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "am": {
+    "text": "ሀ ሌ ሙ ሤ ሸ ቃ ባ ቮ ቺ ኆ ን ኡ ኬ ዌ ዙ ዥ ዱ ጄ ጒ ጧ ጳ ጾ ፋ ፖ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "an": {
+    "text": "Á É Í Ñ Ó Ú Ü á é í ñ ó ú ü",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "anp": {
+    "text": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ar": {
+    "text": "أنا أستطيع أكل الزجاج ولا يؤلمني",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ء أ ؤ ئ ا ة ت ج ح د ذ ز س ص ض ظ ع ف ق ل م ه و ي"
+  },
+  "arc": {
+    "text": "𐡀 𐡁 𐡃 𐡄 𐡅 𐡆 𐡈 𐡉 𐡊 𐡋 𐡍 𐡎 𐡏 𐡐 𐡒 𐡓 𐡔 𐡕 𐡙 𐡚 𐡛 𐡜 𐡞 𐡟",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "as": {
+    "text": "সুপ্ৰভাত আপোনাক লগ পাই ভাল লাগিল।",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "অ ই উ ঋ এ ও ক গ ঙ ছ ঝ ট ঢ ত দ ন ফ ভ য শ স ড় য় ৱ"
+  },
+  "ast": {
+    "text": "Á É Í Ñ Ó Ú Ü á é í ñ ó ú ü Ḥ ḥ Ḷ ḷ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "av": {
+    "text": "Ё Б Д З Й М П Т Х Ш Ы Ю а г ж й м п т х ч ъ э ё",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ay": {
+    "text": "Ä Ï Ñ Ü ä ï ñ ü",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ayc": {
+    "text": "A C F H K M O R T W Y a d f h k m p r t w y ï ü",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "az-az": {
+    "text": "Ç Ö Ü ç ö ü Ğ ğ İ ı Ş ş Ə ə",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "az-ir": {
+    "text": "ء أ ؤ ا ب ت ج ح د ذ ز ش ص ط ع غ ق ل ن و پ ژ ک ی",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ba": {
+    "text": "А Д З Л О Т Х Щ Ь а г з к о с х ш ь я ҙ Ң Ү һ ө",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ban": {
+    "text": "ᬅ ᬈ ᬊ ᬍ ᬐ ᬓ ᬕ ᬘ ᬛ ᬞ ᬠ ᬣ ᬦ ᬩ ᬫ ᬮ ᬱ ᭅ ᭇ ᭊ ᭑ ᭔ ᭖ ᭙",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "bax": {
+    "text": "ꚠ ꚣ ꚧ ꚪ ꚮ ꚱ ꚵ ꚸ ꚻ ꚿ ꛂ ꛆ ꛉ ꛍ ꛐ ꛔ ꛗ ꛚ ꛞ ꛡ ꛥ ꛨ ꛬ ꛯ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "be": {
+    "text": "І Б Д З К Н П Т Х Ш Ы Ю б д з к н р т х ш ы ю ў",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "bem": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ber-dz": {
+    "text": "Č č Ɛ Ɣ Ǧ ǧ ɛ ɣ Ḍ ḍ Ḥ ḥ Ṣ ṣ Ṭ ṭ Ẓ ẓ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ber-ma": {
+    "text": "ⴰ ⴱ ⴷ ⴹ ⴻ ⴽ ⵀ ⵃ ⵅ ⵇ ⵉ ⵍ ⵎ ⵓ ⵔ ⵕ ⵙ ⵚ ⵛ ⵟ ⵡ ⵢ ⵥ ⵯ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "bg": {
+    "text": "Под южно дърво, цъфтящо в синьо, бягаше малко пухкаво зайче.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "А Г Е И К Н П Т Х Ч Ъ Ю б г ж и л о р у х ш ъ я"
+  },
+  "bh": {
+    "text": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "bhb": {
+    "text": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "bho": {
+    "text": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "bi": {
+    "text": "Mi save kakae glas, hemi no save katem mi.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "A C F H K M P R U W Z b e g j l o q t v y É é ü"
+  },
+  "bin": {
+    "text": "À Á È É Ì Í Ò Ó Ù Ú à á è é ì í ò ó ù ú Ẹ ẹ Ọ ọ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "bku": {
+    "text": "ᝀ ᝁ ᝂ ᝃ ᝄ ᝅ ᝆ ᝇ ᝈ ᝉ ᝊ ᝋ ᝌ ᝍ ᝎ ᝏ ᝐ ᝑ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "blt": {
+    "text": "ꪀ ꪃ ꪅ ꪈ ꪊ ꪍ ꪐ ꪒ ꪕ ꪗ ꪚ ꪝ ꪟ ꪢ ꪥ ꪧ ꪪ ꪬ ꪯ ꪶ ꪺ ꪽ ꫂ ꫝ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "bm": {
+    "text": "Ŋ ŋ Ɔ Ɛ Ɲ ɔ ɛ ɲ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "bn": {
+    "text": "আমি কাঁচ খেতে পারি, তাতে আমার কোনো ক্ষতি হয় না।",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "অ ই উ ঋ এ ও ক গ ঙ ছ ঝ ট ড ণ থ ধ প ব ম র শ স ড় য়"
+  },
+  "bo": {
+    "text": "ཤེལ་སྒོ་ཟ་ནས་ང་ན་གི་མ་རེད།",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ཀ ག གྷ ཅ ཇ ཊ ཋ ཌྷ ཏ ད དྷ པ བ མ ཙ ཛ ཝ ཟ འ ར ཤ ས ཧ ཀྵ"
+  },
+  "br": {
+    "text": "Â Ê Ñ Ô Ù Ü â ê ñ ô ù ü",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "brx": {
+    "text": "अ ई ऊ ए ओ ख घ छ झ ठ ढ थ ध फ भ र व स ऽ ॡ १ ४ ६ ९",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "bs": {
+    "text": "Fin džip, gluh jež i čvrst konjić dođoše bez moljca.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ć ć Č č Đ đ Š š Ž ž"
+  },
+  "bua": {
+    "text": "Ё В Е И Л О С Ф Ч Ъ Э а г ж й м п т х ш ы ю Ү һ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "byn": {
+    "text": "ሀ ሌ መ ራ ሽ ቊ ቘ ቦ ቲ ች ኘ ኣ ኰ ዉ ዕ ዡ ዬ ጀ ጋ ጢ ጭ ጸ ፋ ፖ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ca": {
+    "text": "Jove xef, porti whisky amb quinze glaçons d'hidrogen, coi!",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "À Ç È É Í Ï Ò Ó Ú Ü à ç è é í ï ò ó ú ü Ŀ ŀ"
+  },
+  "ccp": {
+    "text": "𑄃 𑄅 𑄇 𑄉 𑄋 𑄍 𑄏 𑄑 𑄓 𑄕 𑄗 𑄙 𑄜 𑄞 𑄠 𑄢 𑄤 𑄦 𑄷 𑄹 𑄻 𑄽 𑄿 𑅇",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ce": {
+    "text": "Ё Б Д З Й М П Т Х Ш Ы Ю а г ж й м п т х ч ъ э ё",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ch": {
+    "text": "Siña yo' chumocho krestat, ti ha na'lalamen yo'.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "A C F H K M P R U W Z b e g j l o q t v y Â â ü"
+  },
+  "chm": {
+    "text": "Ё В Ж Й М П У Ц Щ Ь а г ж й н р у ц ъ э ё Ӓ Ӱ ӹ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "chr": {
+    "text": "Ꭰ Ꭴ Ꭷ Ꭻ Ꭿ Ꮂ Ꮆ Ꮊ Ꮍ Ꮑ Ꮕ Ꮘ Ꮜ Ꮟ Ꮣ Ꮧ Ꮪ Ꮮ Ꮲ Ꮵ Ꮹ Ꮽ Ᏸ Ᏼ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "cjm": {
+    "text": "ꨀ ꨃ ꨅ ꨈ ꨋ ꨍ ꨐ ꨓ ꨕ ꨘ ꨛ ꨝ ꨠ ꨢ ꨥ ꨨ ꩁ ꩅ ꩈ ꩊ ꩑ ꩔ ꩖ ꩙",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ckb": {
+    "text": "ئ ا ت ج ح د ر ز ش ع غ ق ل ن ه و چ ڒ ژ ک گ ڵ ی ێ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "cmn": {
+    "text": "一 冘 喉 夭 岤 急 捷 暹 樛 浯 炑 球 睼 笆 繚 艂 蕾 衽 豊 迫 錆 靼 魻 嗀",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "co": {
+    "text": "À Â Ç È É Ë Î Ï Ù Û Ü â æ è é ê î ï ô û ü ÿ œ Ÿ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "cop": {
+    "text": "Ϣ ϧ ϭ Ⲃ ⲇ Ⲍ Ⲓ ⲗ Ⲝ ⲡ ⲧ Ⲭ ⲱ Ⲷ Ⲽ ⳁ Ⳇ ⳋ ⳑ Ⳗ ⳛ Ⳡ ⳬ ⳽",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "crh": {
+    "text": "Â Ç Ñ Ö Ü â ç ñ ö ü Ğ ğ İ ı Ş ş",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "cs": {
+    "text": "Příliš žluťoučký kůň úpěl ďábelské ódy.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Á É Ó Ú Ý á í ó ú ý č Ď ď Ě Ň ň Ř ř š Ť ť Ů Ž ž"
+  },
+  "csb": {
+    "text": "Ã É Ë Ò Ó Ô Ù ã é ë ò ó ô ù Ą ą Ł ł Ń ń Ż ż",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "cu": {
+    "text": "Ё Ј Б Е Л П Ф Ш Ь в ж л п ф ш ю ѕ ѝ ѣ ѧ Ѭ Ѱ ѵ ѹ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "cv": {
+    "text": "Ă А Г З К Н Р У Ц Ъ Э а г ж й н р у ц щ ь ё Ӗ ӳ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "cy": {
+    "text": "Dw i'n gallu bwyta gwydr, 'dyw e ddim yn gwneud dolur i mi.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Â É Ê Î Ï Ô é ê î ï ô ÿ Ŵ ŵ Ŷ ŷ Ÿ Ẁ Ẃ ẃ Ẅ ẅ Ỳ ỳ"
+  },
+  "da": {
+    "text": "Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Á Å Æ É Í Ó Ø Ú Ý á å æ é í ó ø ú ý"
+  },
+  "de": {
+    "text": "Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter Deich.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "A D F I K N P S U X Z c e h j m o r t w y Ö ß ü"
+  },
+  "dmf": {
+    "text": "𖹀 𖹄 𖹇 𖹋 𖹏 𖹓 𖹖 𖹚 𖹞 𖹢 𖹥 𖹩 𖹭 𖹱 𖹴 𖹸 𖹼 𖺀 𖺃 𖺇 𖺋 𖺏 𖺒 𖺖",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "doi": {
+    "text": "अ'ऊं बमार आँ, मिगी डॉक्टर दी लोड़ ऐ।",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "अ ई ऊ ए औ ग ङ ज ट ढ त ध फ म र श ह ज़ ढ़ ॠ १ ४ ६ ९"
+  },
+  "dsb": {
+    "text": "Á É Ó Ú Ý á í ó ú ý č Ď ď Ě Ň ň Ř ř š Ť ť Ů Ž ž",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "dv": {
+    "text": "މާއްދާ 1 – ހުރިހާ އިންސާނުން ވެސް އުފަންވަނީ، ދަރަޖަ އާއި ޙައްޤު ތަކުގައި މިނިވަންކަމާއި ހަމަހަމަކަން ލިބިގެންވާ ބައެއްގެ ގޮތުގައެވެ.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "ހ ނ ރ ޅ ކ ވ ފ ދ ލ ގ ސ ޒ ޓ ޕ ޗ ޘ ޚ ޛ ޝ ޟ ޠ ޢ ޣ ޥ"
+  },
+  "dz": {
+    "text": "ཀ ག གྷ ཅ ཇ ཊ ཋ ཌྷ ཏ ད དྷ པ བ མ ཙ ཛ ཝ ཟ འ ར ཤ ས ཧ ཀྵ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ecy": {
+    "text": "𐠀 𐠂 𐠅 𐠊 𐠌 𐠏 𐠑 𐠓 𐠖 𐠘 𐠚 𐠝 𐠟 𐠢 𐠤 𐠦 𐠩 𐠫 𐠭 𐠰 𐠲 𐠴 𐠸 𐠿",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ee": {
+    "text": "À È Ì Ò Ó Ú á é í ó ú ě Ŋ Ɔ Ɛ ƒ Ʋ ǎ ǐ ǒ Ǔ ɔ ɛ ʋ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "egy": {
+    "text": "𓀀 𓀯 𓁝 𓂌 𓂺 𓃩 𓄗 𓅆 𓅵 𓆣 𓇒 𓈀 𓈯 𓉝 𓊌 𓊺 𓋩 𓌘 𓍆 𓍵 𓎣 𓏒 𓐀 𓐯",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "eky": {
+    "text": "꤀ ꤂ ꤃ ꤅ ꤆ ꤈ ꤊ ꤋ ꤍ ꤎ ꤐ ꤒ ꤓ ꤕ ꤗ ꤘ ꤚ ꤛ ꤝ ꤟ ꤠ ꤢ ꤣ ꤥ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "el": {
+    "text": "Θέλει αρετή και τόλμη η ελευθερία. (Ανδρέας Κάλβος)",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ά Ί Ώ Β Ε Θ Λ Ξ Ρ Υ Ψ Ϋ έ ΰ γ ζ ι μ ο ς υ ψ ϋ ώ"
+  },
+  "en": {
+    "text": "I can eat glass, it does not hurt me",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "À Ç È É Ê Ë Ï Ñ Ô Ö à ç è é ê ë ï ñ ô ö"
+  },
+  "eo": {
+    "text": "Eĥoŝanĝo ĉiuĵaŭde.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ĉ ĉ Ĝ ĝ Ĥ ĥ Ĵ ĵ Ŝ ŝ Ŭ ŭ"
+  },
+  "es": {
+    "text": "Jovencillo emponzoñado de whisky: ¡qué figurota exhibe!",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Á É Í Ñ Ó Ú Ü á é í ñ ó ú ü"
+  },
+  "et": {
+    "text": "See väike mölder jõuab rongile hüpata.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ä Õ Ö Ü ä õ ö ü Š š Ž ž"
+  },
+  "ett": {
+    "text": "𐌀 𐌂 𐌃 𐌅 𐌇 𐌈 𐌊 𐌌 𐌍 𐌏 𐌑 𐌒 𐌔 𐌕 𐌗 𐌙 𐌚 𐌜 𐌞 𐌟 𐌡 𐌣 𐌭 𐌯",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "eu": {
+    "text": "Kristala jan dezaket, ez dit minik ematen.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "A C F H K M O R T W Y a d f h k m p r t w y Ü ü"
+  },
+  "fa": {
+    "text": "«الا یا اَیُّها السّاقی! اَدِرْ کَأساً وَ ناوِلْها!» که عشق آسان نمود اوّل، ولی افتاد مشکل‌ها!",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "ء أ ؤ ا ب ت ج ح د ذ ز ش ص ط ع غ ق ل ن و پ ژ ک ی"
+  },
+  "fat": {
+    "text": "Ã Ñ Õ ã ñ õ Ĩ ĩ Ũ ũ Ɔ Ɛ ɔ ɛ Ẽ ẽ Ỹ ỹ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ff": {
+    "text": "Ŋ ŋ Ɓ Ɗ Ɲ Ƴ ƴ ɓ ɗ ɲ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "fi": {
+    "text": "Viekas kettu punaturkki laiskan koiran takaa kurkki.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ä Å Ö ä å ö Š š Ž ž"
+  },
+  "fil": {
+    "text": "À Á È É Ê Í Î Ñ Ó Ô Ù Û à â è é ì í î ò ó ô ú û",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "fj": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "fo": {
+    "text": "Á Æ Í Ð Ó Ø Ú Ý á æ í ð ó ø ú ý",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "fr": {
+    "text": "Voix ambiguë d'un cœur qui, au zéphyr, préfère les jattes de kiwis.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "À Â Ç È É Ë Î Ï Ù Û Ü â æ è é ê î ï ô û ü ÿ œ Ÿ"
+  },
+  "fur": {
+    "text": "À Á Â È Ì Ò Ù à á â è ì ò ù",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "fy": {
+    "text": "Â Ä É Ê Ë Ï Ô Ö Ú Û Ü ß â ä é ê ë ï ô ö ú û ü",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ga": {
+    "text": "Chuaigh bé mhórshách le dlúthspád fíorfhinn trí hata mo dhea-phorcáin bhig.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Á É Í Ú á é í ó ú ċ Ġ ġ Ḃ ḃ Ḋ Ḟ ḟ Ṁ ṁ Ṗ ṗ ṡ Ṫ ṫ"
+  },
+  "gd": {
+    "text": "S urrainn dhomh gloinne ithe; cha ghoirtich i mi.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "À Á Ç È É Ì Ò Ó Ù à á ç è é ì ò ó ù"
+  },
+  "gez": {
+    "text": "ሀ ሊ ሔ ሞ ሩ ሹ ቃ በ ቱ ኃ ነ ኢ ካ ዉ ዓ ዞ ደ ጉ ጕ ጨ ጹ ፂ ፍ ፖ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "gl": {
+    "text": "Eu podo xantar cristais e non cortarme.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Á É Í Ñ Ó Ú Ü á é í ñ ó ú ü"
+  },
+  "gmy": {
+    "text": "𐀀 𐀉 𐀓 𐀜 𐀦 𐀰 𐀹 𐁄 𐁍 𐁘 𐂃 𐂌 𐂖 𐂟 𐂨 𐂱 𐂺 𐃃 𐃌 𐃕 𐃟 𐃨 𐃱 𐃺",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "gn": {
+    "text": "Á É Í Ñ Ó Ú á ã é í ñ ó õ ú ĩ ũ ẽ ỹ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "got": {
+    "text": "𐌼𐌰𐌲 𐌲𐌻𐌴𐍃 𐌹̈𐍄𐌰𐌽, 𐌽𐌹 𐌼𐌹𐍃 𐍅𐌿 𐌽𐌳𐌰𐌽 𐌱𐍂𐌹𐌲𐌲𐌹𐌸.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "𐌰 𐌱 𐌲 𐌳 𐌵 𐌶 𐌷 𐌸 𐌹 𐌺 𐌻 𐌼 𐌾 𐌿 𐍀 𐍁 𐍂 𐍃 𐍄 𐍅 𐍇 𐍈 𐍉 𐍊"
+  },
+  "gu": {
+    "text": "હું કાચ ખાઈ શકું છું, તે મને ઈજા કરતું નથી",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "અ ઇ ઉ ઋ ઐ ઓ ક ગ ઙ છ ઝ ટ ઢ ત દ ન ફ ભ ય લ શ સ ઽ ૠ"
+  },
+  "gv": {
+    "text": "Foddym gee glonney agh cha jean eh gortaghey mee.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "A C F H J M O Q S V X Z c e g j l n p s u w z ç"
+  },
+  "ha": {
+    "text": "Ɓ Ɗ Ƙ ƙ Ƴ ƴ ɓ ɗ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "hak": {
+    "text": "一 冘 喉 夭 岤 急 捷 暹 樛 浯 炑 球 睼 笆 繚 艂 蕾 衽 豊 迫 錆 靼 魻 嗀",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "haw": {
+    "text": "Hiki iaʻu ke ʻai i ke aniani; ʻaʻole nō lā au e ʻeha.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ā ā Ē ē Ī ī Ō ō Ū ū ʻ"
+  },
+  "he": {
+    "text": "דג סקרן שט לו בים זך אך לפתע פגש חבורה נחמדה שצצה כך.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "א ב ג ד ו ז ח ט י ך כ ל מ ן נ ס ע ף פ ץ ק ר ש ת"
+  },
+  "hi": {
+    "text": "मैं काँच खा सकता हूँ, मुझे इससे चोट नहीं लगती",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह"
+  },
+  "hif": {
+    "text": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "hit": {
+    "text": "𒀀 𒀵 𒁫 𒂠 𒃖 𒄋 𒅀 𒅶 𒆫 𒇡 𒈖 𒉋 𒊁 𒊶 𒋫 𒌡 𒍖 𒎌 𒐧 𒑜 𒒣 𒓘 𒔎 𒕃",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "hlu": {
+    "text": "𔐀 𔐙 𔐳 𔑌 𔑥 𔑿 𔒘 𔒱 𔓊 𔓤 𔓽 𔔖 𔔰 𔕉 𔕢 𔕼 𔖕 𔖮 𔗇 𔗡 𔗺 𔘓 𔘭 𔙆",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "hmd": {
+    "text": "𖼀 𖼄 𖼈 𖼋 𖼏 𖼓 𖼗 𖼛 𖼟 𖼢 𖼦 𖼪 𖼮 𖼲 𖼶 𖼹 𖼽 𖽁 𖽅 𖽉 𖾔 𖾗 𖾛 𖾟",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "hne": {
+    "text": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "hnn": {
+    "text": "ᜠ ᜡ ᜢ ᜣ ᜤ ᜥ ᜦ ᜧ ᜨ ᜩ ᜪ ᜫ ᜬ ᜭ ᜮ ᜯ ᜰ ᜱ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ho": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "hoc": {
+    "text": "𑢠 𑢤 𑢧 𑢫 𑢮 𑢲 𑢶 𑢹 𑢽 𑣀 𑣄 𑣈 𑣋 𑣏 𑣓 𑣖 𑣚 𑣝 𑣡 𑣥 𑣨 𑣬 𑣯 𑣿",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "hr": {
+    "text": "Deblji krojač: zgužvah smeđ filc u tanjušni džepić.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ć ć Č č Đ đ Š š Ž ž"
+  },
+  "hsb": {
+    "text": "Ó ó Ć ć Č č Ě ě Ł ł Ń ń Ř ř Š š Ź ź Ž ž",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ht": {
+    "text": "A C F H K M O R T W Y a d f h k m p r t w y Ò ò",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "hu": {
+    "text": "Egy hűtlen vejét fülöncsípő, dühös mexikói úr Wesselényinél mázol Quitóban.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Á É Í Ó Ö Ú Ü á é í ó ö ú ü Ő ő Ű ű"
+  },
+  "hy": {
+    "text": "Կրնամ ապակի ուտել և ինծի անհանգիստ չըներ։",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ա Դ Ը Ի Ծ Ղ Յ Ո Ջ Տ Ւ Օ գ զ թ խ հ ճ ն պ ս ր ք և"
+  },
+  "hz": {
+    "text": "A C F H K M O R T W Y a d f h k m p r t w y ḓ ṋ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ia": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "id": {
+    "text": "A C F H J M O Q S V X Z c e g j l n p s u w z é",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ie": {
+    "text": "Á É Í Ó Ú Ý á é í ó ú ý",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ig": {
+    "text": "A C F H K M P R U W Z b e g j l o q t v y Ị ọ ụ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ii": {
+    "text": "ꉢꋤꇓꅝꇬꑌꇭꀧꀋꌸ",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ꀀ ꀳ ꁥ ꂘ ꃊ ꃽ ꄰ ꅢ ꆕ ꇇ ꇺ ꈭ ꉟ ꊒ ꋅ ꋷ ꌪ ꍜ ꎏ ꏂ ꏴ ꐧ ꑙ ꒌ"
+  },
+  "ik": {
+    "text": "Ё Б Д З К Н П Т Х Ш Ы Ю б д з к н р т х ш ы ю ў",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "io": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "is": {
+    "text": "Kæmi ný öxi hér ykist þjófum nú bæði víl og ádrepa",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Á Æ É Í Ð Ó Ú Ý Þ á æ é í ð ó ú ý þ"
+  },
+  "it": {
+    "text": "Ma la volpe, col suo balzo, ha raggiunto il quieto Fido.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "À È É Ì Í Ï Ò Ó Ù Ú à è é ì í ï ò ó ù ú"
+  },
+  "iu": {
+    "text": "ᐁ ᐋ ᐸ ᑐ ᑭ ᒉ ᒑ ᒨ ᓃ ᓔ ᓪ ᓴ ᔂ ᔫ ᕇ ᕔ ᕝ ᕼ ᖄ ᖐ ᖠ ᖨ ᙯ ᙶ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ja": {
+    "text": "私はガラスを食べられます。それは私を傷つけません。",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "々 ギ 乙 偽 励 哀 夕 審 庸 慈 採 暫 横 淡 狙 眼 節 翻 菊 詔 趣 酔 難 齢"
+  },
+  "jv": {
+    "text": "Aku bisa mangan kaca tanpa lara",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ꦄ ꦆ ꦉ ꦋ ꦎ ꦐ ꦓ ꦕ ꦗ ꦚ ꦜ ꦟ ꦡ ꦤ ꦦ ꦩ ꦫ ꦭ ꦰ ꦲ ꧒ ꧔ ꧗ ꧙"
+  },
+  "ka": {
+    "text": "მინას ვჭამ და არა მტკივა.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "ა ბ დ ე ზ თ ი ლ მ ო პ ჟ ს ტ უ ქ ღ შ ჩ ც წ ჭ ჯ ჰ"
+  },
+  "kaa": {
+    "text": "Ё В Ж Й М Р У Ц Ъ Э а д з л о с х ш ы я ғ Ң Ҳ ә",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "kab": {
+    "text": "Č č Ɛ Ɣ Ǧ ǧ ɛ ɣ Ḍ ḍ Ḥ ḥ Ṣ ṣ Ṭ ṭ Ẓ ẓ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "kaw": {
+    "text": "𑼂 𑼅 𑼈 𑼊 𑼍 𑼏 𑼓 𑼕 𑼘 𑼚 𑼝 𑼟 𑼢 𑼤 𑼧 𑼩 𑼬 𑼮 𑼱 𑼳 𑽒 𑽔 𑽗 𑽙",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "khb": {
+    "text": "ᦅᦵᦂᧁᧉ ᦂᦲᧃ ᦺᦡᧉ ᦢᧈ ᦵᦔᧃ ᦵᦈᧇ ᦎᦷᧅ",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ᦀ ᦃ ᦇ ᦊ ᦎ ᦑ ᦕ ᦘ ᦜ ᦟ ᦣ ᦦ ᦪ ᦱ ᦵ ᦸ ᦼ ᦿ ᧃ ᧆ ᧐ ᧓ ᧗ ᧚"
+  },
+  "ki": {
+    "text": "A C F H K M O R T W Y a d f h k m p r t w y ĩ ũ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "kj": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "kk": {
+    "text": "А Г З К Н С Ф Ч Ъ Ю б д и л о т х ш ы я ғ Ң Ә ө",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "kl": {
+    "text": "Á Â Ã Æ Ê Í Î Ø Ú Û á â å æ ê í î ø ú û Ĩ ĸ Ũ ũ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "km": {
+    "text": "ខ្ញុំអាចញ៉ាំកញ្ចក់បាន វាមិនធ្វើឲ្យខ្ញុំឈឺទេ",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ក គ ង ឆ ឈ ដ ឌ ណ ថ ធ ប ព ម រ វ ហ អ ឦ ឩ ឫ ឭ ឯ ឱ ឳ"
+  },
+  "kn": {
+    "text": "ನಾನು ಗಾಜನ್ನು ತಿನ್ನಬಲ್ಲೆ ಮತ್ತು ಅದರಿಂದ ನನಗೆ ನೋವಾಗುವುದಿಲ್ಲ.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "ಅ ಇ ಉ ಌ ಏ ಒ ಔ ಗ ಙ ಛ ಝ ಟ ಢ ತ ದ ನ ಫ ಮ ರ ಲ ವ ಸ ೞ ೡ"
+  },
+  "ko": {
+    "text": "나는 유리를 먹을 수 있어요. 그래도 아프지 않아요.",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ㄱ 갖 군 꼿 넛 닭 듬 람 른 묽 봄 뽄 솔 썩 억 웝 젤 쨉 쳅 켐 텔 펜 헷 힝"
+  },
+  "kok": {
+    "text": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "kr": {
+    "text": "A C F H K M O R T W Y a d f h k m p r t w y ǝ ɍ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ks": {
+    "text": "ब’ छस न’ ज़ानान, तोहय हेकिवा दुबार’ वॅनिथ ।",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "ؠ ء أ ؤ ئ ب غ ف ق م ن و ٳ ٹ پ ڈ ڑ ژ ک ں ھ ۃ ی ے"
+  },
+  "ku-am": {
+    "text": "А Г Е И Л О Р У Ч Ъ а г ж й л о с ф ч ъ һ Ӧ Ԛ ԝ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ku-iq": {
+    "text": "ئ ا ت ج ح د ر ز ش ع غ ق ل ن ه و چ ڒ ژ ک گ ڵ ی ێ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ku-ir": {
+    "text": "ئ ا ت ج ح د ر ز ش ع غ ق ل ن ه و چ ڒ ژ ک گ ڵ ی ێ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ku-tr": {
+    "text": "Ç Ê Î Û ç ê î û Ş ş",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "kum": {
+    "text": "Ё В Е З К Н Р У Ц Ш Ы Ю б д з й м п т х ш ъ э ё",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "kv": {
+    "text": "Ё Б Д З К Н Р У Ц Щ Ь Я в е и л о с ф ч ъ э ё ӧ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "kw": {
+    "text": "Mý a yl dybry gwéder hag éf ny wra ow ankenya.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ā ā Ē ē Ī ī Ō ō Ū ū Ȳ ȳ"
+  },
+  "kwm": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ky": {
+    "text": "Ё В Е И Л О С Ф Ч Ъ Э а г ж й м п т х ш ы ю Ң ү",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "la": {
+    "text": "Sic surgens, dux, zelotypos quam karus haberis",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ā ā Ē ē Ī ī Ĭ ĭ Ō ō Ŏ ŏ Ū ū Ŭ ŭ"
+  },
+  "lah": {
+    "text": "ء آ أ ؤ ا ب غ ف ق ل م ن ٹ پ چ ڈ ڑ ژ ک گ ھ ۃ ی ے",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "lb": {
+    "text": "Â Ä È É Ê Ë Î Ô Ö Û Ü ß â ä è é ê ë î ô ö û ü",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "lep": {
+    "text": "ᰀ ᰂ ᰄ ᰆ ᰈ ᰊ ᰍ ᰏ ᰑ ᰓ ᰕ ᰗ ᰙ ᰛ ᰝ ᰟ ᰡ ᰣ ᱂ ᱄ ᱆ ᱈ ᱍ ᱏ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "lez": {
+    "text": "Ё Б Д З Й М П Т Х Ш Ы Ю а г ж й м п т х ч ъ э ё",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "lg": {
+    "text": "A C F H J M O Q S V X Z c e g j l n p s u w z ŋ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "li": {
+    "text": "Ä È Ë Ó Ö ä è ë ó ö",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "lif": {
+    "text": "ᤀ ᤂ ᤃ ᤅ ᤇ ᤉ ᤊ ᤌ ᤎ ᤐ ᤑ ᤓ ᤕ ᤗ ᤘ ᤚ ᤜ ᤞ ᥆ ᥈ ᥊ ᥌ ᥍ ᥏",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "lij": {
+    "text": "À È É Ì Í Ï Ò Ó Ù Ú à â æ ç è é ì í ï ñ ò ó ù ú",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "lis": {
+    "text": "ꓐ ꓒ ꓔ ꓖ ꓘ ꓚ ꓜ ꓞ ꓠ ꓢ ꓤ ꓦ ꓧ ꓩ ꓫ ꓭ ꓯ ꓱ ꓳ ꓵ ꓷ ꓹ ꓻ ꓽ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ln": {
+    "text": "Á Â É Ê Í Î Ô Ú Û á â é ê í î ó ô ú Ě ě Ɔ Ɛ ɔ ɛ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "lo": {
+    "text": "ຂ້ອຍກິນແກ້ວໄດ້ ມັນບໍ່ເຮັດໃຫ້ຂ້ອຍເຈັບ",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ກ ຄ ງ ຊ ດ ຕ ທ ບ ຜ ຝ ຟ ຢ ຣ ວ ຫ ອ ຯ າ ຽ ເ ໂ ໄ ໆ ໝ"
+  },
+  "lt": {
+    "text": "Įlinkdama fechtuotojo špaga sublykčiojusi pragręžė apvalų arbūzą.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ą ą Č č Ė ė Ę ę Į į Š š Ū ū Ų ų Ž ž"
+  },
+  "lv": {
+    "text": "Sarkanās jūrascūciņas peld pa jūru.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ā ā Č č Ē ē ģ Ī ī Ķ ķ Ļ ļ Ņ ņ Ō ō Ŗ Š š Ū ū Ž ž"
+  },
+  "lzh": {
+    "text": "一 冘 喉 夭 岤 急 捷 暹 樛 浯 炑 球 睼 笆 繚 艂 蕾 衽 豊 迫 錆 靼 魻 嗀",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "mag": {
+    "text": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "mai": {
+    "text": "हम अहाँ के बिना कुछ नै छिय",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह"
+  },
+  "mfe": {
+    "text": "À Â Ç È É Ë Î Ï Ù Û Ü â æ è é ê î ï ô û ü ÿ œ Ÿ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "mg": {
+    "text": "A C F H K M O R T W Y a d f h k m p r t w y Ô ô",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "mh": {
+    "text": "Ā ā Ļ ļ Ņ ņ Ō ō Ū ū",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "mhr": {
+    "text": "Ё В Е З К Н Р У Ц Ш Ы Ю б д з й м п т х ш ъ э ё",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "mi": {
+    "text": "Ā ā Ē ē Ī ī Ō ō Ū ū Ḵ ḵ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "mid": {
+    "text": "ࡀ ࡁ ࡂ ࡃ ࡄ ࡅ ࡆ ࡇ ࡈ ࡉ ࡊ ࡋ ࡍ ࡎ ࡏ ࡐ ࡑ ࡒ ࡓ ࡔ ࡕ ࡖ ࡗ ࡘ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "miq": {
+    "text": "Á É Í Ñ Ó Ú Ü á ã é í ñ ó õ ú ü ĩ ũ ẽ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "mjw": {
+    "text": "À Ç È É Ê Ë Ï Ñ Ô Ö à ç è é ê ë ï ñ ô ö",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "mk": {
+    "text": "Можам да јадам стакло, а не ме штета.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ѐ Ѕ Љ Њ Ѝ А В Г Е З К М Н П С У Х Ц Ш ѓ ј љ ќ џ"
+  },
+  "ml": {
+    "text": "വേദനയില്ലാതെ കുപ്പിചില്ലു് എനിയ്ക്കു് കഴിയ്ക്കാം.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "അ ഇ ഉ ഌ ഏ ഒ ഔ ഗ ങ ഛ ഝ ട ഢ ത ദ ന ഫ മ ര ല ഴ ഷ ഹ ൡ"
+  },
+  "mn-cn": {
+    "text": "ᠪᠢ ᠰᠢᠯᠢ ᠢᠳᠡᠶᠦ ᠴᠢᠳᠠᠨᠠ ᠂ ᠨᠠᠳᠤᠷ ᠬᠣᠤᠷᠠᠳᠠᠢ ᠪᠢᠰᠢ",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ᠠ ᠥ ᠫ ᠰ ᠶ ᠻ ᡁ ᡆ ᡌ ᡑ ᡗ ᡜ ᡢ ᡧ ᡭ ᡲ ᢀ ᢇ ᢍ ᢒ ᢘ ᢝ ᢣ ᢨ"
+  },
+  "mn-mn": {
+    "text": "ᠪᠢ ᠰᠢᠯᠢ ᠢᠳᠡᠶᠦ ᠴᠢᠳᠠᠨᠠ ᠂ ᠨᠠᠳᠤᠷ ᠬᠣᠤᠷᠠᠳᠠᠢ ᠪᠢᠰᠢ",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ё В Е И Л О С Ф Ч Ъ Э а г ж й м п т х ш ы ю Ү ө"
+  },
+  "mni": {
+    "text": "ꫠ ꫣ ꫥ ꫨ ꫪ ꫴ ꯁ ꯄ ꯆ ꯉ ꯋ ꯎ ꯐ ꯓ ꯕ ꯘ ꯚ ꯝ ꯟ ꯢ ꯱ ꯴ ꯶ ꯹",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "mnw": {
+    "text": "က ဂ ဃ စ ဇ ဉ ည ဌ ဎ တ ထ ဓ ပ ဗ ဘ ယ လ သ ဟ အ ဤ ဦ ဧ ဪ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "mo": {
+    "text": "Â î ș Ё В Е Й М П Т Ц Щ Ь Я г ж й м р у ц щ э ё",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "mr": {
+    "text": "मी काच खाऊ शकतो, मला ते दुखत नाही.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह"
+  },
+  "mro": {
+    "text": "𖩀 𖩂 𖩃 𖩅 𖩇 𖩉 𖩊 𖩌 𖩎 𖩐 𖩑 𖩓 𖩕 𖩗 𖩘 𖩚 𖩜 𖩞 𖩠 𖩢 𖩤 𖩦 𖩧 𖩩",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ms": {
+    "text": "Saya boleh makan kaca dan ia tidak mencederakan saya.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "A C E H J L N Q S U W Y b d f h j m o q s v x z"
+  },
+  "mt": {
+    "text": "À È Ì Î Ò Ù à è ì î ò ù Ċ ċ Ġ ġ Ħ ħ Ż ż",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "my": {
+    "text": "ကျွန်တော် ကျွန်မ မှန်စားနိုင်တယ်။ ၎င်းကြောင့် ထိခိုက်မှုမရှိပါ။",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "က ဂ ဃ စ ဇ ဉ ည ဌ ဎ တ ထ ဓ ပ ဗ ဘ ယ လ သ ဟ အ ဤ ဦ ဧ ဪ"
+  },
+  "na": {
+    "text": "Ã Ñ Õ ã ñ õ Ũ ũ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "nan": {
+    "text": "À 兮 啥 夏 岊 怒 捚 暢 樈 浢 灸 珵 睧 竹 繒 舸 蕷 衴 豆 迦 錂 靺 魺 嗀",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "nb": {
+    "text": "Vår sære Zulu fra badeøya spilte jo whist og quickstep i min taxi.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "À Å Æ É Ê Ò Ó Ô Ø à å æ é ê ò ó ô ø"
+  },
+  "nds": {
+    "text": "A D F I K N P S U X Z c e h j m o r t w y Ö ß ü",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ne": {
+    "text": "के तपाईँ मसँग नाच्न चाहनुहुन्छ ?",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "अ इ ऊ ए ओ ख घ च झ ट ड त द प ब म ल श स ० २ ४ ७ ९"
+  },
+  "ng": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "nhn": {
+    "text": "Á É Í Ñ Ó Ú Ü á é í ñ ó ú ü ā ō",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "niu": {
+    "text": "À Ç È É Ê Ë Ï Ñ Ô Ö à ç é ê ë ï ñ ô ö ā ē ī ō ū",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "nl": {
+    "text": "Pa's wijze lynx bezag vroom het fikse aquaduct.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Á Â È É Ê Ë Ï Ó Ô Ö Û Ü á â è é ê ë ï ó ô ö û ü"
+  },
+  "nn": {
+    "text": "Eg kan eta glas utan å skada meg.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "À Ä Å Æ É Ê Ò Ó Ô Ö Ø Ü à ä å æ é ê ò ó ô ö ø ü"
+  },
+  "nnp": {
+    "text": "𞋀 𞋂 𞋅 𞋇 𞋉 𞋌 𞋎 𞋐 𞋒 𞋕 𞋗 𞋙 𞋜 𞋞 𞋠 𞋣 𞋥 𞋧 𞋩 𞋰 𞋲 𞋴 𞋷 𞋹",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "no": {
+    "text": "Vår sære Zulu fra badeøya spilte jo whist og quickstep i min taxi.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "À Å Æ É Ê Ò Ó Ô Ø à å æ é ê ò ó ô ø"
+  },
+  "nqo": {
+    "text": "߀ ߂ ߄ ߆ ߈ ߊ ߌ ߎ ߐ ߒ ߔ ߖ ߗ ߙ ߛ ߝ ߟ ߡ ߣ ߥ ߧ ߩ ߴ ߺ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "nr": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "nso": {
+    "text": "A C F H K M P R U W Z b e g j l o q t v y Ê ô š",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "nv": {
+    "text": "Tsésǫʼ yishą́ągo bííníshghah dóó doo shił neezgai da.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Á É Í Ó á é í ó Ą ą Ę ę Į į Ł ł Ǫ ǫ ʼ"
+  },
+  "ny": {
+    "text": "A C F H J M O Q S V X Z c e g j l n p s u w z ŵ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "oc": {
+    "text": "Pòdi manjar de veire, me nafrariá pas.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "À Á Ç È É Í Ò Ó Ú à á ç è é í ò ó ú"
+  },
+  "om": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "or": {
+    "text": "ମୁଁ କାଚ ଖାଇପାରେ ଏବଂ ତାହା ମୋର କ୍ଷତି କରିନଥାଏ।.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "ଅ ଇ ଉ ଌ ଐ ଔ ଖ ଘ ଚ ଝ ଟ ଡ ଣ ଥ ଧ ଫ ଭ ଯ ଲ ଶ ସ ଡ଼ ୟ ୡ"
+  },
+  "os": {
+    "text": "Ё В Е З К Н Р У Ц Ш Ы Ю б д з й м п т х ш ъ э ё",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "osa": {
+    "text": "𐒰 𐒳 𐒶 𐒹 𐒼 𐒿 𐓃 𐓆 𐓉 𐓌 𐓏 𐓒 𐓙 𐓜 𐓟 𐓢 𐓥 𐓨 𐓬 𐓯 𐓲 𐓵 𐓸 𐓻",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ota": {
+    "text": "ء ئ ا ة ت ج ح د ر ز ش ص ط ظ غ ف ك م ن و پ ژ ڭ ی",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "otk": {
+    "text": "𐰀 𐰃 𐰆 𐰉 𐰍 𐰐 𐰓 𐰖 𐰙 𐰜 𐰟 𐰢 𐰦 𐰩 𐰬 𐰯 𐰲 𐰵 𐰸 𐰻 𐰿 𐱂 𐱅 𐱈",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "oui": {
+    "text": "𐽰 𐽱 𐽲 𐽳 𐽴 𐽵 𐽶 𐽷 𐽸 𐽹 𐽺 𐽻 𐽼 𐽽 𐽾 𐽿 𐾀 𐾁",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "pa": {
+    "text": "ਮੈਂ ਕੱਚ ਖਾ ਸਕਦਾ ਹਾਂ, ਮੈਨੂੰ ਇਸ ਨਾਲ ਸੱਟ ਨਹੀਂ ਲੱਗਦੀ",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ਅ ਇ ਉ ਏ ਔ ਖ ਘ ਚ ਜ ਞ ਠ ਢ ਥ ਧ ਪ ਬ ਮ ਰ ਲ਼ ਸ਼ ਖ਼ ਜ਼ ੲ ੴ"
+  },
+  "pa-pk": {
+    "text": "ਮੈਂ ਗਲਾਸ ਖਾ ਸਕਦਾ ਹਾਂ ਅਤੇ ਇਸ ਨਾਲ ਮੈਨੂੰ ਕੋਈ ਤਕਲੀਫ ਨਹੀਂ.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "ء آ أ ؤ ا ب غ ف ق ل م ن ٹ پ چ ڈ ڑ ژ ک گ ھ ۃ ی ے"
+  },
+  "pal": {
+    "text": "𐭠 𐭡 𐭢 𐭣 𐭥 𐭦 𐭧 𐭨 𐭩 𐭪 𐭫 𐭬 𐭮 𐭯 𐭰 𐭱 𐭲 𐭸 𐭹 𐭺 𐭼 𐭽 𐭾 𐭿",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "pap-an": {
+    "text": "Á È É Í Ñ Ò Ó Ù Ú Ü á è é í ñ ò ó ù ú ü",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "pap-aw": {
+    "text": "A C F H J M O Q S V X Z c e g j l n p s u w z ñ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "peo": {
+    "text": "𐎠 𐎢 𐎤 𐎦 𐎨 𐎪 𐎭 𐎯 𐎱 𐎳 𐎵 𐎷 𐎹 𐎻 𐎽 𐎿 𐏁 𐏃 𐏊 𐏌 𐏎 𐏑 𐏓 𐏕",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "pgd": {
+    "text": "𐨀 𐨑 𐨓 𐨖 𐨙 𐨛 𐨝 𐨟 𐨡 𐨣 𐨥 𐨧 𐨨 𐨪 𐨬 𐨮 𐨰 𐨲 𐨴 𐩀 𐩂 𐩄 𐩆 𐩈",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "pgl": {
+    "text": "ᚁ ᚂ ᚃ ᚄ ᚅ ᚆ ᚈ ᚉ ᚊ ᚋ ᚌ ᚍ ᚎ ᚏ ᚐ ᚑ ᚒ ᚓ ᚕ ᚖ ᚗ ᚘ ᚙ ᚚ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "phn": {
+    "text": "𐤀 𐤁 𐤂 𐤄 𐤅 𐤆 𐤇 𐤈 𐤉 𐤋 𐤌 𐤍 𐤎 𐤏 𐤐 𐤒 𐤓 𐤔 𐤕 𐤖 𐤗 𐤙 𐤚 𐤛",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "pl": {
+    "text": "Pchnąć w tę łódź jeża lub ośm skrzyń fig.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ó ó Ą ą Ć ć Ę ę Ł ł Ń ń Ś ś Ź ź Ż ż"
+  },
+  "ps-af": {
+    "text": "ء أ ئ ب ت ج د ر س ص ط ع ف ل ن و ټ ځ ډ ږ ښ ګ ی ې",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ps-pk": {
+    "text": "ء أ ئ ب ت ج د ر س ص ط ع ف ل ن و ټ ځ ډ ږ ښ ګ ۍ ے",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "pt": {
+    "text": "Vejam a bruxa da raposa Salta-Pocinhas e o cão feliz que dorme regalado.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "À Á Ã Ç È É Í Ò Ó Ô Ú Ü à á ã ç è é í ò ó ô ú ü"
+  },
+  "qu": {
+    "text": "A C F H J M O Q T V X a c f h j m o q t v x Ñ ˈ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "quz": {
+    "text": "A C F H J M O Q T V X a c f h j m o q t v x Ñ ˈ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "raj": {
+    "text": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "rhg": {
+    "text": "𐴀 𐴂 𐴄 𐴆 𐴈 𐴊 𐴌 𐴎 𐴐 𐴒 𐴔 𐴖 𐴗 𐴙 𐴛 𐴝 𐴟 𐴡 𐴣 𐴱 𐴳 𐴵 𐴷 𐴹",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "rif": {
+    "text": "À Ç É Ê Ë Ñ Ô Ö à è é ê ï ñ ô č ř ǧ ɛ ḍ ḥ ṛ ṭ ẓ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "rm": {
+    "text": "À È É Ì Î Ò Ù à è é ì î ò ù",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "rn": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ro": {
+    "text": "Fumegând hipnotic sașiul azvârle mreje în bălți.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Â Î â î Ă ă Ș ș Ț ț"
+  },
+  "ru": {
+    "text": "В чащах юга жил бы цитрус? Да, но фальшивый экземпляр!",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ё В Е З К Н Р У Ц Ш Ы Ю б д з й м п т х ш ъ э ё"
+  },
+  "rw": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sa": {
+    "text": "काचं शक्नोम्यत्तुम् । नोपहिनस्ति माम् ॥",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह"
+  },
+  "sah": {
+    "text": "Ё В Ж Й М П У Ц Щ Ь а г ж й н р у ц ъ э ё Ҥ Һ ә",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sam": {
+    "text": "ࠀ ࠁ ࠂ ࠃ ࠄ ࠅ ࠆ ࠇ ࠈ ࠉ ࠊ ࠋ ࠍ ࠎ ࠏ ࠐ ࠑ ࠒ ࠓ ࠔ ࠕ ࠚ ࠤ ࠨ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sat": {
+    "text": "᱐ ᱒ ᱔ ᱖ ᱘ ᱚ ᱜ ᱞ ᱠ ᱢ ᱤ ᱦ ᱧ ᱩ ᱫ ᱭ ᱯ ᱱ ᱳ ᱵ ᱷ ᱹ ᱻ ᱽ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sc": {
+    "text": "À È Ì Ò Ù à è ì ò ù",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sco": {
+    "text": "A C F H K M O R T W Y a d f h k m p r t w y Ȝ ʒ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sd": {
+    "text": "توهان ملي ڏاڍو سٺو لڳو",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "ء ؤ ب ث ح ذ ز ش ض ع ف ل ه ي ٻ ٿ ڃ چ ڊ ڏ ڦ ڪ ڳ ھ"
+  },
+  "se": {
+    "text": "Á á Č č Đ đ Ŋ ŋ Š š Ŧ ŧ Ž ž",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sel": {
+    "text": "Ё В Е З К Н Р У Ц Ш Ы Ю б д з й м п т х ш ъ э ё",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sg": {
+    "text": "Â Ä Ê Ë Î Ï Ô Ö Û Ü â ä ê ë î ï ô ö û ü",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sgs": {
+    "text": "õ ā Ą ą Č č ē Ė ė Ę ę ī Į į ō Š š Ū ū Ų ų Ž ž",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sh": {
+    "text": "Ć Đ ž Њ В Ж Л П Ф Ш Э б ж к п у ш ь ј џ Ҡ Ҫ һ ө",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "shn": {
+    "text": "က ဂ ဃ စ ဇ ဉ ည ဌ ဎ တ ထ ဓ ပ ဗ ဘ ယ လ သ ဟ အ ဤ ဦ ဧ ဪ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "shs": {
+    "text": "7 C G I L N P R T W Y c g i l n p r t w y É á í",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "si": {
+    "text": "මනොපුබ්‌බඞ්‌ගමා ධම්‌මා, මනොසෙට්‌ඨා මනොමයා; මනසා චෙ පදුට්‌ඨෙන, භාසති වා කරොති වා; තතො නං දුක්‌ඛමන්‌වෙති, චක්‌කංව වහතො පදං.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "අ ඇ ඊ ඌ එ ඔ ඖ ඛ ඞ ච ජ ඥ ඨ ණ ත ද ඳ ඵ භ ය ල ශ හ ෆ"
+  },
+  "sid": {
+    "text": "ሀ ል ሚ ረ ሻ ቈ ቘ ቧ ቴ ኁ ኑ ኝ ኩ ዂ ዑ ዟ ያ ጀ ጌ ጤ ጰ ጽ ፊ ፖ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sk": {
+    "text": "Starý kôň na hŕbe kníh žuje tíško povädnuté ruže, na stĺpe sa ďateľ učí kvákať novú ódu o živote.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Á Ä Í Ó Ú Ý ä é í ô ú Č č ď Ĺ Ľ ľ Ň Ŕ ŕ š Ť Ž ž"
+  },
+  "sl": {
+    "text": "Šerif bo za vajo spet kuhal domače žgance.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ć ć Č č Đ đ Š š Ž ž"
+  },
+  "sm": {
+    "text": "A C F H J L O Q S U X Z b d g i k m p r t v y ʻ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sma": {
+    "text": "Ä Å Ï Ö ä å ï ö",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "smj": {
+    "text": "Á Ä Å Ñ á ä å ñ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "smn": {
+    "text": "Á Â Ä á â ä Č č Đ đ Ŋ ŋ Š š Ž ž",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sms": {
+    "text": "Â Ä Å â ä å õ Č č đ Ŋ ŋ Š š Ž Ʒ Ǥ ǥ Ǧ ǧ Ǩ Ǯ ǯ ʒ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sn": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "so": {
+    "text": "𐒀 𐒂 𐒃 𐒅 𐒇 𐒈 𐒊 𐒌 𐒎 𐒏 𐒑 𐒓 𐒔 𐒖 𐒘 𐒙 𐒛 𐒝 𐒡 𐒢 𐒤 𐒦 𐒧 𐒩",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sog": {
+    "text": "𐼰 𐼱 𐼲 𐼳 𐼴 𐼵 𐼷 𐼸 𐼹 𐼺 𐼻 𐼼 𐼽 𐼾 𐼿 𐽀 𐽁 𐽂 𐽄 𐽅 𐽑 𐽒 𐽓 𐽔",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sq": {
+    "text": "Unë mund të ha qelq dhe nuk më gjen gjë.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "A C F H K M O R T W Y a d f h k m p r t w y Ë ë"
+  },
+  "sr": {
+    "text": "Чешће цeђење мрeжастим џаком побољшава фертилизацију генских хибрида.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ђ Њ Џ В Д З К Н Р Т Х Ч б г ж и м п с ф ц ђ љ џ"
+  },
+  "ss": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "st": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "su": {
+    "text": "ᮃ ᮅ ᮇ ᮉ ᮋ ᮍ ᮏ ᮑ ᮓ ᮕ ᮗ ᮙ ᮜ ᮞ ᮠ ᮯ ᮱ ᮳ ᮵ ᮷ ᮹ ᮻ ᮽ ᮿ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sux": {
+    "text": "𒀀 𒀵 𒁫 𒂠 𒃖 𒄋 𒅀 𒅶 𒆫 𒇡 𒈖 𒉋 𒊁 𒊶 𒋫 𒌡 𒍖 𒎌 𒐧 𒑜 𒒣 𒓘 𒔎 𒕃",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "suz": {
+    "text": "𑯀 𑯂 𑯄 𑯅 𑯇 𑯉 𑯋 𑯍 𑯏 𑯐 𑯒 𑯔 𑯖 𑯘 𑯚 𑯛 𑯝 𑯟 𑯰 𑯲 𑯴 𑯵 𑯷 𑯹",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "sv": {
+    "text": "Flygande bäckasiner söka strax hwila på mjuka tuvor.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "À Á Ä Å É Ë Ö Ü à á ä å é ë ö ü"
+  },
+  "sw": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "syr": {
+    "text": "ܐ ܒ ܓ ܕ ܖ ܗ ܘ ܙ ܚ ܜ ܝ ܞ ܟ ܠ ܡ ܣ ܤ ܥ ܦ ܧ ܨ ܪ ܫ ܬ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "szl": {
+    "text": "Ã Ó Ô Õ ó Ą ą Ć ć Ę ę Ł ł Ń ń Ō Ŏ Ś ś Ů Ź ź Ż ż",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ta": {
+    "text": "நான் கண்ணாடி சாப்பிடுவேன், அதனால் எனக்கு ஒரு கேடும் வராது.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "ஃ அ இ ஈ ஊ எ ஐ ஒ ஔ க ச ஜ ட ண ந ன ம ய ற ல ழ வ ஸ ஹ"
+  },
+  "tbw": {
+    "text": "ᝠ ᝡ ᝢ ᝣ ᝤ ᝥ ᝦ ᝧ ᝨ ᝩ ᝪ ᝫ ᝬ ᝮ ᝯ ᝰ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "tcy": {
+    "text": "ಅ ಇ ಉ ಌ ಏ ಒ ಔ ಗ ಙ ಛ ಝ ಟ ಢ ತ ದ ನ ಫ ಮ ರ ಲ ವ ಸ ೞ ೡ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "tdd": {
+    "text": "ᥐᥦᥝᥲ ᥐᥤᥢ ᥘᥭᥲ ᥕᥧᥱ, ᥟᥛᥱ ᥞᥥᥖᥱ ᥞᥬᥲ ᥖᥨᥝ ᥓᥥᥙᥲ",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ᥐ ᥑ ᥓ ᥔ ᥖ ᥗ ᥙ ᥚ ᥜ ᥝ ᥟ ᥠ ᥢ ᥣ ᥥ ᥦ ᥨ ᥩ ᥫ ᥬ ᥰ ᥱ ᥳ ᥴ"
+  },
+  "te": {
+    "text": "నేను గాజు తినగలను అయినా నాకు యేమీ కాదు.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "అ ఇ ఉ ఌ ఏ ఒ ఔ ఖ ఘ ఛ ఝ ట డ ణ థ న ఫ భ య ఱ ళ ష హ ౡ"
+  },
+  "tg": {
+    "text": "Ё В Ж Й М Р У Ц Ъ Э а д з л о с х ш ы я ғ Ҳ Ӣ ӯ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "th": {
+    "text": "ฉันกินกระจกได้ แต่มันไม่ทำให้ฉันเจ็บ",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ก ฃ ฆ จ ซ ญ ฐ ฒ ด ท น ผ พ ม ร ฦ ศ ส อ ฯ ำ แ ไ ๆ"
+  },
+  "the": {
+    "text": "अ इ ऊ ऌ ऎ ऐ ओ क ग ङ ज ञ ठ ढ थ ध ऩ फ म र ल ऴ ष ह",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ti-er": {
+    "text": "ሀ ሌ መ ራ ሽ ቊ ቘ ቦ ቲ ች ኘ ኣ ኰ ዉ ዕ ዡ ዬ ጀ ጋ ጢ ጭ ጸ ፋ ፖ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ti-et": {
+    "text": "ሀ ል ሚ ረ ሻ ቈ ቘ ቧ ቴ ኁ ኑ ኝ ኩ ዂ ዑ ዟ ያ ጀ ጌ ጤ ጰ ጽ ፊ ፖ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "tig": {
+    "text": "ሀ ላ ሔ ሟ ሰ ቁ ቌ ቨ ታ ቼ ኖ ከ ኴ ዐ ዛ ዬ ዷ ጉ ጔ ጨ ጱ ጻ ፌ ፖ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "tk": {
+    "text": "Ä Ç Ö Ü Ý ä ç ö ü ý Ň ň Ş ş Ž ž",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "tl": {
+    "text": "Kaya kong kumain nang bubog at hindi ako masaktan.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "ᜀ ᜁ ᜂ ᜃ ᜄ ᜅ ᜆ ᜇ ᜈ ᜉ ᜊ ᜋ ᜌ ᜍ ᜎ ᜏ ᜐ ᜑ ᜟ"
+  },
+  "tn": {
+    "text": "A C F H K M P R U W Z b e g j l o q t v y Ê ô š",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "to": {
+    "text": "A C F H J L O Q S U X Z b d g i k m p r t v y ʻ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "tpi": {
+    "text": "À Ç È É Ê Ë Ï Ñ Ô Ö à ç è é ê ë ï ñ ô ö",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "tr": {
+    "text": "Pijamalı hasta yağız şoföre çabucak güvendi.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Â Ç Î Ö Û Ü â ç î ö û ü Ğ ğ İ ı Ş ş"
+  },
+  "ts": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "tt": {
+    "text": "Ё В Ж Й М П У Ц Щ Ь а г ж й н р у ц ъ э ё Ң Һ ә",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "tw": {
+    "text": "Metumi awe tumpan, ɜnyɜ me hwee.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Ã Ñ Õ ã ñ õ Ĩ ĩ Ũ ũ Ɔ Ɛ ɔ ɛ Ẽ ẽ Ỹ ỹ"
+  },
+  "txg": {
+    "text": "𗀀 𗄭 𗉙 𗎆 𗒲 𗗟 𗜋 𗠸 𗥤 𗪑 𗮽 𗳪 𗸖 𗽃 𘁯 𘆜 𘋈 𘏵 𘔡 𘙎 𘝺 𘢯 𘧛 𘴈",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ty": {
+    "text": "Ï ï Ā ā Ē ē Ī ī Ō ō Ū ū ʼ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "tyv": {
+    "text": "Ё В Е И Л О С Ф Ч Ъ Э а г ж й м п т х ш ы ю Ң ү",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ug": {
+    "text": "ئ ا ت ج د ر ز ش غ ق ك ل ن و ى پ چ ڭ گ ھ ۇ ۈ ې ە",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "uga": {
+    "text": "𐎀 𐎁 𐎃 𐎄 𐎅 𐎆 𐎈 𐎉 𐎊 𐎋 𐎍 𐎎 𐎏 𐎐 𐎒 𐎓 𐎔 𐎕 𐎗 𐎘 𐎙 𐎚 𐎜 𐎝",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "uk": {
+    "text": "Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів!",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Є А Г Ж Й М Р У Ц Щ Ь Я в е и л о с х ш ы ю і ґ"
+  },
+  "und-zmth": {
+    "text": "e^{iπ} + 1 = 0",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "µ Κ Χ ι τ ℎ ℝ 𝐉 𝐔 𝐟 𝐪 𝐵 𝐿 𝑊 𝑖 𝑡 𝑬 𝑷 𝒂 𝒍 𝒗 𝒩 𝕃 𝚥"
+  },
+  "und-zsye": {
+    "text": "☕ ◊ → ☺ ⚕ ✓",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "⌚ ⚫ ⬛ 🇰 🉑 🌛 🍇 🍣 🎂 🎩 🏆 👇 👣 👿 💛 💶 📒 📮 🔎 🔪 🕘 😇 😫 🙏"
+  },
+  "unknown": {
+    "text": "",
+    "kind": "characters",
+    "source": "project",
+    "alternatives": [
+      "p → ¬q, p ∴ ¬q",
+      "abgde + pq = W",
+      "E +, \"#$% *:",
+      "I E $ E B J C",
+      "m 4 c 4 d 4 a",
+      "    ",
+      "我能吞下玻璃而不伤身体",
+      "我能吞下玻璃而不傷身體",
+      "𫗦𤥗 𢦏𦝡",
+      "ㄅㄆㄇㄈㄉㄊ",
+      "一二三四五六七八九十",
+      "0123456789"
+    ]
+  },
+  "unm": {
+    "text": "À Ç È É Ê Ë Ï Ñ Ô Ö à ç è é ê ë ï ñ ô ö",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ur": {
+    "text": "میں کانچ کھا سکتا ہوں اور مجھے تکلیف نہیں ہوتی ۔",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "ء آ أ ؤ ا ب غ ف ق ل م ن ٹ پ چ ڈ ڑ ژ ک گ ھ ۃ ی ے"
+  },
+  "uz": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "vai": {
+    "text": "ꔀ ꔍ ꔚ ꔧ ꔳ ꕀ ꕍ ꕚ ꕧ ꕴ ꖁ ꖎ ꖚ ꖧ ꖴ ꗁ ꗎ ꗛ ꗨ ꗵ ꘁ ꘑ ꘞ ꘫ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "ve": {
+    "text": "Ḓ ḓ Ḽ ḽ Ṅ ṅ Ṋ ṋ Ṱ ṱ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "vi": {
+    "text": "Tôi có thể ăn thủy tinh mà không hại gì.",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "À Ê Õ á ì ù đ Ơ Ả Ẩ Ắ Ẵ ẹ ế ễ ị ố Ỗ Ờ Ợ Ứ ử ỳ ỹ"
+  },
+  "vo": {
+    "text": "A C F H J M O R T X Z b e g i l n p s v y Ä ä ü",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "vot": {
+    "text": "Ä Ö Ü ä ö ü Š š Ž ž",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "wa": {
+    "text": "Dji pou magnî do vêre, çoula m' freut nén må.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "Â Å Ç È É Ê Î Ô Û â å ç è é ê î ô û"
+  },
+  "wae": {
+    "text": "A D F I K N P S U X Z c e h j m o r t w y Ö ß ü",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "wal": {
+    "text": "ሀ ል ሚ ረ ሻ ቈ ቘ ቧ ቴ ኁ ኑ ኝ ኩ ዂ ዑ ዟ ያ ጀ ጌ ጤ ጰ ጽ ፊ ፖ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "wen": {
+    "text": "Ó ó Ć ć Č č Ě ě Ł ł Ń ń Ŕ ŕ Ř ř Ś ś Š š Ź ź Ž ž",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "wo": {
+    "text": "À Ã É Ë Ñ Ó à ã é ë ñ ó Ŋ ŋ",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "xag": {
+    "text": "𐔰 𐔲 𐔴 𐔷 𐔹 𐔻 𐔽 𐕀 𐕂 𐕄 𐕆 𐕈 𐕋 𐕍 𐕏 𐕑 𐕓 𐕖 𐕘 𐕚 𐕜 𐕟 𐕡 𐕣",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "xco": {
+    "text": "𐾰 𐾱 𐾲 𐾴 𐾵 𐾶 𐾷 𐾸 𐾹 𐾻 𐾼 𐾽 𐾾 𐾿 𐿀 𐿂 𐿃 𐿄 𐿅 𐿆 𐿇 𐿉 𐿊 𐿋",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "xcr": {
+    "text": "𐊠 𐊢 𐊤 𐊦 𐊨 𐊪 𐊭 𐊯 𐊱 𐊳 𐊵 𐊷 𐊹 𐊻 𐊽 𐊿 𐋁 𐋃 𐋆 𐋈 𐋊 𐋌 𐋎 𐋐",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "xh": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "xlc": {
+    "text": "𐊀 𐊁 𐊂 𐊄 𐊅 𐊆 𐊇 𐊉 𐊊 𐊋 𐊌 𐊍 𐊏 𐊐 𐊑 𐊒 𐊓 𐊕 𐊖 𐊗 𐊘 𐊚 𐊛 𐊜",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "xld": {
+    "text": "𐤠 𐤡 𐤢 𐤣 𐤤 𐤥 𐤧 𐤨 𐤩 𐤪 𐤫 𐤬 𐤭 𐤮 𐤯 𐤰 𐤱 𐤲 𐤴 𐤵 𐤶 𐤷 𐤸 𐤹",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "xmr": {
+    "text": "𐦀 𐦅 𐦋 𐦐 𐦕 𐦚 𐦠 𐦥 𐦪 𐦯 𐦵 𐦾 𐧃 𐧈 𐧎 𐧕 𐧚 𐧟 𐧥 𐧪 𐧯 𐧴 𐧺 𐧿",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "xna": {
+    "text": "𐪀 𐪁 𐪃 𐪄 𐪅 𐪇 𐪈 𐪉 𐪋 𐪌 𐪍 𐪏 𐪐 𐪒 𐪓 𐪔 𐪖 𐪗 𐪘 𐪚 𐪛 𐪜 𐪞 𐪟",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "xpr": {
+    "text": "𐭀 𐭁 𐭃 𐭄 𐭅 𐭆 𐭈 𐭉 𐭊 𐭋 𐭍 𐭎 𐭏 𐭐 𐭒 𐭓 𐭔 𐭕 𐭙 𐭚 𐭛 𐭜 𐭞 𐭟",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "xsa": {
+    "text": "𐩠 𐩡 𐩣 𐩤 𐩥 𐩧 𐩨 𐩩 𐩪 𐩬 𐩭 𐩮 𐩰 𐩱 𐩲 𐩴 𐩵 𐩶 𐩷 𐩹 𐩺 𐩻 𐩽 𐩾",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "xzh": {
+    "text": "𑱲 𑱳 𑱵 𑱶 𑱷 𑱸 𑱺 𑱻 𑱼 𑱽 𑱿 𑲀 𑲁 𑲂 𑲄 𑲅 𑲆 𑲇 𑲉 𑲊 𑲋 𑲌 𑲎 𑲏",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "yap": {
+    "text": "A C F H K M P R U W Z b e g j l o q t v y Ä ä ö",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "yi": {
+    "text": "איך קען עסן גלאָז און עס טוט מיר נישט װײ.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "א ב ג ד ו ז ח ט י ך כ ל מ ן נ ס ע ף פ ץ ק ר ש ת"
+  },
+  "yo": {
+    "text": "Mo lè je̩ dígí, kò ní pa mí lára.",
+    "kind": "sentence",
+    "source": "Pango",
+    "characters": "À Ã É Í Ó Õ Û â è ì ò ô ú Ě ĩ Ũ Ǎ ǐ Ǔ Ǹ ḿ Ẹ Ẽ ọ"
+  },
+  "yue": {
+    "text": "〇 㘭 㞾 㩒 㴓 㻗 䇏 䔻 䥲 䳭 効 喰 壳 慽 枱 焅 瞓 羗 譌 鎭 鴴 𠺝 𤶸 𪙛",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "yuw": {
+    "text": "À Ç È É Ê Ë Ï Ñ Ô Ö à ç è é ê ë ï ñ ô ö",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "za": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "zh": {
+    "text": "我能吞下玻璃而不伤身体",
+    "kind": "sentence",
+    "source": "project",
+    "alternatives": [
+      "我能吞下玻璃而不傷身體",
+      "𫗦𤥗 𢦏𦝡"
+    ]
+  },
+  "zh-cn": {
+    "text": "我能吞下玻璃而不伤身体",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ˇ 偃 即 喻 奎 岚 怄 拴 昭 楸 洹 烯 甯 砹 篷 耕 苋 虐 认 踞 酩 闻 驷 龠"
+  },
+  "zh-hk": {
+    "text": "我能吞下玻璃而不伤身体",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "〇 㘭 㞾 㩒 㴓 㻗 䇏 䔻 䥲 䳭 効 喰 壳 慽 枱 焅 瞓 羗 譌 鎭 鴴 𠺝 𤶸 𪙛"
+  },
+  "zh-mo": {
+    "text": "我能吞下玻璃而不傷身體",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "〇 㘭 㞾 㩒 㴓 㻗 䇏 䔻 䥲 䳭 効 喰 壳 慽 枱 焅 瞓 羗 譌 鎭 鴴 𠺝 𤶸 𪙛"
+  },
+  "zh-sg": {
+    "text": "我能吞下玻璃而不伤身体",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "ˇ 偃 即 喻 奎 岚 怄 拴 昭 楸 洹 烯 甯 砹 篷 耕 苋 虐 认 踞 酩 闻 驷 龠"
+  },
+  "zh-tw": {
+    "text": "我能吞下玻璃而不傷身體",
+    "kind": "sentence",
+    "source": "project",
+    "characters": "一 冘 喉 夭 岤 急 捷 暹 樛 浯 炑 球 睼 笆 繚 艂 蕾 衽 豊 迫 錆 靼 魻 嗀"
+  },
+  "zkt": {
+    "text": "𘬀 𘬔 𘬩 𘬽 𘭒 𘭦 𘭺 𘮏 𘮣 𘮸 𘯌 𘯠 𘯵 𘰉 𘰝 𘰲 𘱆 𘱛 𘱯 𘲃 𘲘 𘲬 𘳁 𘳕",
+    "kind": "characters",
+    "source": "Fontconfig"
+  },
+  "zu": {
+    "text": "A C E H J L N Q S U W Y b d f h j m o q s v x z",
+    "kind": "characters",
+    "source": "Fontconfig"
+  }
+}

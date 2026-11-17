@@ -1,0 +1,11 @@
+Language data
+=============
+
+language-samples.json retains the fixed language samples and per-entry source
+attribution previously maintained at the site directory root. It includes
+Pango samples, Fontconfig orthographies and project-maintained alternatives.
+
+language-names.json records the Simplified Chinese labels from the existing
+catalog: Babel/CLDR names plus the project's historical-language and Chinese
+regional overrides. New language tags need a reviewed Chinese name and sample.
+CLDR: https://cldr.unicode.org/ (Unicode data license).

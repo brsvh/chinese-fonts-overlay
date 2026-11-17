@@ -1,0 +1,5 @@
+[Makefile{,.am,.in}]
+indent_style = tab
+
+[*.{scm,c}]
+indent_size = 2
