@@ -61,4 +61,64 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru = {
+    fontInfo = {
+      languages = [
+        "bem"
+        "cmn"
+        "fj"
+        "hak"
+        "ho"
+        "ia"
+        "io"
+        "kj"
+        "kwm"
+        "lzh"
+        "ms"
+        "ng"
+        "nr"
+        "om"
+        "rn"
+        "rw"
+        "sn"
+        "ss"
+        "st"
+        "sw"
+        "ts"
+        "uz"
+        "xh"
+        "za"
+        "zh-tw"
+        "zu"
+      ];
+
+      licenseCost = "none";
+
+      notices = [
+        {
+          level = "caution";
+
+          text = ''
+            文鼎科技与王漢宗字型存在纠纷，应当避免商业使用 hanwangPackages.ming 中的如下字体：
+
+            - HanWangMingMedium，王漢宗中明體繁，wt002.ttf
+            - HanWangMingMediumChuIn，王漢宗中明體注音，wp010-05.ttf
+            - HanWangMingMediumPoIn1，王漢宗中明體破音一，wp110-05.ttf
+            - HanWangMingMediumPoIn2，王漢宗中明體破音二，wp210-05.ttf
+            - HanWangMingMediumPoIn3，王漢宗中明體破音三，wp310-05.ttf
+            - HanWangMingBold，王漢宗粗明體繁，wt003.ttf
+            - HanWangMingHeavy，王漢宗特明體繁，wt004.ttf
+          '';
+        }
+      ];
+
+      styles = [
+        "serif"
+        "song"
+      ];
+
+      vendor = "hanwang";
+    };
+  };
 }

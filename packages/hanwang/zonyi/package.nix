@@ -52,4 +52,59 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru = {
+    fontInfo = {
+      languages = [
+        "bem"
+        "cmn"
+        "fj"
+        "hak"
+        "ho"
+        "ia"
+        "io"
+        "kj"
+        "kwm"
+        "lzh"
+        "ms"
+        "ng"
+        "nr"
+        "om"
+        "rn"
+        "rw"
+        "sn"
+        "ss"
+        "st"
+        "sw"
+        "ts"
+        "uz"
+        "xh"
+        "za"
+        "zh-tw"
+        "zu"
+      ];
+
+      licenseCost = "none";
+
+      notices = [
+        {
+          level = "caution";
+
+          text = ''
+            文鼎科技与王漢宗字型存在纠纷，应当避免商业使用 hanwangPackages.zonyi 中的如下字体：
+
+            - HanWangZonYi，王漢宗綜藝體繁，wt040.ttf
+          '';
+        }
+      ];
+
+      styles = [
+        "art"
+        "hei"
+        "sans"
+      ];
+
+      vendor = "hanwang";
+    };
+  };
 }

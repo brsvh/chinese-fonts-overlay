@@ -67,4 +67,42 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru = {
+    fontInfo = {
+      languages = [
+        "bem"
+        "fj"
+        "ho"
+        "ia"
+        "io"
+        "kj"
+        "kwm"
+        "ms"
+        "ng"
+        "nr"
+        "om"
+        "rn"
+        "rw"
+        "sn"
+        "ss"
+        "st"
+        "sw"
+        "ts"
+        "uz"
+        "xh"
+        "za"
+        "zu"
+      ];
+
+      licenseCost = "commercialFree";
+
+      styles = [
+        "hei"
+        "sans"
+      ];
+
+      vendor = "alimama";
+    };
+  };
 }

@@ -63,4 +63,62 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru = {
+    fontInfo = {
+      languages = [
+        "aa"
+        "agr"
+        "an"
+        "bem"
+        "br"
+        "ch"
+        "es"
+        "eu"
+        "fil"
+        "fj"
+        "fur"
+        "gl"
+        "ho"
+        "ht"
+        "ia"
+        "id"
+        "ie"
+        "io"
+        "kj"
+        "kw"
+        "kwm"
+        "la"
+        "mg"
+        "ms"
+        "ng"
+        "nhn"
+        "nr"
+        "om"
+        "pap-an"
+        "pap-aw"
+        "rm"
+        "rn"
+        "rw"
+        "sc"
+        "sn"
+        "ss"
+        "st"
+        "sw"
+        "ts"
+        "uz"
+        "xh"
+        "za"
+        "zu"
+      ];
+
+      licenseCost = "commercialFree";
+
+      styles = [
+        "art"
+      ];
+
+      vendor = "justfont";
+    };
+  };
 }

@@ -77,4 +77,39 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru = {
+    fontInfo = {
+      languages = [
+        "ar"
+        "az-ir"
+        "fa"
+        "lah"
+        "ota"
+        "pa-pk"
+        "ps-af"
+        "ps-pk"
+        "ug"
+        "ur"
+      ];
+
+      licenseCost = "commercialFree";
+
+      notices = [
+        {
+          level = "warning";
+
+          text = ''
+            HarmonyOS Sans 系列字体允许嵌入式使用但不允许再分发，即您必须要伴随网站与应用一起分发字体，不能单独再分发字体，所以请您避免从本地 store 复制这些字体包向他人传播或上传到 substituter server。
+          '';
+        }
+      ];
+
+      styles = [
+        "cal"
+      ];
+
+      vendor = "huawei";
+    };
+  };
 }

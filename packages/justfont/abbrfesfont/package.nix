@@ -54,4 +54,89 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru = {
+    fontInfo = {
+      languages = [
+        "aa"
+        "agr"
+        "an"
+        "ay"
+        "ayc"
+        "bem"
+        "bi"
+        "br"
+        "bs"
+        "ch"
+        "cy"
+        "eo"
+        "es"
+        "et"
+        "eu"
+        "fi"
+        "fil"
+        "fj"
+        "fur"
+        "gl"
+        "ho"
+        "hr"
+        "ht"
+        "hu"
+        "ia"
+        "id"
+        "ie"
+        "io"
+        "it"
+        "ki"
+        "kj"
+        "kw"
+        "kwm"
+        "la"
+        "li"
+        "mg"
+        "ms"
+        "na"
+        "ng"
+        "nhn"
+        "nl"
+        "nr"
+        "nso"
+        "ny"
+        "om"
+        "pap-an"
+        "pap-aw"
+        "rm"
+        "rn"
+        "rw"
+        "sc"
+        "sg"
+        "sl"
+        "sma"
+        "smj"
+        "sn"
+        "ss"
+        "st"
+        "sv"
+        "sw"
+        "tn"
+        "ts"
+        "ty"
+        "uz"
+        "vo"
+        "vot"
+        "xh"
+        "yap"
+        "za"
+        "zu"
+      ];
+
+      licenseCost = "none";
+
+      styles = [
+        "cal"
+      ];
+
+      vendor = "justfont";
+    };
+  };
 }

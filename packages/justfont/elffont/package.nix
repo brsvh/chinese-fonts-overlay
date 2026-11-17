@@ -63,4 +63,18 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru = {
+    fontInfo = {
+      languages = [ ];
+
+      licenseCost = "commercialFree";
+
+      styles = [
+        "art"
+      ];
+
+      vendor = "justfont";
+    };
+  };
 }

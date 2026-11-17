@@ -53,4 +53,59 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru = {
+    fontInfo = {
+      languages = [
+        "bem"
+        "cmn"
+        "fj"
+        "hak"
+        "ho"
+        "ia"
+        "io"
+        "kj"
+        "kwm"
+        "lzh"
+        "ms"
+        "ng"
+        "nr"
+        "om"
+        "rn"
+        "rw"
+        "sn"
+        "ss"
+        "st"
+        "sw"
+        "ts"
+        "uz"
+        "xh"
+        "za"
+        "zh-tw"
+        "zu"
+      ];
+
+      licenseCost = "none";
+
+      notices = [
+        {
+          level = "caution";
+
+          text = ''
+            文鼎科技与王漢宗字型存在纠纷，应当避免商业使用 hanwangPackages.fangsong 中的如下字体：
+
+            - HanWangFangSongMedium，王漢宗中仿宋繁，wt024.ttf
+            - HanWang FangSongMedium-Gb5，王漢宗中仿宋簡 / 王汉宗中仿宋简，wts47.ttf
+          '';
+        }
+      ];
+
+      styles = [
+        "fangsong"
+        "serif"
+      ];
+
+      vendor = "hanwang";
+    };
+  };
 }

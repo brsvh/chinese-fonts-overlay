@@ -51,6 +51,10 @@ let
         runHook postInstall
       '';
 
+      passthru = {
+        isFontAggregate = true;
+      };
+
       version = "0";
     };
 

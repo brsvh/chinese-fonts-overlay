@@ -189,4 +189,137 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru = {
+    fontInfo = {
+      languages = [
+        "aa"
+        "af"
+        "agr"
+        "an"
+        "ay"
+        "ayc"
+        "bem"
+        "bg"
+        "bi"
+        "br"
+        "ch"
+        "cmn"
+        "co"
+        "da"
+        "de"
+        "en"
+        "es"
+        "eu"
+        "fil"
+        "fj"
+        "fo"
+        "fr"
+        "fur"
+        "fy"
+        "gd"
+        "gl"
+        "gn"
+        "gv"
+        "hak"
+        "haw"
+        "ho"
+        "ht"
+        "ia"
+        "id"
+        "ie"
+        "ig"
+        "io"
+        "is"
+        "it"
+        "ki"
+        "kj"
+        "kum"
+        "kwm"
+        "lb"
+        "lg"
+        "li"
+        "lij"
+        "lzh"
+        "mfe"
+        "mg"
+        "mhr"
+        "miq"
+        "mjw"
+        "ms"
+        "na"
+        "nan"
+        "nb"
+        "nds"
+        "ng"
+        "nhn"
+        "niu"
+        "nl"
+        "nn"
+        "no"
+        "nr"
+        "ny"
+        "oc"
+        "om"
+        "os"
+        "pap-an"
+        "pap-aw"
+        "pt"
+        "qu"
+        "quz"
+        "rm"
+        "rn"
+        "ru"
+        "rw"
+        "sc"
+        "sel"
+        "sg"
+        "sm"
+        "sma"
+        "smj"
+        "sn"
+        "sq"
+        "ss"
+        "st"
+        "sv"
+        "sw"
+        "to"
+        "tpi"
+        "ts"
+        "ty"
+        "unm"
+        "uz"
+        "vo"
+        "wa"
+        "wae"
+        "wo"
+        "xh"
+        "yap"
+        "yuw"
+        "za"
+        "zh-cn"
+        "zh-sg"
+        "zh-tw"
+        "zu"
+      ];
+
+      licenseCost = "personalFree";
+
+      notices = [
+        {
+          level = "warning";
+
+          text = ''
+            北京仓耳文字技术有限公司版权所有的商业付费字体不建议嵌入式使用，尽管其明确对个人非商业用途进行豁免，但用于个人网站仍然存在风险。
+          '';
+        }
+      ];
+
+      styles = [
+        "kai"
+      ];
+
+      vendor = "tsangertype";
+    };
+  };
 }

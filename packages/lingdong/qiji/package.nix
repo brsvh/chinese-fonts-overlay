@@ -72,4 +72,19 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru = {
+    fontInfo = {
+      languages = [ ];
+
+      licenseCost = "none";
+
+      styles = [
+        "serif"
+        "song"
+      ];
+
+      vendor = "lingdong";
+    };
+  };
 }

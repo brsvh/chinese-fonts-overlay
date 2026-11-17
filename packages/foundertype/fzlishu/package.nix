@@ -63,4 +63,74 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru = {
+    fontInfo = {
+      languages = [
+        "agr"
+        "bem"
+        "bg"
+        "cmn"
+        "fj"
+        "hak"
+        "ho"
+        "ia"
+        "io"
+        "kj"
+        "kum"
+        "kwm"
+        "lzh"
+        "mhr"
+        "ms"
+        "ng"
+        "nr"
+        "om"
+        "os"
+        "rn"
+        "ru"
+        "rw"
+        "sel"
+        "sn"
+        "ss"
+        "st"
+        "sw"
+        "ts"
+        "uz"
+        "xh"
+        "za"
+        "zh-cn"
+        "zh-sg"
+        "zu"
+      ];
+
+      licenseCost = "paid";
+
+      notices = [
+        {
+          level = "warning";
+
+          text = ''
+            普通用户家庭版和发布使用需要购买相应授权。字加提供注册职业设计师的个人非商业免费试用；免费试用不等于获得普通用户正式使用或商业发布授权。
+          '';
+
+          url = "https://nzj.foundertype.com/register.html";
+        }
+        {
+          level = "caution";
+
+          text = ''
+            本字体属于方正基础字体，发布使用需按用途取得授权；出版物和嵌入式应用需要相应的专项授权。未经许可，不得将字体文件再分发或上传到二进制缓存。
+          '';
+
+          url = "https://www.foundertype.com/index.php/About/powerbus.html";
+        }
+      ];
+
+      styles = [
+        "li"
+      ];
+
+      vendor = "foundertype";
+    };
+  };
 }
