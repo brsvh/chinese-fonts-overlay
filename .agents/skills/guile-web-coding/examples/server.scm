@@ -1,0 +1,35 @@
+(use-modules (fibers web server)
+             (ice-9 match)
+             (web request)
+             (web response)
+             (web uri))
+
+(define (handler request body)
+  "Exercise recovery before and after commitment in the selected HTTP backend."
+  (match (and (request-uri request) (uri-path (request-uri request)))
+    (#f (values (build-response #:code 204) #f))
+    ("/fail" (error "Expected handler failure"))
+    ("/stream-fail"
+     (values (build-response #:headers '((content-type . (text/plain))))
+             (lambda (port)
+               (display "Partial response" port)
+               (force-output port)
+               (error "Expected response producer failure"))))
+    (_ (values (build-response #:headers '((content-type . (text/plain))))
+               "Service available"))))
+
+(define listener (socket AF_INET SOCK_STREAM 0))
+(setsockopt listener SOL_SOCKET SO_REUSEADDR 1)
+(dynamic-wind
+  (lambda () #t)
+  (lambda ()
+    (bind listener AF_INET INADDR_LOOPBACK
+          (string->number (cadr (command-line))))
+    (listen listener 8)
+    (format #t "READY ~a~%" (sockaddr:port (getsockname listener)))
+    (force-output)
+    (run-server handler #:socket listener))
+  (lambda ()
+    (unless (port-closed? listener) (close-port listener))
+    (display "STOPPED listener-closed\n")
+    (force-output)))

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Hoot browser contract probe</title>
+<main>
+  <h1>Hoot browser contract probe</h1>
+  <p>Static content remains readable when enhancement cannot load.</p>
+  <section id="interactive">
+    <p data-status role="status">Static status</p>
+    <button data-update type="button" disabled>Update</button>
+  </section>
+  <button id="dispose" type="button" disabled>Dispose</button>
+  <button id="remount" type="button" disabled>Remount</button>
+  <button id="checks" type="button" disabled>Run contract checks</button>
+  <pre id="result" role="status">Enhancement not loaded</pre>
+<section id="action">
+  <a href="#ordinary-link">Ordinary link</a>
+  <button type="button" id="copy-link" disabled>Copy link</button>
+  <p data-action-status role="status">Use the ordinary link</p>
+</section>
+<p><a href="away.html">Open navigation target</a>; use Back to test page restoration.</p>
+</main>
+<script src="reflect.js"></script>
+<script type="module" src="probe.mjs"></script>
+<script type="module" src="action-page.mjs"></script>
+</html>
