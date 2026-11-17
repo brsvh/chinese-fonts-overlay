@@ -25,8 +25,8 @@ body:
   - type: input
     id: source-url
     attributes:
-      label: 字体 URL
-      description: 请填写能够找到或下载该字体的 URL。
+      label: 上游地址
+      description: 请提供字体官网、发行页面或源码仓库，优先使用官方来源。
       placeholder: "例如：https://github.com/foo-font-vendor/foo-font"
     validations:
       required: true

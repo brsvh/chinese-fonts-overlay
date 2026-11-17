@@ -1,18 +1,177 @@
 # -*- mode: org; -*-
-#+title: Chinese Fonts Site
+#+title: 字体预览网站
+#+language: zh-CN
+#+options: toc:2 num:nil
 
-A static font catalog with language-specific transparent previews.
+这是字体目录的静态预览网站，用于替代 README 中的字体列表和图片。
+可以按语言、风格、字库和许可筛选，查看各个字重与款式，并打开对应的包定义。
+所有字体都使用固定文字的透明 PNG，不提供在线试字，也不发布字体原文件。
 
-* Run locally
+规划地址为 [[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]]。
+当前只支持本地构建和预览，尚未接入主线部署。
 
-From the repository root:
+* 本地运行
+
+在仓库根目录执行：
 
 #+begin_src sh
+nix run .#site
 nix run .#site -- --port 8080
 #+end_src
 
-Open [[http://127.0.0.1:8080/][the local preview]].
-Use =nix run .#site -- --build= to generate files only.
+默认地址为 [[http://127.0.0.1:8000/][127.0.0.1:8000]]；指定端口后使用相应地址。
+服务只监听本机，按 Ctrl-C 停止。修改包信息后重新运行命令并刷新页面。
+首次生成完整网站需要构建全部字体，包含受限字体的本地输入，下载和渲染可能较慢。
 
-See [[file:../docs/development.md][development documentation]] for details.
-License: [[file:../COPYING][CC0]].
+只生成静态文件，或直接查看已有结果：
+
+#+begin_src sh
+nix run .#site -- --build
+nix run .#site -- --serve-only --output site/dist
+nix run .#site -- --help
+#+end_src
+
+生成结果默认放在 =site/dist/= 目录，缓存放在 =site/.cache/= 目录。
+可用 =--output= 和 =--cache= 修改路径。
+这些文件不提交到 Git。有效缓存会复用；生成失败时保留上一次完整的网站。
+
+* 开发与检查
+
+在仓库根目录进入环境，再使用独立构建目录：
+
+#+begin_src sh
+nix develop .#site
+cd site
+./bootstrap
+mkdir -p build
+cd build
+../configure
+make
+make check
+#+end_src
+
+=make= 编译 C 工具和 Hoot 资源；测试由 =make check= 运行，
+使用小型字体，不下载整个字库。
+修改构建系统时，还需运行 =make distcheck= 并检查暂存安装。
+测试只保留最终功能和必要失败边界的覆盖，避免为私有辅助函数重复写测试。
+
+生成和运行当前源码对应的网站：
+
+#+begin_src sh
+make site
+make serve PORT=8080
+#+end_src
+
+这两个目标默认使用构建目录中的 =public/= 和 =cache/= 目录，
+可用 =OUTPUT= 和 =CACHE= 覆盖路径。
+修改包元数据后，重新进入开发环境以刷新目录输入。
+
+构建使用 GNU Autotools；Nix 提供锁定的依赖和字体目录输入。
+构建规则维护在 =Makefile.am= 和 =configure.ac= 中。
+=Makefile.in= 与 =Makefile= 由它们生成，和 =configure= 一样不应直接编辑。
+C 和 Makefile 的格式约定见 [[file:../AGENTS.md][维护指引]]。
+
+脱离 Nix 构建需要 Guile 3、guile-json、guile-gcrypt、Hoot、C 编译器、
+pkg-config、FreeType、Fontconfig、GLib、Pango 和 Cairo。
+源码发行包已包含 =configure= 脚本。
+生成网站时另需传入 =CATALOG= 和 =PREVIEWS= JSON；无 Git 检出的构建还需完整的
+=SOURCE_REVISION= 环境变量，或通过 =--revision= 参数传入提交号。
+安装支持通过 =prefix= 和 =DESTDIR= 指定位置。在解压后的源码发行包目录中，例如：
+
+#+begin_src sh
+./configure --prefix=/usr
+make
+make check
+make DESTDIR="$PWD/staged" install
+#+end_src
+
+* 目录与数据
+
+| 位置                                 | 内容                         |
+|--------------------------------------+------------------------------|
+| =catalog.nix= 和 =previews.nix=      | 包目录和私有字体输入         |
+| =module/chinese-fonts-overlay-site/= | 目录生成、渲染调度和本地服务 |
+| =src/=                               | 字体解析与透明图片渲染       |
+| =web/=                               | Hoot 界面及浏览器接口        |
+| =data/=                              | 中文语言名称和固定样文       |
+| =tests/=                             | 功能测试与小型测试素材       |
+
+** 字体包信息
+
+分类维护在各包 =package.nix= 的 =passthru.fontInfo= 中。
+字段、显示名称和校验规则见 [[file:../lib/font-info.nix][font-info.nix]]：
+
+- =vendor= :: 已登记的字库或发行项目标识。
+- =styles= :: 人工核对的风格，排序且不重复。
+  黑体通常同时标记 =hei= 和 =sans= 两项，
+  宋体同时标记 =serif= 和 =song= 两项；依据不足时仅保留 =unknown= 这一项。
+- =languages= :: 扫描得到的语言代码，排序且不重复；空列表表示未识别到已知语言。
+- =licenseCost= :: 按上游条款人工核对，可选值见下表。
+- =notices= :: 可选的注意事项列表。每条需要用 =level= 指定级别，
+  用非空的 =text= 提供纯文本，还可用 =url= 附上 HTTP(S) 链接。
+  级别支持 =note=, =tip=, =important=, =warning=, =caution= 五种。
+
+| =licenseCost=    | 含义         |
+|------------------+--------------|
+| =none=           | 无           |
+| =commercialFree= | 商业免费使用 |
+| =personalFree=   | 个人免费使用 |
+| =paid=           | 付费使用     |
+
+许可名称和链接来自 =meta.license= 字段，
+再分发信息直接取 =meta.redistributable= 字段；
+缺失时按不允许处理。费用、自由软件属性和再分发权限分别显示，不互相推导。
+注意事项按包维护；如果只涉及部分款式，要在正文中写明。
+
+目录排除 =passthru.isFontAggregate = true= 的总包，
+例如 =windows-fonts= 字库合集；
+其独立字体包仍会展示。字体自身的多个字重、集合成员和可变字体命名实例都会保留。
+
+** 更新语言覆盖
+
+添加字体或更新字体文件后，从仓库根目录扫描目标包：
+
+#+begin_src sh
+nix develop .#site -c font-site update-font-info \
+  --package naver.maru-buri --write --output /tmp/maru-buri-coverage.json
+nix develop .#site -c font-site update-font-info \
+  --package naver.maru-buri --check --output /tmp/maru-buri-coverage.json
+#+end_src
+
+=--package= 可重复指定，使用 =--all= 可扫描全部包。
+省略 =--write= 和 =--check= 时只生成报告；
+写入模式 =--write= 在扫描全部成功后只更新语言列表，
+=--check= 在记录过期时返回非零状态。普通网站构建不改写包定义。
+
+Fontconfig 根据字符覆盖推断语言，不保证复杂文字塑形或地区字形正确。
+包的语言列表是全部款式的并集，某个款式不一定能显示其中每种语言的样文。
+升级锁定的 Fontconfig 后也应重新扫描并审查变化。
+扫描报告包含本地路径，不对外发布。
+
+** 语言名称与样文
+
+[[file:data/README][语言数据说明]]记录来源和维护方法。
+新增语言时，要补齐中文名称与固定样文。
+网站按实际字形覆盖选择样文，某款式缺少所选语言样本时明确提示，
+不用其他语言或系统字体代替。
+
+默认筛选中文；“全部语言”显示各款式自己的默认样本，清除筛选会恢复中文。
+URL 中不带 =language= 参数表示默认中文，
+空值参数 ~language=~ 表示明确选择全部语言。
+无法识别语言的符号字体仍可在“全部语言”下查看。
+
+现有 CI 预览在 =tools/generate-font-preview-images/sample-keys.nix= 中
+维护另一份样文配置，与网站样文独立。
+当前的 PR 和主线图片发布流程见
+[[file:../.github/CONTRIBUTING.md][贡献指南]]。
+
+* 静态输出
+
+生成结果包含 HTML、公开 JSON、Hoot/Wasm 资源和透明 PNG，
+可放到静态 HTTP 服务器上。
+不包含字体文件、字符覆盖文件、私有渲染清单或缓存，也不依赖运行中的后端。
+浏览器不支持 Hoot 时，静态目录和源码链接仍可访问，筛选控件会显示不可用提示。
+
+源码链接使用构建时的完整提交 SHA。未提交的本地修改可以参与预览，
+但链接仍指向已提交版本；公开发布应从已推送的干净检出构建。
+目前文档中的网站地址仅作预设，部署配置留待后续处理。

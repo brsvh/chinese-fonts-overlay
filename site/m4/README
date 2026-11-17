@@ -1,1 +1,6 @@
-Local Autoconf macros belong here. pkg.m4 is supplied by pkg-config at bootstrap.
+# -*- mode: org; -*-
+#+title: Autoconf 宏
+#+language: zh-CN
+#+options: toc:nil num:nil
+
+项目自己的 Autoconf 宏放在这里。引导构建时，pkg-config 提供 =pkg.m4= 文件。

@@ -1,0 +1,87 @@
+# -*- mode: org; -*-
+#+title: Chinese Fonts Overlay
+#+language: zh-CN
+#+options: toc:nil num:nil
+
+这里收录了一些中文字体的 Nix 包，也有日文、韩文和其他文字的字体。
+通过 overlay 可以按需安装单个字体，或选择整个字库。
+
+* 找字体
+
+[[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]]
+集中展示字体效果、包名和许可信息，可以按语言、字库和风格筛选，
+并从字体条目打开对应的 =package.nix= 文件。
+
+这是预定地址，网站尚未部署，也还没有接入主线发布。
+目前请在包含 =site/= 的本地检出中运行：
+
+#+begin_src sh
+nix run .#site
+#+end_src
+
+打开 [[http://127.0.0.1:8000/][本地预览]]。首次生成需要构建字体，可能花些时间。
+更多用法见 [[file:site/README][网站说明]]。
+
+* 安装
+
+在现有 flake 的 =inputs= 中添加：
+
+#+begin_src nix
+chinese-fonts-overlay = {
+  url = "github:brsvh/chinese-fonts-overlay";
+};
+#+end_src
+
+将该输入的 =overlays.default= 放入 =nixpkgs.overlays= 列表，再选择字体。例如，
+通过 =specialArgs= 将 =inputs= 传给 NixOS 模块后：
+
+#+begin_src nix
+{ inputs, pkgs, ... }:
+{
+  nixpkgs.overlays = [
+    inputs.chinese-fonts-overlay.overlays.default
+  ];
+
+  fonts.packages = [
+    pkgs.justfontPackages.huninn
+  ];
+}
+#+end_src
+
+使用独立的 Home Manager 时，为它使用的 =pkgs= 启用相同的 overlay，
+通过 =home.packages= 安装字体，并将 =fonts.fontconfig.enable= 设为真值。
+需要非自由字体时，还需在导入 nixpkgs 时设置
+=config.allowUnfree = true;= 以允许构建。
+
+单个字体的属性名可以在预览网站或 [[file:packages/][包目录]]中查找。
+也可以选择 =pkgs.lxgw-fonts= 这样的字库合集。
+
+* 二进制缓存
+
+部分允许再分发的字体会发布到项目缓存。NixOS 用户可以在配置中追加：
+
+#+begin_src nix
+nix.settings = {
+  extra-substituters = [ "https://cache.bingshan.org" ];
+  extra-trusted-public-keys = [
+    "cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk="
+  ];
+};
+#+end_src
+
+其他系统可在 =nix.conf= 中配置相同的地址和公钥；
+使用 Nix daemon 时，修改后需重启服务。
+缓存不包含 Windows 字体及不可再分发的字体；
+版本或构建条件不匹配时仍会在本地构建。
+
+* 参与维护
+
+请求添加字体、报告问题或提交修改，请看
+[[file:.github/CONTRIBUTING.md][贡献指南]]。
+网站的本地开发和数据维护见 [[file:site/README][网站说明]]。
+
+* 许可
+
+仓库代码使用 [[file:COPYING][CC0]]；字体各自遵循上游许可证。
+能下载、构建或免费使用某款字体，并不意味着可以再分发它。
+具体条件请查看字体条目中的许可链接和注意事项。

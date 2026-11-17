@@ -17,8 +17,8 @@ body:
     id: context
     attributes:
       label: 相关信息
-      description: 请补充相关 package name、命令、链接或日志。
-      placeholder: "请补充有助于说明问题的上下文。"
+      description: 请补充包名、命令、链接或日志；网站问题请注明浏览器和筛选条件。
+      placeholder: "请补充有助于复现问题的信息，也可以附上截图。"
     validations:
       required: false
 

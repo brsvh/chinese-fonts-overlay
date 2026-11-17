@@ -1,5 +1,5 @@
 name: 报告字体构建失败
-description: 报告已有字体 package 无法构建。
+description: 报告已有字体包无法构建。
 title: "[构建失败] "
 labels:
   - build-failure
@@ -9,7 +9,16 @@ body:
     attributes:
       label: 包名
       description: 请填写构建失败的字体包名。
-      placeholder: "例如：fooPackages.bar"
+      placeholder: "例如：justfontPackages.huninn"
+    validations:
+      required: true
+
+  - type: textarea
+    id: build-command
+    attributes:
+      label: 构建方式与环境
+      description: 请提供构建命令、仓库版本、操作系统和 Nix 版本。
+      render: text
     validations:
       required: true
 
