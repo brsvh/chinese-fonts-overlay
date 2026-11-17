@@ -23,11 +23,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790898470,
-        "narHash": "sha256-zTwuwezD0w3hpga6a6P8emidzAZFyWqlNeRBlpWOOl8=",
+        "lastModified": 1793576659,
+        "narHash": "sha256-V1h85lUaJBQoHFrB2vpXZOE0Ju1MYSnIpsehoVZYlDo=",
         "ref": "main",
-        "rev": "024633cd702b10285db5cb19b40ad48d2399ba60",
-        "revCount": 497,
+        "rev": "ea2630b7470978622c7689a1ff75d2b389175399",
+        "revCount": 500,
         "type": "git",
         "url": "https://github.com/hercules-ci/flake-parts.git"
       },
@@ -47,11 +47,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789448436,
-        "narHash": "sha256-fknJsE4XnFjUfo87T9jyZ15ivJZB/varWvsJMYk0BNY=",
+        "lastModified": 1792325769,
+        "narHash": "sha256-KFxHbC1136pwBOxdqRQzVSdY7rw+8clqcWysMLHqq88=",
         "ref": "master",
-        "rev": "6c58de7236d1cd634deea07bd15d52c7ce470bd3",
-        "revCount": 665,
+        "rev": "9eecf40bc88648c7b5474b476a7b325fa78b5606",
+        "revCount": 675,
         "type": "git",
         "url": "https://github.com/hercules-ci/hercules-ci-effects.git"
       },
@@ -63,11 +63,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1791487292,
-        "narHash": "sha256-tqM7xDEsaeK1p6VvRygeZ9LkQRpUUkbRT02BHv6hnTM=",
+        "lastModified": 1793977579,
+        "narHash": "sha256-WrSODdZFVIs/Hh2NzC0bY+ROByi0bATg8WfePX8dPj8=",
         "ref": "nixpkgs-unstable",
-        "rev": "8edc0c72e3a38faf5434e40d1f19431125fe4b30",
-        "revCount": 1088030,
+        "rev": "4fe25e12eb9f4c744966dd3de5a05246cf098601",
+        "revCount": 1109744,
         "type": "git",
         "url": "https://github.com/NixOS/nixpkgs.git"
       },
