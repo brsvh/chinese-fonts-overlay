@@ -41,10 +41,10 @@ if unavailable, follow the target's own style and formatter instructions.
      the user explicitly asks for a batch operation.
 2. Locate or create the preview checkout:
    - Determine its path, source repository, and branch from the target's
-     publication documentation, existing README image URLs, and Git remotes. The
-     usual path and branch are `font-preview-images`. Do not assume a fork uses
-     the original upstream's publication repository or that `origin` is always
-     the right source.
+     publication documentation, CI configuration, and Git remotes. Existing
+     image URLs can corroborate these settings. The usual path and branch are
+     `font-preview-images`. Do not assume a fork uses the original upstream's
+     publication repository or that `origin` is always the right source.
    - If a checkout exists, verify its remote, branch, and worktree status.
      Preserve unrelated changes. `.git` may be either a file or a directory.
    - If missing, clone the verified repository and preview branch into the

@@ -5,8 +5,8 @@ description: >-
   Chinese-fonts-overlay-compatible Nix repositories from one or more upstream
   font URLs. Use when asked to inspect font files, upstream repository
   metadata, font family names, hashes, license terms, package split or merge
-  decisions, package names, Nix package skeletons, preview generation, README
-  entries, or initial integration requirements before or while creating
+  decisions, package names, Nix package skeletons, preview generation, catalog
+  metadata, or initial integration requirements before or while creating
   packages under a vendor package directory.
 ---
 
@@ -23,11 +23,12 @@ the target repository. Paths below are relative to that checkout, not the
 current shell directory or the skill directory.
 
 This workflow describes the Chinese-fonts-overlay layout: `packages/`,
-`lib/licenses.nix`, `docs/README.md`, and the preview generator under `tools/`.
-Confirm those paths, package discovery, flake outputs, and preview publication
-settings in the actual checkout. Adapt renamed equivalents; do not introduce
-this layout into an unrelated project. If the required integration cannot be
-identified, report what is missing before editing it.
+`lib/licenses.nix`, a root `README`, contribution guidance under `.github/`, and
+the preview generator under `tools/`. Confirm those paths, package discovery,
+flake outputs, catalog inputs, and preview publication settings in the actual
+checkout. Adapt renamed equivalents; do not introduce this layout into an
+unrelated project. If the required integration cannot be identified, report what
+is missing before editing it.
 
 Discover tools through the target's declared development environment. Nix,
 Fontconfig (`fc-scan`), `file`, and a downloader are needed for their respective
@@ -82,13 +83,15 @@ workflow.
       sources;
     - install OpenType fonts under `$out/share/fonts/opentype/<vendor>/`;
     - install TrueType fonts under `$out/share/fonts/truetype/<vendor>/`;
-    - write `meta.longDescription` by following the section below.
+    - write `meta.longDescription` by following the section below;
+    - fill in catalog metadata using the target schema and documented workflow;
+      derive language coverage from the installed fonts rather than guessing.
 08. Wire the package only when implementation is requested:
     - if the vendor scope already exists, adding
       `packages/<vendor>/<name>/package.nix` is usually enough for
       `packagesFromDirectoryRecursive`;
     - if the vendor scope is new, add overlay scope, aggregate package, flake
-      exposure, and README/vendor notes as requested;
+      exposure, and catalog registration as required by the target;
     - if the user explicitly asks to avoid preview or README changes, obey that
       narrower request and report the skipped integration.
 09. Validate narrowly:
@@ -97,47 +100,25 @@ workflow.
       the new file is not yet tracked by Git;
     - evaluate `meta.license.shortName` and any important package attributes;
     - inspect the built font files with `fc-scan`.
-10. Create preview images after package builds succeed:
-    - use the available `create-font-preview` skill or the verified local
-      generator workflow once for each final package `pname`;
-    - pass the `pname` from each `package.nix`, not the attribute or directory
-      name;
-    - choose or repair sample keys, run the generator, and validate generated
-      PNGs according to that workflow; clean up only temporary files owned by
-      this task when they are no longer needed.
-11. Update `docs/README.md` after preview images exist for every created
-    package:
-    - find the best existing font list for the vendor/package scope, such as a
-      vendor heading whose title includes the matching `<scope>Packages`, or a
-      more specific subsection that matches licensing or distribution category;
-    - if no matching `docs/README.md` section exists, stop before editing it and
-      ask the user to create the appropriate section. Do not create a new
-      section or guess a location;
-    - add the new package entry in the same style as neighboring entries, using
-      the package attribute, upstream display name, and homepage;
-    - derive preview URLs from concrete files in the verified preview checkout
-      and the target's documented publication repository and branch. Check
-      existing README URLs and Git remotes; a fork may intentionally publish
-      previews elsewhere, so do not assume `origin` is the publication target.
-      For GitHub, construct the raw URL from the verified owner, repository,
-      branch, and path; for other hosts, use their verified raw-file endpoint.
-      Encode path segments, including spaces as `%20`, `+` as `%2B`, and
-      non-ASCII bytes with percent encoding;
-    - infer each image `alt` text from the filename segment after `+`, without
-      the `.png` extension, using the same decoded text for captions;
-    - if there is one preview image, add the centered `<img>` block without a
-      `<sub>` caption, matching existing single-image entries;
-    - if there are multiple preview images, add a centered block with each
-      `<img>` followed by `<br>`, `<sub>Caption</sub>`, and `<br>`, matching
-      existing multi-image entries;
-    - order multiple preview images from thin to bold when filenames expose
-      weights or styles. Prefer numeric weights and known style names in this
-      order: `Thin`, `ExtraLight`, `Light`, `Regular`, `Medium`, `SemiBold`,
-      `Bold`, `ExtraBold`, `Heavy`, `Black`. For `W01`, `W02`, or similar
-      styles, sort by the numeric suffix. If no weight can be inferred, use
-      filename order;
-    - do not invent preview links. If a preview is missing, rerun
-      `create-font-preview` or report the missing image.
+10. Check the target's preview workflow after package builds succeed:
+    - distinguish a generated website from the branch-preview generator; their
+      inputs and samples may differ, so validating one does not validate both;
+    - for a website, follow its maintenance instructions and inspect the package
+      entry, licensing information, language coverage, and included font styles;
+    - where branch previews are still required, use the available
+      `create-font-preview` skill or the verified local generator workflow for
+      each final package `pname`, not its attribute or directory name;
+    - configure sample keys only for the workflow that consumes them, then
+      inspect the generated images; clean up only task-owned temporary files.
+11. Complete user-facing integration:
+    - if the catalog is generated from package metadata, maintain that source of
+      truth instead of adding a manual README gallery or a second package index;
+    - update documentation only when installation, usage, or maintenance
+      changes;
+    - if the target still maintains a manual gallery, follow its documented
+      layout and derive image links from existing generated files and verified
+      publication settings; do not invent preview links or assume that a fork
+      publishes to its upstream repository.
 
 ## Output
 
@@ -150,10 +131,10 @@ When the user asks for analysis, report:
   package skeleton details;
 - any wiring or validation still needed.
 
-When the user asks to implement, make the scoped code changes, run validation,
-create previews, update README, and summarize changed files and checks. Mention
-any skipped preview or README integration only when the user explicitly asked to
-skip it or a blocker remained.
+When the user asks to implement, make the scoped changes, validate the package
+and its catalog or preview integration, and summarize changed files and checks.
+Update documentation when usage changes. Mention any required integration left
+unfinished because of the user's scope or a blocker.
 
 ## Long Description
 
@@ -162,7 +143,7 @@ copy.
 
 - Use plain ASCII only. Prefer upstream English names and romanized licensor
   names in `longDescription`; keep non-ASCII official names in
-  `license.fullName`, README entries, or comments only when needed.
+  `license.fullName`, catalog notices, documentation, or comments when needed.
 - Keep the whole text short: usually 40-90 words, and rarely more than 120 words
   for restricted licenses. Use one or two paragraphs, no Markdown lists, no
   URLs, no hashes, and no installation instructions.

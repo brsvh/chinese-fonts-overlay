@@ -30,8 +30,8 @@ If scope selection is ambiguous, inspect lightweight local context such as
 recent commit subjects or documented contribution rules:
 
 - `git log --format=%s -n 50`
-- `CONTRIBUTING*`, `docs/CONTRIBUTING*`, `HACKING*`, `README*`, `docs/README*`,
-  or similar repository guidance
+- `.github/CONTRIBUTING*`, `CONTRIBUTING*`, `HACKING*`, `README*`, or other
+  guidance identified by the target repository
 
 Use this local context only to choose a truthful scope or subscope. Do not copy
 unrelated project names from examples.
@@ -111,11 +111,13 @@ Apply these rules in order:
 
 Project-name scope:
 
-1. Look for a project name in repository documentation files in this order:
-   `docs/README.md`, `README`, then `README.md`.
+1. Look for a project name in the root documentation files in this order:
+   `README`, `README.org`, then `README.md`. Follow an explicitly documented
+   alternative location when the target repository uses one.
 
 2. Prefer the first meaningful document title, such as the first Markdown H1,
-   setext heading, Org title/level-one heading, or plain README title line.
+   setext heading, Org `#+title` or level-one heading, or plain README title
+   line. Ignore editor mode declarations such as `-*- mode: org; -*-`.
 
 3. If no project name is found in those files, use the target repository root
    directory name.
