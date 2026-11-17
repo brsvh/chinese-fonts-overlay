@@ -31,10 +31,11 @@ let
     longDescription = ''
       Provides the FZXiYuan font.
 
-      Obtain the FounderType Font Library Commercial Release
-      Authorization Statement before use. After obtaining it, do not
-      redistribute the font files or publish them through a binary
-      cache.
+      Obtain the FounderType authorization appropriate to the intended
+      use. Free trials offered to registered professional designers
+      do not grant general personal or commercial usage rights.
+      Do not redistribute font files or publish them through a binary
+      cache without permission.
     '';
 
     maintainers = with maintainers; [ brsvh ];
