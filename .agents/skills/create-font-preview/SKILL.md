@@ -1,19 +1,37 @@
 ---
 name: create-font-preview
 description: >-
-  Workflow for creating or repairing font preview PNGs for this repository from
-  a given package pname. Use when asked to clone or use the font-preview-images
-  branch, choose or fix preview sample keys, run generate-font-preview-images
-  for selected packages, validate generated preview images, or iterate on blank,
-  vertical, or malformed font previews.
+  Workflow for creating or repairing font preview PNGs in a
+  Chinese-fonts-overlay-compatible Nix repository from a package pname. Use
+  when asked to clone or use the font-preview-images branch, choose or fix
+  preview sample keys, run generate-font-preview-images for selected packages,
+  validate generated preview images, or iterate on blank, vertical, or
+  malformed font previews.
 ---
 
 # Create Font Preview
 
 Use this skill when the user gives one package `pname` and wants preview images
-created, repaired, or checked for this repository.
+created, repaired, or checked in a compatible Nix font overlay.
 
-If editing `.nix` files, also use the `nix-coding` skill before changing them.
+## Establish the target
+
+Locate the target checkout from the user's workspace and read its applicable
+`AGENTS.md` and development instructions. The installed skill directory is not
+the target checkout. Resolve the paths below against the target repository.
+
+This workflow expects the Chinese-fonts-overlay package layout and preview
+branch generator. Confirm the actual package paths, generator entry point,
+sample definitions, and publication settings before using them. Adapt renamed
+equivalents; do not create this architecture in an unrelated repository. These
+are branch-preview conventions, not rules for an independent website's language
+samples or image renderer.
+
+Use the target's declared environment for Nix, Fontconfig, and image inspection;
+do not assume globally installed tools or a previously populated local cache.
+Use unique task-owned temporary directories when needed. Resolve `nix-coding` by
+name from the available skill catalog for Nix edits, not a fixed sibling path;
+if unavailable, follow the target's own style and formatter instructions.
 
 ## Workflow
 
@@ -21,14 +39,19 @@ If editing `.nix` files, also use the `nix-coding` skill before changing them.
    - Treat the input as a package `pname`, not an attribute name.
    - If more than one `pname` is requested, process them one at a time unless
      the user explicitly asks for a batch operation.
-2. Ensure the preview image worktree exists at repository root:
-   - If `font-preview-images/.git` exists, verify it is on the
-     `font-preview-images` branch and has the expected remote.
-   - If it is missing, clone
-     `https://github.com/brsvh/chinese-fonts-overlay.git` with
-     `--branch font-preview-images --single-branch` into `font-preview-images`.
-   - If `font-preview-images` exists but is not a Git worktree, stop and ask
-     before moving or deleting anything.
+2. Locate or create the preview checkout:
+   - Determine its path, source repository, and branch from the target's
+     publication documentation, existing README image URLs, and Git remotes. The
+     usual path and branch are `font-preview-images`. Do not assume a fork uses
+     the original upstream's publication repository or that `origin` is always
+     the right source.
+   - If a checkout exists, verify its remote, branch, and worktree status.
+     Preserve unrelated changes. `.git` may be either a file or a directory.
+   - If missing, clone the verified repository and preview branch into the
+     documented destination. Confirm the branch exists before cloning; report a
+     missing branch or ambiguous publication target instead of inventing it.
+   - If the destination exists but is not a Git worktree, stop and ask before
+     moving or deleting anything.
 3. Find the package and sample-key status.
    - Locate the package with `rg -n 'pname = "<pname>"' packages`.
    - Check `tools/generate-font-preview-images/sample-keys.nix` for the package
@@ -42,13 +65,11 @@ If editing `.nix` files, also use the `nix-coding` skill before changing them.
 4. Choose or fix the sample key.
    - Prefer the narrowest existing sample key that exercises the intended script
      or language.
-   - Available keys are `english`, `devanagari`, `japanese`, `javanese`,
-     `korean`, `math`, `mongolian`, `myanmar`, `phagspa`, `simplified-chinese`,
-     `symbols`, `tai-le`, `tai-lue`, `southeast-asian`, `thai`, `tibetan`,
-     `traditional-chinese`, `vietnamese`, and `yi`.
-   - For Traditional Chinese fonts, prefer `traditional-chinese`; for Simplified
-     Chinese fonts, prefer `simplified-chinese`; for Latin-only fonts, prefer
-     `english`; for icon or symbol fonts, prefer `symbols`.
+   - Read the available keys and texts from the actual generator's sample
+     definitions; do not treat this skill as a versioned key registry.
+   - When supported by those definitions, prefer `traditional-chinese` for
+     Traditional Chinese, `simplified-chinese` for Simplified Chinese, `english`
+     for Latin-only fonts, and `symbols` for icon or symbol fonts.
    - Keep sample text consistent across packages. Do not add a package-specific
      sample key only because a shorter sample looks better, wraps less, or
      avoids renderer trouble. Fix rendering and layout instead.
@@ -56,10 +77,11 @@ If editing `.nix` files, also use the `nix-coding` skill before changing them.
      category missing from the generator; ask before adding one-off or
      package-specific sample text.
    - If the sample key must be added or changed, edit
-     `tools/generate-font-preview-images/sample-keys.nix` and run `nix fmt` on
-     it.
-5. Generate previews incrementally through the generator devShell:
-   - Use
+     `tools/generate-font-preview-images/sample-keys.nix` and format the changed
+     file with the target's configured formatter.
+5. Generate previews incrementally through the declared environment:
+   - Confirm the generator devShell and command options in the checkout. Where
+     the documented `generator` output is available, use
      `nix develop .#generator -c generate-font-preview-images --package-name <pname>`.
    - Do not use `--override` for the first run unless the user asks to replace
      existing previews.
@@ -67,8 +89,9 @@ If editing `.nix` files, also use the `nix-coding` skill before changing them.
      `git -C font-preview-images status --short`.
 6. Validate generated or changed PNGs.
    - Check every new or changed PNG for the target `pname`.
-   - Use `magick identify -format '%k %wx%h\n' <image>` or equivalent. A
-     one-color image is blank and invalid.
+   - Use `magick identify -format '%k %wx%h\n' <image>` from the declared
+     image-tool environment, or an available equivalent. A one-color image is
+     blank and invalid.
    - Require previews to be horizontal. Width must be greater than height, and a
      visibly tall or wrapped preview is invalid even when it is nonblank.
    - Missing glyph boxes are acceptable when the preview is otherwise nonblank.
@@ -87,8 +110,8 @@ If editing `.nix` files, also use the `nix-coding` skill before changing them.
      internal canvas before trimming/resizing.
    - Change the sample key only when the preview clearly uses the wrong script
      or language for the font.
-   - After changing the sample key or generator, run `nix fmt` and regenerate
-     with
+   - After changing the sample key or generator, format the changed authored
+     files and regenerate with the verified entry point, for example
      `nix develop .#generator -c generate-font-preview-images --override --package-name <pname>`.
    - Repeat until the preview is nonblank and horizontal, or report the blocker
      with the inspected font metadata and renderer behavior.

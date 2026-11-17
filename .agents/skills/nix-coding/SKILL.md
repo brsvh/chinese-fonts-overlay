@@ -1,15 +1,19 @@
 ---
 name: nix-coding
 description: >-
-  Rewrite, refactor, or review Nix code to follow this repository's custom Nix
-  coding style. Use when asked to restyle, normalize, modernize, reorganize,
-  or otherwise edit .nix files according to the bundled Nix style guide.
+  Rewrite, refactor, or review Nix code using the bundled style guide and the
+  target project's applicable conventions. Use when asked to restyle,
+  normalize, modernize, reorganize, or otherwise edit .nix files according to
+  the bundled Nix style guide.
 ---
 
 # Nix Coding
 
 Use this skill to change Nix code shape and formatting while preserving
-behavior.
+behavior. Resolve `references/` relative to this skill's installed directory,
+not the target checkout. Read the target's applicable `AGENTS.md` and discover
+its formatter and dependency environment before running commands. A Nix store
+path or devshell from another machine is not an executable path for this run.
 
 ## Required workflow
 

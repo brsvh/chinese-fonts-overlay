@@ -297,10 +297,13 @@ For `MODEL_VERSION`, at commit-skill execution time, first inspect the
 configuration file or inline configuration entry that defines the current agent
 and use its exact `model` value. If the current agent configuration cannot be
 located or does not set a model, fall back to the most specific model value
-exposed by the active session context. Do not include example model labels or
-hard-code either value in this skill; the trailer must use values discovered at
-execution time. Omit tool tokens unless a specialized analysis tool was actually
-called while preparing the commit.
+exposed by the active session context. Use only configuration locations
+identified by the environment, not a guessed home-directory path. If a required
+trailer value is unavailable, ask for it rather than inventing it; do not add an
+optional trailer. Do not include example model labels or hard-code either value
+in this skill; the trailer must use values discovered at execution time. Omit
+tool tokens unless a specialized analysis tool was actually called while
+preparing the commit.
 
 ## Scope fallback
 

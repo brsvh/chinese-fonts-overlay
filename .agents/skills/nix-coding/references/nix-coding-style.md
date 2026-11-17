@@ -1,8 +1,9 @@
 # Nix Coding Style
 
 This document is a style contract for both human maintainers and AI coding
-agents. It describes how Nix code in this repository should look and be shaped.
-It covers formatting, expression shape, naming, comments, and common Nix module
+agents using this skill. Apply it to the selected files subject to explicit
+rules in the target project; it does not require the originating repository. It
+covers formatting, expression shape, naming, comments, and common Nix module
 idioms.
 
 This document does not decide repository architecture. It does not define where
@@ -52,8 +53,10 @@ rules when the repository already has one.
 
 ## Formatting
 
-Use the repository formatter for `.nix` files. The configured style is
-`nixfmt --width 50` with two spaces for indentation.
+Use the target repository's configured formatter for `.nix` files. When it has
+no formatter policy, this skill's default is `nixfmt --width 50` with two-space
+indentation. Check that the selected nixfmt supports the option; do not assume a
+formatter command or version is installed.
 
 Prefer letting `nixfmt` decide exact line breaks. The resulting style is narrow,
 vertical, and explicit:

@@ -1,20 +1,41 @@
 ---
 name: create-font-package
 description: >-
-  Initial analysis and scaffolding workflow for adding new font packages to this
-  repository from one or more upstream font URLs. Use when asked to inspect font
-  files, upstream repository metadata, font family names, hashes, license terms,
-  package split or merge decisions, package names, Nix package skeletons,
-  preview generation, README entries, or initial integration requirements before
-  or while creating packages under a vendor package directory.
+  Initial analysis and scaffolding workflow for adding font packages to
+  Chinese-fonts-overlay-compatible Nix repositories from one or more upstream
+  font URLs. Use when asked to inspect font files, upstream repository
+  metadata, font family names, hashes, license terms, package split or merge
+  decisions, package names, Nix package skeletons, preview generation, README
+  entries, or initial integration requirements before or while creating
+  packages under a vendor package directory.
 ---
 
 # Create Font Package
 
 Use this skill to turn one or more font file URLs into a concrete initial
-packaging plan or first package implementation for this repository.
+packaging plan or first package implementation in a compatible Nix font overlay.
 
-For `.nix` edits, also use the `nix-coding` skill before changing files.
+## Establish the target
+
+Find the target checkout from the user's workspace, then read its applicable
+`AGENTS.md` and development instructions. The installed skill directory is not
+the target repository. Paths below are relative to that checkout, not the
+current shell directory or the skill directory.
+
+This workflow describes the Chinese-fonts-overlay layout: `packages/`,
+`lib/licenses.nix`, `docs/README.md`, and the preview generator under `tools/`.
+Confirm those paths, package discovery, flake outputs, and preview publication
+settings in the actual checkout. Adapt renamed equivalents; do not introduce
+this layout into an unrelated project. If the required integration cannot be
+identified, report what is missing before editing it.
+
+Discover tools through the target's declared development environment. Nix,
+Fontconfig (`fc-scan`), `file`, and a downloader are needed for their respective
+steps; do not assume they are globally installed. Resolve companion skills such
+as `nix-coding` and `create-font-preview` by name from the available skill
+catalog, not by a fixed sibling path. Use them when available or required by the
+target's instructions; otherwise follow the target's own documented equivalent
+workflow.
 
 ## Workflow
 
@@ -28,7 +49,8 @@ For `.nix` edits, also use the `nix-coding` skill before changing files.
     - repository description, homepage, README, license file, and fixed license
       URL when relevant;
     - source layout when release assets duplicate files in the repository.
-04. Download each font file to `/tmp` and verify it:
+04. Allocate a unique task-owned temporary directory using the environment's
+    temporary-directory facility. Download each font file there and verify it:
     - `file`;
     - `nix hash file`;
     - upstream digest when available;
@@ -70,18 +92,19 @@ For `.nix` edits, also use the `nix-coding` skill before changing files.
     - if the user explicitly asks to avoid preview or README changes, obey that
       narrower request and report the skipped integration.
 09. Validate narrowly:
-    - `nix fmt`;
+    - run the target's configured Nix formatter on the changed files;
     - build the new package through the overlay, using an impure expression when
       the new file is not yet tracked by Git;
     - evaluate `meta.license.shortName` and any important package attributes;
     - inspect the built font files with `fc-scan`.
 10. Create preview images after package builds succeed:
-    - invoke the `create-font-preview` skill once for each final package
-      `pname`;
+    - use the available `create-font-preview` skill or the verified local
+      generator workflow once for each final package `pname`;
     - pass the `pname` from each `package.nix`, not the attribute or directory
       name;
-    - let that skill choose or repair sample keys, run the generator, and
-      validate generated PNGs.
+    - choose or repair sample keys, run the generator, and validate generated
+      PNGs according to that workflow; clean up only temporary files owned by
+      this task when they are no longer needed.
 11. Update `docs/README.md` after preview images exist for every created
     package:
     - find the best existing font list for the vendor/package scope, such as a
@@ -92,11 +115,14 @@ For `.nix` edits, also use the `nix-coding` skill before changing files.
       section or guess a location;
     - add the new package entry in the same style as neighboring entries, using
       the package attribute, upstream display name, and homepage;
-    - infer preview image URLs from the concrete files under
-      `font-preview-images/`. Use the repository raw URL prefix
-      `https://raw.githubusercontent.com/brsvh/chinese-fonts-overlay/font-preview-images/`
-      followed by the scope directory and URL-encoded PNG filename. Encode
-      spaces as `%20`, `+` as `%2B`, and non-ASCII bytes with percent encoding;
+    - derive preview URLs from concrete files in the verified preview checkout
+      and the target's documented publication repository and branch. Check
+      existing README URLs and Git remotes; a fork may intentionally publish
+      previews elsewhere, so do not assume `origin` is the publication target.
+      For GitHub, construct the raw URL from the verified owner, repository,
+      branch, and path; for other hosts, use their verified raw-file endpoint.
+      Encode path segments, including spaces as `%20`, `+` as `%2B`, and
+      non-ASCII bytes with percent encoding;
     - infer each image `alt` text from the filename segment after `+`, without
       the `.png` extension, using the same decoded text for captions;
     - if there is one preview image, add the centered `<img>` block without a

@@ -9,7 +9,11 @@ description: >-
 # GNU-style Commit
 
 Use this skill when the user wants staged changes committed with a GNU-style
-message.
+message. Resolve the bundled style reference from this skill's installed
+directory. Locate the target checkout from the user's workspace and verify it
+with `git rev-parse --show-toplevel`; the skill directory is not the commit
+repository. Use the session's available Git and authorization mechanism, without
+assuming a particular host application or configuration path.
 
 ## Required workflow
 
@@ -29,14 +33,16 @@ If nothing is staged, say so clearly and stop.
 3. Draft the final commit message using that reference and any compatible local
    commit conventions in the target repository.
 4. Check the final message text using the checklist below.
-5. Write the message to a temporary file and run
-   `git commit -F <temporary-file>`.
+5. Write the exact message to a uniquely allocated temporary file using the
+   environment's temporary-directory facility, then run
+   `git commit -F <temporary-file>`. Remove only that owned file afterwards.
 6. Report the commit result, including the new commit hash when available.
 
 Do not pause after the user's explicit commit request. Treat that request as
 authorization to create the commit. If the environment blocks access to `.git`,
-retry with the required sandbox escalation and continue after access is
-available.
+use the available authorization mechanism if the action remains authorized. If
+access is denied or no such mechanism exists, report the blocked operation; do
+not repeatedly retry an unchanged rejection.
 
 ## Message rules
 
@@ -82,11 +88,14 @@ For `MODEL_VERSION`, at commit-skill execution time, first inspect the
 configuration file or inline configuration entry that defines the current agent
 and use its exact `model` value. If the current agent configuration cannot be
 located or does not set a model, fall back to the most specific model value
-exposed by the active session context. Do not include example model labels or
-hard-code either value in this skill; the trailer must use values discovered at
-execution time. Omit tool tokens unless a specialized analysis tool was actually
-called while preparing the commit. Do not list routine shell, git, formatter,
-patching, or commit-skill operations as tools.
+exposed by the active session context. Use only configuration locations
+identified by that environment, not a guessed home-directory path. If a required
+trailer value remains unavailable, ask for that value rather than inventing it;
+do not add an optional trailer. Do not include example model labels or hard-code
+either value in this skill; the trailer must use values discovered at execution
+time. Omit tool tokens unless a specialized analysis tool was actually called
+while preparing the commit. Do not list routine shell, git, formatter, patching,
+or commit-skill operations as tools.
 
 Before producing or committing a message, check the final message text:
 
