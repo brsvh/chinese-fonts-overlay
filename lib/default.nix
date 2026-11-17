@@ -17,7 +17,7 @@ makeExtensible (
           lib
           ;
 
-        infix-lib = final;
+        chinese-fonts-overlay-lib = final;
       };
   in
   {
