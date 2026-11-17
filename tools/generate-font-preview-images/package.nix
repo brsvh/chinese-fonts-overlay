@@ -107,6 +107,8 @@ in
   usage() {
     printf 'usage: %s [--override] [--package-name pname[,pname...]] [--manifest FILE] [--output-dir DIR]\n' \
       "$(basename -- "$0")" >&2
+    printf '       %s --face-manifest FILE [--transparent]\n       %s --transparent-image INPUT OUTPUT\n       %s --sample-text KEY [FAMILY]\n' \
+      "$(basename -- "$0")" "$(basename -- "$0")" "$(basename -- "$0")" >&2
   }
 
   project_root() {
@@ -195,6 +197,13 @@ in
     local output=$3
     local pango_image
     local sample=$4
+    local variations=''${5:-}
+    local background=''${6:-white}
+    local description="$font_name 64"
+
+    if [ -n "$variations" ]; then
+      description="$description @$variations"
+    fi
 
     pango_image=$(mktemp "$(dirname "$output")/.preview-pango.XXXXXX.png")
     temporary_files+=("$pango_image")
@@ -203,9 +212,9 @@ in
       pango-view \
         --no-display \
         --pixels \
-        --background=white \
+        --background="$background" \
         --foreground=black \
-        --font="$font_name 64" \
+        --font="$description" \
         --width=30000 \
         --align=center \
         --single-par \
@@ -217,7 +226,7 @@ in
       -trim \
       +repage \
       -resize '1200x360>' \
-      -bordercolor white \
+      -bordercolor "$background" \
       -border 16x16 \
       "$output"
 
@@ -341,6 +350,76 @@ in
         ;;
     esac
   }
+
+  # Recover black-on-white coverage, including antialiased edge pixels.
+  # Callers must check that the input is opaque and monochrome first.
+  if [ "''${1:-}" = --transparent-image ]; then
+    if [ "$#" -ne 3 ]; then
+      usage
+      exit 2
+    fi
+    magick "$2" -alpha on -channel A -fx '1-r' +channel \
+      -channel RGB -evaluate set 0 +channel \
+      -strip -depth 8 -define png:exclude-chunk=date,time "PNG32:$3"
+    exit 0
+  fi
+
+  # The site supplies individual collection faces and variable-font instances.
+  # Rendering uses the original file and FreeType face index, without conversion.
+  if [ "''${1:-}" = --face-manifest ]; then
+    if [ "$#" -ne 2 ] && { [ "$#" -ne 3 ] || [ "$3" != --transparent ]; }; then
+      printf 'usage: %s --face-manifest FILE [--transparent]\n' "$0" >&2
+      exit 2
+    fi
+    background=white
+    png_type=PNG24
+    if [ "''${3:-}" = --transparent ]; then
+      background=transparent
+      png_type=PNG32
+    fi
+    while IFS=$'\t' read -r font index font_name sample_key variations image; do
+      if [ ! -f "$font" ] || [[ ! "$index" =~ ^[0-9]+$ ]]; then
+        printf 'invalid face manifest row\n' >&2
+        exit 1
+      fi
+      if [ -f "$image" ] && ! is_invalid_image "$image"; then
+        if [ "$png_type" = PNG24 ] || [ "$(magick identify -format '%[opaque]' "$image")" = False ]; then
+          continue
+        fi
+      fi
+      mkdir -p "$(dirname "$image")"
+      fontconfig_file=$(mktemp)
+      temporary_files+=("$fontconfig_file")
+      font_xml=$(printf '%s' "$font" | sed 's/\&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+      directory_xml=$(dirname "$font_xml")
+      cat > "$fontconfig_file" <<EOF
+  <?xml version="1.0"?>
+  <fontconfig>
+    <dir>$directory_xml</dir>
+    <match target="font">
+      <edit name="file" mode="assign"><string>$font_xml</string></edit>
+      <edit name="index" mode="assign"><int>$index</int></edit>
+    </match>
+  </fontconfig>
+  EOF
+      sample=$(choose_sample "$sample_key" "$font_name")
+      if [ "$variations" = - ]; then variations=; fi
+      render_with_pango "$fontconfig_file" "$font_name" "$image" "$sample" "$variations" "$background"
+      if is_invalid_image "$image"; then
+        printf 'invalid rendered preview: %s\n' "$image" >&2
+        exit 1
+      fi
+      magick "$image" -strip -depth 8 -define png:exclude-chunk=date,time "$png_type:$image"
+      printf '%s\n' "$image"
+      rm -f "$fontconfig_file"
+    done < "$2"
+    exit 0
+  fi
+
+  if [ "''${1:-}" = --sample-text ]; then
+    choose_sample "$2" "''${3:-}"
+    exit 0
+  fi
 
   declare -A skipped_font_names=()
 
