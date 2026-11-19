@@ -151,6 +151,7 @@
     lxgw-b5zhiming = "traditional-chinese";
     lxgw-marker-gothic = "simplified-chinese";
     lxgw-neo-zhisong = "simplified-chinese";
+    lxgw-neoxihei = "simplified-chinese";
     lxgw-pengli-wenkai = "traditional-chinese";
     lxgw-simxihei = "simplified-chinese";
     lxgw-simzhisong = "simplified-chinese";
