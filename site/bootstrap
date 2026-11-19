@@ -1,5 +1,8 @@
 #!/usr/bin/env -S guile --no-auto-compile -s
 !#
+
 (chdir (dirname (canonicalize-path (current-filename))))
-(exit (status:exit-val
-       (system* "autoreconf" "--verbose" "--install" "--force")))
+
+(exit
+ (status:exit-val
+  (system* "autoreconf" "--verbose" "--install" "--force")))

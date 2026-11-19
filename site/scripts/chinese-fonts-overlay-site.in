@@ -1,16 +1,23 @@
 #!@GUILE@ -s
 !#
+
 (define build-tree?
   (and (not (string-null? @BUILD@))
        (equal? (canonicalize-path (current-filename))
                (string-append @BUILD@ "/chinese-fonts-overlay-site"))))
-(define source (if build-tree? @SOURCE@ @DATADIR@))
-(set! %load-path (cons (string-append source "/module") %load-path))
+
+(define source
+  (if build-tree? @SOURCE@ @DATADIR@))
+
+(set! %load-path
+      (cons (string-append source "/module") %load-path))
+
 (for-each
  (lambda (entry)
    (unless (getenv (car entry))
      (setenv (car entry) (cdr entry))))
- `(("FONT_SITE_DATA" . ,(string-append source "/data"))
+ `(("FONT_SITE_DATA" .
+    ,(string-append source "/data"))
    ("FONT_SITE_WEB" .
     ,(if build-tree?
          (string-append @BUILD@ "/compiled-web")
@@ -20,7 +27,11 @@
       (if build-tree? @BUILD@ @LIBEXECDIR@)
       "/render-font-samples"))
    ("FONT_SITE_INSPECTOR" .
-    ,(string-append (if build-tree? @BUILD@ @LIBEXECDIR@) "/font-info"))
+    ,(string-append
+      (if build-tree? @BUILD@ @LIBEXECDIR@)
+      "/font-info"))
    ("FONT_SITE_VERSION" . ,@VERSION@)))
+
 (use-modules (chinese-fonts-overlay-site command))
+
 (exit (main (cdr (command-line))))

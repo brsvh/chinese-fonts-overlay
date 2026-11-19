@@ -1,16 +1,20 @@
-(use-modules (ice-9 match) (ice-9 textual-ports) (ice-9 string-fun))
+(use-modules (ice-9 match)
+             (ice-9 textual-ports)
+             (ice-9 string-fun))
 
 (match (cdr (command-line))
   ((input output . replacements)
    (let loop ((text
-               (call-with-input-file input
+               (call-with-input-file
+                   input
                  (lambda (port)
                    (set-port-encoding! port "UTF-8")
                    (get-string-all port))))
               (rest replacements))
      (match rest
        (()
-        (call-with-output-file output
+        (call-with-output-file
+            output
           (lambda (port)
             (set-port-encoding! port "UTF-8")
             (display text port))))
@@ -21,7 +25,11 @@
                                 (object->string token)
                                 token)))
           (loop (string-replace-substring
-                 text placeholder
-                 (if (string=? key "GUILE") value (object->string value)))
+                 text
+                 placeholder
+                 (if (string=? key "GUILE")
+                     value
+                     (object->string value)))
                 tail))))))
-  (_ (error "usage: substitute.scm INPUT OUTPUT KEY VALUE ...")))
+  (_
+   (error "usage: substitute.scm INPUT OUTPUT KEY VALUE ...")))
