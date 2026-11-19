@@ -1,61 +1,91 @@
-# 维护指引
+# Maintenance Guidelines
 
-## 适用范围
+## Scope
 
-本文件适用于整个仓库；涉及某个目录时，还需读取其中更具体的 `AGENTS.md`。 网站相关工作必须读取
-[site/AGENTS.md](site/AGENTS.md)，包括位于 `site/` 外的 Nix 注册和开发工具配置。
-网站的架构、数据和发布约定放在那里，语言技能只维护实现惯例。
+This file applies to the entire repository. When working in a directory, also
+read any more specific `AGENTS.md` that applies there. All website work requires
+reading [site/AGENTS.md](site/AGENTS.md), including Nix registration and
+development-tool configuration outside `site/`. Website architecture, data, and
+publication conventions belong there; language skills cover implementation
+conventions only.
 
-## 文档
+## Documentation
 
-项目默认说明是根目录的 [README](README)。项目文档使用中文；技能及其使用说明使用英文，保留 Markdown 格式。
-项目和代码目录的默认说明使用 `README`，第一行为 `# -*- mode: org; -*-`，采用 Org 标题、链接和源码块。 社区文件放在
-`.github/`，保留 GitHub 支持的 Markdown 或 YAML 格式。
+The project's default documentation is the root [README](README). Project
+documentation uses Chinese. Skills and their usage instructions use English and
+remain in Markdown. `AGENTS.md` files at every level remain in Markdown and may
+be entirely in English; they are exempt from the Chinese-language requirement
+for project documentation.
 
-Org 文档每行最多 80 个显示列，按完整源码行计算，包含标记和链接地址。 中文和全角标点按两列，ASCII 字符按一列；正文中英文之间保留一个空格。
-换行时不拆开单词、代码或链接地址，长链接可以换行描述文字。 核验时使用 Emacs 的 `string-width` 等显示宽度计算，不能用字符数代替。
+Use `README` for the default documentation in project and code directories. Its
+first line must be `# -*- mode: org; -*-`, and it must use Org headings, links,
+and source blocks. Keep community files in `.github/`, using GitHub-supported
+Markdown or YAML formats.
 
-字体列表、预览和许可信息由网站展示，不向 README 追加逐包图片。 贡献流程维护在
-[.github/CONTRIBUTING.md](.github/CONTRIBUTING.md)，网站操作维护在
-[site/README](site/README)，不再建立 `docs/` 或独立的开发文档副本。
-预览网站地址目前只是预设，不能描述为已经部署；未经明确请求，不修改部署流程。
+Org documents have a maximum of 80 display columns per complete source line,
+including markup and link URLs. Count Chinese characters and full-width
+punctuation as two columns and ASCII characters as one. Leave one space between
+Chinese and English text in prose. Do not split words, code, or URLs when
+wrapping lines; the descriptive text of a long link may wrap. Verify display
+width with a facility such as Emacs's `string-width`, not character counts.
+
+The website presents font listings, previews, and license information; do not
+append per-package images to README files. Maintain contribution procedures in
+[.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) and website operations in
+[site/README](site/README). Do not recreate `docs/` or separate copies of
+development documentation. The preview website URL is currently only planned; do
+not describe it as deployed. Do not change deployment workflows without an
+explicit request.
 
 ## Nix
 
-写入、修改、审查或重构 `.nix` 文件前，先使用
-[nix-coding](.agents/skills/nix-coding/SKILL.md)，读取其引用的风格指南，并按要求格式化和验证。
+Before writing, editing, reviewing, or refactoring `.nix` files, use
+[nix-coding](.agents/skills/nix-coding/SKILL.md), read its referenced style
+guide, and perform the required formatting and verification.
 
-## C 与 Scheme
+## C and Scheme
 
-按代码的执行目标选择技能：
+Select skills according to the code's execution target:
 
-| 工作                                   | 技能                                                                                  |
-| -------------------------------------- | ------------------------------------------------------------------------------------- |
-| 手写 C 和原生字体工具                  | [c-coding](.agents/skills/c-coding/SKILL.md)                                          |
-| 原生 Guile 模块、脚本和测试            | [guile-coding](.agents/skills/guile-coding/SKILL.md)                                  |
-| 原生 HTTP 处理和 SXML/HTML             | [guile-web-coding](.agents/skills/guile-web-coding/SKILL.md)，同时遵循原生 Guile 指引 |
-| 编译到浏览器 Wasm 的 Scheme 及宿主接口 | [hoot-coding](.agents/skills/hoot-coding/SKILL.md)                                    |
+| Work                                                    | Skill                                                                                                   |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Handwritten C and native font tools                     | [c-coding](.agents/skills/c-coding/SKILL.md)                                                            |
+| Native Guile modules, scripts, and tests                | [guile-coding](.agents/skills/guile-coding/SKILL.md)                                                    |
+| Native HTTP handling and SXML/HTML                      | [guile-web-coding](.agents/skills/guile-web-coding/SKILL.md), together with the native Guile guidelines |
+| Scheme compiled to browser Wasm and its host interfaces | [hoot-coding](.agents/skills/hoot-coding/SKILL.md)                                                      |
 
-跨原生 Guile 和 Hoot 运行的模块需要同时遵循两套指引。编译端可用的 Guile 依赖不一定可在 Wasm 中使用。
+Modules that run in both native Guile and Hoot must follow both sets of
+guidelines. Guile dependencies available to the compiler are not necessarily
+available in Wasm.
 
-## 开发配置
+## Development Configuration
 
-配置维护在 `tools/dev-shells/default.nix`。`nix develop` 生成 `.bake.toml`、
-`.clang-format`、`.editorconfig`、`prek.toml` 和 `treefmt.toml` 的忽略链接。 修改对应的 Nix
-定义，不编辑或提交生成文件。
+Maintain configuration in `tools/dev-shells/default.nix`. `nix develop` creates
+Git-ignored links for `.bake.toml`, `.clang-format`, `.editorconfig`,
+`prek.toml`, and `treefmt.toml`. Edit the corresponding Nix definitions; do not
+edit or commit the generated files.
 
-C 使用 GNU 风格。开发环境提供 GNU 预设的 clang-format，按需使用并检查差异。 没有明确请求时，不把它加入 treefmt、提交检查或
-CI，也不格式化无关源码。
+C uses GNU style. The development environment provides clang-format with the GNU
+preset; use it as needed and inspect the diff. Without an explicit request, do
+not add it to treefmt, commit checks, or CI, and do not format unrelated source
+files.
 
-手写的 `Makefile`、`GNUmakefile`、`makefile`、`*.mk` 和 `Makefile.am` 最多 80 列，
-命令前缀使用真正的 Tab。开发环境提供 bake 项目的 mbake；从仓库根目录运行
-`mbake format --config .bake.toml FILE`，只检查时加 `--check`。
+Handwritten `Makefile`, `GNUmakefile`, `makefile`, `*.mk`, and `Makefile.am`
+files have a maximum of 80 columns and must use actual tabs as recipe prefixes.
+The development environment provides mbake from the bake project. From the
+repository root, run `mbake format --config .bake.toml FILE`; add `--check` to
+check without changing files.
 
-锁定版本的 mbake 不会拆分或拒绝超长行，行宽使用 `editorconfig-checker -disable-indentation FILE`
-检查。缩进交给 mbake，避免把合法的空格续行误判为缺少 Tab。 手动换行时保留 Make 和 shell 的引号、空白语义。生成的
-`Makefile.in` 和配置后的 Makefile 不参与格式化。
+The pinned mbake version neither wraps nor rejects overlong lines. Check line
+width with `editorconfig-checker -disable-indentation FILE`. Leave indentation
+checks to mbake so valid space-indented continuation lines are not mistaken for
+missing tabs. When wrapping lines manually, preserve Make and shell quoting and
+whitespace semantics. Do not format generated `Makefile.in` files or configured
+Makefiles.
 
-## 提交
+## Commits
 
-创建提交时使用 [commit](.agents/skills/commit/SKILL.md)，完成规定的暂存区检查， 并采用 GNU
-风格提交信息。拆分原则见 [贡献指南](.github/CONTRIBUTING.md)。
+When creating a commit, use [commit](.agents/skills/commit/SKILL.md), complete
+the required staged-change checks, and use a GNU-style commit message. See the
+[contribution guidelines](.github/CONTRIBUTING.md) for how to split changes into
+commits.

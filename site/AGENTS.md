@@ -1,85 +1,218 @@
-# 网站维护指引
+# Website Maintenance Guidelines
 
-本文件适用于 `site/`，并补充[根目录指引](../AGENTS.md)。未特别说明的路径均相对此目录。
-实现和文档一起检查；计划支持的能力不能写成已经验证。用户后续的明确决定优先于这里的约定。
+This file applies to `site/` and supplements the
+[root guidelines](../AGENTS.md). Unless stated otherwise, paths are relative to
+this directory. Review the implementation and documentation together; do not
+describe planned capabilities as verified. The user's later explicit decisions
+take precedence over these conventions.
 
-## 结构与职责
+## Structure and Responsibilities
 
-网站属于 tools 私有 flake，由 `default.nix` 注册到根 flake 的 `private.modules`，提供
-`apps.site`。 保留 `nix run .#site -- ...` 的参数转发，包括端口选择和仅构建模式。 修改 Nix 前读取
-[nix-coding](../.agents/skills/nix-coding/SKILL.md) 及其风格指南。
+The website belongs to the private `tools` flake. `default.nix` registers it in
+the root flake's `private.modules` and provides `apps.site`. Preserve argument
+forwarding through `nix run .#site -- ...`, including port selection and
+build-only mode. Before editing Nix, read
+[nix-coding](../.agents/skills/nix-coding/SKILL.md) and its style guide.
 
-| 位置                                                            | 职责                                    |
-| --------------------------------------------------------------- | --------------------------------------- |
-| `bootstrap`、`configure.ac`、`Makefile.am`、`build-aux/`、`m4/` | Autotools 入口和构建支持                |
-| `module/chinese-fonts-overlay-site/`、`scripts/`                | 原生 Guile 模块和命令入口               |
-| `src/`                                                          | 原生字体解析、渲染和图片校验            |
-| `web/`                                                          | Hoot Scheme、静态 HTML 和最小浏览器接口 |
-| `data/`                                                         | 经核对的语言名称和多语言样文            |
-| `tests/`                                                        | 功能测试和可再分发的小型测试素材        |
+| Location                                                        | Responsibility                                           |
+| --------------------------------------------------------------- | -------------------------------------------------------- |
+| `bootstrap`, `configure.ac`, `Makefile.am`, `build-aux/`, `m4/` | Autotools entry points and build support                 |
+| `module/chinese-fonts-overlay-site/`, `scripts/`                | Native Guile modules and command entry points            |
+| `src/`                                                          | Native font parsing, rendering, and image validation     |
+| `web/`                                                          | Hoot Scheme, static HTML, and minimal browser interfaces |
+| `data/`                                                         | Verified language names and multilingual sample text     |
+| `tests/`                                                        | Functional tests and small redistributable fixtures      |
 
-手写的网站自动化使用 Guile，包括引导助手、目录生成、覆盖扫描、渲染调度、本地服务和测试驱动。 Autoconf 生成的 shell 与简短的 Make
-调用属于正常构建支持；不要将维护策略移到 shell、Python 或 JavaScript 中规避 Guile 实现。
-技能目录中的可选验证脚本不属于网站源码。
+Use Guile for handwritten website automation, including bootstrap helpers,
+catalog generation, coverage scanning, rendering orchestration, local serving,
+and test drivers. Autoconf-generated shell code and short Make invocations are
+normal build support; do not move maintenance policy into shell, Python, or
+JavaScript to bypass the Guile implementation. Optional validation scripts in
+skill directories are not website source code.
 
-## 构建、安装与发行
+## Interface and Styling
 
-- `Makefile.am` 遵循根目录的 80 列和 Tab 规则。mbake 显式使用根目录 `.bake.toml`； 它的 GNU Make
-  校验不能替代 Automake 检查。不要格式化生成文件。
-- 维护 `configure.ac` 和 `Makefile.am`，通过 bootstrap 重新生成配置与辅助文件。 依赖由
-  configure/pkg-config 在锁定环境中检查。Nix 包装同一套构建，不复制构建逻辑。
-- 支持独立构建目录，以及 bootstrap 后只读的源码目录。Wasm、运行时资源、二进制、日志、缓存和网站输出写入可写目录； 正确区分 `srcdir`
-  与构建目录，不假定调用者位于 `site/`。
-- 普通编译与测试不得要求下载整个字库。完整目录生成显式消费元数据和私有字体输入，小型测试不依赖网络。
-- 保持 `make`、`make check`、网站生成与服务、安装与卸载、`clean`、`distclean` 和发行目标可用。 Automake 使用
-  `foreign` 模式。文档使用中文 Org 格式，`README` 首行保留模式声明； 本地运行、构建与数据维护集中在
-  [README](README)，不恢复独立开发文档。
-- 不在此目录添加 `AUTHORS`、`ChangeLog`、`COPYING`、`INSTALL` 或 `NEWS`。
-  仓库根目录的许可仍适用。源码发行包无需 Git 或生成的变更历史即可构建。
-- 支持 `prefix` 和 `DESTDIR`。安装后的命令能够找到模块、数据、原生工具及匹配的 Hoot 资源， 不依赖源码检出或记录的构建目录。无
-  Git 时接受显式源码提交号；帮助和版本命令不需要字体输入或仓库。 加载模块不能启动构建或服务。
-- 修改构建系统后，执行独立目录构建、相关检查、暂存安装和 `make distcheck`。 Nix
-  求值成功不能代替实际运行；无法完成或失败的验证必须如实说明。
+Before changing website components, styles, themes, or Tailwind CSS and daisyUI
+build configuration, use
+[daisyui-coding](../.agents/skills/daisyui-coding/SKILL.md). This also applies
+to Scheme/SXML-generated HTML and website dependency configuration outside
+`site/`. When Guile, Hoot, or Nix is involved, also follow the corresponding
+skills specified in the root guidelines.
 
-依赖版本使用当前 flake 输入，更新锁文件属于独立任务。本地功能先于样式和 CI。 预定网站地址为
-`https://brsvh.github.io/chinese-fonts-overlay/`，目前没有部署。 没有明确请求时，不添加部署配置，也不修改独立的
-CI 预览样文表 `../tools/generate-font-preview-images/sample-keys.nix`。
+When integrating or upgrading dependencies, check that the official skill and
+component sources referenced by the skill match the project's dependency
+versions. Prefer tools provided by the currently locked Nixpkgs. Pin missing
+dependencies separately by version and hash; do not update the lock file merely
+because an online example uses the latest version.
 
-## 数据归属
+The current dependencies are the Tailwind CSS 4.3.4 standalone compiler and the
+daisyUI 5.7.39 plugin package. Nix supplies dependencies, and Autotools compiles
+CSS; do not introduce a Node project or a runtime CDN. Use the standard Modus
+Operandi theme and TsangerYuYangT W02 and W03 for the interface font. New
+complete class names must be discoverable through the CSS entry point's explicit
+source scanning. Pass continuous preview dimensions through CSS variables. Keep
+filtering, URL state, and asynchronous loading policy in Hoot; browser
+interfaces provide only the necessary host operations.
 
-包信息只维护在 `package.nix` 的 `passthru.fontInfo`。 读取
-[实际 schema](../lib/font-info.nix) 和 [维护说明](README)，不另建逐包索引。
-字库、风格和许可费用由人工核对；语言来自字体覆盖扫描，排序且不重复。 保留逐包注意事项，利用组合函数提供的 `isFontAggregate` 排除总包。
+## Building, Installation, and Distribution
 
-普通网站构建不改写包定义。显式覆盖更新先扫描完全部选定输入，成功后只写语言列表，保留其他元数据；
-检查模式在记录过期时失败。包的语言覆盖取并集，但某个预览仍必须由该款式实际支持所选样文。
+- `Makefile.am` follows the root guidelines' 80-column and tab rules. Explicitly
+  use the root `.bake.toml` with mbake. Its GNU Make validation does not replace
+  Automake checks. Do not format generated files.
+- Maintain `configure.ac` and `Makefile.am`, and regenerate configuration and
+  auxiliary files through bootstrap. configure/pkg-config checks dependencies in
+  the pinned environment. Nix wraps the same build rather than duplicating build
+  logic.
+- Support separate build directories and source directories that are read-only
+  after bootstrap. Write Wasm, runtime assets, binaries, logs, caches, and
+  website output to writable directories. Distinguish `srcdir` from the build
+  directory correctly; do not assume the caller is in `site/`.
+- Normal compilation and tests must not require downloading the entire font
+  collection. Full catalog generation explicitly consumes metadata and private
+  font inputs; small tests must not depend on the network.
+- Keep `make`, `make check`, website generation and serving, installation and
+  uninstallation, `clean`, `distclean`, and distribution targets working. Use
+  Automake's `foreign` mode. Documentation uses Chinese Org format, with the
+  mode declaration retained on the first line of `README`. Keep local operation,
+  build, and data-maintenance instructions in [README](README); do not restore
+  separate development documentation.
+- Do not add `AUTHORS`, `ChangeLog`, `COPYING`, `INSTALL`, or `NEWS` in this
+  directory. The repository's root license still applies. Source distributions
+  must build without Git or a generated change history.
+- Support `prefix` and `DESTDIR`. Installed commands must find their modules,
+  data, native tools, and matching Hoot resources without relying on a source
+  checkout or a recorded build directory. Accept an explicit source commit ID
+  when Git is unavailable. Help and version commands must not require font
+  inputs or a repository. Loading a module must not start a build or server.
+- After changing the build system, perform a build in a separate directory, the
+  relevant checks, a staged installation, and `make distcheck`. Successful Nix
+  evaluation does not replace actual execution. Report verification that failed
+  or could not be completed accurately.
 
-语言到样文的映射与简体中文名称维护在 `data/`。保留样文的真实语言、中文地区命名格式及来源说明。 不要恢复逐包样文选择器，也不要增加 Babel
-运行依赖。机器分类使用稳定键，界面沿用中文标签，包括“未知”。
+Use dependency versions from the current flake inputs; lock-file updates are a
+separate task. Local functionality takes priority over styling and CI. The
+planned website URL is `https://brsvh.github.io/chinese-fonts-overlay/`; the
+site is not currently deployed. Without an explicit request, do not add
+deployment configuration or modify the separate CI preview sample table at
+`../tools/generate-font-preview-images/sample-keys.nix`.
 
-## 输出与耗时操作
+## Data Ownership
 
-网站完全静态，仅公开 HTML、公开元数据 JSON、匹配的 Hoot/Wasm 资源和透明 PNG。
-不公开字体原文件、私有渲染清单、本地路径或缓存。所有字体统一使用固定图片； `redistributable`
-只是展示的元数据，不据此恢复在线试字或字体文件分发。
+Maintain package information only in `package.nix` under
+`passthru.chinese-fonts-overlay-site`. Read the
+[actual schema](../lib/font-info.nix) and [maintenance instructions](README); do
+not create a separate per-package index. Font vendors, styles, and license costs
+are verified manually. Languages come from font coverage scans and must be
+sorted and unique. Preserve per-package notices, and exclude aggregate packages
+using the `isFontAggregate` flag supplied by the composition functions.
 
-保留支持的全部款式、集合成员、字重和可变字体命名实例。直接使用原始格式，不转换或裁剪字体。
-按所选语言显示样本；缺样本时不能用另一种语言或回退字体掩盖。源码链接指向完整提交号下的 `package.nix` GitHub 页面。
+Styles are overlapping labels, not mutually exclusive categories. Preserve all
+verified styles in a package, including styles reached through variable axes.
+For example, Gothic faces normally use both `hei` and `sans`, while Song faces
+use `serif` and `song`. Use `rounded` for rounded typefaces, `handwritten` for
+handwriting, and `symbol` for icon, emoji, or dedicated symbol fonts.
+Calligraphic or decorative handwriting may also use `cal` or `art`; do not use
+either as a catch-all for handwriting. Prefer publisher descriptions, then
+inspect actual preview glyphs across relevant faces. Do not infer the whole
+package's style from its name or first face. Ask the maintainer when neither
+source resolves a classification; `unknown` must stand alone when evidence is
+insufficient.
 
-分开处理发现、校验、渲染和发布。子进程输出按数据解析，校验结构和退出状态； 传递参数数组，不将文件名拼入 shell
-命令。工具协议的标准输出保持机器可读，诊断写到标准错误。 原生 Guile 与 Hoot 之间明确区分 JSON 的 false、null、空对象和空数组。
+The required `displayName` is the publisher's family or product name, verified
+against its homepage or release documentation. Prefer the publisher's local name
+when available. Do not concatenate weight names or duplicate translated aliases.
+Preserve distinctions between separately packaged regions, families, and
+variable-font variants; a package containing multiple independent families must
+identify them. Maintain this name in the package rather than deriving it from
+font file names or the first face's full name.
 
-复用有效缓存。缓存标识包含会改变输出的字体内容、款式与实例、样文以及解析和渲染配置。
-限制渲染并发并传播工作线程失败。全部输出在暂存目录中校验成功后再替换，失败时保留上一次完整网站。 只清理当前任务拥有的临时产物，不清理无关缓存。
+The optional boolean `embedding` takes precedence over `meta.redistributable`;
+when omitted, derive it from the latter, defaulting to false if that is also
+absent. Audit embedding font files in software, websites, or devices against the
+package's license and the publisher's original terms. Free commercial use,
+rendered output, or document-only embedding does not establish this permission.
+Do not mark permission as granted when it requires a separate purchase or
+application, or when the available terms do not establish it. A true value still
+requires compliance with applicable attribution, license, source availability,
+and font replacement conditions. Omit the field when the default is correct;
+record overrides and special conditions in package notices with source links.
+The public catalog contains the final boolean; the frontend must not infer it
+again. Open-source and proprietary categories use the license's explicit `free`
+value; missing information remains unknown.
 
-## 验证范围
+Default filters are Simplified Chinese, sans-serif, all vendors, all costs, and
+open-source licenses. Font embedding is unchecked by default. Combine choices
+within a category with OR and different categories with AND; an empty selection
+means no matches. Reset restores these defaults. Select-all checkboxes include
+collapsed options and reflect partial selection. URL state and browser Back and
+Forward must restore the same selections.
 
-测试只针对最终可观察功能和支持的用户操作，不针对中间开发步骤、历史实现或私有辅助结构。
-保持测试最精简，只保留必要行为和独立失败边界。合并重叠覆盖、删除失效断言，不为每次重构堆积测试。 不要单独测试简单包装、固定 schema
-数字、偶然的页面钩子或内部布局。 验证拒绝行为时，输入的其他条件应均有效；检查预期诊断，不能把任意异常当作成功。
-测试助手只准备输入或返回结果，断言留在测试用例内。
+Normal website builds do not rewrite package definitions. An explicit coverage
+update first scans all selected inputs; only after success does it write the
+language lists, preserving other metadata. Check mode fails when recorded data
+is stale. Package language coverage is the union across its faces, but each
+preview must still use sample text actually supported by that face.
 
-优先使用有许可的小型素材，覆盖静态字体、集合、可变实例、Unicode、缺字和无效或不透明图片。 按变更边界选择原生工具、Guile 转换与命令退出状态、真实
-HTTP 响应或浏览器交互验证。 原生测试使用 SRFI-64，失败必须反映到进程退出状态。
+Maintain language-to-sample mappings and Simplified Chinese language names in
+`data/`. Preserve the samples' actual languages, the Chinese regional naming
+format, and source notes. Do not restore per-package sample selectors or add a
+Babel runtime dependency. Use stable machine keys for categories and retain
+Chinese UI labels, including the label for unknown values.
 
-迁移时比较实际元数据、款式、样文选择和公开产物，不能只比较数量。 有效时复用完整字库的输出和缓存；只有变更需要时才重建全量字库。明确报告已验证和未验证的部分。
+## Output and Expensive Operations
+
+The website is entirely static, publishing HTML, CSS, public metadata JSON,
+matching Hoot/Wasm assets, and transparent PNGs. Use fixed images for all
+catalog fonts; do not publish their original files, private rendering manifests,
+local paths, or caches. Interface fonts are the sole exception: ship the
+original TsangerYuYangT W02 and W03 TTF files and their license statement with
+the site. Use `redistributable` for status display and the default value of
+`embedding`; do not use it as grounds to restore live previews of user-entered
+text.
+
+Preserve all supported faces, font collection members, weights, and named
+variable-font instances. Use the original formats directly; do not convert or
+subset fonts. Show samples for the selected languages. Do not hide missing
+samples by substituting another language or a fallback font. Source links must
+point to the GitHub page for `package.nix` at a full commit ID. Footer links for
+website source code, the commit, and the website license must use that same
+commit. Scale images to the actual preview size; allow horizontal scrolling when
+space is insufficient instead of shrinking them to the container width.
+
+Handle discovery, validation, rendering, and publication separately. Parse
+subprocess output as data and validate its structure and exit status. Pass
+argument arrays rather than interpolating filenames into shell commands. Keep
+tool-protocol standard output machine-readable and send diagnostics to standard
+error. Distinguish JSON false, null, empty objects, and empty arrays explicitly
+across native Guile and Hoot.
+
+Reuse valid caches. Cache identifiers must include the font content, faces and
+instances, sample text, and parsing and rendering configuration that can affect
+the output. Limit rendering concurrency and propagate worker failures. Validate
+all output successfully in a staging directory before replacing the published
+output; preserve the previous complete website on failure. Clean up only
+temporary artifacts owned by the current task, not unrelated caches.
+
+## Verification Scope
+
+Test only final observable functionality and supported user actions, not
+intermediate development steps, historical implementations, or private helper
+structures. Keep tests minimal, covering only necessary behavior and distinct
+failure boundaries. Merge overlapping coverage and remove obsolete assertions;
+do not accumulate tests for every refactor. Do not separately test trivial
+wrappers, fixed schema numbers, incidental page hooks, or internal layouts. When
+testing rejection, all other input conditions must be valid. Check the expected
+diagnostic; do not treat an arbitrary exception as success. Test helpers only
+prepare inputs or return results; keep assertions in test cases.
+
+Prefer small, licensed fixtures covering static fonts, font collections,
+variable instances, Unicode, missing glyphs, and invalid or nontransparent
+images. Choose verification appropriate to the changed boundary: native tools,
+Guile transformations and command exit status, real HTTP responses, or browser
+interactions. Native tests use SRFI-64, and failures must be reflected in the
+process exit status.
+
+During migrations, compare actual metadata, faces, sample selections, and public
+artifacts, not just counts. Reuse full-catalog output and caches when valid;
+rebuild the entire font collection only when the change requires it. Clearly
+report what has and has not been verified.
