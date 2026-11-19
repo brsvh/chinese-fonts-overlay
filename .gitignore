@@ -25,4 +25,36 @@
 # previews
 /font-preview-images
 
+# site
+/site/dist/
+/site/.cache/
+/site/build/
+/site/public/
+/site/cache/
+/site/autom4te.cache/
+/site/aclocal.m4
+/site/configure
+/site/configure~
+/site/Makefile
+/site/Makefile.in
+/site/build-aux/compile
+/site/build-aux/depcomp
+/site/build-aux/install-sh
+/site/build-aux/missing
+/site/build-aux/test-driver
+/site/compiled-web/
+/site/chinese-fonts-overlay-site
+/site/font-info
+/site/render-font-samples
+/site/config.log
+/site/config.cache
+/site/config.status
+/site/src/.deps/
+/site/src/.dirstamp
+/site/src/*.o
+/site/*.log
+/site/tests/*.log
+/site/tests/*.trs
+/site/*.tar.xz
+
 # .gitignore ends here
