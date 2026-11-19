@@ -156,6 +156,10 @@ let
           max_line_length = "unset";
         };
 
+        "site/**/Makefile.in" = {
+          indent_style = "tab";
+        };
+
         "{GNUmakefile,Makefile,Makefile.am,makefile,*.mk}" =
           {
             indent_style = "tab";
