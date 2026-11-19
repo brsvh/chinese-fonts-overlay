@@ -325,6 +325,23 @@ let
     treefmt = {
       data = {
         formatter = {
+          css = {
+            command = "biome";
+
+            includes = [
+              "*.css"
+            ];
+
+            options = [
+              "format"
+              "--write"
+              "--indent-style=space"
+              "--indent-width=2"
+              "--line-width=80"
+              "--css-parse-tailwind-directives=true"
+            ];
+          };
+
           javascript = {
             command = "biome";
 

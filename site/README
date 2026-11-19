@@ -92,8 +92,11 @@ pkg-config、FreeType、Fontconfig、GLib、Pango 和 Cairo，
 - =UI_FONT_REGULAR= 和 =UI_FONT_MEDIUM= :: 仓耳渔阳体 W02、W03 原始 TTF。
 - =UI_FONT_LICENSE= :: 仓耳字库授权声明 PDF。
 
-入口 =web/style.css.in= 显式扫描 HTML 和 Scheme 源码，
+入口 =web/style.css= 显式扫描 HTML 和 Scheme 源码，
 生成标准 Modus Operandi 主题的 =style.css=。
+路径占位符使用带双引号的 CSS 字符串，构建时替换整个字符串。
+开发环境中的 =treefmt= 使用 Biome 格式化 CSS，并启用 Tailwind 指令解析；
+在仓库根目录执行 =treefmt site/web/style.css= 即可格式化样式源码。
 修改样式不需要重新编译 Wasm，也不需要重新生成字体样图。
 源码发行包已包含 =configure= 脚本。
 生成网站时另需传入 =CATALOG= 和 =PREVIEWS= JSON；无 Git 检出的构建还需完整的

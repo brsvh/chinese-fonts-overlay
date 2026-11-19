@@ -58,7 +58,7 @@ compiled-web/%: $(srcdir)/web/%
 	$(AM_V_GEN)$(MKDIR_P) compiled-web
 	cp $< $@
 
-compiled-web/input.css: $(srcdir)/web/style.css.in \
+compiled-web/input.css: $(srcdir)/web/style.css \
 	$(srcdir)/build-aux/substitute.scm Makefile
 	$(AM_V_GEN)$(MKDIR_P) compiled-web
 	$(GUILE) --no-auto-compile $(srcdir)/build-aux/substitute.scm $< $@ \
@@ -133,7 +133,7 @@ EXTRA_DIST = \
   scripts/chinese-fonts-overlay-site.in \
   build-aux/substitute.scm \
   web/index.html \
-  web/style.css.in \
+  web/style.css \
   web/licenses.html \
   web/favicon.svg \
   web/cc0.svg \
