@@ -13,8 +13,7 @@
         (call-with-output-file output
           (lambda (port)
             (set-port-encoding! port "UTF-8")
-            (display text port)))
-        (chmod output #o755))
+            (display text port))))
        ((key value . tail)
         (loop (string-replace-substring
                text

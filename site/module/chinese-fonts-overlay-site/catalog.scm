@@ -13,22 +13,22 @@
 (define source-repository "https://github.com/brsvh/chinese-fonts-overlay")
 
 (define (xml tree)
-  "Serialize SXML TREE with text and attribute escaping."
+  "Serialize HTML from SXML, retaining explicit closing tags for nonvoid nodes."
   (call-with-output-string (lambda (port) (sxml->xml tree port))))
 
-(define (encode text)
-  "Percent-encode one URL path segment or filter token."
-  (uri-encode
-   text
-   #:unescaped-chars
-   (char-set-union char-set:letter+digit (string->char-set "-_.~"))))
+(define (http-url? url)
+  "Accept only HTTP(S) destinations for public reference links."
+  (and (string? url)
+       (or (string-prefix? "http://" url) (string-prefix? "https://" url))))
 
 (define (link url label)
   "Return an HTTP(S) link, or plain LABEL for an unsupported URL."
-  (if (and (string? url)
-           (or (string-prefix? "http://" url) (string-prefix? "https://" url)))
-      `(a (@ (href ,url)) ,label)
-      label))
+  (if (http-url? url) `(a (@ (href ,url)) ,label) label))
+
+(define (icon name)
+  "Reference a decorative symbol from the page's inline icon sheet."
+  `(svg (@ (aria-hidden "true") (viewBox "0 0 24 24"))
+        (use (@ (href ,(string-append "#icon-" name))) "")))
 
 (define (merge object fields)
   "Return OBJECT extended with the public FIELDS."
@@ -36,355 +36,463 @@
         object
         fields))
 
-(define (join-names values)
-  "Join Chinese display names, using the unknown label for an empty list."
-  (if (null? values) "未知" (string-join values "、")))
+(define (license-categories licenses)
+  "Retain explicit free and proprietary choices, without classifying unknowns."
+  (delete-duplicates
+   (map (lambda (license)
+          (let ((free (jref license "free" 'null)))
+            (cond
+             ((eq? free #t) "open")
+             ((eq? free #f) "proprietary")
+             (else "unknown"))))
+        (if (null? licenses) '(()) licenses))))
 
-(define (license-html license)
-  "Render a license name, SPDX identifier and optional reference link."
-  (let ((name (jref license "name")) (spdx (jref license "spdxId")))
-    (link (jref license "url")
-          (if (and (string? spdx) (not (equal? spdx name)))
-              (string-append name " (" spdx ")")
-              name))))
+(define (preview-html face cover?)
+  "Render a face's default sample and hooks for language-specific enhancement."
+  (let* ((tag (jref face "defaultLanguage"))
+         (sample (jref (jref face "samples") tag))
+         (name (jref face "name")))
+    `(section
+      (@ (class ,(if cover? "cover-preview" "face-item"))
+         (data-image-preview ,(if cover? "cover" "face"))
+         (data-samples-url ,(jref face "manifest"))
+         (data-face-name ,name))
+      ,@(if cover? '() `((h3 (@ (class "face-caption")) ,name)))
+      (p (@ (class "preview-status")
+            (data-preview-status "")
+            (role "status")
+            ,@(if sample '((hidden "hidden")) '()))
+         ,(if sample " " "此款式暂无预览。"))
+      (div (@ (data-preview-slot ""))
+           ,@(if sample
+                 `((div (@ (class "sample")
+                           (tabindex "0")
+                           (role "region")
+                           (aria-label "字体预览，可横向滚动"))
+                        (img (@ (src ,(jref sample "url"))
+                                (alt ,(string-append
+                                       name
+                                       "："
+                                       (language-label tag)
+                                       "，"
+                                       (jref sample "text")))
+                                (width ,(jref sample "width"))
+                                (height ,(jref sample "height"))
+                                (loading "lazy")))))
+                 '(" ")))
+      (button
+       (@ (class "btn btn-ghost btn-xs")
+          (data-preview-retry "")
+          (type "button")
+          (hidden "hidden"))
+       "重试加载"))))
 
-(define (preview-html package)
-  "Render every preview face with its static image and enhancement hooks."
-  `(div
-    (h4 "字体预览")
-    (ul ,@(map
-           (lambda (face)
-             (let* ((samples (jref face "samples"))
-                    (tag (jref face "defaultLanguage"))
-                    (sample (jref samples tag))
-                    (name (jref face "name")))
-               `(li
-                 (@ (data-image-preview "")
-                    (data-samples-url ,(jref face "manifest"))
-                    (data-face-name ,name))
-                 (p ,name)
-                 (p (@ (data-preview-status "")
-                       (role "status")
-                       ,@(if sample '((hidden "hidden")) '()))
-                    ,(if sample "" "此款式暂无预览。"))
-                 (span
-                  (@ (data-preview-slot ""))
-                  ,@(if sample
-                        `((img
-                           (@ (src ,(jref sample "url"))
-                              (alt ,(string-append
-                                     name
-                                     "："
-                                     (language-label tag)
-                                     (if (equal?
-                                          (jref sample "kind")
-                                          "characters")
-                                         "字表预览"
-                                         "预览")))
-                              (width ,(jref sample "width"))
-                              (height ,(jref sample "height"))
-                              (loading "lazy")
-                              (style "max-width: 100%; height: auto"))))
-                        '("")))
-                 (button
-                  (@ (data-preview-retry "")
-                     (type "button")
-                     (hidden "hidden"))
-                  "重试加载"))))
-           (jarray (jref (jref package "preview") "faces"))))))
-
-(define (notices-html notices)
-  "Render optional plain-text notices without collapsing or interpreting HTML."
+(define (notices-html notices level-labels)
+  "Render visible plain-text notices with localized levels and source links."
   (if (null? notices)
       '()
       `((section
-         (@ (aria-label "注意事项"))
-         (h4 "注意事项")
-         (ul ,@(map (lambda (notice)
-                      `(li (@ (data-notice-level ,(jref notice "level")))
-                           (p (strong ,(jref notice "levelName")))
-                           (p (@ (style "white-space: pre-wrap"))
-                              ,(jref notice "text"))
-                           ,@(if (jref notice "url")
-                                 `((p ,(link (jref notice "url") "参考来源")))
-                                 '())))
-                    notices))))))
+         (@ (class "package-notices") (aria-label "注意事项"))
+         ,@(map (lambda (notice)
+                  `(div (@ (class "alert package-notice")
+                           (data-notice-level ,(jref notice "level")))
+                        (h3 (@ (class "notice-heading"))
+                            ,(icon "notice")
+                            ,(jref level-labels (jref notice "level") "注意事项"))
+                        (p (@ (class "notice-text")) ,(jref notice "text"))
+                        ,@(if (http-url? (jref notice "url"))
+                              `((p (@ (class "notice-source"))
+                                   ,(link (jref notice "url") "查看原文")))
+                              '())))
+                notices)))))
 
-(define (package-html package)
-  "Render one public PACKAGE with metadata, notices and every preview face."
+(define (homepage-control name homepages)
+  "Render direct or disclosed upstream links in their reviewed source order."
+  (let* ((urls (filter http-url? (jarray homepages)))
+         (label (string-append name " 上游主页")))
+    (cond
+     ((null? urls) "")
+     ((null? (cdr urls))
+      `(a (@ (class "upstream")
+             (href ,(car urls))
+             (aria-label ,label)
+             (title ,(car urls)))
+          ,(icon "arrow")))
+     (else
+      `(details
+        (@ (class "dropdown upstream-menu"))
+        (summary (@ (class "upstream upstream-toggle")
+                    (aria-label ,(format #f "~a（~a 个）" label (length urls)))
+                    (title "选择上游主页"))
+                 ,(icon "arrow")
+                 (span ,(number->string (length urls)))
+                 ,(icon "down"))
+        (ul (@ (class "dropdown-content menu upstream-links")
+               (aria-label ,label))
+            ,@(map (lambda (url)
+                     `(li (a (@ (href ,url)) (span ,url) ,(icon "arrow"))))
+                   urls)))))))
+
+(define (package-html package notice-level-labels)
+  "Render a package with localized notices, font disclosures and source links."
   (let* ((p (lambda (key) (jref package key)))
+         (faces (jarray (jref (p "preview") "faces")))
          (licenses (jarray (p "licenses")))
-         (faces (jarray (p "faces")))
+         (version (if (string-null? (p "version")) "未知" (p "version")))
          (search
           (append
-           (list (p "pname")
+           (list (p "displayName")
+                 (p "pname")
                  (p "attribute")
                  (p "description")
-                 (p "vendor")
-                 (p "vendorName")
-                 (p "licenseCostName"))
-           (jarray (p "languages"))
+                 (p "vendorName"))
            (jarray (p "languageNames"))
            (jarray (p "styleNames"))
-           faces
-           (map (lambda (license) (jref license "name")) licenses)
-           (map (lambda (license)
-                  (let ((id (jref license "spdxId"))) (if (string? id) id "")))
-                licenses))))
-    (xml `(li (@ (id ,(p "id"))
-                 (data-search ,(string-join search " "))
-                 (data-vendor ,(p "vendor"))
-                 (data-license-cost ,(p "licenseCost"))
-                 (data-licenses
-                  ,(string-join
-                    (map (lambda (license) (encode (jref license "id")))
-                         licenses)
-                    " "))
-                 (data-languages
-                  ,(string-join
-                    (catalog-languages (jarray (p "languages")))
-                    " "))
-                 (data-styles
-                  ,(string-join
-                    (if (zero? (vector-length (p "styles")))
-                        '("unknown")
-                        (jarray (p "styles")))
-                    " "))
-                 (data-redistributable
-                  ,(if (p "redistributable") "true" "false")))
-              (article
-               (h3 (code ,(p "pname")))
-               (p ,(p "description"))
-               (dl (dt "包名")
-                   (dd (code ,(p "attribute")))
-                   (dt "版本")
-                   (dd ,(if (string-null? (p "version")) "未知" (p "version")))
-                   (dt "字库")
-                   (dd ,(p "vendorName"))
-                   (dt "许可证费用")
-                   (dd ,(p "licenseCostName"))
-                   (dt "许可证")
-                   (dd ,@(if (null? licenses)
-                             '("未知")
-                             (append-map
-                              (lambda (item)
-                                (if (eq? item (car licenses))
-                                    (list (license-html item))
-                                    (list "；" (license-html item))))
-                              licenses)))
-                   (dt "再分发")
-                   (dd ,(if (p "redistributable") "允许" "不允许"))
-                   (dt "语言")
-                   (dd ,(join-names (jarray (p "languageNames"))))
-                   (dt "风格")
-                   (dd ,(join-names (jarray (p "styleNames")))))
-               (p (a (@ (href ,(jref (p "source") "url"))) "source")
-                  ,@(append-map
-                     (lambda (url) (list " · " (link url "主页")))
-                     (jarray (p "homepages"))))
-               ,@(notices-html (jarray (p "notices")))
-               ,@(if (null? faces)
-                     '((p "字重／款式：未知。"))
-                     `((h4 ,(format #f "字重／款式（~a 款）" (length faces)))
-                       (ul ,@(map (lambda (name) `(li ,name)) faces))))
-               ,(preview-html package)
-               ,@(if (string-null? (p "longDescription"))
-                     '()
-                     `((h4 "详细说明")
-                       (p (@ (style "white-space: pre-wrap"))
-                          ,(p "longDescription")))))))))
+           (map (lambda (face) (jref face "name")) faces))))
+    (xml `(article
+           (@ (class "font-row")
+              (id ,(p "id"))
+              (data-search ,(string-join search " "))
+              (data-name ,(p "displayName"))
+              (data-vendor ,(p "vendor"))
+              (data-cost ,(p "licenseCost"))
+              (data-license
+               ,(string-join (jarray (p "licenseCategories")) " "))
+              (data-language
+               ,(string-join (catalog-languages (jarray (p "languages"))) " "))
+              (data-style ,(string-join (jarray (p "styles")) " "))
+              (data-embedding ,(if (p "embedding") "true" "false")))
+           (div (@ (class "row-top"))
+                (div (@ (class "font-title"))
+                     (h2 (@ (class "font-name")) ,(p "displayName"))
+                     ,(homepage-control (p "displayName") (p "homepages")))
+                (span (@ (class "vendor")) ,(p "vendorName")))
+           (details
+            (@ (class "face-list"))
+            (summary ,(format #f "~a 款字体" (length faces)) ,(icon "down"))
+            ,@(map (lambda (face) (preview-html face #f)) faces))
+           ,(preview-html (p "cover") #t)
+           (div (@ (class "row-bottom"))
+                (button
+                 (@ (class "btn btn-ghost btn-xs copy-package")
+                    (type "button")
+                    (data-copy ,(p "attribute"))
+                    (data-interactive "")
+                    (disabled "disabled")
+                    (aria-label ,(string-append "复制 " (p "attribute")))
+                    (title "复制完整包名"))
+                 (code ,(p "attribute"))
+                 ,(icon "copy"))
+                (div (@ (class "licenses"))
+                     (span (@ (class "badge badge-ghost package-version"))
+                           ,version)
+                     (span (@ (class ,(if (member (p "licenseCost")
+                                                  '("none" "commercialFree"))
+                                          "badge badge-soft badge-success cost"
+                                          "badge badge-soft badge-warning cost cost-restricted")))
+                           ,(p "licenseCostName"))
+                     ,@(map (lambda (license)
+                              `(span (@ (class "license"))
+                                     ,(link (jref license "url")
+                                            (let ((spdx (jref license "spdxId")))
+                                              (if (string? spdx)
+                                                  spdx
+                                                  (jref license "name"))))))
+                            licenses)
+                     (span (@ (class ,(if (p "redistributable")
+                                          "redistribution"
+                                          "redistribution restricted")))
+                           ,(icon (if (p "redistributable") "check" "lock"))
+                           ,(if (p "redistributable") "可再分发" "再分发受限")))
+                (a (@ (class "source") (href ,(jref (p "source") "url")))
+                   "源代码 "
+                   ,(icon "arrow")))
+           ,@(notices-html (jarray (p "notices")) notice-level-labels)
+           (details
+            (@ (class "package-info"))
+            (summary (@ (class "info-toggle"))
+                     (span (@ (class "info-show")) "显示字体信息")
+                     (span (@ (class "info-hide")) "隐藏字体信息")
+                     ,(icon "down"))
+            (dl (@ (class "package-metadata"))
+                (dt "字体介绍：")
+                (dd ,(p "description"))
+                (dt "字体详细介绍：")
+                (dd (@ (class "notice-text"))
+                    ,(if (string-null? (p "longDescription"))
+                         "暂无详细介绍。"
+                         (p "longDescription")))
+                (dt "版本：")
+                (dd ,version)
+                (dt "风格：")
+                (dd ,(string-join (jarray (p "styleNames")) "、"))
+                (dt "支持语言：")
+                (dd ,(string-join (jarray (p "languageNames")) "、"))))))))
 
-(define* (option value label #:optional selected)
-  "Render a select option with VALUE, LABEL and optional selection."
-  (xml `(option
-         (@ (value ,value) ,@(if selected '((selected "selected")) '()))
-         ,label)))
+(define (facet-label-content text)
+  "Prefer wrapping between names and qualifiers when each fits the option."
+  (let ((group (string-match
+                (string-append "（[^（）]*）|\\([^()]*\\)|「[^「」]*」|"
+                               "『[^『』]*』|【[^【】]*】|《[^《》]*》")
+                text)))
+    (if group
+        (append
+         (if (string-null? (match:prefix group))
+             '()
+             `((span (@ (class "facet-phrase")) ,(match:prefix group))))
+         `((span (@ (class "facet-phrase")) ,(match:substring group)))
+         (facet-label-content (match:suffix group)))
+        (list text))))
 
-(define (write-face-manifests preview destination)
-  "Write per-face manifests and add their URLs to PREVIEW metadata."
-  (let ((faces (map (lambda (face)
-                      (let* ((content
-                              (scm->json-string
-                               `(("samples" . ,(jref face "samples"))
-                                 ("defaultLanguage" .
-                                  ,(jref face "defaultLanguage")))))
-                             (name (string-append
-                                    "assets/previews/"
-                                    (text-digest content)
-                                    ".json")))
-                        (write-text
-                         (string-append destination "/" name)
-                         content)
-                        (jset face "manifest" name)))
-                    (jarray (jref preview "faces")))))
-    (jset preview "faces" (list->vector faces))))
+(define (facet-html key title labels defaults limit chips?)
+  "Render a multiselect facet with select-all and collapsible additional choices."
+  (define (choice entry)
+    (let ((id (string-append key "-" (car entry))))
+      `(label (@ (class ,(if chips? "facet-chip" "check-option")) (for ,id))
+              (input (@ (id ,id)
+                        (type "checkbox")
+                        (value ,(car entry))
+                        (class "checkbox checkbox-primary checkbox-xs")
+                        (data-choice ,key)
+                        ,@(if (member (car entry) defaults)
+                              '((checked "checked"))
+                              '())))
+              (span ,@(facet-label-content (cdr entry))))))
+  (xml `(fieldset
+         (@ (class "facet")
+            (id ,key)
+            (data-facet ,key)
+            (data-default ,(string-join defaults ","))
+            (data-interactive "")
+            (disabled "disabled"))
+         (legend ,title)
+         (label (@ (class "facet-all"))
+                (input (@ (type "checkbox")
+                          (class "checkbox checkbox-primary checkbox-xs")
+                          (data-select-all ,key)
+                          (aria-label ,(string-append "全选" title))
+                          ,@(if (= (length defaults) (length labels))
+                                '((checked "checked"))
+                                '())))
+                "全选")
+         (div (@ (class ,(if chips? "facet-options" "check-options")))
+              ,@(map choice (take labels (min limit (length labels))))
+              ,@(if (> (length labels) limit)
+                    `((div (@ (class "facet-extra")
+                              (id ,(string-append key "-extra"))
+                              (hidden "hidden"))
+                           ,@(map choice (drop labels limit))))
+                    '()))
+         ,@(if (> (length labels) limit)
+               `((button
+                  (@ (class "btn btn-ghost btn-xs facet-toggle")
+                     (type "button")
+                     (data-facet-toggle ,key)
+                     (aria-expanded "false")
+                     (aria-controls ,(string-append key "-extra")))
+                  (span "展开")
+                  ,(icon "down")))
+               '()))))
+
+(define (prioritize keys entries)
+  "Place present KEYS first, retaining the remaining entries' stable order."
+  (append
+   (filter-map (lambda (key) (assoc key entries)) keys)
+   (remove (lambda (entry) (member (car entry) keys)) entries)))
+
+(define (vendor-label name)
+  "Use the reviewed Chinese vendor name in compact sidebar choices."
+  (let ((match (string-match "（([^（）]+)）$" name)))
+    (if match (match:substring match 1) name)))
+
+(define (write-face-manifest face destination)
+  "Write one public face manifest and attach its content-addressed URL."
+  (let* ((content (scm->json-string `(("samples" . ,(jref face "samples")))))
+         (name (string-append "assets/previews/" (text-digest content) ".json")))
+    (write-text (string-append destination "/" name) content)
+    (jset face "manifest" name)))
+
+(define (cover-face name faces)
+  "Choose the closest regular face for each language, without changing samples."
+  (define (rank face)
+    (+ (abs (- (jref face "weight" 400) 400))
+       (if (equal? (jref face "style") "normal") 0 1000)))
+  (let ((samples
+         (fold (lambda (face samples)
+                 (fold (lambda (entry result)
+                         (if (assoc (car entry) result)
+                             result
+                             (append result (list entry))))
+                       samples
+                       (jref face "samples")))
+               '()
+               (stable-sort faces (lambda (a b) (< (rank a) (rank b)))))))
+    `(("name" . ,name)
+      ("samples" . ,samples)
+      ("defaultLanguage" . ,(default-language samples)))))
 
 (define (augment-package package catalog previews revision destination)
-  "Join package facts, reviewed labels, previews and a permanent source URL."
-  (let* ((preview
-          (write-face-manifests (jref previews (jref package "id"))
-                                destination))
+  "Join reviewed package facts, previews and a permanent source URL."
+  (let* ((faces (jarray (jref (jref previews (jref package "id")) "faces")))
+         (name (jref package "displayName"))
          (source (jref package "source"))
          (path (string-join
-                (map encode (string-split (jref source "path") #\/))
+                (map uri-encode (string-split (jref source "path") #\/))
                 "/")))
     (merge package
-           `(("preview" . ,preview)
-             ("source" .
-              ,(jset source
-                     "url"
-                     (string-append
-                      source-repository
-                      "/blob/"
-                      revision
-                      "/"
-                      path)))
-             ("faces" .
-              ,(list->vector
-                (map (lambda (face) (jref face "name"))
-                     (jarray (jref preview "faces")))))
-             ("licenseCostName" .
-              ,(jref (jref catalog "licenseCostLabels")
-                     (jref package "licenseCost")))
-             ("languageNames" .
-              ,(list->vector
-                (map language-label (jarray (jref package "languages")))))
-             ("styleNames" .
-              ,(list->vector
-                (map (lambda (style) (jref (jref catalog "styleLabels") style))
-                     (jarray (jref package "styles")))))
-             ("notices" .
-              ,(list->vector
-                (map (lambda (notice)
-                       (jset notice
-                             "levelName"
-                             (jref (jref catalog "noticeLevelLabels")
-                                   (jref notice "level"))))
-                     (jarray (jref package "notices" #())))))))))
+           `(("preview"
+              ("kind" . "image")
+              ("faces" . ,(list->vector
+                           (map (lambda (face)
+                                  (write-face-manifest face destination))
+                                faces))))
+             ("cover" . ,(write-face-manifest
+                          (cover-face name faces) destination))
+             ("licenseCategories"
+              . ,(list->vector
+                  (license-categories (jarray (jref package "licenses")))))
+             ("source" . ,(jset source
+                                "url"
+                                (string-append
+                                 source-repository
+                                 "/blob/"
+                                 revision
+                                 "/"
+                                 path)))
+             ("licenseCostName" . ,(jref (jref catalog "licenseCostLabels")
+                                         (jref package "licenseCost")))
+             ("languageNames"
+              . ,(list->vector
+                  (map language-label (jarray (jref package "languages")))))
+             ("styleNames"
+              . ,(list->vector
+                  (map (lambda (style)
+                         (jref (jref catalog "styleLabels") style))
+                       (jarray (jref package "styles")))))))))
+
+(define (public-package package)
+  "Remove inline image maps while retaining public face metadata."
+  (define (without-samples face)
+    (remove (lambda (entry) (equal? (car entry) "samples")) face))
+  (merge package
+         `(("cover" . ,(without-samples (jref package "cover")))
+           ("preview"
+            ("kind" . "image")
+            ("faces" . ,(list->vector
+                         (map
+                          without-samples
+                          (jarray (jref (jref package "preview") "faces")))))))))
+
+(define (substitute-template template substitutions)
+  "Replace literal template markers once without locale-sensitive match offsets."
+  (call-with-output-string
+   (lambda (port)
+     (let loop ((start 0))
+       (let ((next
+              (fold (lambda (entry found)
+                      (let ((position (string-contains template (car entry) start)))
+                        (if (and position
+                                 (or (not found) (< position (car found))))
+                            (cons position entry)
+                            found)))
+                    #f substitutions)))
+         (if next
+             (begin
+               (display (substring template start (car next)) port)
+               (display (cddr next) port)
+               (loop (+ (car next) (string-length (cadr next)))))
+             (display (substring template start) port)))))))
 
 (define (render-catalog catalog destination revision)
-  "Write the static catalog for REVISION, rejecting incomplete metadata."
-  (unless (string-match "^[0-9a-f]{40}$" revision)
+  "Write the complete static catalog and build-pinned navigation for REVISION."
+  (unless
+      (string-match "^[0-9a-f]{40}$" revision)
     (error "Expected a full Git commit SHA for source permalinks" revision))
   (let* ((previews (read-json (string-append destination "/previews.json")))
          (raw (jarray (jref catalog "packages"))))
-    (unless (equal?
-             (sort (map car previews) string<?)
-             (sort (map (lambda (package) (jref package "id")) raw) string<?))
+    (unless
+        (equal?
+         (sort (map car previews) string<?)
+         (sort (map (lambda (p) (jref p "id")) raw) string<?))
       (error "Expected previews for every font package"))
     (mkdir-p (string-append destination "/assets/previews"))
     (let* ((packages
-            (map (lambda (package)
-                   (augment-package
-                    package
-                    catalog
-                    previews
-                    revision
-                    destination))
+            (map (lambda (p)
+                   (augment-package p catalog previews revision destination))
                  raw))
-           (vendors
-            (sort (delete-duplicates
-                   (map (lambda (package) (jref package "vendor")) packages))
-                  string<?))
            (languages
-            (sort (delete-duplicates
-                   (append-map
-                    (lambda (package) (jarray (jref package "languages")))
-                    packages))
-                  string<?))
+            (prioritize
+             '("zh-cn" "en" "zh-tw" "zh-hk" "ja" "ko")
+             (map (lambda (key) (cons key (language-label key)))
+                  (sort (delete-duplicates
+                         (append-map
+                          (lambda (p)
+                            (catalog-languages (jarray (jref p "languages"))))
+                          packages))
+                        string<?))))
+           (vendors
+            (prioritize
+             '("tsangertype" "trionestype" "lxgw" "alibaba")
+             (map (lambda (entry)
+                    (cons (car entry) (vendor-label (cdr entry))))
+                  (jref catalog "vendors"))))
+           (costs (prioritize
+                   '("commercialFree" "personalFree" "paid" "none")
+                   (jref catalog "licenseCostLabels")))
            (licenses
-            (delete-duplicates
-             (append-map
-              (lambda (package) (jarray (jref package "licenses")))
-              packages)
-             (lambda (a b) (equal? (jref a "id") (jref b "id")))))
-           (labels
             (append
-             (map (lambda (tag) (cons tag (language-label tag))) languages)
-             '(("zh" . "中文") ("unknown" . "未知"))))
+             '(("open" . "开源许可") ("proprietary" . "专有许可"))
+             (if (any (lambda (p)
+                        (member
+                         "unknown"
+                         (jarray (jref p "licenseCategories"))))
+                      packages)
+                 '(("unknown" . "未知"))
+                 '())))
+           (base (string-append source-repository "/blob/" revision))
            (substitutions
-            `(("<!-- license-cost-options -->" .
-               ,(string-concatenate
-                 (map (lambda (key)
-                        (option
-                         key
-                         (jref (jref catalog "licenseCostLabels") key)))
-                      '("none" "commercialFree" "personalFree" "paid"))))
-              ("<!-- license-options -->" .
-               ,(string-concatenate
-                 (map (lambda (license)
-                        (option
-                         (encode (jref license "id"))
-                         (jref license "name")))
-                      (sort licenses
-                            (lambda (a b)
-                              (string<? (jref a "id") (jref b "id")))))))
-              ("<!-- vendor-options -->" .
-               ,(string-concatenate
-                 (map (lambda (vendor)
-                        (option
-                         vendor
-                         (jref (jref catalog "vendors") vendor "未知")))
-                      vendors)))
-              ("<!-- language-options -->" .
-               ,(string-append
-                 (option "zh" "中文" #t)
-                 (string-concatenate
-                  (map (lambda (tag) (option tag (language-label tag)))
-                       languages))
-                 (if (any (lambda (package)
-                            (zero? (vector-length (jref package "languages"))))
-                          packages)
-                     (option "unknown" "未知")
-                     "")))
-              ("<!-- style-options -->" .
-               ,(string-concatenate
-                 (map (lambda (entry) (option (car entry) (cdr entry)))
-                      (jref catalog "styleLabels"))))
+            `(("<!-- facets -->" . ,(string-append
+                                     (facet-html "language" "语言" languages '("zh-cn") 6 #t)
+                                     (facet-html
+                                      "style"
+                                      "风格"
+                                      (prioritize
+                                       '("sans" "serif" "hei" "song" "kai" "fangsong")
+                                       (jref catalog "styleLabels"))
+                                      '("sans")
+                                      6
+                                      #t)
+                                     (facet-html "vendor" "字库" vendors (map car vendors) 4 #t)
+                                     (facet-html "cost" "费用" costs (map car costs) 4 #f)
+                                     (facet-html "license" "许可类别" licenses '("open") 3 #f)))
               ("<!-- count -->" . ,(number->string (length packages)))
-              ("<!-- language-labels -->" .
-               ,(string-replace-substring (scm->json-string labels) "<" "\\u003c"))
-              ("<!-- packages -->" .
-               ,(string-join (map package-html packages) "\n"))))
-           (page (fold (lambda (entry text)
-                         (string-replace-substring
-                          text
-                          (car entry)
-                          (cdr entry)))
-                       (read-text (web-file "index.html"))
-                       substitutions))
-           (public
-            (map (lambda (package)
-                   (jset package
-                         "preview"
-                         `(("kind" . "image")
-                           ("faces" .
-                            ,(list->vector
-                              (map (lambda (face)
-                                     (filter
-                                      (lambda (entry)
-                                        (member
-                                         (car entry)
-                                         '("name" "manifest"
-                                           "defaultLanguage")))
-                                      face))
-                                   (jarray
-                                    (jref (jref package "preview")
-                                          "faces"))))))))
-                 packages))
-           (result
-            (merge catalog
-                   `(("sourceRepository" . ,source-repository)
-                     ("sourceRevision" . ,revision)
-                     ("facesSource" .
-                      ,(string-append
-                        "packaged font files, collection members "
-                        "and named variable instances"))
-                     ("schema" . 4)
-                     ("languageLabels" . ,labels)
-                     ("packages" . ,(list->vector public))))))
+              ("<!-- language-labels -->"
+               . ,(string-replace-substring
+                   (scm->json-string languages) "<" "\\u003c"))
+              ("<!-- packages -->"
+               . ,(string-join
+                   (map (lambda (package)
+                          (package-html package (jref catalog "noticeLevelLabels")))
+                        packages)
+                   "\n"))
+              ("@README@" . ,(string-append base "/README"))
+              ("@WEBSITE_SOURCE@"
+               . ,(string-append source-repository "/tree/" revision "/site"))
+              ("@LICENSE@" . ,(string-append base "/COPYING"))
+              ("@COMMIT@"
+               . ,(string-append source-repository "/commit/" revision))
+              ("@REVISION@" . ,(substring revision 0 10))))
+           (page (substitute-template (read-text (web-file "index.html"))
+                                      substitutions)))
       (write-text (string-append destination "/index.html") page)
-      (write-json (string-append destination "/catalog.json") result)
+      (write-json
+       (string-append destination "/catalog.json")
+       (merge catalog
+              `(("schema" . 5)
+                ("sourceRepository" . ,source-repository)
+                ("sourceRevision" . ,revision)
+                ("languageLabels" . ,languages)
+                ("packages" . ,(list->vector (map public-package packages))))))
       (format
        #t
        "Rendered ~a font packages with source permalinks at ~a.~%"

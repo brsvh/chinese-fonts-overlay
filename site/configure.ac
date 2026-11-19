@@ -19,6 +19,19 @@ AS_IF(["$GUILE" --no-auto-compile -c '
       [AC_MSG_ERROR([Guile 3 with guile-json and guile-gcrypt is required])])
 AC_PATH_PROG([HOOT], [hoot])
 AS_IF([test -z "$HOOT"], [AC_MSG_ERROR([Guile Hoot is required])])
+AC_PATH_PROG([TAILWINDCSS], [tailwindcss])
+AS_IF([test -z "$TAILWINDCSS"],
+      [AC_MSG_ERROR([Tailwind CSS 4 standalone CLI is required])])
+AC_ARG_VAR([DAISYUI], [absolute path to daisyUI 5 standalone plugin])
+AC_ARG_VAR([DAISYUI_THEME], [absolute path to the matching theme plugin])
+AC_ARG_VAR([UI_FONT_REGULAR], [absolute path to original TsangerYuYangT W02])
+AC_ARG_VAR([UI_FONT_MEDIUM], [absolute path to original TsangerYuYangT W03])
+AC_ARG_VAR([UI_FONT_LICENSE], [absolute path to the Tsanger license PDF])
+AS_IF([test ! -r "$DAISYUI" || test ! -r "$DAISYUI_THEME"],
+      [AC_MSG_ERROR([DAISYUI and DAISYUI_THEME must name readable plugins])])
+AS_IF([test ! -r "$UI_FONT_REGULAR" || test ! -r "$UI_FONT_MEDIUM" ||
+       test ! -r "$UI_FONT_LICENSE"],
+      [AC_MSG_ERROR([UI_FONT_REGULAR, UI_FONT_MEDIUM and UI_FONT_LICENSE are required])])
 AC_ARG_VAR([CATALOG], [evaluated public font catalog JSON])
 AC_ARG_VAR([PREVIEWS], [private font renderer input JSON])
 AC_ARG_VAR([SOURCE_ROOT],

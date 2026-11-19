@@ -19,20 +19,29 @@
                (string-append directory "/" font)))
   `(("id" . ,(string-append "test." name))
     ("pname" . ,name)
+    ("displayName" . ,(string-append "测试字体 " name))
     ("attribute" . ,(string-append "testPackages." name))
     ("version" . "1")
     ("vendor" . "test")
     ("vendorName" . "测试字库")
-    ("description" . "<script>unsafe</script>")
-    ("longDescription" . "详细说明")
+    ("description" . "<script>unsafe</script> @README@ @LICENSE@ @REVISION@")
+    ("longDescription" . "详细说明：@README@ @LICENSE@ @REVISION@")
     ("languages" . ,languages)
     ("styles" . #("sans"))
+    ("embedding" . #t)
     ("licenseCost" . "none")
-    ("licenses" . #((("id" . "CC0-1.0") ("name" . "CC0")
-                      ("spdxId" . "CC0-1.0")
-                      ("url" . "https://example.test/license"))))
+    ("licenses" . #((("id" . "CC0-1.0") ("name" . "CC0") ("free" . #t)
+                     ("spdxId" . "CC0-1.0")
+                     ("url" . "https://example.test/license"))))
     ("redistributable" . #f)
-    ("homepages" . #("javascript:alert(1)"))
+    ("homepages" . ,(cond
+                     ((string=? name "english")
+                      #("javascript:alert(1)"
+                        "https://example.test/font?lang=en&view=family"
+                        "https://example.test/font/source"))
+                     ((string=? name "variable")
+                      #("https://example.test/variable"))
+                     (else #("javascript:alert(1)"))))
     ("source" ("path" . ,(string-append "packages/test/" name "/package.nix")))
     ("notices" . #((("level" . "warning") ("text" . "<unsafe>\n注意事项"))))))
 
@@ -46,8 +55,8 @@
 (define catalog
   `(("packages" . ,(list->vector packages))
     ("vendors" ("test" . "测试字库"))
-    ("licenseCostLabels" ("none" . "无") ("commercialFree" . "商业免费使用")
-                         ("personalFree" . "个人免费使用") ("paid" . "付费使用"))
+    ("licenseCostLabels" ("none" . "无许可费") ("commercialFree" . "商业免费使用")
+     ("personalFree" . "个人免费使用") ("paid" . "付费使用"))
     ("styleLabels" ("sans" . "无衬线体"))
     ("noticeLevelLabels" ("warning" . "警告"))))
 
@@ -93,12 +102,14 @@
 (define public (read-json (string-append output "/catalog.json")))
 (define page (read-text (string-append output "/index.html")))
 
+(define (published-package name)
+  "Read the published catalog entry for fixture package NAME."
+  (find (lambda (package) (equal? name (jref package "pname")))
+        (jarray (jref public "packages"))))
+
 (define (published-faces name)
   "Read the published faces for fixture package NAME."
-  (let ((package
-         (find (lambda (package) (equal? name (jref package "pname")))
-               (jarray (jref public "packages")))))
-    (jarray (jref (jref package "preview") "faces"))))
+  (jarray (jref (jref (published-package name) "preview") "faces")))
 
 (define (published-samples name)
   "Read the first face's public language samples for fixture package NAME."
@@ -106,20 +117,25 @@
     (jref (read-json (string-append output "/" (jref face "manifest")))
           "samples")))
 
-(test-assert "Readable metadata is escaped and unsafe links are omitted"
+(test-assert "Readable metadata is preserved and escaped; unsafe links are omitted"
   (and (string-contains page "&lt;script&gt;unsafe&lt;/script&gt;")
        (string-contains page "&lt;unsafe&gt;")
        (string-contains page "注意事项")
+       (string-contains page "详细说明：@README@ @LICENSE@ @REVISION@")
        (not (string-contains page "javascript:"))))
 
-(test-assert "Package source and redistribution metadata are published"
-  (and (equal? (map (lambda (package) (jref package "pname"))
-                    (jarray (jref public "packages")))
-               '("english" "missing" "symbols" "variable" "collection"))
-       (string-contains page "再分发")
-       (string-contains
-        page (string-append "/blob/" revision
-                             "/packages/test/english/package.nix"))))
+(test-assert "Package and site links use the source revision"
+  (every (lambda (path)
+           (string-contains page (string-append revision path)))
+         '("/packages/test/english/package.nix" "/README" "/COPYING" "/site")))
+
+(test-assert "Single and multiple upstream homepages are linked in source order"
+  (let ((first (string-contains
+                page "href=\"https://example.test/font?lang=en&amp;view=family\""))
+        (second (string-contains
+                 page "href=\"https://example.test/font/source\"")))
+    (and first second (< first second)
+         (string-contains page "href=\"https://example.test/variable\""))))
 
 (test-equal "Previews respect covered, missing and unknown languages"
   '(("en") () ("unknown"))
@@ -133,12 +149,25 @@
          (map (lambda (face) (jref face "name")) (published-faces name)))
        '("variable" "collection")))
 
+(test-equal "Catalog preserves reviewed display names and explicit embedding"
+  '("测试字体 english" "测试字体 variable" #t #f "open" 300 "normal")
+  (let ((package (published-package "english"))
+        (face (car (published-faces "variable"))))
+    (list (jref package "displayName")
+          (jref (published-package "variable") "displayName")
+          (jref package "embedding")
+          (jref package "redistributable")
+          (vector-ref (jref package "licenseCategories") 0)
+          (jref face "weight") (jref face "style"))))
+
 (define snapshot (published-files))
-(test-assert "Static output contains assets and transparent previews, not fonts"
+(test-assert "Static output includes only the two interface fonts and public assets"
   (and (every (lambda (name) (assoc name snapshot))
               '("index.html" "catalog.json" "bridge.js" "main.wasm"
-                "reflect.js" "reflect.wasm" "wtf8.wasm"))
-       (not (any font-file? (map car snapshot)))
+                "reflect.js" "reflect.wasm" "wtf8.wasm" "style.css"
+                "licenses.html" "tsanger-license.pdf" "favicon.svg" "cc0.svg"))
+       (equal? (filter font-file? (map car snapshot))
+               '("yuyang-medium.ttf" "yuyang-regular.ttf"))
        (not (string-contains (read-text (string-append output "/catalog.json"))
                              temporary))
        (every (lambda (file) (validate-image file))

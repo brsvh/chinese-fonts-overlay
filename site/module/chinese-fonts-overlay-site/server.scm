@@ -12,8 +12,12 @@
    ((string-suffix? ".html" path) '(text/html (charset . "utf-8")))
    ((string-suffix? ".js" path) '(text/javascript (charset . "utf-8")))
    ((string-suffix? ".json" path) '(application/json (charset . "utf-8")))
+   ((string-suffix? ".css" path) '(text/css (charset . "utf-8")))
+   ((string-suffix? ".ttf" path) '(font/ttf))
+   ((string-suffix? ".pdf" path) '(application/pdf))
    ((string-suffix? ".wasm" path) '(application/wasm))
    ((string-suffix? ".png" path) '(image/png))
+   ((string-suffix? ".svg" path) '(image/svg+xml))
    (else '(application/octet-stream))))
 
 (define (decode-path raw)

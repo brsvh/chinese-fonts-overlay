@@ -53,7 +53,9 @@
         (for-each
          (lambda (name)
            (copy-file (web-file name) (string-append staging "/" name)))
-         '("bridge.js" "main.wasm" "reflect.js" "reflect.wasm" "wtf8.wasm"))
+         '("bridge.js" "main.wasm" "reflect.js" "reflect.wasm" "wtf8.wasm"
+           "style.css" "licenses.html" "favicon.svg" "cc0.svg" "yuyang-regular.ttf"
+           "yuyang-medium.ttf" "tsanger-license.pdf"))
         (when (file-exists? output)
           (rename-file output backup))
         (catch 'system-error

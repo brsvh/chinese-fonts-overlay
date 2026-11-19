@@ -23,12 +23,20 @@ nobase_dist_pkgdata_DATA = \
 webdir = $(pkgdatadir)/web
 web_DATA = \
   compiled-web/index.html \
+  compiled-web/style.css \
+  compiled-web/licenses.html \
+  compiled-web/favicon.svg \
+  compiled-web/cc0.svg \
+  compiled-web/yuyang-regular.ttf \
+  compiled-web/yuyang-medium.ttf \
+  compiled-web/tsanger-license.pdf \
   compiled-web/bridge.js \
   compiled-web/main.wasm \
   compiled-web/reflect.js \
   compiled-web/reflect.wasm \
   compiled-web/wtf8.wasm
-web_support_files = $(filter-out compiled-web/main.wasm,$(web_DATA))
+hoot_support_files = compiled-web/reflect.js compiled-web/reflect.wasm \
+  compiled-web/wtf8.wasm
 
 chinese-fonts-overlay-site: $(srcdir)/scripts/chinese-fonts-overlay-site.in \
 	$(srcdir)/build-aux/substitute.scm Makefile
@@ -37,15 +45,47 @@ chinese-fonts-overlay-site: $(srcdir)/scripts/chinese-fonts-overlay-site.in \
 	  GUILE "$(GUILE)" SOURCE "$(abs_top_srcdir)" BUILD "$(abs_top_builddir)" \
 	  DATADIR "$(pkgdatadir)" LIBEXECDIR "$(libexecdir)" \
 	  VERSION "$(PACKAGE_VERSION)"
+	chmod +x $@
 
-compiled-web/main.wasm: $(srcdir)/web/main.scm \
-	$(srcdir)/web/bridge.js $(srcdir)/web/index.html
+compiled-web/main.wasm: $(srcdir)/web/main.scm
 	$(AM_V_GEN)$(MKDIR_P) compiled-web
 	$(HOOT) compile --bundle -o $@ $(srcdir)/web/main.scm
-	cp $(srcdir)/web/index.html $(srcdir)/web/bridge.js compiled-web/
 
-$(web_support_files): compiled-web/main.wasm
+$(hoot_support_files): compiled-web/main.wasm
 	@test -f $@
+
+compiled-web/%: $(srcdir)/web/%
+	$(AM_V_GEN)$(MKDIR_P) compiled-web
+	cp $< $@
+
+compiled-web/input.css: $(srcdir)/web/style.css.in \
+	$(srcdir)/build-aux/substitute.scm Makefile
+	$(AM_V_GEN)$(MKDIR_P) compiled-web
+	$(GUILE) --no-auto-compile $(srcdir)/build-aux/substitute.scm $< $@ \
+	  HTML_SOURCE "$(abs_top_srcdir)/web/index.html" \
+	  SCHEME_SOURCE "$(abs_top_srcdir)/web/main.scm" \
+	  CATALOG_SOURCE \
+	  "$(abs_top_srcdir)/module/chinese-fonts-overlay-site/catalog.scm" \
+	  DAISYUI "$(DAISYUI)" \
+	  DAISYUI_THEME "$(DAISYUI_THEME)"
+
+compiled-web/style.css: compiled-web/input.css $(srcdir)/web/index.html \
+	$(srcdir)/web/main.scm \
+	$(srcdir)/module/chinese-fonts-overlay-site/catalog.scm \
+	$(DAISYUI) $(DAISYUI_THEME)
+	$(AM_V_GEN)$(TAILWINDCSS) -i $< -o $@ --minify
+
+compiled-web/yuyang-regular.ttf: $(UI_FONT_REGULAR)
+	$(AM_V_GEN)$(MKDIR_P) compiled-web
+	cp $< $@
+
+compiled-web/yuyang-medium.ttf: $(UI_FONT_MEDIUM)
+	$(AM_V_GEN)$(MKDIR_P) compiled-web
+	cp $< $@
+
+compiled-web/tsanger-license.pdf: $(UI_FONT_LICENSE)
+	$(AM_V_GEN)$(MKDIR_P) compiled-web
+	cp $< $@
 
 PORT = 8000
 OUTPUT = $(abs_top_builddir)/public
@@ -71,6 +111,7 @@ install-exec-hook:
 	  GUILE "$(GUILE)" SOURCE "" BUILD "" \
 	  DATADIR "$(pkgdatadir)" LIBEXECDIR "$(libexecdir)" \
 	  VERSION "$(PACKAGE_VERSION)"
+	chmod +x "$(DESTDIR)$(bindir)/chinese-fonts-overlay-site"
 
 TEST_EXTENSIONS = .scm
 SCM_LOG_COMPILER = $(GUILE)
@@ -92,6 +133,10 @@ EXTRA_DIST = \
   scripts/chinese-fonts-overlay-site.in \
   build-aux/substitute.scm \
   web/index.html \
+  web/style.css.in \
+  web/licenses.html \
+  web/favicon.svg \
+  web/cc0.svg \
   web/main.scm \
   web/bridge.js \
   $(TESTS) \
@@ -105,11 +150,7 @@ EXTRA_DIST = \
   tests/fixtures/opaque.png
 CLEANFILES = \
   chinese-fonts-overlay-site \
-  compiled-web/main.wasm \
-  compiled-web/reflect.js \
-  compiled-web/reflect.wasm \
-  compiled-web/wtf8.wasm \
-  compiled-web/index.html \
-  compiled-web/bridge.js
+  compiled-web/input.css \
+  $(web_DATA)
 
 .PHONY: site serve
