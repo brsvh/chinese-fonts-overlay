@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger AMXS font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/109";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

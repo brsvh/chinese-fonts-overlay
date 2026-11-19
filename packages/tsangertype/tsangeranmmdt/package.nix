@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger ANMMDT font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/373";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

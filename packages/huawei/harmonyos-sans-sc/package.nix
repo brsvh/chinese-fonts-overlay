@@ -22,7 +22,10 @@ let
   meta = {
     description = "HarmonyOS Sans SC font family";
 
-    homepage = "https://developer.huawei.com/consumer/en/design/resource/";
+    homepage = [
+      "https://developer.huawei.com/consumer/en/doc/design-guides/font-0000001828772001"
+      "https://developer.huawei.com/consumer/en/design/resource/"
+    ];
 
     license = licenses.harmonyos-sans-fonts-license;
 

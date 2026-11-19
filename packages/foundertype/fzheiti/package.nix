@@ -25,7 +25,7 @@ let
 
   meta = {
     description = "FZHeiTi font distributed by FounderType";
-    homepage = "https://www.foundertype.com";
+    homepage = "https://www.foundertype.com/index.php/FontInfo/index/id/131";
     license = licenses.foundertype-commercial-license;
 
     longDescription = ''

@@ -33,7 +33,13 @@ let
   meta = {
     description = "Tsanger Qinghe font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/219"
+      "https://tsanger.cn/product/220"
+      "https://tsanger.cn/product/221"
+      "https://tsanger.cn/product/222"
+      "https://tsanger.cn/product/223"
+    ];
 
     license = licenses.tsangertype-font-license;
 

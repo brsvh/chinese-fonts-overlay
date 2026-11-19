@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger BTSZ font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/328";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

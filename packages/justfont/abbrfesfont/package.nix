@@ -21,7 +21,10 @@ let
   meta = {
     description = "AbbrFesFont Traditional Chinese abbreviation font";
 
-    homepage = "https://justfont.com/justforfun/abbrfesfont";
+    homepage = [
+      "https://justfont.com/justforfun/abbrfesfont"
+      "https://github.com/justfont/AbbrFesFont"
+    ];
 
     license = licenses.ofl;
 

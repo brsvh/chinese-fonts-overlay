@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "simkai.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/kaiti";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "楷体";

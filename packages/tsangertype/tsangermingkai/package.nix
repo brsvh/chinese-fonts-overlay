@@ -32,7 +32,12 @@ let
   meta = {
     description = "Tsanger Mingkai font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/87"
+      "https://tsanger.cn/product/88"
+      "https://tsanger.cn/product/89"
+      "https://tsanger.cn/product/90"
+    ];
 
     license = licenses.tsangertype-font-license;
 

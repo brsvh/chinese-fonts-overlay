@@ -13,6 +13,10 @@ mkMicrosoftFontDerivation {
     "couri.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/courier-new";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Courier New";

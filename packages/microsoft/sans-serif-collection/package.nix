@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "SansSerifCollection.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/globalization/fonts-layout/font-support";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Sans Serif Collection";

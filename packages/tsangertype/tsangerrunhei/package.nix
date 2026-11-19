@@ -31,7 +31,11 @@ let
   meta = {
     description = "Tsanger Runhei font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/103"
+      "https://tsanger.cn/product/104"
+      "https://tsanger.cn/product/105"
+    ];
 
     license = licenses.tsangertype-font-license;
 

@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "TsangerKLKS-Regular font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/365";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

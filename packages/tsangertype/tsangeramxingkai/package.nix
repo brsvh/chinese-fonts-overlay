@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger AM XingKai font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/370";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger CYT font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/257";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

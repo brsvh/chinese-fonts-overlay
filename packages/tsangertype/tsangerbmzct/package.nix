@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger BMZCT font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/228";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

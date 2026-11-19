@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "Inkfree.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/ink-free";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Ink Free";

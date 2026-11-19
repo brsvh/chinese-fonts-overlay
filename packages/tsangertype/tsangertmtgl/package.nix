@@ -33,7 +33,13 @@ let
   meta = {
     description = "Tsanger Tianmu font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/66"
+      "https://tsanger.cn/product/67"
+      "https://tsanger.cn/product/68"
+      "https://tsanger.cn/product/69"
+      "https://tsanger.cn/product/70"
+    ];
 
     license = licenses.tsangertype-font-license;
 

@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "TsangerXinYueTi-Regular font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/340";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

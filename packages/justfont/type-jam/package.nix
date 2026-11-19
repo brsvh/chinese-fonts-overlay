@@ -21,7 +21,10 @@ let
   meta = {
     description = "Type Jam crowdsourced handwriting font";
 
-    homepage = "https://typejam.justfont.com/";
+    homepage = [
+      "https://typejam.justfont.com/"
+      "https://github.com/justfont/TypeJam"
+    ];
 
     license = licenses.ofl;
 

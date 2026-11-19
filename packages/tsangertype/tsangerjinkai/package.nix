@@ -103,7 +103,33 @@ let
   meta = {
     description = "TsangerJinKai font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/4"
+      "https://tsanger.cn/product/5"
+      "https://tsanger.cn/product/6"
+      "https://tsanger.cn/product/7"
+      "https://tsanger.cn/product/8"
+      "https://tsanger.cn/product/14"
+      "https://tsanger.cn/product/31"
+      "https://tsanger.cn/product/32"
+      "https://tsanger.cn/product/33"
+      "https://tsanger.cn/product/34"
+      "https://tsanger.cn/product/35"
+      "https://tsanger.cn/product/36"
+      "https://tsanger.cn/product/37"
+      "https://tsanger.cn/product/38"
+      "https://tsanger.cn/product/39"
+      "https://tsanger.cn/product/40"
+      "https://tsanger.cn/product/41"
+      "https://tsanger.cn/product/42"
+      "https://tsanger.cn/product/43"
+      "https://tsanger.cn/product/44"
+      "https://tsanger.cn/product/45"
+      "https://tsanger.cn/product/46"
+      "https://tsanger.cn/product/47"
+      "https://tsanger.cn/product/48"
+      "https://tsanger.cn/product/49"
+    ];
 
     license = licenses.tsangertype-font-license;
 

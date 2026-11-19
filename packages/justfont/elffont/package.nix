@@ -26,7 +26,11 @@ let
   meta = {
     description = "Elffont Bopomofo display fonts";
 
-    homepage = "https://ref.justfont.com/gRbXjtF";
+    homepage = [
+      "https://blog.justfont.com/2024/10/elffont/"
+      "https://github.com/justfont/Elffont"
+      "https://justfont.com/justforfun/elf-bpmf"
+    ];
 
     license = licenses.justfont-elffont-license;
 

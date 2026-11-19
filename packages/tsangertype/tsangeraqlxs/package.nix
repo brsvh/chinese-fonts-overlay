@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger AQLXS font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/107";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

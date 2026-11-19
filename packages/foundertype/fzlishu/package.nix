@@ -25,7 +25,7 @@ let
 
   meta = {
     description = "FZLiShu font distributed by FounderType";
-    homepage = "https://www.foundertype.com";
+    homepage = "https://www.foundertype.com/index.php/FontInfo/index/id/141";
     license = licenses.foundertype-commercial-license;
 
     longDescription = ''

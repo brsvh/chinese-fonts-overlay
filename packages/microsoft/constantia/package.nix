@@ -13,6 +13,10 @@ mkMicrosoftFontDerivation {
     "constanz.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/constantia";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Constantia";

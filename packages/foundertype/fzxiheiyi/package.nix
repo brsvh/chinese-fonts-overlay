@@ -25,7 +25,7 @@ let
 
   meta = {
     description = "FZXiHeiI font distributed by FounderType";
-    homepage = "https://www.foundertype.com";
+    homepage = "https://www.foundertype.com/index.php/FontInfo/index/id/161";
     license = licenses.foundertype-commercial-license;
 
     longDescription = ''

@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger DMXMTT font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/229";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "TsangerGuYun-W04 font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/59";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

@@ -21,7 +21,10 @@ let
   meta = {
     description = "Huninn Traditional Chinese rounded typeface";
 
-    homepage = "https://github.com/justfont/Huninn";
+    homepage = [
+      "https://github.com/justfont/Huninn"
+      "https://fonts.google.com/specimen/Huninn"
+    ];
 
     license = licenses.ofl;
 

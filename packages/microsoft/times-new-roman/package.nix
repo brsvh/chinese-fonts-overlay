@@ -13,6 +13,10 @@ mkMicrosoftFontDerivation {
     "timesi.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/times-new-roman";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Times New Roman";

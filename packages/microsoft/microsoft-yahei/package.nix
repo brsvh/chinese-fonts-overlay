@@ -12,6 +12,10 @@ mkMicrosoftFontDerivation {
     "msyhl.ttc"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/microsoft-yahei";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "微软雅黑";

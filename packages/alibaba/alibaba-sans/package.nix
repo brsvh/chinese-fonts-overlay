@@ -40,7 +40,7 @@ let
 
   meta = {
     description = "Alibaba Sans font family";
-    homepage = "https://www.alibabafonts.com";
+    homepage = "https://www.alibabafonts.com/#/font";
     license = licenses.alibaba-font-license;
 
     longDescription = ''

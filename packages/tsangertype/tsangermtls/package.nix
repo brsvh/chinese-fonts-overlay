@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "TsangerMTLS-W01 font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/279";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

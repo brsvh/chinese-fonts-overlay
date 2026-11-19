@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "lucon.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/lucida-console";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Lucida Console";

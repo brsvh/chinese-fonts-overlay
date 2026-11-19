@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "msyi.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/microsoft-yi-baiti";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Microsoft Yi Baiti";

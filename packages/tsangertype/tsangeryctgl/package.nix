@@ -33,7 +33,13 @@ let
   meta = {
     description = "TsangerYCT-GL font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/125"
+      "https://tsanger.cn/product/126"
+      "https://tsanger.cn/product/127"
+      "https://tsanger.cn/product/128"
+      "https://tsanger.cn/product/129"
+    ];
 
     license = licenses.tsangertype-font-license;
 

@@ -21,6 +21,10 @@ mkMicrosoftFontDerivation {
     "seguisli.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/segoe-ui";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Segoe UI";

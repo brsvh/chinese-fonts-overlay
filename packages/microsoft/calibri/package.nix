@@ -15,6 +15,10 @@ mkMicrosoftFontDerivation {
     "calibriz.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/calibri";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Calibri";

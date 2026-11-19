@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "TH-Ming Hanazono Mingcho font from TianHeng fonts";
-    homepage = "http://cheonhyeong.com";
+    homepage = "http://cheonhyeong.com/Simplified/download.html";
     license = licenses.tianheng-font-license;
 
     longDescription = ''

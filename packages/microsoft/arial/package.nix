@@ -14,6 +14,13 @@ mkMicrosoftFontDerivation {
     "ariblk.ttf"
   ];
 
+  meta = {
+    homepage = [
+      "https://learn.microsoft.com/en-us/typography/font-list/arial"
+      "https://learn.microsoft.com/en-us/typography/font-list/arial-black"
+    ];
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Arial / Arial Black";

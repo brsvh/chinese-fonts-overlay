@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "NotoSansSC-VF.ttf"
   ];
 
+  meta = {
+    homepage = "https://fonts.google.com/noto/specimen/Noto+Sans+SC";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Noto Sans SC";

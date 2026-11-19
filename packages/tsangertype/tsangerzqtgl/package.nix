@@ -33,7 +33,13 @@ let
   meta = {
     description = "TsangerZQT-GL font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/115"
+      "https://tsanger.cn/product/116"
+      "https://tsanger.cn/product/117"
+      "https://tsanger.cn/product/118"
+      "https://tsanger.cn/product/119"
+    ];
 
     license = licenses.tsangertype-font-license;
 

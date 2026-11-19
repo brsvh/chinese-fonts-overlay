@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger ChunFeng font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/17";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

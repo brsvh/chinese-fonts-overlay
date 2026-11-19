@@ -28,7 +28,10 @@ let
   meta = {
     description = "Tsanger CZBLYKS font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/217"
+      "https://tsanger.cn/product/95"
+    ];
 
     license = licenses.tsangertype-font-license;
 

@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger Zhouke Zhengdabangshu font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/194";
     license = licenses.tsangertype-freefont-license;
 
     longDescription = ''

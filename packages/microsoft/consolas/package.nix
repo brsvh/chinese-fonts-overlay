@@ -13,6 +13,10 @@ mkMicrosoftFontDerivation {
     "consolaz.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/consolas";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Consolas";

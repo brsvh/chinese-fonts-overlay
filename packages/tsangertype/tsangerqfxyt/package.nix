@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "TsangerQFXYT-W01 font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/292";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

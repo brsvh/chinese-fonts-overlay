@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "Nirmala.ttc"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/nirmala-ui";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Nirmala Text / Nirmala UI";

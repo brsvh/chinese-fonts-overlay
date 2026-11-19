@@ -33,7 +33,13 @@ let
   meta = {
     description = "Tsanger Bailing Guli font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/211"
+      "https://tsanger.cn/product/212"
+      "https://tsanger.cn/product/213"
+      "https://tsanger.cn/product/214"
+      "https://tsanger.cn/product/215"
+    ];
 
     license = licenses.tsangertype-font-license;
 

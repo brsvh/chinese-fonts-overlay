@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger CLLSJ font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/256";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "webdings.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/webdings";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Webdings";

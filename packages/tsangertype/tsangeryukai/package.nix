@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "TsangerYuKai-Regular font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/362";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

@@ -33,7 +33,13 @@ let
   meta = {
     description = "Tsanger FeiBai font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/206"
+      "https://tsanger.cn/product/207"
+      "https://tsanger.cn/product/208"
+      "https://tsanger.cn/product/209"
+      "https://tsanger.cn/product/210"
+    ];
 
     license = licenses.tsangertype-freefont-license;
 

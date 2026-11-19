@@ -33,7 +33,13 @@ let
   meta = {
     description = "Tsanger Linggang font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/51"
+      "https://tsanger.cn/product/52"
+      "https://tsanger.cn/product/53"
+      "https://tsanger.cn/product/54"
+      "https://tsanger.cn/product/55"
+    ];
 
     license = licenses.tsangertype-font-license;
 

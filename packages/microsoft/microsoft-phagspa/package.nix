@@ -11,6 +11,10 @@ mkMicrosoftFontDerivation {
     "phagspab.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/microsoft-phagspa";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Microsoft PhagsPa";

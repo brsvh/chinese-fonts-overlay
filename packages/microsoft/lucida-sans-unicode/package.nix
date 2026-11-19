@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "l_10646.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/lucida-sans-unicode";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Lucida Sans Unicode";

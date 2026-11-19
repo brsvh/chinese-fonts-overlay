@@ -34,7 +34,14 @@ let
   meta = {
     description = "Tsanger FWJT font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/143"
+      "https://tsanger.cn/product/144"
+      "https://tsanger.cn/product/145"
+      "https://tsanger.cn/product/146"
+      "https://tsanger.cn/product/147"
+      "https://tsanger.cn/product/148"
+    ];
 
     license = licenses.tsangertype-font-license;
 

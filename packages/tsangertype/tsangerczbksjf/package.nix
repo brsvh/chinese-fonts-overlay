@@ -28,7 +28,10 @@ let
   meta = {
     description = "Tsanger CZBKSJF font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/93"
+      "https://tsanger.cn/product/94"
+    ];
 
     license = licenses.tsangertype-font-license;
 

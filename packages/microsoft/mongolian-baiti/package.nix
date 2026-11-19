@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "monbaiti.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/mongolian-baiti";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Mongolian Baiti";

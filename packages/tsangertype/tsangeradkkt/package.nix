@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger ADKKT font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/226";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

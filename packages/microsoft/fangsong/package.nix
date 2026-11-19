@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "simfang.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/fangsong";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "仿宋";

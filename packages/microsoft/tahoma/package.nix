@@ -11,6 +11,10 @@ mkMicrosoftFontDerivation {
     "tahomabd.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/tahoma";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Tahoma";

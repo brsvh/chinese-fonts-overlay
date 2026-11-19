@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger AMXK font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/108";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

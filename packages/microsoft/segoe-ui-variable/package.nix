@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "SegUIVar.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/windows/apps/design/signature-experiences/typography";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Segoe UI Variable";

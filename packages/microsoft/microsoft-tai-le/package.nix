@@ -11,6 +11,10 @@ mkMicrosoftFontDerivation {
     "taileb.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/microsoft-tai-le";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Microsoft Tai Le";

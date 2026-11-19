@@ -36,7 +36,16 @@ let
   meta = {
     description = "TsangerYunHei font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/9"
+      "https://tsanger.cn/product/10"
+      "https://tsanger.cn/product/11"
+      "https://tsanger.cn/product/12"
+      "https://tsanger.cn/product/13"
+      "https://tsanger.cn/product/28"
+      "https://tsanger.cn/product/29"
+      "https://tsanger.cn/product/30"
+    ];
 
     license = licenses.tsangertype-font-license;
 

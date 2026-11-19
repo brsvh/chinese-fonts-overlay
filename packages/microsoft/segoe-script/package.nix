@@ -11,6 +11,10 @@ mkMicrosoftFontDerivation {
     "segoescb.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/segoe-script";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Segoe Script";

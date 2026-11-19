@@ -32,7 +32,12 @@ let
   meta = {
     description = "Tsanger DDT font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/62"
+      "https://tsanger.cn/product/63"
+      "https://tsanger.cn/product/64"
+      "https://tsanger.cn/product/65"
+    ];
 
     license = licenses.tsangertype-font-license;
 

@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "Gabriola.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/gabriola";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Gabriola";

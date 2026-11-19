@@ -34,7 +34,14 @@ let
   meta = {
     description = "Tsanger Xiaokeai font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/72"
+      "https://tsanger.cn/product/73"
+      "https://tsanger.cn/product/74"
+      "https://tsanger.cn/product/75"
+      "https://tsanger.cn/product/76"
+      "https://tsanger.cn/product/77"
+    ];
 
     license = licenses.tsangertype-font-license;
 

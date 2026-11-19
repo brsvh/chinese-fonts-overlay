@@ -36,7 +36,16 @@ let
   meta = {
     description = "Tsanger Minghei font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/347"
+      "https://tsanger.cn/product/348"
+      "https://tsanger.cn/product/349"
+      "https://tsanger.cn/product/350"
+      "https://tsanger.cn/product/351"
+      "https://tsanger.cn/product/352"
+      "https://tsanger.cn/product/353"
+      "https://tsanger.cn/product/354"
+    ];
 
     license = licenses.tsangertype-font-license;
 

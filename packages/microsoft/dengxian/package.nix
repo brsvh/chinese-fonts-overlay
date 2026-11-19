@@ -12,6 +12,10 @@ mkMicrosoftFontDerivation {
     "Dengl.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/dengxian";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "等线";

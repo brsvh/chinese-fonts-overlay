@@ -11,6 +11,10 @@ mkMicrosoftFontDerivation {
     "mmrtextb.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/myanmar-text";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Myanmar Text";

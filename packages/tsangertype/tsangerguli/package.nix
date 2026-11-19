@@ -33,7 +33,13 @@ let
   meta = {
     description = "TsangerGuLi font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/131"
+      "https://tsanger.cn/product/132"
+      "https://tsanger.cn/product/133"
+      "https://tsanger.cn/product/134"
+      "https://tsanger.cn/product/135"
+    ];
 
     license = licenses.tsangertype-font-license;
 

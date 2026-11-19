@@ -12,6 +12,14 @@ mkMicrosoftFontDerivation {
     "seguisym.ttf"
   ];
 
+  meta = {
+    homepage = [
+      "https://learn.microsoft.com/en-us/typography/font-list/segoe-ui-emoji"
+      "https://learn.microsoft.com/en-us/typography/font-list/segoe-ui-historic"
+      "https://learn.microsoft.com/en-us/typography/font-list/segoe-ui-symbol"
+    ];
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Segoe UI Emoji / Segoe UI Historic / Segoe UI Symbol";

@@ -23,7 +23,10 @@ let
   meta = {
     description = "Maru Buri Korean serif font family";
 
-    homepage = "https://hangeul.naver.com/font";
+    homepage = [
+      "https://hangeul.naver.com/maruproject_11"
+      "https://hangeul.naver.com/fonts/search?f=maru"
+    ];
 
     license = licenses.ofl;
 

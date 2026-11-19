@@ -25,7 +25,7 @@ let
 
   meta = {
     description = "FZKaiTi font distributed by FounderType";
-    homepage = "https://www.foundertype.com";
+    homepage = "https://www.foundertype.com/index.php/FontInfo/index/id/137";
     license = licenses.foundertype-commercial-license;
 
     longDescription = ''

@@ -12,6 +12,10 @@ mkMicrosoftFontDerivation {
     "malgunsl.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/malgun-gothic";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Malgun Gothic";

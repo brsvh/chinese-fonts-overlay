@@ -103,7 +103,33 @@ let
   meta = {
     description = "TsangerXuanSan font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/15"
+      "https://tsanger.cn/product/16"
+      "https://tsanger.cn/product/167"
+      "https://tsanger.cn/product/168"
+      "https://tsanger.cn/product/169"
+      "https://tsanger.cn/product/170"
+      "https://tsanger.cn/product/171"
+      "https://tsanger.cn/product/172"
+      "https://tsanger.cn/product/173"
+      "https://tsanger.cn/product/174"
+      "https://tsanger.cn/product/175"
+      "https://tsanger.cn/product/176"
+      "https://tsanger.cn/product/18"
+      "https://tsanger.cn/product/177"
+      "https://tsanger.cn/product/178"
+      "https://tsanger.cn/product/179"
+      "https://tsanger.cn/product/180"
+      "https://tsanger.cn/product/181"
+      "https://tsanger.cn/product/182"
+      "https://tsanger.cn/product/183"
+      "https://tsanger.cn/product/184"
+      "https://tsanger.cn/product/185"
+      "https://tsanger.cn/product/186"
+      "https://tsanger.cn/product/187"
+      "https://tsanger.cn/product/188"
+    ];
 
     license = licenses.tsangertype-font-license;
 

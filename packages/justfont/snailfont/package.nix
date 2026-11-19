@@ -26,7 +26,10 @@ let
   meta = {
     description = "Snail Font Bopomofo and Latin display fonts";
 
-    homepage = "https://justfont.com/justforfun/snail-font";
+    homepage = [
+      "https://justfont.com/justforfun/snail-font"
+      "https://github.com/justfont/Snailfont"
+    ];
 
     license = licenses.justfont-snailfont-license;
 

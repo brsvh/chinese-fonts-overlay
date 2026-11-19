@@ -35,7 +35,15 @@ let
   meta = {
     description = "TsangerFengYun font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/149"
+      "https://tsanger.cn/product/150"
+      "https://tsanger.cn/product/151"
+      "https://tsanger.cn/product/152"
+      "https://tsanger.cn/product/153"
+      "https://tsanger.cn/product/154"
+      "https://tsanger.cn/product/155"
+    ];
 
     license = licenses.tsangertype-font-license;
 

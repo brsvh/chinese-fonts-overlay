@@ -11,6 +11,10 @@ mkMicrosoftFontDerivation {
     "ntailub.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/microsoft-new-tai-lue";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Microsoft New Tai Lue";

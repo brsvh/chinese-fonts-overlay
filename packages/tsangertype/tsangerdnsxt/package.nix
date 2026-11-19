@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger DNSXT font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/319";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

@@ -13,6 +13,10 @@ mkMicrosoftFontDerivation {
     "palai.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/palatino-linotype";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Palatino Linotype";

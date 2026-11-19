@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "bahnschrift.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/bahnschrift";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Bahnschrift";

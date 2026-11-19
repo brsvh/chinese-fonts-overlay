@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Microsoft Windows 11 zh-CN font collection";
-    homepage = "https://learn.microsoft.com/en-us/typography/fonts/font-faq";
+    homepage = "https://learn.microsoft.com/en-us/typography/fonts/windows_11_font_list";
     license = licenses.microsoft-software-license;
 
     longDescription = ''

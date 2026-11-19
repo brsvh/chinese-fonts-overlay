@@ -23,7 +23,7 @@ let
 
   meta = {
     description = "I.PenCrane-B Traditional Chinese pen handwriting font";
-    homepage = "http://founder.acgvlyric.org/iu/doku.php/%E9%80%A0%E5%AD%97:%E9%96%8B%E6%BA%90%E5%AD%97%E5%9E%8B_i.%E9%8B%BC%E7%AD%86%E9%B6%B4%E9%AB%94";
+    homepage = "https://founder.acgvlyric.org/iu/doku.php/%E9%80%A0%E5%AD%97:%E9%96%8B%E6%BA%90%E5%AD%97%E5%9E%8B_i.%E9%8B%BC%E7%AD%86%E9%B6%B4%E9%AB%94";
     license = licenses.gpl2Plus;
 
     longDescription = ''

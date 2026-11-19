@@ -32,7 +32,12 @@ let
   meta = {
     description = "Tsanger FFT font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/162"
+      "https://tsanger.cn/product/163"
+      "https://tsanger.cn/product/164"
+      "https://tsanger.cn/product/165"
+    ];
 
     license = licenses.tsangertype-font-license;
 

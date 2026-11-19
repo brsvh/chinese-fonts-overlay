@@ -11,6 +11,10 @@ mkMicrosoftFontDerivation {
     "ebrimabd.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/ebrima";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Ebrima";

@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger DUBAITI font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/261";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

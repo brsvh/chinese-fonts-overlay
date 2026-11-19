@@ -11,6 +11,13 @@ mkMicrosoftFontDerivation {
     "segmdl2.ttf"
   ];
 
+  meta = {
+    homepage = [
+      "https://learn.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font"
+      "https://learn.microsoft.com/en-us/windows/apps/design/style/segoe-ui-symbol-font"
+    ];
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Segoe Fluent Icons / Segoe MDL2 Assets";

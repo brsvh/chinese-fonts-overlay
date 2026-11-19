@@ -12,6 +12,10 @@ mkMicrosoftFontDerivation {
     "LeelUIsl.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/leelawadee-ui";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Leelawadee UI";

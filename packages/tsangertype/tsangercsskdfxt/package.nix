@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger CSSKDFXT font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/252";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger DaJiTi font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/258";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

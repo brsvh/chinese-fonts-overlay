@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger DWT font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/260";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

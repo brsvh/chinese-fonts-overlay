@@ -30,7 +30,10 @@ let
   meta = {
     description = "Tsanger Meixin font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/123"
+      "https://tsanger.cn/product/124"
+    ];
 
     license = licenses.tsangertype-font-license;
 

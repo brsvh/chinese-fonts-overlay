@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "wingding.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/wingdings";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Wingdings";

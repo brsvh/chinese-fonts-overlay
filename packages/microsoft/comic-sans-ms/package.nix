@@ -13,6 +13,10 @@ mkMicrosoftFontDerivation {
     "comicz.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/comic-sans-ms";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Comic Sans MS";

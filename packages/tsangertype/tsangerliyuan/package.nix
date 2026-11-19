@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "TsangerLiyuan font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/390";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

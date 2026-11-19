@@ -31,7 +31,11 @@ let
   meta = {
     description = "Tsanger ChuangYi font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/56"
+      "https://tsanger.cn/product/57"
+      "https://tsanger.cn/product/58"
+    ];
 
     license = licenses.tsangertype-font-license;
 

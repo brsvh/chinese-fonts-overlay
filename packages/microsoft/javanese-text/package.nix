@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "javatext.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/javanese-text";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Javanese Text";

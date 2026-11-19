@@ -28,7 +28,10 @@ let
   meta = {
     description = "Tsanger Qingya font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/399"
+      "https://tsanger.cn/product/398"
+    ];
 
     license = licenses.tsangertype-font-license;
 

@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger BBLT font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/255";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

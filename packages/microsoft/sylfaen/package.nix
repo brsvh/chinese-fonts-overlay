@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "sylfaen.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/sylfaen";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Sylfaen";

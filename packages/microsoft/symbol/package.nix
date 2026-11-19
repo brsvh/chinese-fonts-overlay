@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "symbol.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/symbol";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Symbol";

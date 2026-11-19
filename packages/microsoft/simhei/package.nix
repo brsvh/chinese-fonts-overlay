@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "simhei.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/simhei";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "黑体";

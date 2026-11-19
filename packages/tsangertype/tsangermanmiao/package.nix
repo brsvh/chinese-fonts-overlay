@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "TsangerManMiao font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/98";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

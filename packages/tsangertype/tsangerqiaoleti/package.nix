@@ -33,7 +33,13 @@ let
   meta = {
     description = "Tsanger Qiaole font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/342"
+      "https://tsanger.cn/product/343"
+      "https://tsanger.cn/product/344"
+      "https://tsanger.cn/product/345"
+      "https://tsanger.cn/product/346"
+    ];
 
     license = licenses.tsangertype-font-license;
 

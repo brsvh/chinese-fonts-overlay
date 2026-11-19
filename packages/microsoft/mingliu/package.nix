@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "mingliub.ttc"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/mingliu";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "MingLiU";

@@ -33,7 +33,13 @@ let
   meta = {
     description = "Tsanger DMMT font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/21"
+      "https://tsanger.cn/product/22"
+      "https://tsanger.cn/product/23"
+      "https://tsanger.cn/product/24"
+      "https://tsanger.cn/product/25"
+    ];
 
     license = licenses.tsangertype-font-license;
 

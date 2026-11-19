@@ -33,7 +33,13 @@ let
   meta = {
     description = "TsangerYiHei font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/138"
+      "https://tsanger.cn/product/139"
+      "https://tsanger.cn/product/140"
+      "https://tsanger.cn/product/141"
+      "https://tsanger.cn/product/142"
+    ];
 
     license = licenses.tsangertype-font-license;
 

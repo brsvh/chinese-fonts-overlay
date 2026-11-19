@@ -12,6 +12,10 @@ mkMicrosoftFontDerivation {
     "msjhl.ttc"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/microsoft-jhenghei";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "微軟正黑體";

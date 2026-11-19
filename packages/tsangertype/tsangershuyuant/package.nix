@@ -33,7 +33,13 @@ let
   meta = {
     description = "Tsanger ShuYuanT font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/201"
+      "https://tsanger.cn/product/202"
+      "https://tsanger.cn/product/203"
+      "https://tsanger.cn/product/204"
+      "https://tsanger.cn/product/205"
+    ];
 
     license = licenses.tsangertype-freefont-license;
 

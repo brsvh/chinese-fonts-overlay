@@ -15,6 +15,10 @@ mkMicrosoftFontDerivation {
     "corbelz.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/corbel";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Corbel";

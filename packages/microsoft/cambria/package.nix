@@ -13,6 +13,10 @@ mkMicrosoftFontDerivation {
     "cambriaz.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/cambria";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Cambria";

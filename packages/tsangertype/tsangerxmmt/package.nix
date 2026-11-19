@@ -33,7 +33,13 @@ let
   meta = {
     description = "Tsanger Xiaomanman font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/78"
+      "https://tsanger.cn/product/79"
+      "https://tsanger.cn/product/80"
+      "https://tsanger.cn/product/81"
+      "https://tsanger.cn/product/82"
+    ];
 
     license = licenses.tsangertype-font-license;
 

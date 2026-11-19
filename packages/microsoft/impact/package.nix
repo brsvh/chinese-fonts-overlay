@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "impact.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/impact";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Impact";

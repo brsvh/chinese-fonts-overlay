@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "msgothic.ttc"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/ms-gothic";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "MS Gothic";

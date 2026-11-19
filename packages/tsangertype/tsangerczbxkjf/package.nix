@@ -21,7 +21,7 @@ let
 
   meta = {
     description = "Tsanger CZBXKJF font";
-    homepage = "https://tsanger.cn";
+    homepage = "https://tsanger.cn/product/96";
     license = licenses.tsangertype-font-license;
 
     longDescription = ''

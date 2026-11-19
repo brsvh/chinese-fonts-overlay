@@ -13,6 +13,10 @@ mkMicrosoftFontDerivation {
     "verdanaz.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/verdana";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Verdana";

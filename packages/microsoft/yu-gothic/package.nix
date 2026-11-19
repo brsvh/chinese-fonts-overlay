@@ -13,6 +13,10 @@ mkMicrosoftFontDerivation {
     "YuGothR.ttc"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/yu-gothic";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Yu Gothic";

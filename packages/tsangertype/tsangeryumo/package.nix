@@ -33,7 +33,13 @@ let
   meta = {
     description = "Tsanger YuMo font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/189"
+      "https://tsanger.cn/product/190"
+      "https://tsanger.cn/product/191"
+      "https://tsanger.cn/product/192"
+      "https://tsanger.cn/product/193"
+    ];
 
     license = licenses.tsangertype-freefont-license;
 

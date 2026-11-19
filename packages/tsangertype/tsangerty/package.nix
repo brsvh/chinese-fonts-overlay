@@ -37,7 +37,11 @@ let
   meta = {
     description = "Tsanger Tuya font family";
 
-    homepage = "https://tsanger.cn";
+    homepage = [
+      "https://tsanger.cn/product/100"
+      "https://tsanger.cn/product/101"
+      "https://tsanger.cn/product/102"
+    ];
 
     license = licenses.tsangertype-font-license;
 

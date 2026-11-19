@@ -12,6 +12,10 @@ mkMicrosoftFontDerivation {
     "SimsunExtG.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/simsun";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "宋体 / 新宋体";

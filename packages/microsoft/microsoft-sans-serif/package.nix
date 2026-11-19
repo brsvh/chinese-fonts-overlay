@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "micross.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/microsoft-sans-serif";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Microsoft Sans Serif";

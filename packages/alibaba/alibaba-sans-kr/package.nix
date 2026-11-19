@@ -28,7 +28,7 @@ let
 
   meta = {
     description = "Alibaba Sans KR font family";
-    homepage = "https://www.alibabafonts.com";
+    homepage = "https://www.alibabafonts.com/#/font";
     license = licenses.alibaba-font-license;
 
     longDescription = ''

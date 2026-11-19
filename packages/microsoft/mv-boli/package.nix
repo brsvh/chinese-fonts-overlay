@@ -10,6 +10,10 @@ mkMicrosoftFontDerivation {
     "mvboli.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/mv-boli";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "MV Boli";

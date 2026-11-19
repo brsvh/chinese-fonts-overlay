@@ -25,7 +25,7 @@ let
 
   meta = {
     description = "FZXiaoBiaoSong font distributed by FounderType";
-    homepage = "https://www.foundertype.com";
+    homepage = "https://www.foundertype.com/index.php/FontInfo/index/id/164";
     license = licenses.foundertype-commercial-license;
 
     longDescription = ''

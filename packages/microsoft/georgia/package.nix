@@ -13,6 +13,10 @@ mkMicrosoftFontDerivation {
     "georgiaz.ttf"
   ];
 
+  meta = {
+    homepage = "https://learn.microsoft.com/en-us/typography/font-list/georgia";
+  };
+
   passthru = {
     chinese-fonts-overlay-site = {
       displayName = "Georgia";

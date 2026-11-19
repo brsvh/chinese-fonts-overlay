@@ -22,7 +22,10 @@ let
   meta = {
     description = "Zhuque Fangsong technical preview font";
 
-    homepage = "https://github.com/TrionesType/zhuque";
+    homepage = [
+      "https://github.com/TrionesType/zhuque"
+      "https://atomgit.com/TrionesType/zhuque"
+    ];
 
     license = licenses.ofl;
 
