@@ -19,8 +19,7 @@ nobase_dist_pkgdata_DATA = \
   $(font_site_modules) \
   data/language-samples.json \
   data/language-names.json \
-  data/README \
-  src/render-samples.c
+  data/README
 webdir = $(pkgdatadir)/web
 web_DATA = \
   compiled-web/index.html \

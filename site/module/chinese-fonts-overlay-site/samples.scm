@@ -6,7 +6,7 @@
             language-label
             candidates
             supported-samples
-            filter-languages
+            catalog-languages
             default-language))
 
 (define samples (delay (read-json (data-file "language-samples.json"))))
@@ -36,7 +36,7 @@
   (delay (map (lambda (entry)
                 (cons (car entry)
                       (map (lambda (choice)
-                             (unique
+                             (delete-duplicates
                               (map char->integer
                                    (filter
                                     (lambda (c)
@@ -60,7 +60,7 @@
          (and index (cons (car entry) index))))
      (force required))))
 
-(define (filter-languages languages)
+(define (catalog-languages languages)
   "Add the Chinese group and represent empty language coverage explicitly."
   (cond
    ((null? languages) '("unknown"))
@@ -69,7 +69,7 @@
             (car (string-split tag #\-))
             '("zh" "cmn" "hak" "lzh" "nan" "wuu" "yue")))
          languages)
-    (unique (append languages '("zh"))))
+    (delete-duplicates (append languages '("zh"))))
    (else languages)))
 
 (define (default-language samples)

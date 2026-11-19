@@ -4,6 +4,7 @@
   #:use-module (ice-9 format)
   #:use-module (ice-9 match)
   #:use-module (ice-9 threads)
+  #:use-module (json)
   #:use-module ((rnrs unicode) #:select (string-foldcase))
   #:use-module (srfi srfi-1)
   #:export (validate-image
@@ -16,10 +17,16 @@
   (any (lambda (suffix) (string-suffix? suffix (string-downcase path)))
        '(".ttf" ".otf" ".ttc" ".otc")))
 
+(define (native-tool variable name)
+  "Resolve the configured native tool or locate NAME on PATH."
+  (or (getenv variable)
+      (search-path (string-split (or (getenv "PATH") "") #\:) name)
+      (error "Native font tool not found" name)))
+
 (define (inspect operation file)
   "Read the native OPERATION result for FILE as data, never as code."
   (call-with-input-string
-   (capture (or (getenv "FONT_SITE_INSPECTOR") "font-info") operation file)
+   (capture (native-tool "FONT_SITE_INSPECTOR" "font-info") operation file)
    read))
 
 (define (validate-image file)
@@ -33,14 +40,14 @@
    (string-join
     (map (lambda (entry)
            (string-append
-            (json-string (car entry))
+            (scm->json-string (car entry))
             ": "
-            (json-string (cdr entry))))
+            (scm->json-string (cdr entry))))
          (sort coordinates (lambda (a b) (string<? (car a) (car b)))))
     ", ")
    "}"))
 
-(define (record<? a b)
+(define (face<? a b)
   "Order faces by folded family name, weight, style and display name."
   (let ((af (string-foldcase (jref a "family")))
         (bf (string-foldcase (jref b "family"))))
@@ -121,7 +128,7 @@
                 (hash-set! seen digest #t)
                 (cached-font-records path digest cache)))))
       files)
-     record<?)))
+     face<?)))
 
 (define (render-jobs jobs)
   "Render tab-separated JOBS and record unsupported samples; raise on failure."
@@ -157,7 +164,7 @@
                  (_ (error "Unexpected renderer result" line)))))
            (string-split
             (capture
-             (or (getenv "FONT_SITE_RENDERER") "render-font-samples")
+             (native-tool "FONT_SITE_RENDERER" "render-font-samples")
              file)
             #\newline))
           (for-each
@@ -174,7 +181,7 @@
 
 (define (package-languages package record)
   "Select package languages applicable to RECORD, including symbol samples."
-  (let ((tags (filter-languages (jarray (jref package "languages")))))
+  (let ((tags (catalog-languages (jarray (jref package "languages")))))
     (if (and (not (any (lambda (tag) (assoc tag (jref record "samples"))) tags))
              (assoc "unknown" (jref record "samples")))
         (append tags '("unknown"))
@@ -189,8 +196,8 @@
       (mkdir-p (dirname target))
       (if (and (file-exists? old) (string=? digest (file-digest old)))
           (catch 'system-error
-            (lambda () (link old target))
-            (lambda _ (copy-file source target)))
+                 (lambda () (link old target))
+                 (lambda _ (copy-file source target)))
           (copy-file source target)))))
 
 (define (collect-image! record tag image-cache images jobs)
@@ -204,7 +211,7 @@
               (string-append
                "["
                (string-join
-                (map json-string (list (jref record "key") tag text))
+                (map scm->json-string (list (jref record "key") tag text))
                 ", ")
                "]"))
              (digest (text-digest identity))
@@ -268,8 +275,8 @@
       4
       (lambda (batch)
         (catch #t
-          (lambda () (render-jobs batch) #f)
-          (lambda failure failure)))
+               (lambda () (render-jobs batch) #f)
+               (lambda failure failure)))
       (vector->list batches)))))
 
 (define (verified-images destination)
@@ -333,6 +340,10 @@
               (and image (cons tag image))))
           (package-languages package record))))
     `(("name" . ,(jref record "name"))
+      ("family" . ,(jref record "family"))
+      ("weight" . ,(let ((weight (jref record "weight")))
+                     (if (integer? weight) (inexact->exact weight) weight)))
+      ("style" . ,(jref record "style"))
       ("samples" . ,available)
       ("defaultLanguage" . ,(default-language available)))))
 
@@ -344,11 +355,14 @@ The caller publishes or discards STAGING as part of the complete site build."
          (records (make-hash-table))
          (images (make-hash-table))
          (jobs (make-hash-table))
+         (inspector-id
+          (file-digest (native-tool "FONT_SITE_INSPECTOR" "font-info")))
          (renderer-id
-          (substring (file-digest (data-file "../src/render-samples.c")) 0 16))
+          (file-digest (native-tool "FONT_SITE_RENDERER" "render-font-samples")))
+         (record-cache (string-append cache "/font-records/" inspector-id))
          (image-cache (string-append cache "/language-images/" renderer-id)))
-    (unless (equal? (sort (map car selected) string<?) (sort identifiers
-                                                             string<?))
+    (unless (equal? (sort (map car selected) string<?)
+                    (sort identifiers string<?))
       (error "Preview selection must match the complete catalog"))
     (for-each
      (lambda (entry)
@@ -370,7 +384,7 @@ The caller publishes or discards STAGING as part of the complete site build."
        (let* ((id (jref package "id"))
               (faces (font-records
                       (jref (jref selected id) "renderPath")
-                      (string-append cache "/font-records"))))
+                      record-cache)))
          (hash-set! records id faces)
          (for-each
           (lambda (record)

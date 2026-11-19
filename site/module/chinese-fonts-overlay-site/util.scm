@@ -12,7 +12,6 @@
             jarray
             read-json
             write-json
-            json-string
             read-text
             write-text
             mkdir-p
@@ -25,8 +24,7 @@
             data-file
             web-file
             temporary-directory
-            atomic-write
-            unique))
+            atomic-write))
 
 (define* (jref object key #:optional (fallback #f))
   "Read KEY from a JSON object alist, or return FALLBACK."
@@ -53,13 +51,9 @@
       (set-port-encoding! port "UTF-8")
       (json->scm port #:ordered #t))))
 
-(define (json-string value)
-  "Serialize VALUE using the public JSON representation."
-  (scm->json-string value))
-
 (define (write-json file value)
   "Write VALUE as UTF-8 JSON followed by a newline."
-  (write-text file (string-append (json-string value) "\n")))
+  (write-text file (string-append (scm->json-string value) "\n")))
 
 (define (read-text file)
   "Read FILE as UTF-8 text."
@@ -148,17 +142,17 @@
   (mkdtemp (string-append parent "/.font-site-XXXXXX")))
 
 (define (atomic-write file writer)
-  "Have WRITER produce a sibling file, then replace FILE on success."
+  "Replace FILE on success, preserving its permissions when it already exists."
   (mkdir-p (dirname file))
-  (let* ((port (mkstemp (string-append file ".XXXXXX")))
+  (let* ((mode (and (file-exists? file) (stat:perms (stat file))))
+         (port (mkstemp (string-append file ".XXXXXX")))
          (temporary (port-filename port)))
     (close-port port)
     (dynamic-wind
       (lambda () #t)
-      (lambda () (writer temporary) (rename-file temporary file))
+      (lambda ()
+        (writer temporary)
+        (when mode (chmod temporary mode))
+        (rename-file temporary file))
       (lambda () (when (file-exists? temporary)
                    (delete-file temporary))))))
-
-(define (unique values)
-  "Remove duplicate VALUES while preserving the first occurrence."
-  (delete-duplicates values equal?))

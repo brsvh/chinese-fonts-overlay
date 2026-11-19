@@ -183,17 +183,28 @@
                (string-contains (cdr result) "copy-file")))))
     (lambda () (setenv "FONT_SITE_WEB" web))))
 
-(delete-tree (string-append temporary "/cache/language-images"))
 (let ((renderer (getenv "FONT_SITE_RENDERER"))
       (empty-renderer (search-path (string-split (getenv "PATH") #\:) "true")))
   (dynamic-wind
     (lambda () (setenv "FONT_SITE_RENDERER" empty-renderer))
     (lambda ()
       (let ((result (build-result catalog inputs)))
-        (test-assert "Incomplete rendering aborts publication"
+        (test-assert "Changed renderer invalidates cached images"
           (and (= 1 (car result))
                (string-contains (cdr result) "Renderer produced no result")))))
     (lambda () (setenv "FONT_SITE_RENDERER" renderer))))
+
+(let ((inspector (getenv "FONT_SITE_INSPECTOR"))
+      (failed-inspector (search-path (string-split (getenv "PATH") #\:) "false")))
+  (dynamic-wind
+    (lambda () (setenv "FONT_SITE_INSPECTOR" failed-inspector))
+    (lambda ()
+      (let ((result (build-result catalog inputs)))
+        (test-assert "Changed inspector cannot reuse stale face metadata"
+          (and (= 1 (car result))
+               (string-contains (cdr result) "Command failed")
+               (string-contains (cdr result) failed-inspector)))))
+    (lambda () (setenv "FONT_SITE_INSPECTOR" inspector))))
 
 (test-equal "Failed builds preserve the entire previous site"
   snapshot (published-files))

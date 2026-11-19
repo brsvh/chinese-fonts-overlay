@@ -19,7 +19,7 @@
     ((index-text family style language-text)
      (let ((index (string->number index-text))
            (languages
-            (sort (unique (delete "" (string-split language-text #\|)))
+            (sort (delete-duplicates (delete "" (string-split language-text #\|)))
                   string<?)))
        (unless (and (exact-integer? index) (>= index 0)
                     (every language-tag? languages))
@@ -76,7 +76,7 @@
                          files)))
             `(("languages" .
                ,(list->vector
-                 (sort (unique
+                 (sort (delete-duplicates
                         (append-map
                          (lambda (face) (jarray (jref face "languages")))
                          faces))
@@ -87,7 +87,7 @@
 (define (replace-languages source languages)
   "Replace only the website metadata's literal language list in Nix SOURCE."
   (unless (and (every language-tag? languages)
-               (equal? languages (sort (unique languages) string<?)))
+               (equal? languages (sort (delete-duplicates languages) string<?)))
     (error "Expected sorted, unique Fontconfig language tags"))
   (let ((starts
          (list-matches
@@ -141,9 +141,9 @@
   "Select IDENTIFIERS from ROOT with a Nix expression, without shell parsing."
   (string-append
    "let root = "
-   (json-string root)
+   (scm->json-string root)
    "; flake = builtins.getFlake "
-   (json-string (string-append "git+file://" root))
+   (scm->json-string (string-append "git+file://" root))
    "; "
    "pkgs = import flake.inputs.nixpkgs { "
    "config = { allowUnfree = true; }; "
@@ -155,11 +155,11 @@
                   (name (substring id (+ dot 1))))
              (string-append
               "{ id = "
-              (json-string id)
+              (scm->json-string id)
               "; package = pkgs."
               vendor
               "Packages."
-              (json-string name)
+              (scm->json-string name)
               "; }")))
          identifiers)
     " ")
@@ -260,7 +260,7 @@
     (unless (null? (option-ref options '() '()))
       (error "Unexpected positional arguments"))
     (let* ((sources (package-sources source-root))
-           (identifiers (sort (unique (if all? (map car sources) selected))
+           (identifiers (sort (delete-duplicates (if all? (map car sources) selected))
                               string<?)))
       (unless (every (lambda (id) (assoc id sources)) identifiers)
         (error "Unknown package" identifiers))
@@ -282,7 +282,7 @@
           (write-language-updates! changed coverage sources))
         (if output
             (write-json output report)
-            (begin (display (json-string report)) (newline)))
+            (begin (scm->json report) (newline)))
         (if (and check? (pair? changed))
             (begin
               (format (current-error-port) "Outdated language coverage: ~a~%"

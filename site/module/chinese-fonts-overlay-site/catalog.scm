@@ -4,6 +4,7 @@
   #:use-module (ice-9 regex)
   #:use-module (ice-9 string-fun)
   #:use-module (ice-9 format)
+  #:use-module (json)
   #:use-module (sxml simple)
   #:use-module (srfi srfi-1)
   #:use-module (web uri)
@@ -141,7 +142,7 @@
                     " "))
                  (data-languages
                   ,(string-join
-                    (filter-languages (jarray (p "languages")))
+                    (catalog-languages (jarray (p "languages")))
                     " "))
                  (data-styles
                   ,(string-join
@@ -203,7 +204,7 @@
   "Write per-face manifests and add their URLs to PREVIEW metadata."
   (let ((faces (map (lambda (face)
                       (let* ((content
-                              (json-string
+                              (scm->json-string
                                `(("samples" . ,(jref face "samples"))
                                  ("defaultLanguage" .
                                   ,(jref face "defaultLanguage")))))
@@ -282,11 +283,11 @@
                     destination))
                  raw))
            (vendors
-            (sort (unique
+            (sort (delete-duplicates
                    (map (lambda (package) (jref package "vendor")) packages))
                   string<?))
            (languages
-            (sort (unique
+            (sort (delete-duplicates
                    (append-map
                     (lambda (package) (jarray (jref package "languages")))
                     packages))
@@ -342,7 +343,7 @@
                       (jref catalog "styleLabels"))))
               ("<!-- count -->" . ,(number->string (length packages)))
               ("<!-- language-labels -->" .
-               ,(string-replace-substring (json-string labels) "<" "\\u003c"))
+               ,(string-replace-substring (scm->json-string labels) "<" "\\u003c"))
               ("<!-- packages -->" .
                ,(string-join (map package-html packages) "\n"))))
            (page (fold (lambda (entry text)
