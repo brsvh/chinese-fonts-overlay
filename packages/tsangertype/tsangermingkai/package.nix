@@ -31,7 +31,9 @@ let
 
   meta = {
     description = "Tsanger Mingkai font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-font-license;
 
     longDescription = ''
@@ -78,7 +80,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳明楷";
+
       languages = [
         "agr"
         "bem"

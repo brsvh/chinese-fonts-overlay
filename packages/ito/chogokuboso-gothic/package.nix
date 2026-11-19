@@ -59,7 +59,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "超極細ゴシック";
+
       languages = [
         "aa"
         "ab"

@@ -34,9 +34,11 @@ let
     longDescription = ''
       Provides the Taobao MaiCaiTi font family.
 
-      Accept the Taobao MaiCaiTi Legal Statement before use. After
-      accepting it, do not redistribute the font files or publish
-      them through a binary cache.
+      The Taobao MaiCaiTi Legal Statement and official FAQ permit app
+      embedding without charging users for use of the font. Credit Taobao
+      where possible; do not convert, modify, or sublicense the font for a
+      fee without permission. This overlay does not permit standalone font
+      redistribution or publication through a binary cache.
     '';
 
     maintainers = with maintainers; [ brsvh ];
@@ -69,7 +71,10 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "淘宝买菜体";
+      embedding = true;
+
       languages = [
         "bem"
         "fj"
@@ -97,6 +102,18 @@ stdenvNoCC.mkDerivation {
       ];
 
       licenseCost = "commercialFree";
+
+      notices = [
+        {
+          level = "important";
+
+          text = ''
+            官方 FAQ 允许嵌入应用，但不得因使用字体向用户或会员收费。应标注版权所有人（无法标注时除外）；不得擅自转换、拆分、修改字体或有偿转授权，也不得将字体作为标志字用于商标注册。
+          '';
+
+          url = "https://note.youdao.com/s/Wg8v4gWC";
+        }
+      ];
 
       styles = [
         "art"

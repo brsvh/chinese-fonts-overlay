@@ -11,7 +11,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Noto Serif SC";
+
       languages = [
         "aa"
         "agr"

@@ -11,7 +11,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Sans Serif Collection";
+
       languages = [
         "aa"
         "ab"

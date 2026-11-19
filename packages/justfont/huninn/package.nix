@@ -20,7 +20,9 @@ let
 
   meta = {
     description = "Huninn Traditional Chinese rounded typeface";
+
     homepage = "https://github.com/justfont/Huninn";
+
     license = licenses.ofl;
 
     longDescription = ''
@@ -56,7 +58,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "粉圓";
+
       languages = [
         "aa"
         "af"
@@ -212,6 +216,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
+        "rounded"
         "sans"
       ];
 

@@ -32,7 +32,9 @@ let
 
   meta = {
     description = "Tsanger Tianmu font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-font-license;
 
     longDescription = ''
@@ -81,7 +83,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳天沐体";
+
       languages = [
         "agr"
         "bem"
@@ -129,7 +133,7 @@ stdenvNoCC.mkDerivation {
       ];
 
       styles = [
-        "kai"
+        "sans"
       ];
 
       vendor = "tsangertype";

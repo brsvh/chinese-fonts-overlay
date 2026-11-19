@@ -58,7 +58,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳阳明体";
+
       languages = [
         "agr"
         "bem"

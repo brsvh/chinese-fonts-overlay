@@ -54,7 +54,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "王漢宗鋼筆行楷系列";
+
       languages = [
         "bem"
         "cmn"
@@ -88,6 +90,7 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "cal"
+        "handwritten"
         "kai"
       ];
 

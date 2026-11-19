@@ -11,7 +11,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Ink Free";
+
       languages = [
         "aa"
         "af"
@@ -181,7 +183,7 @@ mkMicrosoftFontDerivation {
       ];
 
       styles = [
-        "cal"
+        "handwritten"
       ];
 
       vendor = "microsoft";

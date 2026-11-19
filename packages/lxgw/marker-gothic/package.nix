@@ -60,7 +60,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "霞鹜漫黑";
+
       languages = [
         "aa"
         "af"
@@ -241,7 +243,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
-        "cal"
+        "handwritten"
         "hei"
         "sans"
       ];

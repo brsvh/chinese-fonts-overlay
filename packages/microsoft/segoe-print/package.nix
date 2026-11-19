@@ -12,7 +12,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Segoe Print";
+
       languages = [
         "aa"
         "af"
@@ -167,7 +169,7 @@ mkMicrosoftFontDerivation {
       ];
 
       styles = [
-        "cal"
+        "handwritten"
       ];
 
       vendor = "microsoft";

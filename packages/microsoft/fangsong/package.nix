@@ -11,7 +11,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仿宋";
+
       languages = [
         "agr"
         "bem"

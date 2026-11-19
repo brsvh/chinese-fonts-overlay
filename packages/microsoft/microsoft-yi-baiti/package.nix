@@ -11,7 +11,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Microsoft Yi Baiti";
+
       languages = [
         "aa"
         "agr"

@@ -69,7 +69,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "钉钉进步体";
+
       languages = [
         "aa"
         "agr"

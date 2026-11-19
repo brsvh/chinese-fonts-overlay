@@ -55,7 +55,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "王漢宗圓體系列";
+
       languages = [
         "bem"
         "cmn"
@@ -101,6 +103,7 @@ stdenvNoCC.mkDerivation {
       ];
 
       styles = [
+        "rounded"
         "sans"
       ];
 

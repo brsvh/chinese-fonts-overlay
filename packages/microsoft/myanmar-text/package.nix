@@ -12,7 +12,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Myanmar Text";
+
       languages = [
         "aa"
         "agr"

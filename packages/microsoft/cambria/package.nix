@@ -14,7 +14,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Cambria";
+
       languages = [
         "aa"
         "ab"

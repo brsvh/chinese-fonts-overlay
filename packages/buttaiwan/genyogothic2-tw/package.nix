@@ -67,7 +67,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "源樣黑體月";
+
       languages = [
         "aa"
         "agr"

@@ -90,7 +90,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Windows 字体";
+
       languages = [
         "aa"
         "ab"
@@ -443,11 +445,13 @@ stdenvNoCC.mkDerivation {
         "art"
         "cal"
         "fangsong"
+        "handwritten"
         "hei"
         "kai"
         "sans"
         "serif"
         "song"
+        "symbol"
       ];
 
       vendor = "microsoft";

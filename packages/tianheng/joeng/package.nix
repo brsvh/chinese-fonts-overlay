@@ -68,7 +68,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "天珩字库-阳明";
+
       languages = [
         "aa"
         "ab"

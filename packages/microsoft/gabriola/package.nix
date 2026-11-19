@@ -11,7 +11,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Gabriola";
+
       languages = [
         "aa"
         "af"
@@ -168,6 +170,7 @@ mkMicrosoftFontDerivation {
       ];
 
       styles = [
+        "art"
         "cal"
       ];
 

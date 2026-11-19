@@ -59,7 +59,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "芫荽";
+
       languages = [
         "aa"
         "agr"
@@ -170,7 +172,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
-        "cal"
+        "handwritten"
         "kai"
       ];
 

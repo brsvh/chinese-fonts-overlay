@@ -32,7 +32,9 @@ let
 
   meta = {
     description = "Tsanger YuMo font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-freefont-license;
 
     longDescription = ''
@@ -81,7 +83,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳与墨";
+
       languages = [
         "bem"
         "fj"

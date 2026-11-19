@@ -70,7 +70,10 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "OPPO Sans 4.0";
+      embedding = true;
+
       languages = [
         "aa"
         "af"
@@ -241,7 +244,7 @@ stdenvNoCC.mkDerivation {
           level = "warning";
 
           text = ''
-            OPPO Sans 字体允许免费用于个人及商业用途，但不允许改编、二次开发、出售字体、提供其他下载渠道或用于违法用途。
+            OPPO Sans 允许将未修改的字体嵌入或捆绑在字体软件以外的软件中；须显著注明使用了 OPPO Sans，并保留版权声明与许可协议。不得修改字体，也不得单独分发或出售字体。
           '';
 
           url = "https://www.coloros.com/article/A00000074/";

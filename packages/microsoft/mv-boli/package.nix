@@ -11,7 +11,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "MV Boli";
+
       languages = [
         "aa"
         "agr"
@@ -116,7 +118,7 @@ mkMicrosoftFontDerivation {
       ];
 
       styles = [
-        "cal"
+        "handwritten"
       ];
 
       vendor = "microsoft";

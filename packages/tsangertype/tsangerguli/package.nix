@@ -32,7 +32,9 @@ let
 
   meta = {
     description = "TsangerGuLi font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-font-license;
 
     longDescription = ''
@@ -81,7 +83,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳谷力";
+
       languages = [
         "agr"
         "bem"

@@ -9,6 +9,7 @@ let
     attrNames
     elem
     isAttrs
+    isBool
     isList
     isString
     lessThan
@@ -20,7 +21,7 @@ let
 
   licenseCosts = {
     commercialFree = "商业免费使用";
-    none = "无";
+    none = "无许可费";
     paid = "付费使用";
     personalFree = "个人免费使用";
   };
@@ -37,12 +38,15 @@ let
     art = "艺术字体";
     cal = "书法字体";
     fangsong = "仿宋";
+    handwritten = "手写体";
     hei = "黑体";
     kai = "楷体";
     li = "隶书";
+    rounded = "圆体";
     sans = "无衬线体";
     serif = "衬线体";
     song = "宋体";
+    symbol = "符号字体";
     unknown = "未知";
   };
 
@@ -104,29 +108,44 @@ let
       (
         isAttrs info
         &&
-          attrNames (removeAttrs info [ "notices" ]) == [
+          attrNames (
+            removeAttrs info [
+              "embedding"
+              "notices"
+            ]
+          ) == [
+            "displayName"
             "languages"
             "licenseCost"
             "styles"
             "vendor"
           ]
       )
-      "${id}: fontInfo must declare languages, licenseCost, styles, and vendor; only notices is optional";
+      "${id}: chinese-fonts-overlay-site must declare displayName, languages, licenseCost, styles, and vendor; embedding and notices are optional";
+    assert assertMsg
+      (!(info ? embedding) || isBool info.embedding)
+      "${id}: chinese-fonts-overlay-site.embedding must be a boolean";
+    assert assertMsg
+      (
+        isString info.displayName
+        && match "[[:space:]]*" info.displayName == null
+      )
+      "${id}: chinese-fonts-overlay-site.displayName must be a nonempty string";
     assert assertMsg
       (
         isList (info.notices or [ ])
         && all validNotice (info.notices or [ ])
       )
-      "${id}: fontInfo.notices must be a list of level/text entries with a registered level, nonempty text, and an optional HTTP(S) url";
+      "${id}: chinese-fonts-overlay-site.notices must be a list of level/text entries with a registered level, nonempty text, and an optional HTTP(S) url";
     assert assertMsg
       (
         isString info.licenseCost
         && licenseCosts ? ${info.licenseCost}
       )
-      "${id}: fontInfo.licenseCost must be none, commercialFree, personalFree, or paid";
+      "${id}: chinese-fonts-overlay-site.licenseCost must be none, commercialFree, personalFree, or paid";
     assert assertMsg
       (isString info.vendor && vendors ? ${info.vendor})
-      "${id}: fontInfo.vendor must name a registered vendor";
+      "${id}: chinese-fonts-overlay-site.vendor must name a registered vendor";
     assert assertMsg
       (
         stringList info.languages
@@ -136,7 +155,7 @@ let
           match "[a-z]{2,3}(-[a-z0-9]{2,8})*" tag != null
         ) info.languages
       )
-      "${id}: fontInfo.languages must be a sorted, unique list of Fontconfig language tags";
+      "${id}: chinese-fonts-overlay-site.languages must be a sorted, unique list of Fontconfig language tags";
     assert assertMsg
       (
         stringList info.styles
@@ -148,7 +167,7 @@ let
           || !(elem "unknown" info.styles)
         )
       )
-      "${id}: fontInfo.styles must be sorted, unique registered styles; unknown must stand alone";
+      "${id}: chinese-fonts-overlay-site.styles must be sorted, unique registered styles; unknown must stand alone";
     info;
 in
 {

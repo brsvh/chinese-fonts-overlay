@@ -66,7 +66,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "源起黑體丹";
+
       languages = [
         "aa"
         "agr"

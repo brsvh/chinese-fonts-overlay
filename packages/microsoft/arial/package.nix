@@ -15,7 +15,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Arial / Arial Black";
+
       languages = [
         "aa"
         "ab"

@@ -36,7 +36,9 @@ let
 
   meta = {
     description = "Tsanger Tuya font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-font-license;
 
     longDescription = ''
@@ -81,7 +83,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳涂鸦体";
+
       languages = [
         "agr"
         "bem"

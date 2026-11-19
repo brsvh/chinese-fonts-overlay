@@ -71,7 +71,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "阿里巴巴普惠体韩文";
+
       languages = [
         "aa"
         "af"

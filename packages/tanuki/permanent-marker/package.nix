@@ -65,7 +65,10 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "たぬき油性マジック";
+      embedding = true;
+
       languages = [
         "aa"
         "ab"
@@ -224,7 +227,7 @@ stdenvNoCC.mkDerivation {
           level = "warning";
 
           text = ''
-            たぬき油性マジック 字体允许免费用于个人及商业用途，但不允许擅自出售字体文件或出售修改、描摹后的字体文件。上游未明确允许单独再分发字体文件。
+            たぬき油性マジック 允许免费用于个人及商业用途，包括网页、游戏、应用和 PDF 文档嵌入。未经许可不得出售字体文件或修改、描摹后的字体文件；上游未明确允许一般的单独再分发。
           '';
 
           url = "https://tanukifont.com/tanuki-permanent-marker";
@@ -232,7 +235,7 @@ stdenvNoCC.mkDerivation {
       ];
 
       styles = [
-        "cal"
+        "handwritten"
       ];
 
       vendor = "tanuki";

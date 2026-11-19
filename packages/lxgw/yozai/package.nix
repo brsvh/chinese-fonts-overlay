@@ -79,7 +79,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "悠哉字体";
+
       languages = [
         "aa"
         "af"
@@ -208,7 +210,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
-        "cal"
+        "handwritten"
       ];
 
       vendor = "lxgw";

@@ -12,7 +12,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Segoe Fluent Icons / Segoe MDL2 Assets";
+
       languages = [ ];
 
       licenseCost = "paid";
@@ -32,7 +34,7 @@ mkMicrosoftFontDerivation {
       ];
 
       styles = [
-        "art"
+        "symbol"
       ];
 
       vendor = "microsoft";

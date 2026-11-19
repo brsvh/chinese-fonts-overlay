@@ -14,7 +14,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Comic Sans MS";
+
       languages = [
         "aa"
         "af"
@@ -170,7 +172,8 @@ mkMicrosoftFontDerivation {
       ];
 
       styles = [
-        "cal"
+        "handwritten"
+        "sans"
       ];
 
       vendor = "microsoft";

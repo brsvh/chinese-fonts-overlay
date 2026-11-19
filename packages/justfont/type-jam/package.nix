@@ -20,7 +20,9 @@ let
 
   meta = {
     description = "Type Jam crowdsourced handwriting font";
+
     homepage = "https://typejam.justfont.com/";
+
     license = licenses.ofl;
 
     longDescription = ''
@@ -57,13 +59,16 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "草率手寫體";
+
       languages = [ ];
 
       licenseCost = "none";
 
       styles = [
-        "cal"
+        "art"
+        "handwritten"
       ];
 
       vendor = "justfont";

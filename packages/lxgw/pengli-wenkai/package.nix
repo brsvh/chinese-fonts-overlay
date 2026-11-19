@@ -62,7 +62,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "彭蠡文楷";
+
       languages = [
         "aa"
         "af"
@@ -223,7 +225,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
-        "cal"
+        "handwritten"
         "kai"
       ];
 

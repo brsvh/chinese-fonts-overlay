@@ -25,7 +25,9 @@ let
 
   meta = {
     description = "Snail Font Bopomofo and Latin display fonts";
+
     homepage = "https://justfont.com/justforfun/snail-font";
+
     license = licenses.justfont-snailfont-license;
 
     longDescription = ''
@@ -65,7 +67,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "螺體";
+
       languages = [
         "aa"
         "agr"

@@ -54,7 +54,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "王漢宗超黑體俏皮動物系列";
+
       languages = [
         "bem"
         "cmn"
@@ -88,6 +90,8 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "art"
+        "hei"
+        "sans"
       ];
 
       vendor = "hanwang";

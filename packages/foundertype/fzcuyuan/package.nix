@@ -65,7 +65,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "方正粗圆";
+
       languages = [
         "agr"
         "bem"
@@ -107,15 +109,6 @@ stdenvNoCC.mkDerivation {
 
       notices = [
         {
-          level = "warning";
-
-          text = ''
-            普通用户家庭版和发布使用需要购买相应授权。字加提供注册职业设计师的个人非商业免费试用；免费试用不等于获得普通用户正式使用或商业发布授权。
-          '';
-
-          url = "https://nzj.foundertype.com/register.html";
-        }
-        {
           level = "caution";
 
           text = ''
@@ -127,6 +120,7 @@ stdenvNoCC.mkDerivation {
       ];
 
       styles = [
+        "rounded"
         "sans"
       ];
 

@@ -95,7 +95,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Alibaba Sans";
+
       languages = [
         "aa"
         "af"

@@ -21,16 +21,19 @@ let
 
   meta = {
     description = "HarmonyOS Sans SC font family";
+
     homepage = "https://developer.huawei.com/consumer/en/design/resource/";
+
     license = licenses.harmonyos-sans-fonts-license;
 
     longDescription = ''
       Provides the HarmonyOS Sans SC static TrueType font family
       for Simplified Chinese text from Huawei Device.
 
-      The package uses the HarmonyOS Sans Fonts License Agreement
-      and is treated as non-redistributable in this overlay. Do not
-      publish the built font files through a binary cache.
+      The HarmonyOS Sans Fonts License Agreement permits embedding
+      unmodified fonts in software other than font software, with prominent
+      attribution and retained copyright and license notices. Standalone
+      redistribution, including through a binary cache, is not permitted.
     '';
 
     maintainers = with maintainers; [ brsvh ];
@@ -77,7 +80,10 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "HarmonyOS Sans SC";
+      embedding = true;
+
       languages = [
         "aa"
         "af"
@@ -241,8 +247,10 @@ stdenvNoCC.mkDerivation {
           level = "warning";
 
           text = ''
-            HarmonyOS Sans 系列字体允许嵌入式使用但不允许再分发，即您必须要伴随网站与应用一起分发字体，不能单独再分发字体，所以请您避免从本地 store 复制这些字体包向他人传播或上传到 substituter server。
+            HarmonyOS Sans 允许将未修改的字体嵌入或捆绑在字体软件以外的软件中；须在软件中显著注明使用了该字体，并保留版权声明与许可协议。不得修改字体、单独分发或出售字体，也不得将字体包上传到二进制缓存。
           '';
+
+          url = "https://raw.gitcode.com/openharmony/global_system_resources/raw/a52632e5d3901cc860b87fe923142077de194b42/LICENSE_Fonts";
         }
       ];
 

@@ -10,8 +10,10 @@
 (define source
   "{
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = \"测试字体\";
       languages = [ \"en\" ];
+      licenseCost = \"none\";
       styles = [ \"sans\" ];
       vendor = \"test\";
     };
@@ -22,11 +24,13 @@
 (test-equal "Replace only language list"
   "{
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = \"测试字体\";
       languages = [
         \"en\"
         \"zh-cn\"
       ];
+      licenseCost = \"none\";
       styles = [ \"sans\" ];
       vendor = \"test\";
     };
@@ -36,7 +40,7 @@
   (replace-languages source '("en" "zh-cn")))
 
 (test-equal "Refuse to rewrite an unrecognized source file"
-  "Expected exactly one literal fontInfo block"
+  "Expected exactly one literal chinese-fonts-overlay-site block"
   (catch 'misc-error
     (lambda () (replace-languages "{}" '("en")))
     (lambda (key subr message arguments data) (car arguments))))

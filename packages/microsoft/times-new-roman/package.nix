@@ -14,7 +14,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Times New Roman";
+
       languages = [
         "aa"
         "ab"

@@ -33,7 +33,9 @@ let
 
   meta = {
     description = "Tsanger Xiaokeai font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-font-license;
 
     longDescription = ''
@@ -84,7 +86,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳小可爱体";
+
       languages = [
         "agr"
         "bem"
@@ -133,6 +137,7 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "art"
+        "handwritten"
       ];
 
       vendor = "tsangertype";

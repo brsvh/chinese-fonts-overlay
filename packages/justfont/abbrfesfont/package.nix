@@ -20,7 +20,9 @@ let
 
   meta = {
     description = "AbbrFesFont Traditional Chinese abbreviation font";
+
     homepage = "https://justfont.com/justforfun/abbrfesfont";
+
     license = licenses.ofl;
 
     longDescription = ''
@@ -56,7 +58,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "簡語生活體";
+
       languages = [
         "aa"
         "agr"
@@ -133,7 +137,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
-        "cal"
+        "handwritten"
       ];
 
       vendor = "justfont";

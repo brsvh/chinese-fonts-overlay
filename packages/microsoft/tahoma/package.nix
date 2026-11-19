@@ -12,7 +12,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Tahoma";
+
       languages = [
         "aa"
         "ab"

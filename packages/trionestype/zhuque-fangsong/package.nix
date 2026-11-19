@@ -21,7 +21,9 @@ let
 
   meta = {
     description = "Zhuque Fangsong technical preview font";
+
     homepage = "https://github.com/TrionesType/zhuque";
+
     license = licenses.ofl;
 
     longDescription = ''
@@ -58,7 +60,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "朱雀仿宋";
+
       languages = [
         "aa"
         "agr"

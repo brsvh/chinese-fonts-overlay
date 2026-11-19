@@ -13,7 +13,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Segoe UI Emoji / Segoe UI Historic / Segoe UI Symbol";
+
       languages = [
         "aa"
         "agr"
@@ -138,7 +140,8 @@ mkMicrosoftFontDerivation {
       ];
 
       styles = [
-        "art"
+        "sans"
+        "symbol"
       ];
 
       vendor = "microsoft";

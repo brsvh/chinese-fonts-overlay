@@ -58,7 +58,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳雷震汉风体";
+
       languages = [
         "bem"
         "fj"
@@ -97,7 +99,7 @@ stdenvNoCC.mkDerivation {
       ];
 
       styles = [
-        "art"
+        "cal"
       ];
 
       vendor = "tsangertype";

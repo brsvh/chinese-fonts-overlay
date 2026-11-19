@@ -58,7 +58,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳叶之灵体";
+
       languages = [
         "agr"
         "bem"
@@ -106,7 +108,8 @@ stdenvNoCC.mkDerivation {
       ];
 
       styles = [
-        "cal"
+        "art"
+        "handwritten"
       ];
 
       vendor = "tsangertype";

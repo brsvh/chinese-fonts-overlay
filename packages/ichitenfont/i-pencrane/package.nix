@@ -61,7 +61,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "I.鋼筆鶴體";
+
       languages = [
         "bem"
         "bg"
@@ -101,6 +103,8 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "cal"
+        "handwritten"
+        "kai"
       ];
 
       vendor = "ichitenfont";

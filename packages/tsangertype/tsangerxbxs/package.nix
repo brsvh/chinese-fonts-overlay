@@ -58,7 +58,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳小白行书";
+
       languages = [
         "agr"
         "bem"
@@ -107,6 +109,7 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "cal"
+        "handwritten"
       ];
 
       vendor = "tsangertype";

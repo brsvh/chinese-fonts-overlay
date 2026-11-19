@@ -54,7 +54,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "王漢宗勘亭流系列";
+
       languages = [
         "bem"
         "cmn"
@@ -100,6 +102,7 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "art"
+        "cal"
       ];
 
       vendor = "hanwang";

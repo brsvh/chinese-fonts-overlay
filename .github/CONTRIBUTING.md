@@ -18,7 +18,9 @@
 已有字库会自动发现新包。新增字库还需接入 `overlays/default.nix`、`flake.nix`，并在 `lib/font-info.nix`
 中登记字库标识。字体名称、许可和分类以包定义为准，预览网站从中生成目录，不维护另一份 README 字体列表。
 
-请填写 `passthru.fontInfo` 的字库、风格、费用分类和语言覆盖；需要说明的限制放在该包的 `notices` 中。
+请填写 `passthru.chinese-fonts-overlay-site` 的
+`displayName`、字库、风格、费用分类和语言覆盖；需要说明的限制放在该包的 `notices` 中。 `displayName`
+使用发行方主页或发行说明中的家族或产品名称，优先采用其本地语言名称。 不要拼接同一家族的字重名称或重复译名；分别打包的地区版、独立家族和可变版本应保留区别。
 语言覆盖由扫描结果填写，其他分类人工核对。操作和字段说明见 [网站文档](../site/README)。
 
 安装结果应包含上游要求的许可证和版权说明。`meta.redistributable` 只在明确允许再分发字体文件时设为 `true`；无法确认时设为

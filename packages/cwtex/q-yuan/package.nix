@@ -71,7 +71,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "cwTeX Q 圓體";
+
       languages = [
         "aa"
         "agr"
@@ -168,6 +170,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
+        "rounded"
         "sans"
       ];
 

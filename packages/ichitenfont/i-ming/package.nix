@@ -94,7 +94,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "I.Ming（一點明體）";
+
       languages = [
         "aa"
         "af"
@@ -243,6 +245,18 @@ stdenvNoCC.mkDerivation {
       ];
 
       licenseCost = "none";
+
+      notices = [
+        {
+          level = "important";
+
+          text = ''
+            嵌入软件、网页或设备并分发本字体时，须遵守 IPA 1.0 的衍生字体再分发条款：提供许可、所需的字体及开发文件，并提供让用户恢复原始 IPA 字体的方法。仅用于 PDF 等文档的显示或打印嵌入适用不同条款。
+          '';
+
+          url = "https://moji.or.jp/ipafont/license/";
+        }
+      ];
 
       styles = [
         "serif"

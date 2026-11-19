@@ -34,7 +34,9 @@ let
 
   meta = {
     description = "TsangerFengYun font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-font-license;
 
     longDescription = ''
@@ -87,7 +89,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳锋韵";
+
       languages = [
         "agr"
         "bem"

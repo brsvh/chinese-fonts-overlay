@@ -11,7 +11,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Wingdings";
+
       languages = [ ];
 
       licenseCost = "paid";
@@ -31,7 +33,7 @@ mkMicrosoftFontDerivation {
       ];
 
       styles = [
-        "art"
+        "symbol"
       ];
 
       vendor = "microsoft";

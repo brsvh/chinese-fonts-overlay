@@ -73,7 +73,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "小赖字体";
+
       languages = [
         "aa"
         "ab"
@@ -269,7 +271,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
-        "cal"
+        "handwritten"
       ];
 
       vendor = "lxgw";

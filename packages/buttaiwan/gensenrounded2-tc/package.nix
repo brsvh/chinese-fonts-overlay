@@ -66,7 +66,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "源泉圓體丹";
+
       languages = [
         "aa"
         "agr"
@@ -177,6 +179,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
+        "rounded"
         "sans"
       ];
 

@@ -16,7 +16,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Corbel";
+
       languages = [
         "aa"
         "af"

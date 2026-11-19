@@ -13,7 +13,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "等线";
+
       languages = [
         "aa"
         "agr"

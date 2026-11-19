@@ -64,7 +64,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "源石ゴシックP";
+
       languages = [
         "aa"
         "agr"

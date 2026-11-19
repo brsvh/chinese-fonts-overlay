@@ -7,7 +7,8 @@
 ## 许可与包信息
 
 - [ ] 已核对许可证，填写 `meta.license` 和 `meta.redistributable`。
-- [ ] 已填写 `fontInfo` 分类与注意事项，并扫描语言覆盖。
+- [ ] 已依据发行方资料填写 `chinese-fonts-overlay-site.displayName`。
+- [ ] 已填写 `chinese-fonts-overlay-site` 分类与注意事项，并扫描语言覆盖。
 - [ ] 已接入对应字库；新增字库已完成注册。
 - [ ] 已为现有 CI 配置预览样本（Windows 字体除外）。
 

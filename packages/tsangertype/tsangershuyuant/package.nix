@@ -32,7 +32,9 @@ let
 
   meta = {
     description = "Tsanger ShuYuanT font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-freefont-license;
 
     longDescription = ''
@@ -81,7 +83,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳舒圆体";
+
       languages = [
         "bem"
         "fj"
@@ -112,6 +116,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "commercialFree";
 
       styles = [
+        "rounded"
         "sans"
       ];
 

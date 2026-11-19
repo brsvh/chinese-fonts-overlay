@@ -58,7 +58,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳俊冬楷书";
+
       languages = [
         "agr"
         "bem"
@@ -99,6 +101,7 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "cal"
+        "handwritten"
         "kai"
       ];
 

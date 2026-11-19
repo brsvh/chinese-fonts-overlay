@@ -58,7 +58,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳暖男手札体";
+
       languages = [
         "agr"
         "bem"
@@ -100,7 +102,7 @@ stdenvNoCC.mkDerivation {
       ];
 
       styles = [
-        "cal"
+        "handwritten"
       ];
 
       vendor = "tsangertype";

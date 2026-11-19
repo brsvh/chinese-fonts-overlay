@@ -68,7 +68,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "諧靈附體";
+
       languages = [
         "aa"
         "agr"

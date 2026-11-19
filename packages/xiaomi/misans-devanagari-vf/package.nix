@@ -28,10 +28,11 @@ let
       Provides the MiSans Devanagari VF variable TrueType font
       from Xiaomi.
 
-      The package uses the MiSans Font Intellectual Property
-      License Agreement and is treated as non-redistributable in
-      this overlay. Do not publish the built font files through a
-      binary cache.
+      The MiSans Font Intellectual Property License Agreement permits
+      distributing applications using unmodified MiSans fonts. Indicate
+      their use in the software and retain the copyright notice and
+      agreement. Standalone font redistribution and binary caches are not
+      permitted.
     '';
 
     maintainers = with maintainers; [ brsvh ];
@@ -64,7 +65,10 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "MiSans Devanagari VF";
+      embedding = true;
+
       languages = [
         "anp"
         "bh"
@@ -92,10 +96,10 @@ stdenvNoCC.mkDerivation {
           level = "warning";
 
           text = ''
-            MiSans 系列字体允许嵌入式使用，但在使用时需要额外标明。
+            MiSans 允许随应用嵌入使用；须在软件中特别注明使用了 MiSans，并在字体副本中保留版权声明和许可协议。不得改编或二次开发字体，也不得单独分发、出售字体或将字体包上传到二进制缓存。
           '';
 
-          url = "https://hyperos.mi.com/font-download/MiSans%E5%AD%97%E4%BD%93%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE.pdf";
+          url = "https://hyperos.mi.com/font-download/MiSans字体知识产权许可协议.pdf";
         }
       ];
 

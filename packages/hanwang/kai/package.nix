@@ -59,7 +59,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "王漢宗楷體系列";
+
       languages = [
         "bem"
         "cmn"

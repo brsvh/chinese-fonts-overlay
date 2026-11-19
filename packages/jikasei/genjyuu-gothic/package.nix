@@ -81,7 +81,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "源柔ゴシック";
+
       languages = [
         "aa"
         "af"
@@ -277,7 +279,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
-        "hei"
+        "rounded"
         "sans"
       ];
 

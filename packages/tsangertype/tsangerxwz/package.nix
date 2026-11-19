@@ -58,7 +58,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳小丸子";
+
       languages = [
         "bem"
         "fj"
@@ -90,6 +92,8 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "art"
+        "hei"
+        "sans"
       ];
 
       vendor = "tsangertype";

@@ -56,7 +56,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "就是不錯字（吧）";
+
       languages = [
         "aa"
         "agr"
@@ -166,7 +168,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
-        "cal"
+        "handwritten"
         "kai"
       ];
 

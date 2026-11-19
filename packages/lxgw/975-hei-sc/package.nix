@@ -93,7 +93,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "975 黑体 SC";
+
       languages = [
         "aa"
         "af"

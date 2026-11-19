@@ -58,7 +58,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "你是我的全世界";
+
       languages = [
         "agr"
         "bem"
@@ -106,7 +108,7 @@ stdenvNoCC.mkDerivation {
       ];
 
       styles = [
-        "art"
+        "handwritten"
       ];
 
       vendor = "tsangertype";

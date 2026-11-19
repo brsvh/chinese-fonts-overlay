@@ -88,7 +88,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "霞鹜臻楷";
+
       languages = [
         "aa"
         "af"
@@ -244,7 +246,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
-        "cal"
+        "handwritten"
         "kai"
       ];
 

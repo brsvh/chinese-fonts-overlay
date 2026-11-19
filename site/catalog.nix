@@ -58,13 +58,16 @@ let
       meta = package.meta;
       id = "${vendor}.${name}";
       info = fontInfo.validate id (
-        package.fontInfo or { }
+        package.chinese-fonts-overlay-site or { }
       );
+      redistributable =
+        (meta.redistributable or false) == true;
     in
     {
-      inherit id;
+      inherit id redistributable;
 
       inherit (info)
+        displayName
         languages
         licenseCost
         styles
@@ -73,6 +76,7 @@ let
 
       attribute = "${vendor}Packages.${name}";
       description = meta.description or "";
+      embedding = info.embedding or redistributable;
       homepages = toList (meta.homepage or [ ]);
 
       licenses = map normalizeLicense (
@@ -82,8 +86,6 @@ let
       longDescription = meta.longDescription or "";
       notices = info.notices or [ ];
       pname = package.pname;
-      redistributable =
-        (meta.redistributable or false) == true;
 
       source = {
         path = "packages/${vendor}/${name}/package.nix";

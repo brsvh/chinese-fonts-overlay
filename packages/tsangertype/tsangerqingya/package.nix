@@ -27,7 +27,9 @@ let
 
   meta = {
     description = "Tsanger Qingya font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-font-license;
 
     longDescription = ''
@@ -70,7 +72,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳青雅";
+
       languages = [
         "agr"
         "bem"
@@ -110,6 +114,7 @@ stdenvNoCC.mkDerivation {
       ];
 
       styles = [
+        "rounded"
         "sans"
       ];
 

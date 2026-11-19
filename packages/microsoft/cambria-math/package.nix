@@ -11,7 +11,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Cambria Math";
+
       languages = [
         "aa"
         "ab"
@@ -223,6 +225,7 @@ mkMicrosoftFontDerivation {
 
       styles = [
         "serif"
+        "symbol"
       ];
 
       vendor = "microsoft";

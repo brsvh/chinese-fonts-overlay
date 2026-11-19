@@ -66,7 +66,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "源様明朝P";
+
       languages = [
         "aa"
         "agr"

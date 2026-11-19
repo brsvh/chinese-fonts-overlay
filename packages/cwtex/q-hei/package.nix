@@ -71,7 +71,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "cwTeX Q 黑體";
+
       languages = [
         "aa"
         "af"

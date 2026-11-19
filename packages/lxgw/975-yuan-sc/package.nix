@@ -79,7 +79,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "975 圆体 SC";
+
       languages = [
         "aa"
         "af"
@@ -231,6 +233,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "none";
 
       styles = [
+        "rounded"
         "sans"
       ];
 

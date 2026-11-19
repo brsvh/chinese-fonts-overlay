@@ -27,7 +27,9 @@ let
 
   meta = {
     description = "Tsanger CZBJXKS font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-font-license;
 
     longDescription = ''
@@ -70,7 +72,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳曹哲斌俊秀楷书";
+
       languages = [
         "agr"
         "bem"

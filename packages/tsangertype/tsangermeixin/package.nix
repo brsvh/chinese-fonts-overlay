@@ -29,7 +29,9 @@ let
 
   meta = {
     description = "Tsanger Meixin font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-font-license;
 
     longDescription = ''
@@ -72,7 +74,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳美心体";
+
       languages = [
         "agr"
         "bem"

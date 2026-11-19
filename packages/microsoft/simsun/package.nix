@@ -13,7 +13,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "宋体 / 新宋体";
+
       languages = [
         "aa"
         "agr"

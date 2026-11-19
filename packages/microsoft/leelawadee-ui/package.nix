@@ -13,7 +13,9 @@ mkMicrosoftFontDerivation {
   ];
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "Leelawadee UI";
+
       languages = [
         "aa"
         "agr"

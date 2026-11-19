@@ -34,9 +34,11 @@ let
     longDescription = ''
       Provides the Alimama DaoLiTi font family.
 
-      Accept the Alimama DaoLiTi Legal Statement before use. After
-      accepting it, do not redistribute the font files or publish
-      them through a binary cache.
+      The Alimama DaoLiTi Legal Statement governs use. The official
+      Alimama FAQ permits app embedding without charging for font use,
+      but excludes trademark registration using the font as logo lettering.
+      Modification and other restrictions in the statement still apply.
+      Standalone font redistribution and binary caches remain disabled.
     '';
 
     maintainers = with maintainers; [ brsvh ];
@@ -69,7 +71,10 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "阿里妈妈刀隶体";
+      embedding = true;
+
       languages = [
         "bem"
         "fj"
@@ -97,8 +102,21 @@ stdenvNoCC.mkDerivation {
 
       licenseCost = "commercialFree";
 
+      notices = [
+        {
+          level = "important";
+
+          text = ''
+            官方 FAQ 允许嵌入应用，但不得因字体使用向用户或会员收费，也不得将字体作为标志字用于商标注册或进行二次创作。各自法律声明中的署名、保留声明和转授权等限制仍适用。
+          '';
+
+          url = "https://www.yuque.com/alimama_ai-font/vfse9w/co47p8ge57qsanz2";
+        }
+      ];
+
       styles = [
         "art"
+        "li"
       ];
 
       vendor = "alimama";

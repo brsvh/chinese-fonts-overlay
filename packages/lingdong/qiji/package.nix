@@ -74,7 +74,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "齊伋體";
+
       languages = [ ];
 
       licenseCost = "none";

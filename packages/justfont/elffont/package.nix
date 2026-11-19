@@ -25,7 +25,9 @@ let
 
   meta = {
     description = "Elffont Bopomofo display fonts";
+
     homepage = "https://ref.justfont.com/gRbXjtF";
+
     license = licenses.justfont-elffont-license;
 
     longDescription = ''
@@ -65,7 +67,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "精靈文";
+
       languages = [ ];
 
       licenseCost = "commercialFree";

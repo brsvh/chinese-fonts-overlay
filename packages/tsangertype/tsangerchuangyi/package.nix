@@ -30,7 +30,9 @@ let
 
   meta = {
     description = "Tsanger ChuangYi font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-font-license;
 
     longDescription = ''
@@ -75,7 +77,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳创意体";
+
       languages = [
         "agr"
         "bem"

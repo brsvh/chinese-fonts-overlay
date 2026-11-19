@@ -35,7 +35,9 @@ let
 
   meta = {
     description = "TsangerYunHei font family";
+
     homepage = "https://tsanger.cn";
+
     license = licenses.tsangertype-font-license;
 
     longDescription = ''
@@ -90,7 +92,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳云黑";
+
       languages = [
         "agr"
         "bem"

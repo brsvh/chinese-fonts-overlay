@@ -77,7 +77,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "天珩全字库";
+
       languages = [
         "aa"
         "ab"
@@ -430,9 +432,6 @@ stdenvNoCC.mkDerivation {
       ];
 
       styles = [
-        "hei"
-        "kai"
-        "sans"
         "serif"
         "song"
       ];

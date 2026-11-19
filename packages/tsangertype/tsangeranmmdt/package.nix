@@ -58,7 +58,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "仓耳爱你萌萌哒";
+
       languages = [
         "agr"
         "bem"
@@ -107,7 +109,7 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "art"
-        "cal"
+        "handwritten"
       ];
 
       vendor = "tsangertype";

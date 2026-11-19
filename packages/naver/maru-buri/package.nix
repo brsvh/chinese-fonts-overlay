@@ -22,7 +22,9 @@ let
 
   meta = {
     description = "Maru Buri Korean serif font family";
+
     homepage = "https://hangeul.naver.com/font";
+
     license = licenses.ofl;
 
     longDescription = ''
@@ -66,7 +68,9 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    fontInfo = {
+    chinese-fonts-overlay-site = {
+      displayName = "마루 부리";
+
       languages = [
         "aa"
         "agr"
