@@ -71,8 +71,8 @@
 (define (help)
   "Print supported command-line options without reading font inputs."
   (display
-   "Usage: font-site [--build | --serve-only] [OPTIONS]
-       font-site update-font-info --package ID [--write | --check]
+   "Usage: chinese-fonts-overlay-site [--build | --serve-only] [OPTIONS]
+       chinese-fonts-overlay-site update-font-info --package ID [--write | --check]
 
 Build the static catalog and serve it on http://127.0.0.1:8000.
 
@@ -101,7 +101,7 @@ Language scan options: --package ID (repeatable), --all, --write, --check,
           (update-font-info (checkout) (cdr arguments))
           (let* ((options
                   (getopt-long
-                   (cons "font-site" arguments)
+                   (cons "chinese-fonts-overlay-site" arguments)
                    '((help (single-char #\h) (value #f))
                      (version (value #f))
                      (build (value #f))
@@ -120,7 +120,7 @@ Language scan options: --package ID (repeatable), --all, --write, --check,
              ((option-ref options 'version #f)
               (format
                #t
-               "font-site ~a~%"
+               "chinese-fonts-overlay-site ~a~%"
                (or (getenv "FONT_SITE_VERSION") "0.1.0"))
               0)
              (else (unless (null? (option-ref options '() '()))

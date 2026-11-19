@@ -14,6 +14,9 @@
 
 在仓库根目录执行：
 
+网站包和主程序均命名为 =chinese-fonts-overlay-site=。
+Nix 应用入口使用 =site=：
+
 #+begin_src sh
 nix run .#site
 nix run .#site -- --port 8080
@@ -156,9 +159,9 @@ make DESTDIR="$PWD/staged" install
 添加字体或更新字体文件后，从仓库根目录扫描目标包：
 
 #+begin_src sh
-nix develop .#site -c font-site update-font-info \
+nix develop .#site -c chinese-fonts-overlay-site update-font-info \
   --package naver.maru-buri --write --output /tmp/maru-buri-coverage.json
-nix develop .#site -c font-site update-font-info \
+nix develop .#site -c chinese-fonts-overlay-site update-font-info \
   --package naver.maru-buri --check --output /tmp/maru-buri-coverage.json
 #+end_src
 

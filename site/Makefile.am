@@ -2,7 +2,7 @@ ACLOCAL_AMFLAGS = -I m4
 AM_CFLAGS = -Wall -Wextra $(FONT_CFLAGS)
 LDADD = $(FONT_LIBS) -lm
 
-bin_SCRIPTS = font-site
+bin_SCRIPTS = chinese-fonts-overlay-site
 libexec_PROGRAMS = render-font-samples font-info
 render_font_samples_SOURCES = src/render-samples.c
 font_info_SOURCES = src/font-info.c
@@ -31,7 +31,7 @@ web_DATA = \
   compiled-web/wtf8.wasm
 web_support_files = $(filter-out compiled-web/main.wasm,$(web_DATA))
 
-font-site: $(srcdir)/scripts/font-site.in \
+chinese-fonts-overlay-site: $(srcdir)/scripts/chinese-fonts-overlay-site.in \
 	$(srcdir)/build-aux/substitute.scm Makefile
 	$(AM_V_GEN)$(GUILE) --no-auto-compile \
 	  $(srcdir)/build-aux/substitute.scm $< $@ \
@@ -52,22 +52,23 @@ PORT = 8000
 OUTPUT = $(abs_top_builddir)/public
 CACHE = $(abs_top_builddir)/cache
 site: all
-	$(GUILE) --no-auto-compile ./font-site --build \
+	$(GUILE) --no-auto-compile ./chinese-fonts-overlay-site --build \
 	  --catalog "$(CATALOG)" --previews "$(PREVIEWS)" \
 	  --source-root "$(SOURCE_ROOT)" --revision "$(SOURCE_REVISION)" \
 	  --output "$(OUTPUT)" --cache "$(CACHE)"
 serve: all
-	$(GUILE) --no-auto-compile ./font-site \
+	$(GUILE) --no-auto-compile ./chinese-fonts-overlay-site \
 	  --catalog "$(CATALOG)" --previews "$(PREVIEWS)" \
 	  --source-root "$(SOURCE_ROOT)" --revision "$(SOURCE_REVISION)" \
 	  --output "$(OUTPUT)" --cache "$(CACHE)" --port "$(PORT)"
 
 installcheck-local:
-	$(GUILE) --no-auto-compile "$(bindir)/font-site" --version
+	$(GUILE) --no-auto-compile "$(bindir)/chinese-fonts-overlay-site" --version
 
 install-exec-hook:
 	$(GUILE) --no-auto-compile $(srcdir)/build-aux/substitute.scm \
-	  $(srcdir)/scripts/font-site.in "$(DESTDIR)$(bindir)/font-site" \
+	  $(srcdir)/scripts/chinese-fonts-overlay-site.in \
+	  "$(DESTDIR)$(bindir)/chinese-fonts-overlay-site" \
 	  GUILE "$(GUILE)" SOURCE "" BUILD "" \
 	  DATADIR "$(pkgdatadir)" LIBEXECDIR "$(libexecdir)" \
 	  VERSION "$(PACKAGE_VERSION)"
@@ -89,7 +90,7 @@ TESTS_ENVIRONMENT = \
 EXTRA_DIST = \
   bootstrap \
   m4/README \
-  scripts/font-site.in \
+  scripts/chinese-fonts-overlay-site.in \
   build-aux/substitute.scm \
   web/index.html \
   web/main.scm \
@@ -104,7 +105,7 @@ EXTRA_DIST = \
   tests/fixtures/blank.png \
   tests/fixtures/opaque.png
 CLEANFILES = \
-  font-site \
+  chinese-fonts-overlay-site \
   compiled-web/main.wasm \
   compiled-web/reflect.js \
   compiled-web/reflect.wasm \

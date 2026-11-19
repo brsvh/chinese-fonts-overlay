@@ -79,7 +79,7 @@
         doCheck = true;
 
         meta = {
-          mainProgram = "font-site";
+          mainProgram = "chinese-fonts-overlay-site";
         };
 
         nativeBuildInputs =
@@ -92,10 +92,10 @@
           ])
           ++ guileLibraries;
 
-        pname = "chinese-fonts-site";
+        pname = "chinese-fonts-overlay-site";
 
         postFixup = ''
-          wrapProgram "$out/bin/font-site" \
+          wrapProgram "$out/bin/chinese-fonts-overlay-site" \
             --prefix GUILE_LOAD_PATH : '${modulePath}' \
             --prefix PATH : '${
               makeBinPath [
@@ -130,9 +130,9 @@
       };
 
       site = pkgs.writeTextFile {
-        destination = "/bin/font-site";
+        destination = "/bin/chinese-fonts-overlay-site";
         executable = true;
-        name = "font-site";
+        name = "chinese-fonts-overlay-site";
 
         text = ''
           #!${getExe pkgs.guile} -s
@@ -140,7 +140,8 @@
           (setenv "CATALOG" "${catalog}")
           (setenv "PREVIEWS_DERIVATION"
                   "${previewsDerivation}")
-          (apply execl "${getExe siteCore}" "font-site" (cdr (command-line)))
+          (apply execl "${getExe siteCore}" "chinese-fonts-overlay-site"
+                 (cdr (command-line)))
         '';
       };
     in

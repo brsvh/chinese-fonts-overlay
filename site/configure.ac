@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([chinese-fonts-site], [0.1.0],
+AC_INIT([chinese-fonts-overlay-site], [0.1.0],
         [https://github.com/brsvh/chinese-fonts-overlay/issues])
 AC_CONFIG_SRCDIR([module/chinese-fonts-overlay-site/command.scm])
 AC_CONFIG_AUX_DIR([build-aux])

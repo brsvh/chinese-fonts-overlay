@@ -3,7 +3,7 @@
 (define build-tree?
   (and (not (string-null? @BUILD@))
        (equal? (canonicalize-path (current-filename))
-               (string-append @BUILD@ "/font-site"))))
+               (string-append @BUILD@ "/chinese-fonts-overlay-site"))))
 (define source (if build-tree? @SOURCE@ @DATADIR@))
 (set! %load-path (cons (string-append source "/module") %load-path))
 (for-each
