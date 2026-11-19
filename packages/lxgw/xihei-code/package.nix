@@ -14,14 +14,9 @@ let
   pname = "lxgw-xihei-code";
   version = "26.10.25";
 
-  classicSrc = fetchurl {
+  src = fetchurl {
     hash = "sha256-HwCh+7A+fBGRxV2RCRJiQI5vlvsiQ/N5KPnHPi11ygA=";
     url = "https://github.com/lxgw/NeoXiHei-Code/releases/download/${version}/XiHeiCode-Regular.ttf";
-  };
-
-  neoSrc = fetchurl {
-    hash = "sha256-yHuVuliUgpvUtpKnn78mIuRCXnJFB8K/eGIA9EK2LC8=";
-    url = "https://github.com/lxgw/NeoXiHei-Code/releases/download/${version}/NeoXiHeiCode-Regular.ttf";
   };
 
   licenseSrc = fetchurl {
@@ -35,15 +30,14 @@ let
   };
 
   meta = {
-    description = "XiHei Code Chinese monospace fonts";
+    description = "XiHei Code Traditional Chinese monospace font";
     homepage = "https://github.com/lxgw/NeoXiHei-Code";
     license = licenses.ipa;
 
     longDescription = ''
-      Provides XiHei Code and NeoXiHei Code, programming fonts derived
-      from Migu 1M with monospaced Latin characters from M+ fonts. XiHei
-      Code uses Traditional Chinese glyphs from LXGW XiHei, while
-      NeoXiHei Code uses glyphs from LXGW Neo XiHei.
+      Provides XiHei Code, a programming font derived from Migu 1M
+      with monospaced Latin characters from M+ fonts and Traditional
+      Chinese glyphs from LXGW XiHei.
 
       The IPA Font License 1.0 permits commercial use. Redistribution
       must preserve the license and provide a way to replace the font
@@ -60,23 +54,18 @@ stdenvNoCC.mkDerivation {
   inherit
     meta
     pname
+    src
     version
     ;
 
   dontUnpack = true;
-
-  srcs = [
-    classicSrc
-    neoSrc
-  ];
 
   installPhase = ''
     runHook preInstall
 
     fontDir=$out/share/fonts/truetype/lxgw
     docDir=$out/share/doc/${pname}
-    install -Dm444 ${classicSrc} $fontDir/XiHeiCode-Regular.ttf
-    install -Dm444 ${neoSrc} $fontDir/NeoXiHeiCode-Regular.ttf
+    install -Dm444 ${src} $fontDir/XiHeiCode-Regular.ttf
     install -Dm444 ${licenseSrc} $docDir/License.txt
     install -Dm444 ${readmeSrc} $docDir/README.md
 
@@ -85,7 +74,7 @@ stdenvNoCC.mkDerivation {
 
   passthru = {
     chinese-fonts-overlay-site = {
-      displayName = "新晰黑 Code / 晰黑 Code";
+      displayName = "晰黑 Code";
 
       languages = [
         "aa"
