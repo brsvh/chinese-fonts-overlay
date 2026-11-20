@@ -74,7 +74,7 @@ stdenvNoCC.mkDerivation {
         "lo"
       ];
 
-      licenseCost = "commercialFree";
+      licenseCost = "gratisCommercialUse";
 
       notices = [
         {

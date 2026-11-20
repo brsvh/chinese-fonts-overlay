@@ -243,7 +243,7 @@ stdenvNoCC.mkDerivation {
         "zu"
       ];
 
-      licenseCost = "none";
+      licenseCost = "free";
 
       styles = [
         "handwritten"

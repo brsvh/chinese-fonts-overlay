@@ -76,7 +76,7 @@ stdenvNoCC.mkDerivation {
 
       languages = [ ];
 
-      licenseCost = "commercialFree";
+      licenseCost = "gratisCommercialUse";
 
       styles = [
         "art"

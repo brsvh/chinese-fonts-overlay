@@ -187,7 +187,7 @@
                      (span (@ (class "badge badge-ghost package-version"))
                            ,version)
                      (span (@ (class ,(if (member (p "licenseCost")
-                                                  '("none" "commercialFree"))
+                                                  '("free" "gratisCommercialUse"))
                                           "badge badge-soft badge-success cost"
                                           "badge badge-soft badge-warning cost cost-restricted")))
                            ,(p "licenseCostName"))
@@ -457,7 +457,7 @@
                     (cons (car entry) (vendor-label (cdr entry))))
                   (jref catalog "vendors"))))
            (costs (prioritize
-                   '("commercialFree" "personalFree" "paid" "none")
+                   '("gratisCommercialUse" "gratisPersonalUse" "paid" "free")
                    (jref catalog "licenseCostLabels")))
            (licenses
             (append

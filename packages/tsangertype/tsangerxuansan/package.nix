@@ -256,7 +256,7 @@ stdenvNoCC.mkDerivation {
         "zu"
       ];
 
-      licenseCost = "personalFree";
+      licenseCost = "gratisPersonalUse";
 
       # Upstream blends Kai, Song, and Hei: https://tsanger.cn/51.html
       notices = [

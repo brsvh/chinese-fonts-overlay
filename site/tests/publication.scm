@@ -37,7 +37,7 @@
     ("languages" . ,languages)
     ("styles" . #("sans"))
     ("embedding" . #t)
-    ("licenseCost" . "none")
+    ("licenseCost" . "free")
     ("licenses" . #((("id" . "CC0-1.0") ("name" . "CC0") ("free" . #t)
                      ("spdxId" . "CC0-1.0")
                      ("url" . "https://example.test/license"))))
@@ -63,8 +63,9 @@
 (define catalog
   `(("packages" . ,(list->vector packages))
     ("vendors" ("test" . "Fixture（测试字库）"))
-    ("licenseCostLabels" ("none" . "无许可费") ("commercialFree" . "商业免费使用")
-     ("personalFree" . "个人免费使用") ("paid" . "付费使用"))
+    ("licenseCostLabels" ("free" . "无许可费")
+     ("gratisCommercialUse" . "商业免费许可")
+     ("gratisPersonalUse" . "个人免费许可") ("paid" . "付费使用"))
     ("styleLabels" ("sans" . "无衬线体"))
     ("noticeLevelLabels" ("warning" . "警告"))))
 

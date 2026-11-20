@@ -86,7 +86,7 @@ stdenvNoCC.mkDerivation {
         "zu"
       ];
 
-      licenseCost = "commercialFree";
+      licenseCost = "gratisCommercialUse";
 
       styles = [
         "cal"

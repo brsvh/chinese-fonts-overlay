@@ -74,7 +74,7 @@ stdenvNoCC.mkDerivation {
         "km"
       ];
 
-      licenseCost = "commercialFree";
+      licenseCost = "gratisCommercialUse";
 
       notices = [
         {

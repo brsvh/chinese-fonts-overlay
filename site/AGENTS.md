@@ -106,6 +106,23 @@ are verified manually. Languages come from font coverage scans and must be
 sorted and unique. Preserve per-package notices, and exclude aggregate packages
 using the `isFontAggregate` flag supplied by the composition functions.
 
+License costs follow the project's `gpu` / `gcu` / `paid` convention. Use the
+full names `gratisPersonalUse` and `gratisCommercialUse` as field values for
+`gpu` (gratis personal use) and `gcu` (gratis commercial use), respectively: a
+license can be obtained at no charge for personal or commercial use. `paid`
+means a license must be purchased. `free` means no license fee. The `free` cost
+value and the license's `free` attribute describe separate dimensions; do not
+infer a cost category from the software-freedom classification.
+
+A cost category does not imply the same fee for every use case. For example,
+free personal screen display with separately paid printing remains
+`gratisPersonalUse`; do not classify a font as `paid` solely because some uses
+require payment. Likewise, `gratisCommercialUse` does not promise free licensing
+for every commercial use. Verify the permitted purposes, conditions, and
+separately charged uses against upstream terms, and record relevant restrictions
+and sources in `notices`. A free font download does not establish a free use
+license. Do not infer license costs from font scans.
+
 Styles are overlapping labels, not mutually exclusive categories. Preserve all
 verified styles in a package, including styles reached through variable axes.
 For example, Gothic faces normally use both `hei` and `sans`, while Song faces

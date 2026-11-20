@@ -253,7 +253,7 @@ stdenvNoCC.mkDerivation {
         "zu"
       ];
 
-      licenseCost = "none";
+      licenseCost = "free";
 
       notices = [
         {

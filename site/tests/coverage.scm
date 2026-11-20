@@ -13,7 +13,7 @@
     chinese-fonts-overlay-site = {
       displayName = \"测试字体\";
       languages = [ \"en\" ];
-      licenseCost = \"none\";
+      licenseCost = \"free\";
       styles = [ \"sans\" ];
       vendor = \"test\";
     };
@@ -30,7 +30,7 @@
         \"en\"
         \"zh-cn\"
       ];
-      licenseCost = \"none\";
+      licenseCost = \"free\";
       styles = [ \"sans\" ];
       vendor = \"test\";
     };

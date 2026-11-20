@@ -20,10 +20,10 @@ let
     ;
 
   licenseCosts = {
-    commercialFree = "商业免费使用";
-    none = "无许可费";
+    free = "无许可费";
+    gratisCommercialUse = "商业免费许可";
+    gratisPersonalUse = "个人免费许可";
     paid = "付费使用";
-    personalFree = "个人免费使用";
   };
 
   noticeLevels = {
@@ -142,7 +142,7 @@ let
         isString info.licenseCost
         && licenseCosts ? ${info.licenseCost}
       )
-      "${id}: chinese-fonts-overlay-site.licenseCost must be none, commercialFree, personalFree, or paid";
+      "${id}: chinese-fonts-overlay-site.licenseCost must be free, gratisCommercialUse, gratisPersonalUse, or paid";
     assert assertMsg
       (isString info.vendor && vendors ? ${info.vendor})
       "${id}: chinese-fonts-overlay-site.vendor must name a registered vendor";

@@ -133,7 +133,7 @@ make DESTDIR="$PWD/staged" install
   例如黑体同时标记 =hei= 和 =sans= 两项。
   优先依据上游说明，再检查各款式的预览；依据不足时请维护者判断。
 - =languages= :: 扫描得到的语言代码列表，排序且不重复。
-- =licenseCost= :: 费用分类，可用值见下表。
+- =licenseCost= :: 获取字体使用许可的费用分类，可用值与适用范围见下文。
 - =embedding= :: 可选布尔值，表示是否允许在软件、网页或设备中嵌入字体文件。
   未填写时采用 =meta.redistributable= 的值，两者都未填写时视为不允许。
   手动填写的值优先于默认值。
@@ -143,12 +143,28 @@ make DESTDIR="$PWD/staged" install
   用 =text= 填写非空的纯文本，还可用 =url= 附上 HTTP(S) 来源链接。
   级别可选 =note= / =tip= / =important= / =warning= / =caution= 五种。
 
-| =licenseCost=    | 含义         |
-|------------------+--------------|
-| =none=           | 无许可费     |
-| =commercialFree= | 商业免费使用 |
-| =personalFree=   | 个人免费使用 |
-| =paid=           | 付费使用     |
+费用分类沿用项目的 =gpu= / =gcu= / =paid= 约定，
+网站字段值与这些标记的对应关系如下：
+
+| =licenseCost=         | 对应标记   | 含义                             |
+|-----------------------+------------+----------------------------------|
+| =free=                | 无单独标记 | 无许可费                         |
+| =gratisCommercialUse= | =gcu=      | 可为商业用途免费获取字体使用许可 |
+| =gratisPersonalUse=   | =gpu=      | 可为个人用途免费获取字体使用许可 |
+| =paid=                | =paid=     | 需要付费购买字体使用许可         |
+
+=gpu= 是 gratis personal use，=gcu= 是 gratis commercial use，
+=paid= 是 paid license。网站使用 =gpu= 和 =gcu= 的全称作为字段值。
+=licenseCost= 中的 =free= 表示无许可费；许可证的 =free= 属性表示自由软件属性。
+这两个维度分开判断，不以是否属于自由软件来代替费用分类。
+
+这些标记不表示所有使用场景的费用一致。
+例如，本地屏显可免费获取个人使用许可，但打印需要额外购买许可，
+仍归为 =gratisPersonalUse=；不能仅因某些场景收费就改为 =paid=。
+同样，=gratisCommercialUse= 不代表所有商业使用场景均免费。
+应按上游许可核对免费获取许可的用途、条件和另行收费的场景，
+将需要说明的限制与来源写入 =notices=。
+可免费下载字体文件不等于可免费获取使用许可，费用分类不能从字体扫描结果推断。
 
 嵌入许可的署名、源码或字体替换机制等条件仍须遵守，
 覆盖默认值的依据和特殊条件应在 =notices= 中说明。
