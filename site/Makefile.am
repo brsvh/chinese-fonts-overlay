@@ -1,4 +1,3 @@
-ACLOCAL_AMFLAGS = -I m4
 AM_CPPFLAGS = -I$(srcdir)/src
 AM_CFLAGS = -Wall -Wextra $(FONT_CFLAGS)
 LDADD = $(FONT_LIBS) -lm
@@ -23,8 +22,7 @@ font_site_modules = \
 nobase_dist_pkgdata_DATA = \
   $(font_site_modules) \
   data/language-samples.json \
-  data/language-names.json \
-  data/README
+  data/language-names.json
 webdir = $(pkgdatadir)/web
 web_DATA = \
   compiled-web/index.html \
@@ -135,7 +133,6 @@ TESTS_ENVIRONMENT = \
 
 EXTRA_DIST = \
   bootstrap \
-  m4/README \
   scripts/chinese-fonts-overlay-site.in \
   build-aux/substitute.scm \
   web/index.html \
@@ -146,7 +143,6 @@ EXTRA_DIST = \
   web/main.scm \
   web/bridge.js \
   $(TESTS) \
-  tests/fixtures/README \
   tests/fixtures/static.ttf \
   tests/fixtures/variable.ttf \
   tests/fixtures/collection.ttc \

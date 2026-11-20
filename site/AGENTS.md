@@ -14,14 +14,14 @@ forwarding through `nix run .#site -- ...`, including port selection and
 build-only mode. Before editing Nix, read
 [nix-coding](../.agents/skills/nix-coding/SKILL.md) and its style guide.
 
-| Location                                                        | Responsibility                                           |
-| --------------------------------------------------------------- | -------------------------------------------------------- |
-| `bootstrap`, `configure.ac`, `Makefile.am`, `build-aux/`, `m4/` | Autotools entry points and build support                 |
-| `module/chinese-fonts-overlay-site/`, `scripts/`                | Native Guile modules and command entry points            |
-| `src/`                                                          | Native font parsing, rendering, and image validation     |
-| `web/`                                                          | Hoot Scheme, static HTML, and minimal browser interfaces |
-| `data/`                                                         | Verified language names and multilingual sample text     |
-| `tests/`                                                        | Functional tests and small redistributable fixtures      |
+| Location                                                 | Responsibility                                           |
+| -------------------------------------------------------- | -------------------------------------------------------- |
+| `bootstrap`, `configure.ac`, `Makefile.am`, `build-aux/` | Autotools entry points and build support                 |
+| `module/chinese-fonts-overlay-site/`, `scripts/`         | Native Guile modules and command entry points            |
+| `src/`                                                   | Native font parsing, rendering, and image validation     |
+| `web/`                                                   | Hoot Scheme, static HTML, and minimal browser interfaces |
+| `data/`                                                  | Verified language names and multilingual sample text     |
+| `tests/`                                                 | Functional tests and small redistributable fixtures      |
 
 Use Guile for handwritten website automation, including bootstrap helpers,
 catalog generation, coverage scanning, rendering orchestration, local serving,

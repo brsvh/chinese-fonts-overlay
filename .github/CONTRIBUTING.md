@@ -75,7 +75,7 @@ nix flake check --no-update-lock-file --no-write-lock-file --print-build-logs
 ## 预览与现有 CI
 
 网站目前尚未部署，预定地址为 <https://brsvh.github.io/chinese-fonts-overlay/>。
-字体效果在本地网站中检查；网站样文按语言维护，详见 [语言数据说明](../site/data/README)。
+字体效果在本地网站中检查；网站样文按语言维护，详见 [网站数据维护说明](../site/README)。
 
 现有 CI 仍独立生成按包的预览图。新增包时，继续在
 [`sample-keys.nix`](../tools/generate-font-preview-images/sample-keys.nix) 中按

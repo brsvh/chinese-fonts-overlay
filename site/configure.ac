@@ -3,7 +3,6 @@ AC_INIT([chinese-fonts-overlay-site], [0.1.0],
         [https://github.com/brsvh/chinese-fonts-overlay/issues])
 AC_CONFIG_SRCDIR([module/chinese-fonts-overlay-site/command.scm])
 AC_CONFIG_AUX_DIR([build-aux])
-AC_CONFIG_MACRO_DIRS([m4])
 AM_INIT_AUTOMAKE([foreign 1.16 subdir-objects dist-xz no-dist-gzip])
 AC_PROG_CC
 PKG_PROG_PKG_CONFIG

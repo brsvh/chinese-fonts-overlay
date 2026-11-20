@@ -1,48 +1,46 @@
 # -*- mode: org; -*-
-#+title: 字体预览网站
 #+language: zh-CN
 #+options: toc:2 num:nil
 
-这是字体目录的静态预览网站，用于替代 README 中的字体列表和图片。
-可以按语言、风格、字库和许可筛选，查看各个字重与款式，并打开对应的包定义。
-目录字体都使用固定文字的透明无损 WebP，不提供在线试字。
-界面使用仓耳渔阳体，随站点附带 W02、W03 原始字体及授权声明。
+* 字体预览网站
 
-规划地址为 [[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]]。
-当前只支持本地构建和预览，尚未接入主线部署。
+字体预览网站用于查找字体、查看不同字重和款式，以及了解包名与许可信息。
+预览是固定样文的透明无损 WebP 图片，不支持在线输入文字试用。
 
-* 本地运行
+** 本地预览
 
-在仓库根目录执行：
-
-网站包和主程序均命名为 =chinese-fonts-overlay-site=。
-Nix 应用入口使用 =site=：
+在仓库根目录运行：
 
 #+begin_src sh
 nix run .#site
-nix run .#site -- --port 8080
 #+end_src
 
-默认地址为 [[http://127.0.0.1:8000/][127.0.0.1:8000]]；指定端口后使用相应地址。
-服务只监听本机，按 Ctrl-C 停止。修改包信息后重新运行命令并刷新页面。
-首次生成完整网站需要构建全部字体，包含受限字体的本地输入，下载和渲染可能较慢。
-
-只生成静态文件，或直接查看已有结果：
+运行后打开 [[http://127.0.0.1:8000/][本地预览]]。
+服务只监听本机，可用 =--port= 指定端口。
+首次生成需要下载、构建字体并绘制图片，耗时较长。
+受限字体还需按包的要求提供本地文件。修改代码或包信息后，重新运行并刷新页面。
 
 #+begin_src sh
+nix run .#site -- --port 8080
 nix run .#site -- --build
 nix run .#site -- --serve-only --output site/dist
 nix run .#site -- --help
 #+end_src
 
-生成结果默认放在 =site/dist/= 目录，缓存放在 =site/.cache/= 目录。
-可用 =--output= 和 =--cache= 修改路径。
-这些文件不提交到 Git。有效缓存会复用；生成失败时保留上一次完整的网站。
-字体解析器或渲染器改变后，对应缓存会重新生成。
+=--build= 只生成静态文件，使用 =--serve-only= 可以直接查看已有结果。
+生成的文件放在 =site/dist/= 目录，缓存放在 =site/.cache/= 目录，
+分别用 =--output= 和 =--cache= 指定其他路径。
+再次生成时会复用有效缓存；如果生成失败，上一次完整结果会保留。
 
-* 开发与检查
+默认筛选简体中文、无衬线体和开源许可，字库与费用全选，嵌入式使用不勾选。
+同一类别选中多项时，符合其中一项即可；不同类别的条件需要同时满足。
+点击重置可恢复默认筛选。筛选条件保存在 URL 中，可以分享链接，
+也可以用浏览器的前进、后退恢复。展开字体包可查看各款式；
+放大图片后，如果宽度超出页面，可以横向滚动查看。
 
-在仓库根目录进入环境，再使用独立构建目录：
+** 开发与测试
+
+从仓库根目录进入开发环境，再创建独立的构建目录：
 
 #+begin_src sh
 nix develop .#site
@@ -55,53 +53,52 @@ make
 make check
 #+end_src
 
-=make= 编译 C 工具、Hoot 资源和 CSS；测试由 =make check= 运行，
-使用小型字体，不下载整个字库。
-修改构建系统时，还需运行 =make distcheck= 并检查暂存安装。
-测试只保留最终功能和必要失败边界的覆盖，避免为私有辅助函数重复写测试。
+=make= 编译原生 C 工具、Hoot 浏览器程序和样式。
+=make check= 使用小型测试素材，不下载整个字体集合。
+改动构建系统后，还应运行 =make distcheck= 检查源码发行包，并检查暂存安装。
 
-生成和运行当前源码对应的网站：
+在同一构建目录中生成或预览网站：
 
 #+begin_src sh
 make site
 make serve PORT=8080
 #+end_src
 
-这两个目标默认使用构建目录中的 =public/= 和 =cache/= 目录，
-可用 =OUTPUT= 和 =CACHE= 覆盖路径。
-修改包元数据后，重新进入开发环境以刷新目录输入。
+这两个目标将网页和缓存分别写入构建目录下的 =public/= 和 =cache/= 目录，
+可用 =OUTPUT= 和 =CACHE= 指定其他路径。
+修改包信息后，重新进入开发环境以刷新输入。
 
-上游主页读取字体包的 =meta.homepage=，支持单个 URL 和 URL 列表。
-字体名后的入口直接打开单个主页；多个主页按包中顺序列出完整地址，
-供用户选择。
+*** 代码位置
 
-构建使用 GNU Autotools；Nix 提供锁定的依赖和字体目录输入。
-构建规则维护在 =Makefile.am= 和 =configure.ac= 中。
-=Makefile.in= 与 =Makefile= 由它们生成，和 =configure= 一样不应直接编辑。
-C 和 Makefile 的格式约定见 [[file:../AGENTS.md][维护指引]]。
+- =module/chinese-fonts-overlay-site/= :: Guile 目录生成、渲染调度与本地服务。
+- =src/= :: C 字体解析、Pango/Cairo 绘制和 libwebp 编码。
+- =web/= :: Hoot 交互、浏览器接口和页面样式。
+- =data/= :: 语言名称与固定样文。
+- =tests/= :: 功能测试和测试素材。
+- =catalog.nix= 和 =previews.nix= :: 公开目录与私有字体输入。
 
-脱离 Nix 构建需要 Guile 3、guile-json、guile-gcrypt、Hoot、C 编译器、
-pkg-config、FreeType、Fontconfig、GLib 2.66 或更新版本、Pango、Cairo、libwebp，
-以及 Tailwind CSS 4 的独立编译器。
-当前 Nix 环境固定 Tailwind CSS 4.3.4 和 daisyUI 5.7.39，
-不依赖 Node 项目、运行时 CDN 或构建中的临时下载。
-脱离 Nix 时，配置前用以下环境变量提供匹配的本地资源：
+构建规则写在 =Makefile.am= 和 =configure.ac= 中，修改后运行 =./bootstrap= 更新。
+生成的配置脚本和 Makefile 不应直接修改。
+代码和格式约定见 [[file:../AGENTS.md][维护指引]]，贡献流程见
+[[file:../.github/CONTRIBUTING.md][贡献指南]]。
 
-- =TAILWINDCSS= :: Tailwind CSS 独立编译器路径。
-- =DAISYUI= 和 =DAISYUI_THEME= :: 同一版本的独立插件绝对路径。
+=tests/fixtures/= 中的字体只包含自制三角形字形，按本项目 CC0 声明提供。
+它们用于测试静态字体、可变字重、字体集合、英语和符号的处理，不用于比较字形外观。
+=tests/image-fixtures.c= 生成的图片也按 CC0 提供，用于验证 WebP 像素和格式。
+
+*** 不使用 Nix 构建
+
+需要 Guile 3、guile-json、guile-gcrypt、Hoot、C 编译器、pkg-config、
+FreeType、Fontconfig、GLib 2.66 或更新版本、Pango、Cairo 和 libwebp。
+样式使用 Tailwind CSS 4.3.4 独立编译器与 daisyUI 5.7.39 独立插件。
+配置前设置以下环境变量，资源路径使用绝对路径：
+
+- =TAILWINDCSS= :: Tailwind CSS 编译器。
+- =DAISYUI= 和 =DAISYUI_THEME= :: 同一版本的 daisyUI 插件和主题插件。
 - =UI_FONT_REGULAR= 和 =UI_FONT_MEDIUM= :: 仓耳渔阳体 W02、W03 原始 TTF。
 - =UI_FONT_LICENSE= :: 仓耳字库授权声明 PDF。
 
-入口 =web/style.css= 显式扫描 HTML 和 Scheme 源码，
-生成标准 Modus Operandi 主题的 =style.css=。
-路径占位符使用带双引号的 CSS 字符串，构建时替换整个字符串。
-开发环境中的 =treefmt= 使用 Biome 格式化 CSS，并启用 Tailwind 指令解析；
-在仓库根目录执行 =treefmt site/web/style.css= 即可格式化样式源码。
-修改样式不需要重新编译 Wasm，也不需要重新生成字体样图。
-源码发行包已包含 =configure= 脚本。
-生成网站时另需传入 =CATALOG= 和 =PREVIEWS= JSON；无 Git 检出的构建还需完整的
-=SOURCE_REVISION= 环境变量，或通过 =--revision= 参数传入提交号。
-安装支持通过 =prefix= 和 =DESTDIR= 指定位置。在解压后的源码发行包目录中，例如：
+源码发行包包含 =configure= 脚本，可在解压目录中执行：
 
 #+begin_src sh
 ./configure --prefix=/usr
@@ -110,53 +107,41 @@ make check
 make DESTDIR="$PWD/staged" install
 #+end_src
 
-* 目录与数据
+安装后使用 =chinese-fonts-overlay-site= 命令运行。
+生成网站还需提供 =CATALOG= 和 =PREVIEWS= JSON 输入；
+如果源码不在 Git 仓库中，用 =SOURCE_REVISION= 或 =--revision= 指定完整提交号。
 
-| 位置                                 | 内容                         |
-|--------------------------------------+------------------------------|
-| =catalog.nix= 和 =previews.nix=      | 包目录和私有字体输入         |
-| =module/chinese-fonts-overlay-site/= | 目录生成、渲染调度和本地服务 |
-| =src/=                               | 字体解析与透明图片渲染       |
-| =web/=                               | Hoot 界面及浏览器接口        |
-| =data/=                              | 中文语言名称和固定样文       |
-| =tests/=                             | 功能测试与小型测试素材       |
+** 数据维护
 
-** 字体包信息
+*** 字体包信息
 
-分类维护在各包 =package.nix= 的
-=passthru.chinese-fonts-overlay-site= 中。
-字段、显示名称和校验规则见 [[file:../lib/font-info.nix][font-info.nix]]：
+网站从各包的 =package.nix= 读取信息：
 
+- =meta.homepage= :: 上游主页，支持单个 URL 或 URL 列表。
+- =meta.license= :: 许可证名称和链接。
+- =meta.redistributable= :: 是否允许再分发字体文件。
+
+标记为 =passthru.isFontAggregate = true= 的聚合包不进入目录。
+
+网站专用字段放在 =passthru.chinese-fonts-overlay-site= 属性集中，
+可用分类和校验规则见 [[file:../lib/font-info.nix][字段定义]]：
+
+- =displayName= :: 发行方使用的家族或产品名称，优先采用其本地语言名称。
+  同一家族不拼接字重；分别打包的地区版、可变版和独立家族须保留区别。
 - =vendor= :: 已登记的字库或发行项目标识。
-- =styles= :: 人工核对的多个风格，排序且不重复，各项不互斥。
-  黑体通常同时标记 =hei= 和 =sans= 两项，
-  宋体同时标记 =serif= 和 =song= 两项。
-  圆体用 =rounded=，通常兼有 =sans=；
-  手写体用 =handwritten=，有楷书结构时可同时保留 =kai=。
-  =cal= 表示书法风格，不能代替所有手写体；
-  装饰性手写字体可同时标记 =art= 和 =handwritten=。
-  图标、绘文字及专用符号字体用 =symbol=，不统一归入艺术字体。
-  优先核对发行方说明，再判断预览字形；不要只凭名称或首个款式分类。
-  包含多个风格或可变轴跨越多个风格时，保留实际覆盖的全部分类。
-  无法确定时请维护者判断；依据不足时仅保留 =unknown= 这一项。
-- =languages= :: 扫描得到的语言代码，排序且不重复；空列表表示未识别到已知语言。
-- =licenseCost= :: 按上游条款人工核对，可选值见下表。
-- =displayName= :: 必填的网站名称，依据发行方主页或发行说明核对。
-  优先使用发行方的本地语言名称；同一家族不拼接字重名称或重复的译名。
-  分别打包的地区版、独立家族和可变字体版本需要保留区别；
-  一个包包含多个独立家族时，应在名称中体现。
-  名称由包定义维护，不从字体文件名或首个款式的全名推导。
-- =embedding= :: 可选布尔值，表示允许嵌入式使用。
-  未填写时取 =meta.redistributable=，后者缺失则为 =false=。
-  显式的 =true= 和 =false= 都优先于缺省推导，适用范围仍需写入注意事项。
-  按包所附协议及发行方原文核对软件、网页或设备中的字体文件嵌入权限；
-  免费商用、图片发布或仅限文档的嵌入许可不等同于上述权限。
-  需要另外购买或申请的授权、尚未明确授予的权限，不标为允许。
-  =true= 仍须满足署名、保留许可、提供源码或字体替换机制等适用条件。
-  与默认值一致时可省略字段；覆盖值及特殊条件应在注意事项中附上依据链接。
-- =notices= :: 可选的注意事项列表。每条需要用 =level= 指定级别，
-  用非空的 =text= 提供纯文本，还可用 =url= 附上 HTTP(S) 链接。
-  级别支持 =note=, =tip=, =important=, =warning=, =caution= 五种。
+- =styles= :: 人工核对的风格列表，排序且不重复，一款字体可以有多个分类。
+  例如黑体同时标记 =hei= 和 =sans= 两项。
+  优先依据上游说明，再检查各款式的预览；依据不足时请维护者判断。
+- =languages= :: 扫描得到的语言代码列表，排序且不重复。
+- =licenseCost= :: 费用分类，可用值见下表。
+- =embedding= :: 可选布尔值，表示是否允许在软件、网页或设备中嵌入字体文件。
+  未填写时采用 =meta.redistributable= 的值，两者都未填写时视为不允许。
+  手动填写的值优先于默认值。
+  依据上游协议核对，免费商用或仅限文档的嵌入许可不等同于此权限。
+  需要另外购买、申请或尚未明确授予的权限，不标为允许。
+- =notices= :: 可选注意事项列表。每条用 =level= 指定级别，
+  用 =text= 填写非空的纯文本，还可用 =url= 附上 HTTP(S) 来源链接。
+  级别可选 =note= / =tip= / =important= / =warning= / =caution= 五种。
 
 | =licenseCost=    | 含义         |
 |------------------+--------------|
@@ -165,20 +150,14 @@ make DESTDIR="$PWD/staged" install
 | =personalFree=   | 个人免费使用 |
 | =paid=           | 付费使用     |
 
-许可名称和链接来自 =meta.license= 字段，
-再分发信息直接取 =meta.redistributable= 字段；
-缺失时按不允许处理。许可类别依据许可证中明确的 =free= 属性，
-缺失信息保留为“未知”，不自动归入专有许可。
-费用、许可类别和再分发权限分别显示。
-注意事项按包维护；如果只涉及部分款式，要在正文中写明。
+嵌入许可的署名、源码或字体替换机制等条件仍须遵守，
+覆盖默认值的依据和特殊条件应在 =notices= 中说明。
+许可类别依据许可证的 =free= 属性；缺失时为“未知”。
+费用、嵌入权限和再分发权限需分别核对。
 
-目录排除 =passthru.isFontAggregate = true= 的总包，
-例如 =windows-fonts= 字库合集；
-其独立字体包仍会展示。字体自身的多个字重、集合成员和可变字体命名实例都会保留。
+*** 更新语言覆盖
 
-** 更新语言覆盖
-
-添加字体或更新字体文件后，从仓库根目录扫描目标包：
+添加或更新字体文件后，在仓库根目录扫描目标包：
 
 #+begin_src sh
 nix develop .#site -c chinese-fonts-overlay-site update-font-info \
@@ -188,59 +167,40 @@ nix develop .#site -c chinese-fonts-overlay-site update-font-info \
 #+end_src
 
 =--package= 可重复指定，使用 =--all= 可扫描全部包。
-省略 =--write= 和 =--check= 时只生成报告；
-写入模式 =--write= 在扫描全部成功后只更新语言列表，
-=--check= 在记录过期时返回非零状态。普通网站构建不改写包定义。
+省略 =--write= 和 =--check= 时只生成报告。
+=--write= 在扫描全部成功后更新语言列表。
+=--check= 用于检查已有记录，记录过期时返回非零状态。
+普通网站构建不改写包定义。报告含本地路径，不公开发布。
 
-Fontconfig 根据字符覆盖推断语言，不保证复杂文字塑形或地区字形正确。
-包的语言列表是全部款式的并集，某个款式不一定能显示其中每种语言的样文。
-升级锁定的 Fontconfig 后也应重新扫描并审查变化。
-扫描报告包含本地路径，不对外发布。
+Fontconfig 根据字符覆盖推断语言，不能保证塑形或地区字形正确。
+包的语言列表是全部款式的并集；每款预览只使用它实际支持的样文。
+升级 Fontconfig 后也应重新扫描并审查变化。
 
-** 语言名称与样文
+*** 语言名称与样文
 
-[[file:data/README][语言数据说明]]记录来源和维护方法。
-新增语言时，要补齐中文名称与固定样文。
-网站按实际字形覆盖选择样文，某款式缺少所选语言样本时明确提示，
-不用其他语言或系统字体代替。
+=data/language-names.json= 使用 Babel/CLDR 的简体中文名称，
+并补充历史语言与中文地区名称。CLDR 数据遵循
+[[https://www.unicode.org/license.txt][Unicode 数据许可]]。
 
-默认选择简体中文、无衬线体和开源许可，字库与费用全选；
-“嵌入式使用”默认不勾选。重置恢复这些条件。
-同一类别可以多选，符合其中一项即可；不同类别需要同时满足。
-全选框也包含折叠区域中的选项，全部取消时没有匹配结果。
+=data/language-samples.json= 保存固定样文及来源，包括
+[[https://docs.gtk.org/Pango/method.Language.get_sample_string.html][Pango
+样文]]、
+[[https://gitlab.freedesktop.org/fontconfig/fontconfig/-/tree/main/fc-lang][
+Fontconfig 语言字表]]，以及项目补充的样文。缺少完整语句时可使用同语言字表。
+新增或修改时，核对中文名称、实际语言、字形覆盖和来源；备选样文须属于同一语言。
+构建直接读取这些文件，不依赖 Babel，也不联网翻译。
 
-URL 省略某个类别表示使用默认值，星号表示全选，空值表示不选，
-多个值用逗号分隔，例如 ~language=zh-cn,en~ 和 ~vendor=*~。
-语言、风格、字库、费用和许可类别的参数分别为 =language=, =style=,
-=vendor=, =cost=, =license=；搜索、排序、预览大小和嵌入条件也会保存。
-浏览器的后退和前进可以恢复之前的选择。
-
-展开字体包可查看全部款式中符合所选语言的图片，相同图片合并语言标注。
-预览大小控制图片实际高度；图片超出可用宽度时可横向滚动。
-无法识别语言的符号字体可在语言类别的“未知”选项下查看。
-
-首次打开时，全页加载动画等待界面字体、交互功能和当前可见样图就绪。
-筛选变更时仅预览区域显示加载动画，侧栏仍可操作；连续变更以最后一次为准。
-样图加载失败或超时后提供重试，未启用脚本或交互启动失败时仍可浏览静态目录。
-加载动画遵循系统的减少动态效果设置。
-
-现有 CI 预览在 =tools/generate-font-preview-images/sample-keys.nix= 中
-维护另一份样文配置，与网站样文独立。
-当前的 PR 和主线图片发布流程见
+现有 CI 预览使用独立的样文配置，维护方法见
 [[file:../.github/CONTRIBUTING.md][贡献指南]]。
 
-* 静态输出
+** 静态输出与许可
 
-生成结果包含 HTML、CSS、公开 JSON、Hoot/Wasm 资源、SVG 标识和透明无损 WebP，
-可放到静态 HTTP 服务器上。
-仅附带界面使用的两份原始字体及第三方声明；
-不包含目录字体文件、字符覆盖文件、私有渲染清单或缓存，也不依赖运行中的后端。
-浏览器不支持 Hoot 时，静态目录和源码链接仍可访问，筛选控件会显示不可用提示。
+生成的网页包含 HTML、CSS、公开 JSON、Hoot/Wasm 资源、SVG 标识和无损 WebP，
+可直接放在静态 HTTP 服务器上，无需后端程序。
+目录字体只以图片展示，原始字体文件、私有渲染清单和缓存不会放入输出目录。
+界面使用的仓耳渔阳体 W02、W03 原始字体及授权声明随站点附带。
+网站代码使用 [[file:../COPYING][CC0]]，字体各自遵循上游许可。
 
-页首标识和 favicon 共用仓耳渔阳体的“字”字形。
-底栏附带 CC0 官方徽章，链接到仓库中的网站许可。
-
-包定义、底栏源代码和网站许可链接使用构建时的完整提交 SHA。
-未提交的本地修改可以参与预览，
-但链接仍指向已提交版本；公开发布应从已推送的干净检出构建。
-目前文档中的网站地址仅作预设，部署配置留待后续处理。
+源码和许可链接指向构建时的提交版本。
+本地预览会包含未提交的修改，但这些修改不会出现在链接对应的页面中。
+对外提供生成的网页前，应先提交并推送相应改动。
