@@ -231,17 +231,32 @@
 
 (define (facet-label-content text)
   "Prefer wrapping between names and qualifiers when each fits the option."
-  (let ((group (string-match
-                (string-append "（[^（）]*）|\\([^()]*\\)|「[^「」]*」|"
-                               "『[^『』]*』|【[^【】]*】|《[^《》]*》")
-                text)))
+  (define (find-group start)
+    "Find the next unnested bracket pair using Unicode character positions."
+    (and (< start (string-length text))
+         (let* ((opening (string-ref text start))
+                (pair (assv opening
+                            '((#\（ . #\）) (#\( . #\)) (#\「 . #\」)
+                              (#\『 . #\』) (#\【 . #\】) (#\《 . #\》))))
+                (end (and pair
+                          (string-index
+                           text
+                           (lambda (character)
+                             (or (char=? character opening)
+                                 (char=? character (cdr pair))))
+                           (+ start 1)))))
+           (if (and end (char=? (string-ref text end) (cdr pair)))
+               (cons start (+ end 1))
+               (find-group (+ start 1))))))
+  (let ((group (find-group 0)))
     (if group
         (append
-         (if (string-null? (match:prefix group))
+         (if (zero? (car group))
              '()
-             `((span (@ (class "facet-phrase")) ,(match:prefix group))))
-         `((span (@ (class "facet-phrase")) ,(match:substring group)))
-         (facet-label-content (match:suffix group)))
+             `((span (@ (class "facet-phrase")) ,(substring text 0 (car group)))))
+         `((span (@ (class "facet-phrase"))
+                 ,(substring text (car group) (cdr group))))
+         (facet-label-content (substring text (cdr group))))
         (list text))))
 
 (define (facet-html key title labels defaults limit chips?)
@@ -302,8 +317,13 @@
 
 (define (vendor-label name)
   "Use the reviewed Chinese vendor name in compact sidebar choices."
-  (let ((match (string-match "（([^（）]+)）$" name)))
-    (if match (match:substring match 1) name)))
+  (let ((start (string-rindex name #\（))
+        (end (- (string-length name) 1)))
+    (if (and start (< (+ start 1) end)
+             (char=? (string-ref name end) #\）)
+             (not (string-index name #\） (+ start 1) end)))
+        (substring name (+ start 1) end)
+        name)))
 
 (define (write-face-manifest face destination)
   "Write one public face manifest and attach its content-addressed URL."

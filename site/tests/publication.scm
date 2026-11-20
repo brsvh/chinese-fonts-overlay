@@ -4,6 +4,9 @@
              (srfi srfi-1)
              (srfi srfi-64))
 
+;; Static publication must preserve Unicode labels in minimal build environments.
+(setlocale LC_ALL "C")
+
 (test-begin "publication")
 (define runner (test-runner-current))
 (define fixtures (getenv "FONT_SITE_FIXTURES"))
@@ -54,7 +57,7 @@
 
 (define catalog
   `(("packages" . ,(list->vector packages))
-    ("vendors" ("test" . "测试字库"))
+    ("vendors" ("test" . "Fixture（测试字库）"))
     ("licenseCostLabels" ("none" . "无许可费") ("commercialFree" . "商业免费使用")
      ("personalFree" . "个人免费使用") ("paid" . "付费使用"))
     ("styleLabels" ("sans" . "无衬线体"))
@@ -97,7 +100,11 @@
 
 (mkdir-p (string-append output "/assets/fonts"))
 (write-text (string-append output "/assets/fonts/stale.ttf") "stale font")
-(test-equal "Build complete static site" 0 (car (build-result catalog inputs)))
+(test-assert "Build complete static site"
+  (let ((result (build-result catalog inputs)))
+    (unless (zero? (car result))
+      (display (cdr result) (current-error-port)))
+    (zero? (car result))))
 
 (define public (read-json (string-append output "/catalog.json")))
 (define page (read-text (string-append output "/index.html")))
@@ -121,6 +128,8 @@
   (and (string-contains page "&lt;script&gt;unsafe&lt;/script&gt;")
        (string-contains page "&lt;unsafe&gt;")
        (string-contains page "注意事项")
+       (string-contains page ">（中国大陆）<")
+       (string-contains page ">测试字库<")
        (string-contains page "详细说明：@README@ @LICENSE@ @REVISION@")
        (not (string-contains page "javascript:"))))
 
