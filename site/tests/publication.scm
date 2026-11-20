@@ -11,6 +11,11 @@
 (define runner (test-runner-current))
 (define fixtures (getenv "FONT_SITE_FIXTURES"))
 (define temporary (temporary-directory (or (getenv "TMPDIR") "/tmp")))
+(define image-pixels
+  (call-with-input-string
+   (capture (getenv "FONT_SITE_IMAGE_FIXTURES") temporary) read))
+(test-equal "Lossless WebP preserves straight RGBA from padded Cairo pixels"
+  (car image-pixels) (cadr image-pixels))
 (define output (string-append temporary "/public"))
 (define revision "0123456789012345678901234567890123456789")
 
@@ -179,9 +184,12 @@
                '("yuyang-medium.ttf" "yuyang-regular.ttf"))
        (not (string-contains (read-text (string-append output "/catalog.json"))
                              temporary))
-       (every (lambda (file) (validate-image file))
-              (filter (lambda (file) (string-suffix? ".png" file))
-                      (files-under output)))))
+       (let ((images (files-under (string-append output "/assets/images"))))
+         (and (pair? images)
+              (every (lambda (file)
+                       (and (string-suffix? ".webp" file)
+                            (validate-image file)))
+                     images)))))
 
 (write-text
  (string-append output "/" (jref (cdar (published-samples "english")) "url"))
@@ -247,7 +255,7 @@
 (test-equal "Failed builds preserve the entire previous site"
   snapshot (published-files))
 
-(define missing-image (string-append temporary "/missing.png"))
+(define missing-image (string-append temporary "/missing.webp"))
 (render-jobs
  (list (list (string-append fixtures "/static.ttf") "0" "-" "en" "AZ"
              missing-image)))
@@ -258,7 +266,11 @@
 (define invalid-job (string-append temporary "/invalid.tsv"))
 (write-text invalid-job
             (string-append fixtures "/static.ttf\tnot-an-index\t-\ten\tA\t"
-                           temporary "/invalid.png\n"))
+                           temporary "/invalid.webp\n"))
+(define unwritable-job (string-append temporary "/unwritable.tsv"))
+(write-text unwritable-job
+            (string-append fixtures "/static.ttf\t0\t-\ten\tA\t"
+                           temporary "/absent/sample.webp\n"))
 (for-each
  (lambda (case)
    (let ((result (command-result
@@ -268,6 +280,7 @@
        (and (not (zero? (car result)))
             (string-contains (cdr result) (cdr case))))))
  `((,invalid-job . "Invalid font face index")
+   (,unwritable-job . "Cannot write")
    (,temporary . "Cannot read sample manifest")))
 
 (for-each
@@ -276,12 +289,15 @@
           (command-result
            (lambda ()
              (system* (getenv "FONT_SITE_INSPECTOR") "image-info"
-                      (string-append fixtures "/" (car case)))))))
+                      (string-append temporary "/" (car case)))))))
      (test-assert (cdr case)
        (and (not (zero? (car result)))
             (string-contains (cdr result) (cdr case))))))
- '(("blank.png" . "Expected nonblank PNG")
-   ("opaque.png" . "Expected transparent PNG")))
+ '(("blank.webp" . "Expected nonblank WebP")
+   ("opaque.webp" . "Expected transparent WebP")
+   ("edge.webp" . "Expected transparent WebP borders")
+   ("lossy.webp" . "Expected static lossless WebP")
+   ("truncated.webp" . "Invalid WebP pixels")))
 
 (delete-tree temporary)
 (test-end "publication")

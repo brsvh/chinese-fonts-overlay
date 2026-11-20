@@ -30,7 +30,7 @@
    read))
 
 (define (validate-image file)
-  "Validate a transparent, nonblank PNG and return its pixel dimensions."
+  "Validate a transparent, nonblank lossless WebP and return its dimensions."
   (inspect "image-info" file))
 
 (define (coordinates-json coordinates)
@@ -189,7 +189,7 @@
 
 (define (stage-image source digest staging previous)
   "Link an intact prior image or copy SOURCE with DIGEST into STAGING."
-  (let* ((relative (string-append "images/" digest ".png"))
+  (let* ((relative (string-append "images/" digest ".webp"))
          (target (string-append staging "/" relative))
          (old (string-append previous "/assets/" relative)))
     (unless (file-exists? target)
@@ -221,7 +221,7 @@
                     (substring digest 0 2)
                     "/"
                     digest
-                    ".png")))
+                    ".webp")))
         (unless (hash-ref images key)
           (hash-set! images key (list path text (cdr choice)))
           (unless (or (file-exists? path)
@@ -309,7 +309,7 @@
          ((path text kind)
           (when (file-exists? path)
             (let* ((digest (file-digest path))
-                   (url (string-append "assets/images/" digest ".png"))
+                   (url (string-append "assets/images/" digest ".webp"))
                    (size (if (and (hash-ref verified url)
                                   (file-exists?
                                    (string-append destination "/" url)))
@@ -357,8 +357,10 @@ The caller publishes or discards STAGING as part of the complete site build."
          (jobs (make-hash-table))
          (inspector-id
           (file-digest (native-tool "FONT_SITE_INSPECTOR" "font-info")))
+         (renderer (native-tool "FONT_SITE_RENDERER" "render-font-samples"))
          (renderer-id
-          (file-digest (native-tool "FONT_SITE_RENDERER" "render-font-samples")))
+          (text-digest (string-append (file-digest renderer) ":"
+                                     (capture renderer "--encoder-version"))))
          (record-cache (string-append cache "/font-records/" inspector-id))
          (image-cache (string-append cache "/language-images/" renderer-id)))
     (unless (equal? (sort (map car selected) string<?)

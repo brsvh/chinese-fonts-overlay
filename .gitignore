@@ -46,6 +46,7 @@
 /site/chinese-fonts-overlay-site
 /site/font-info
 /site/render-font-samples
+/site/image-fixtures
 /site/config.log
 /site/config.cache
 /site/config.status
@@ -55,6 +56,9 @@
 /site/*.log
 /site/tests/*.log
 /site/tests/*.trs
+/site/tests/.deps/
+/site/tests/.dirstamp
+/site/tests/*.o
 /site/*.tar.xz
 
 # .gitignore ends here

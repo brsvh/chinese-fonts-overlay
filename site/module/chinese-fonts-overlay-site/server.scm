@@ -16,7 +16,7 @@
    ((string-suffix? ".ttf" path) '(font/ttf))
    ((string-suffix? ".pdf" path) '(application/pdf))
    ((string-suffix? ".wasm" path) '(application/wasm))
-   ((string-suffix? ".png" path) '(image/png))
+   ((string-suffix? ".webp" path) '(image/webp))
    ((string-suffix? ".svg" path) '(image/svg+xml))
    (else '(application/octet-stream))))
 

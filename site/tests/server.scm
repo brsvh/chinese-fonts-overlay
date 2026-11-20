@@ -1,6 +1,8 @@
 (use-modules
  (chinese-fonts-overlay-site server)
  (chinese-fonts-overlay-site util)
+ (ice-9 binary-ports)
+ (ice-9 match)
  (rnrs bytevectors)
  (srfi srfi-11)
  (srfi srfi-64)
@@ -22,27 +24,41 @@
 
 (write-text (string-append root "/a+b.json") "{}")
 
+(define image-bytes #vu8(0 128 255 13 10))
+
+(call-with-output-file
+    (string-append root "/sample.webp")
+  (lambda (port) (put-bytevector port image-bytes))
+  #:binary #t)
+
 (write-text (string-append temporary "/private") "private")
 
 (symlink (string-append temporary "/private") (string-append root "/outside"))
 
-(let-values
-    (((response body) (file-response root (build-request
-                                           (string->uri "http://localhost/")))))
-  (test-equal "UTF-8 representation" (string->utf8 "中文预览") body)
-  (test-equal "Byte content length"
-    (bytevector-length body)
-    (response-content-length response))
-  (test-equal "HTML media type"
-    'text/html
-    (car (response-content-type response))))
-
-(let-values
-    (((response body)
-      (file-response root (build-request (string->uri "http://localhost/")
-                                         #:method 'HEAD))))
-  (test-assert "HEAD is bodyless" (not body))
-  (test-equal "HEAD keeps GET length" 12 (response-content-length response)))
+(for-each
+ (match-lambda
+   ((path media-type expected)
+    (for-each
+     (lambda (method)
+       (let-values
+           (((response body)
+             (file-response
+              root
+              (build-request
+               (string->uri (string-append "http://localhost" path))
+               #:method method))))
+         (test-assert (format #f "~a ~a preserves its HTTP representation"
+                             method path)
+           (and (= 200 (response-code response))
+                (eq? media-type (car (response-content-type response)))
+                (= (bytevector-length expected)
+                   (response-content-length response))
+                (if (eq? method 'HEAD)
+                    (not body)
+                    (equal? body expected))))))
+     '(GET HEAD))))
+ `(("/" text/html ,(string->utf8 "中文预览"))
+   ("/sample.webp" image/webp ,image-bytes)))
 
 (for-each
  (lambda (entry)

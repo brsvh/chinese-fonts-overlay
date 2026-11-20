@@ -101,6 +101,7 @@
             freetype
             glib
             guile
+            libwebp
             pango
           ];
 

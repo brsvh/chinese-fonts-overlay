@@ -8,7 +8,8 @@ AM_INIT_AUTOMAKE([foreign 1.16 subdir-objects dist-xz no-dist-gzip])
 AC_PROG_CC
 PKG_PROG_PKG_CONFIG
 PKG_CHECK_MODULES([FONT],
-                  [pangocairo pangofc fontconfig cairo freetype2 glib-2.0])
+                  [pangocairo pangofc fontconfig cairo freetype2
+                   glib-2.0 >= 2.66 libwebp])
 AC_PATH_PROG([GUILE], [guile])
 AS_IF([test -z "$GUILE"], [AC_MSG_ERROR([Guile 3 is required])])
 AC_MSG_CHECKING([for Guile 3, guile-json and guile-gcrypt])

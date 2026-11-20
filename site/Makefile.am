@@ -1,11 +1,16 @@
 ACLOCAL_AMFLAGS = -I m4
+AM_CPPFLAGS = -I$(srcdir)/src
 AM_CFLAGS = -Wall -Wextra $(FONT_CFLAGS)
 LDADD = $(FONT_LIBS) -lm
 
 bin_SCRIPTS = chinese-fonts-overlay-site
 libexec_PROGRAMS = render-font-samples font-info
-render_font_samples_SOURCES = src/render-samples.c
+render_font_samples_SOURCES = \
+  src/render-samples.c src/webp-image.c src/webp-image.h
 font_info_SOURCES = src/font-info.c
+check_PROGRAMS = image-fixtures
+image_fixtures_SOURCES = \
+  tests/image-fixtures.c src/webp-image.c src/webp-image.h
 
 font_site_modules = \
   module/chinese-fonts-overlay-site/util.scm \
@@ -125,6 +130,7 @@ TESTS_ENVIRONMENT = \
   FONT_SITE_WEB='$(abs_top_builddir)/compiled-web' \
   FONT_SITE_INSPECTOR='$(abs_top_builddir)/font-info' \
   FONT_SITE_RENDERER='$(abs_top_builddir)/render-font-samples' \
+  FONT_SITE_IMAGE_FIXTURES='$(abs_top_builddir)/image-fixtures' \
   FONT_SITE_FIXTURES='$(abs_top_srcdir)/tests/fixtures'
 
 EXTRA_DIST = \
@@ -145,9 +151,7 @@ EXTRA_DIST = \
   tests/fixtures/variable.ttf \
   tests/fixtures/collection.ttc \
   tests/fixtures/english.ttf \
-  tests/fixtures/symbols.ttf \
-  tests/fixtures/blank.png \
-  tests/fixtures/opaque.png
+  tests/fixtures/symbols.ttf
 CLEANFILES = \
   chinese-fonts-overlay-site \
   compiled-web/input.css \

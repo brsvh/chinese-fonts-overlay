@@ -1,4 +1,4 @@
-/* Batch fixed-language PNG rendering.  Fonts stay in the local build
+/* Batch fixed-language WebP rendering.  Fonts stay in the local build
    environment.  */
 
 #include <cairo.h>
@@ -13,6 +13,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <webp/encode.h>
+
+#include "webp-image.h"
 
 /* Owned rendering objects for the selected face.  Each worker processes its
    manifest sequentially and releases these objects before selecting a face. */
@@ -95,7 +98,7 @@ select_face (const char *file, int index, const char *variations)
 
 /* Render UTF-8 TEXT in LANGUAGE to OUTPUT using the selected face.
    All arguments are borrowed NUL-terminated strings.  Report unsupported or
-   blank samples as a skip record on stdout; terminate on a PNG write error. */
+   blank samples as a skip record on stdout; terminate on a WebP write error.  */
 static void
 render (const char *language, const char *text, const char *output)
 {
@@ -131,12 +134,19 @@ render (const char *language, const char *text, const char *output)
   cairo_set_source_rgba (cr, 0, 0, 0, 1);
   pango_cairo_show_layout (cr, layout);
 
-  cairo_status_t status = cairo_surface_write_to_png (surface, output);
+  GError *error = NULL;
 
-  if (status != CAIRO_STATUS_SUCCESS)
+  if (cairo_status (cr) != CAIRO_STATUS_SUCCESS)
     {
-      fprintf (stderr, "Cannot write %s: %s\n", output,
-               cairo_status_to_string (status));
+      fprintf (stderr, "Cannot render %s: %s\n", output,
+               cairo_status_to_string (cairo_status (cr)));
+      exit (1);
+    }
+
+  if (!write_webp_surface (surface, output, &error))
+    {
+      fprintf (stderr, "Cannot write %s: %s\n", output, error->message);
+      g_error_free (error);
       exit (1);
     }
 
@@ -149,6 +159,12 @@ render (const char *language, const char *text, const char *output)
 int
 main (int argc, char **argv)
 {
+  if (argc == 2 && !strcmp (argv[1], "--encoder-version"))
+    {
+      printf ("%d\n", WebPGetEncoderVersion ());
+      return 0;
+    }
+
   if (argc != 2)
     {
       fprintf (stderr, "usage: render-font-samples MANIFEST.tsv\n");

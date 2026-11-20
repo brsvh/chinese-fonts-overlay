@@ -162,13 +162,21 @@ Chinese UI labels, including the label for unknown values.
 ## Output and Expensive Operations
 
 The website is entirely static, publishing HTML, CSS, public metadata JSON,
-matching Hoot/Wasm assets, and transparent PNGs. Use fixed images for all
-catalog fonts; do not publish their original files, private rendering manifests,
-local paths, or caches. Interface fonts are the sole exception: ship the
-original TsangerYuYangT W02 and W03 TTF files and their license statement with
-the site. Use `redistributable` for status display and the default value of
-`embedding`; do not use it as grounds to restore live previews of user-entered
-text.
+matching Hoot/Wasm assets, and transparent lossless WebP images. Use fixed
+images for all catalog fonts; do not publish their original files, private
+rendering manifests, local paths, or caches. Interface fonts are the sole
+exception: ship the original TsangerYuYangT W02 and W03 TTF files and their
+license statement with the site. Use `redistributable` for status display and
+the default value of `embedding`; do not use it as grounds to restore live
+previews of user-entered text.
+
+Render previews in memory with Pango/Cairo and encode them directly with
+libwebp. Cache and publish WebP only. Use lossless encoding with quality 75,
+method 6, and exact transparent pixels; correctly convert Cairo's premultiplied
+ARGB pixels before encoding. In lossless mode, quality controls compression
+effort, not pixel fidelity. Validate decoded pixels, transparency, and nonblank
+content before publication. Include rendering and encoding configuration in
+cache identities.
 
 Preserve all supported faces, font collection members, weights, and named
 variable-font instances. Use the original formats directly; do not convert or

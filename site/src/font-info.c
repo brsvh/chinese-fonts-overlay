@@ -1,16 +1,16 @@
-/* Font and PNG inspection for the Guile build tools.  */
+/* Font and WebP inspection for the Guile build tools.  */
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_MULTIPLE_MASTERS_H
 #include FT_SFNT_NAMES_H
 #include FT_TRUETYPE_TABLES_H
-#include <cairo.h>
 #include <glib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <webp/decode.h>
 
 /* Report MESSAGE and PATH on stderr and terminate the inspector.  */
 static void
@@ -346,30 +346,38 @@ inspect (const char *path)
   FT_Done_FreeType (library);
 }
 
-/* Validate a nonblank horizontal PNG with transparent borders at PATH.
-   Write its pixel dimensions as a Scheme vector, or terminate on failure.  */
+/* Validate a nonblank horizontal lossless WebP with transparent borders at
+   PATH.  Write its pixel dimensions as a Scheme vector, or terminate on
+   failure.  */
 static void
 image_info (const char *path)
 {
-  cairo_surface_t *image = cairo_image_surface_create_from_png (path);
+  gchar *contents;
+  gsize length;
+  GError *error = NULL;
+  WebPBitstreamFeatures features;
 
-  if (cairo_surface_status (image) != CAIRO_STATUS_SUCCESS)
-    fail ("Invalid PNG", path);
+  if (!g_file_get_contents (path, &contents, &length, &error))
+    fail (error->message, path);
 
-  int width = cairo_image_surface_get_width (image);
-  int height = cairo_image_surface_get_height (image);
+  const uint8_t *encoded = (const uint8_t *)contents;
+  if (WebPGetFeatures (encoded, length, &features) != VP8_STATUS_OK)
+    fail ("Invalid WebP", path);
+  if (features.has_animation || features.format != 2)
+    fail ("Expected static lossless WebP", path);
+
+  int width = features.width;
+  int height = features.height;
 
   if (width <= height || height <= 0)
-    fail ("Expected horizontal PNG", path);
+    fail ("Expected horizontal WebP", path);
+  if (!features.has_alpha)
+    fail ("Expected transparent WebP", path);
 
-  cairo_surface_flush (image);
-
-  unsigned char *data = cairo_image_surface_get_data (image);
-  int stride = cairo_image_surface_get_stride (image);
-  cairo_format_t format = cairo_image_surface_get_format (image);
-
-  if (format != CAIRO_FORMAT_ARGB32)
-    fail ("Expected transparent PNG", path);
+  uint8_t *data = WebPDecodeRGBA (encoded, length, NULL, NULL);
+  g_free (contents);
+  if (!data)
+    fail ("Invalid WebP pixels", path);
 
   unsigned min[3] = { 255, 255, 255 };
   unsigned max[3] = { 0, 0, 0 };
@@ -377,26 +385,26 @@ image_info (const char *path)
   for (int y = 0; y < height; y++)
     for (int x = 0; x < width; x++)
       {
-        uint32_t pixel = ((uint32_t *)(data + y * stride))[x];
-        unsigned alpha = pixel >> 24;
+        const uint8_t *pixel = data + ((size_t)y * width + x) * 4;
+        unsigned alpha = pixel[3];
 
         if ((x == 0 || y == 0 || x == width - 1 || y == height - 1) && alpha)
-          fail ("Expected transparent PNG borders", path);
+          fail ("Expected transparent WebP borders", path);
 
         for (int i = 0; i < 3; i++)
           {
-            unsigned channel = ((pixel >> (8 * i)) & 255) + 255 - alpha;
+            unsigned channel = (pixel[i] * alpha + 127) / 255 + 255 - alpha;
             min[i] = MIN (min[i], channel);
             max[i] = MAX (max[i], channel);
           }
       }
 
   if (min[0] == max[0] && min[1] == max[1] && min[2] == max[2])
-    fail ("Expected nonblank PNG", path);
+    fail ("Expected nonblank WebP", path);
 
   printf ("#(%d %d)\n", width, height);
 
-  cairo_surface_destroy (image);
+  WebPFree (data);
 }
 
 /* Dispatch the requested inspection operation; diagnostics go to stderr.  */

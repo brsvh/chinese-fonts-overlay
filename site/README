@@ -5,7 +5,7 @@
 
 这是字体目录的静态预览网站，用于替代 README 中的字体列表和图片。
 可以按语言、风格、字库和许可筛选，查看各个字重与款式，并打开对应的包定义。
-目录字体都使用固定文字的透明 PNG，不提供在线试字。
+目录字体都使用固定文字的透明无损 WebP，不提供在线试字。
 界面使用仓耳渔阳体，随站点附带 W02、W03 原始字体及授权声明。
 
 规划地址为 [[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]]。
@@ -81,7 +81,7 @@ make serve PORT=8080
 C 和 Makefile 的格式约定见 [[file:../AGENTS.md][维护指引]]。
 
 脱离 Nix 构建需要 Guile 3、guile-json、guile-gcrypt、Hoot、C 编译器、
-pkg-config、FreeType、Fontconfig、GLib、Pango 和 Cairo，
+pkg-config、FreeType、Fontconfig、GLib 2.66 或更新版本、Pango、Cairo、libwebp，
 以及 Tailwind CSS 4 的独立编译器。
 当前 Nix 环境固定 Tailwind CSS 4.3.4 和 daisyUI 5.7.39，
 不依赖 Node 项目、运行时 CDN 或构建中的临时下载。
@@ -231,7 +231,7 @@ URL 省略某个类别表示使用默认值，星号表示全选，空值表示�
 
 * 静态输出
 
-生成结果包含 HTML、CSS、公开 JSON、Hoot/Wasm 资源、SVG 标识和透明 PNG，
+生成结果包含 HTML、CSS、公开 JSON、Hoot/Wasm 资源、SVG 标识和透明无损 WebP，
 可放到静态 HTTP 服务器上。
 仅附带界面使用的两份原始字体及第三方声明；
 不包含目录字体文件、字符覆盖文件、私有渲染清单或缓存，也不依赖运行中的后端。
