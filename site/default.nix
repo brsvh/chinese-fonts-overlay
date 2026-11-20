@@ -145,7 +145,6 @@
               ./build-aux
               ./configure.ac
               ./data
-              ./m4
               ./module
               ./scripts
               ./src
