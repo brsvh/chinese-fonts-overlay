@@ -1,5 +1,5 @@
 {
-  "buildKey": "ac38ec5cc12db30962636ff64f1281ccdf312213a361a820195a68d88fb21f0e",
+  "buildKey": "74e67ce174a73f9fc888276ad9c5966b29ef7112a33297618e43b211fe8bcb60",
   "images": [
     {
       "height": 79,
@@ -46,11 +46,11 @@
   ],
   "package": "buttaiwan.genkimin2-jp",
   "pname": "buttaiwan-genkimin2-jp",
-  "previewKey": "47faa45ab0bc74fb96898e617e1807b3c91a620b1a82a84a9434de81ee95c412",
+  "previewKey": "f12355e82b135e5b9649fc08b63a9443df6db80a31ed033daec0822e92778aaa",
   "schema": 1,
   "source": {
     "kind": "main",
-    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+    "rev": "fe6a8d462475686561c7dd236f2a33b9639031e3"
   },
   "vendor": "buttaiwan"
 }
