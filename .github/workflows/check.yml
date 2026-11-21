@@ -34,3 +34,7 @@ jobs:
         run: nix fmt --no-update-lock-file --no-write-lock-file -- --fail-on-change
       - name: Evaluate flake and run CI contract tests
         run: nix flake check --no-update-lock-file --no-write-lock-file --print-build-logs
+      - name: Check website with licensed fixtures
+        run: nix develop --no-update-lock-file --no-write-lock-file .#site -c make -C site -j2 check
+      - name: Check font language maintenance
+        run: nix develop --no-update-lock-file --no-write-lock-file -c make -C tools/update-font-languages check
