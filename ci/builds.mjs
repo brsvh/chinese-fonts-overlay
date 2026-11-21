@@ -13,12 +13,11 @@ import {
   plan,
   policy,
   repository,
-  schema,
   writeJson,
 } from './common.mjs';
-import { output } from './github.mjs';
-import { planningState } from './receipts.mjs';
+import { output, readState } from './github.mjs';
 import {
+  recordSchema,
   same,
   validateContext,
   validatePlan,
@@ -94,7 +93,7 @@ export async function preparePlan(root, directory, event, api) {
   const controller = controllerDigest(root);
   const number = event.number;
   const headRepository = event.pull_request.head.repo.full_name;
-  const state = await planningState(api, number, headRepository, controller);
+  const state = await readState(api, number, headRepository, controller);
   const required = plan(base, current);
   const selected = plan(base, current, state.receipts);
   const packages = {};
@@ -105,16 +104,14 @@ export async function preparePlan(root, directory, event, api) {
       vendor: item.vendor,
       pname: item.pname,
       buildKey: item.buildKey,
-      previewKey: item.previewKey,
       cacheable: item.cacheable,
-      preview: task.preview,
       affected: true,
     };
   }
 
   const tasks = selected.tasks.map((task) => task.package);
   const value = validatePlan({
-    schema,
+    schema: recordSchema,
     policy,
     repository,
     pr: number,
@@ -196,7 +193,7 @@ export function buildShard(root, plan, shardId, directory, event) {
   fs.mkdirSync(artifacts, { recursive: true });
   writeJson(path.join(directory, 'inventory.json'), current);
   const receipts = {
-    schema,
+    schema: recordSchema,
     context,
     controller: plan.controller,
     shard: shardId,
@@ -212,15 +209,12 @@ export function buildShard(root, plan, shardId, directory, event) {
     ensure(
       !item.windows &&
         item.cacheable === shard.cacheable &&
-        item.buildKey === expected.buildKey &&
-        item.previewKey === expected.previewKey,
+        item.buildKey === expected.buildKey,
       'Re-evaluated build policy differs: ' + name,
     );
     const receipt = {
       buildKey: item.buildKey,
-      previewKey: item.previewKey,
       buildSucceeded: false,
-      previewGenerated: false,
     };
     receipts.packages[name] = receipt;
 

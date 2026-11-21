@@ -5,13 +5,12 @@ import {
   identifier,
   policy,
   repository,
-  schema,
   sha,
 } from './common.mjs';
 
 export const packageName = /^[a-z0-9][a-z0-9_+-]*$/;
 export const workflowPath = '.github/workflows/build.yml';
-export const legacyStateBranch = 'font-preview-prs';
+export const recordSchema = 2;
 
 export function same(left, right) {
   return JSON.stringify(canonical(left)) === JSON.stringify(canonical(right));
@@ -72,7 +71,7 @@ export function validatePlan(value) {
     'reused',
   ]);
   ensure(
-    value.schema === schema &&
+    value.schema === recordSchema &&
       value.policy === policy &&
       value.repository === repository &&
       positive(value.pr) &&
@@ -90,23 +89,14 @@ export function validatePlan(value) {
   );
 
   for (const [name, item] of Object.entries(value.packages)) {
-    fields(item, [
-      'vendor',
-      'pname',
-      'buildKey',
-      'previewKey',
-      'cacheable',
-      'preview',
-      'affected',
-    ]);
+    fields(item, ['vendor', 'pname', 'buildKey', 'cacheable', 'affected']);
     ensure(
       identifier.test(name) &&
         item.vendor === name.split('.')[0] &&
         typeof item.pname === 'string' &&
         packageName.test(item.pname) &&
         fingerprint.test(item.buildKey) &&
-        fingerprint.test(item.previewKey) &&
-        ['cacheable', 'preview', 'affected'].every(
+        ['cacheable', 'affected'].every(
           (key) => typeof item[key] === 'boolean',
         ),
       'Invalid package metadata',
@@ -161,7 +151,7 @@ export function validatePlan(value) {
 export function validateReceipts(value, plan, shard) {
   fields(value, ['schema', 'context', 'controller', 'shard', 'packages']);
   ensure(
-    value.schema === schema &&
+    value.schema === recordSchema &&
       same(value.context, plan.context) &&
       value.controller === plan.controller &&
       value.shard === shard.id,
@@ -169,20 +159,11 @@ export function validateReceipts(value, plan, shard) {
   );
 
   for (const [name, item] of Object.entries(value.packages)) {
-    fields(item, [
-      'buildKey',
-      'previewKey',
-      'buildSucceeded',
-      'previewGenerated',
-    ]);
+    fields(item, ['buildKey', 'buildSucceeded']);
     ensure(
       shard.tasks.includes(name) &&
-        ['buildKey', 'previewKey'].every(
-          (key) => item[key] === plan.packages[name][key],
-        ) &&
-        typeof item.buildSucceeded === 'boolean' &&
-        typeof item.previewGenerated === 'boolean' &&
-        (!item.previewGenerated || item.buildSucceeded),
+        item.buildKey === plan.packages[name].buildKey &&
+        typeof item.buildSucceeded === 'boolean',
       'Invalid package receipt',
     );
   }

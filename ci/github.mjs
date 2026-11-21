@@ -12,13 +12,13 @@ import {
   policy,
   repository,
   request,
-  schema,
   sha,
 } from './common.mjs';
 import {
-  legacyStateBranch,
+  fields,
   packageName,
   positive,
+  recordSchema,
   safePath,
   same,
   validateContext,
@@ -31,7 +31,6 @@ import { unzip } from './artifacts.mjs';
 const apiRoot = 'https://api.github.com/repos/' + repository;
 const maxJson = 16 * 1024 * 1024;
 export const buildStateBranch = 'font-build-state';
-const recordBranches = [legacyStateBranch, buildStateBranch];
 
 export function blobSha(data) {
   return createHash('sha1')
@@ -117,7 +116,7 @@ export class GitHub {
   }
 
   async branch(name) {
-    ensure(recordBranches.includes(name), 'Not an record branch');
+    ensure(name === buildStateBranch, 'Not a build record branch');
     const ref = await this.request('/git/ref/heads/' + name, {
       missing: true,
     });
@@ -272,12 +271,12 @@ export async function readState(
   controller,
   entries,
 ) {
-  entries ??= (await api.branch(legacyStateBranch)).entries;
+  entries ??= (await api.branch(buildStateBranch)).entries;
   const entry = entries[statePath(number)];
 
   if (!entry) {
     return {
-      schema,
+      schema: recordSchema,
       repository,
       pr: number,
       headRepository,
@@ -289,29 +288,48 @@ export async function readState(
   }
 
   const state = parseJson(await api.blob(entry));
+  fields(state, [
+    'schema',
+    'repository',
+    'pr',
+    'headRepository',
+    'controller',
+    'runId',
+    'runAttempt',
+    'receipts',
+  ]);
   ensure(
-    state.schema === schema &&
+    state.schema === recordSchema &&
       state.repository === repository &&
       state.pr === number &&
       state.headRepository === headRepository &&
       positive(state.runId) &&
-      positive(state.runAttempt),
+      positive(state.runAttempt) &&
+      fingerprint.test(state.controller) &&
+      state.receipts !== null &&
+      typeof state.receipts === 'object' &&
+      !Array.isArray(state.receipts),
     'PR state identity mismatch',
   );
   state.controller = controller;
-  state.receipts = Object.fromEntries(
-    Object.entries(state.receipts).filter(([, item]) => item.policy === policy),
-  );
-
   for (const [name, item] of Object.entries(state.receipts)) {
+    fields(item, [
+      'policy',
+      'pname',
+      'buildKey',
+      'buildSucceeded',
+      'headSha',
+      'mergeSha',
+      'runId',
+      'runAttempt',
+    ]);
     ensure(
       identifier.test(name) &&
+        item.policy === policy &&
         item.buildSucceeded === true &&
         typeof item.pname === 'string' &&
         packageName.test(item.pname) &&
-        fingerprint.test(item.buildKey) &&
-        fingerprint.test(item.previewKey) &&
-        typeof item.previewPublished === 'boolean',
+        fingerprint.test(item.buildKey),
       'Invalid successful receipt',
     );
     validateContext({
@@ -454,9 +472,7 @@ export async function consume(api, run, pull) {
           ? plan.packages[shard.tasks[0]].pname
           : String(shard.id);
       const matching = jobs.filter(
-        (job) =>
-          job.name === 'Build fonts / ' + shard.id ||
-          job.name === 'Build fonts / ' + label,
+        (job) => job.name === 'Build fonts / ' + label,
       );
       ensure(
         matching.length === 1 && matching[0].status === 'completed',

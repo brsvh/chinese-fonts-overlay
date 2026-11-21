@@ -332,12 +332,7 @@ export function applyPolicy(inventory, graph) {
 
 export function inventory(root) {
   const raw = evaluate(root, 'inventory');
-  const audited = applyPolicy(raw, derivationGraph(raw.packages));
-  // Keep the receipt format readable by the trusted legacy consumer.
-  for (const item of Object.values(audited.packages)) {
-    item.previewKey = item.buildKey;
-  }
-  return audited;
+  return applyPolicy(raw, derivationGraph(raw.packages));
 }
 
 export function cacheRestrictions(current, baseline) {
@@ -397,8 +392,6 @@ export function plan(base, current, receipts = {}) {
       buildKey: item.buildKey,
       cacheable: item.cacheable,
       build: true,
-      preview: false,
-      previewKey: item.previewKey,
     });
   }
 

@@ -10,36 +10,6 @@ import {
   statePath,
 } from './github.mjs';
 
-// Preserve preview receipts during the transition, without depending on them
-// for successful package builds once the image publisher is retired.
-export async function planningState(api, number, headRepository, controller) {
-  const legacy = await readState(api, number, headRepository, controller);
-  const { entries } = await api.branch(buildStateBranch);
-  const saved = await readState(
-    api,
-    number,
-    headRepository,
-    controller,
-    entries,
-  );
-  for (const [name, receipt] of Object.entries(saved.receipts)) {
-    const previous = legacy.receipts[name];
-    if (
-      !previous ||
-      receipt.runId > previous.runId ||
-      (receipt.runId === previous.runId &&
-        receipt.runAttempt >= previous.runAttempt)
-    ) {
-      legacy.receipts[name] =
-        previous?.buildKey === receipt.buildKey &&
-        previous?.previewKey === receipt.previewKey
-          ? previous
-          : receipt;
-    }
-  }
-  return legacy;
-}
-
 export async function saveReceipts(api, run, pull, plan, records) {
   return api.updateRecords(
     buildStateBranch,
@@ -64,9 +34,7 @@ export async function saveReceipts(api, run, pull, plan, records) {
             policy,
             pname: plan.packages[name].pname,
             buildKey: receipt.buildKey,
-            previewKey: receipt.previewKey,
             buildSucceeded: true,
-            previewPublished: false,
             ...plan.context,
           };
         }
