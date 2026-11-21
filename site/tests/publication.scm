@@ -85,7 +85,7 @@
     (cons status (read-text file))))
 
 (define* (build-result metadata sources #:optional (commit revision))
-  "Build a complete fixture site through the CLI and capture its outcome."
+  "Build a complete fixture site and capture its outcome."
   (let ((catalog-file (string-append temporary "/catalog.json"))
         (inputs-file (string-append temporary "/inputs.json")))
     (write-json catalog-file metadata)
@@ -196,12 +196,31 @@
                             (validate-image file)))
                      images)))))
 
-(write-text
- (string-append output "/" (jref (cdar (published-samples "english")) "url"))
- "damaged published image")
-(test-assert "Cached rebuild restores damaged public output"
-  (and (zero? (car (build-result catalog inputs)))
-       (equal? snapshot (published-files))))
+(let ((root (dirname (getenv "FONT_SITE_DATA")))
+      (style (string-append output "/style.css")))
+  (define (rebuild)
+    "Run the normal incremental build against the existing fixture inputs."
+    (system* (or (getenv "GUILE") "guile") "--no-auto-compile"
+             "-L" (string-append root "/module")
+             (string-append root "/scripts/build.scm")
+             root temporary (string-append temporary "/cache")
+             (string-append temporary "/catalog.json")
+             (string-append temporary "/inputs.json") revision))
+  (symlink (getenv "FONT_SITE_WEB") (string-append temporary "/web"))
+  (test-assert "Incremental builds restore changed and missing output"
+    (and (zero? (rebuild))
+         (let ((image
+                (car (files-under
+                      (string-append temporary "/previews/assets/images")))))
+           (delete-file style)
+           (write-text
+            (string-append output "/"
+                           (jref (cdar (published-samples "english")) "url"))
+            "damaged published image")
+           (write-text image "damaged prepared preview")
+           (and (zero? (rebuild))
+                (equal? snapshot (published-files))
+                (validate-image image))))))
 
 (for-each
  (lambda (case)

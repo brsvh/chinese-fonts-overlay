@@ -10,14 +10,27 @@
    (object->string
     (cons values (map (lambda (file) (cons file (file-digest file))) files)))))
 
-(define (current? stamp digest output)
-  "Check whether STAMP records DIGEST and OUTPUT still exists."
-  (and (file-exists? stamp) (file-exists? output)
-       (string=? digest (read-text stamp))))
+(define (file-state file)
+  "Describe FILE's identity, size and modification state without reading it."
+  (let ((info (stat file)))
+    (list file (stat:ino info) (stat:size info)
+          (stat:mtime info) (stat:mtimensec info)
+          (stat:ctime info) (stat:ctimensec info))))
 
-(define (record! stamp digest)
-  "Record DIGEST after its complete output has been published."
-  (atomic-write stamp (lambda (file) (write-text file digest))))
+(define (output-digest digest directory)
+  "Combine the input DIGEST with the state of every file in DIRECTORY."
+  (text-digest
+   (object->string (cons digest (map file-state (files-under directory))))))
+
+(define (current? stamp digest output)
+  "Check that STAMP matches DIGEST and the complete OUTPUT tree is unchanged."
+  (and (file-exists? stamp) (file-exists? output)
+       (string=? (output-digest digest output) (read-text stamp))))
+
+(define (record! stamp digest output)
+  "Record DIGEST and the complete published OUTPUT tree."
+  (let ((value (output-digest digest output)))
+    (atomic-write stamp (lambda (file) (write-text file value)))))
 
 (define (font-inputs inputs)
   "Track immutable store paths, or file changes in explicit local font inputs."
@@ -26,12 +39,7 @@
      (let ((path (canonicalize-path (jref (cdr entry) "renderPath"))))
        (cons (car entry)
              (if (string-prefix? "/nix/store/" path) path
-                 (map (lambda (file)
-                        (let ((info (stat file)))
-                          (list file (stat:size info) (stat:mtime info)
-                                (stat:mtimensec info) (stat:ctime info)
-                                (stat:ctimensec info))))
-                      (filter font-file? (files-under path)))))))
+                 (map file-state (filter font-file? (files-under path)))))))
    inputs))
 
 (define (build root directory cache catalog-file fonts-file revision)
@@ -56,8 +64,7 @@
                       (jarray (jref catalog "packages")))
                  (font-inputs fonts)
                  (capture (getenv "FONT_SITE_RENDERER") "--encoder-version")))))
-    (unless (current? preview-stamp preview-digest
-                      (string-append preview-output "/previews.json"))
+    (unless (current? preview-stamp preview-digest preview-output)
       (let* ((temporary (temporary-directory directory))
              (staging (string-append temporary "/previews")))
         (dynamic-wind
@@ -66,7 +73,7 @@
               (prepare-previews catalog fonts cache staging preview-output)
               (when (file-exists? preview-output) (delete-tree preview-output))
               (rename-file staging preview-output)
-              (record! preview-stamp preview-digest))
+              (record! preview-stamp preview-digest preview-output))
             (lambda () (delete-tree temporary)))))
     (let ((digest
            (fingerprint
@@ -77,12 +84,12 @@
                     (files-under (string-append root "/data"))
                     (files-under web))
             (list revision preview-digest))))
-      (if (current? stamp digest (string-append output "/index.html"))
+      (if (current? stamp digest output)
           (format #t "Website is up to date: ~a~%" output)
           (begin
             (build-site catalog-file fonts-file cache output revision
                         #:prepared preview-output)
-            (record! stamp digest)
+            (record! stamp digest output)
             (format #t "Built website: ~a~%" output))))))
 
 (catch #t
