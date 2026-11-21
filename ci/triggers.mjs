@@ -2,8 +2,6 @@ import { createHash } from 'node:crypto';
 import { ensure, identifier } from './common.mjs';
 
 export function triggerInfo(tag) {
-  const site = /^ci\/site\/([a-f0-9]{40})\/[a-f0-9-]{36}$/.exec(tag);
-  if (site) return { kind: 'site', rev: site[1] };
   const font =
     /^ci\/package\/(cache|preview)\/([^/]+)\/([a-f0-9]{40})\/[a-f0-9-]{36}$/.exec(
       tag,

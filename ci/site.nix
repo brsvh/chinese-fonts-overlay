@@ -1,16 +1,14 @@
 {
   inputs,
-  action,
   rev,
   root,
-  tag ? null,
 }:
 let
   pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
   effects = inputs.hercules-ci-effects.lib.withPkgs pkgs;
 in
 effects.mkEffect {
-  name = "chinese-fonts-overlay-ci-${action}";
+  name = "chinese-fonts-overlay-ci-buildSite";
   dontUnpack = true;
 
   NIX_CONFIG = ''
@@ -28,14 +26,11 @@ effects.mkEffect {
     set -euo pipefail
     umask 077
     flock /site-state/site.lock \
-      node ${root}/ci/site.mjs ${action} ${rev} ${
-        pkgs.lib.optionalString (tag != null) (
-          pkgs.lib.escapeShellArg tag
-        )
-      }
+      node ${root}/ci/site.mjs buildSite ${rev}
   '';
 
   inputs = with pkgs; [
+    awscli2
     git
     gnutar
     guile
@@ -52,8 +47,6 @@ effects.mkEffect {
   ];
 
   secretsMap = {
-    git = {
-      type = "GitToken";
-    };
+    siteStore = "site-artifact-upload";
   };
 }

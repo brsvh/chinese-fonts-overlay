@@ -1,8 +1,5 @@
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
-import path from 'node:path';
-import { Readable, Transform } from 'node:stream';
-import { pipeline } from 'node:stream/promises';
 import {
   ApiError,
   bounded,
@@ -117,101 +114,6 @@ export class GitHub {
     }
 
     throw new Error('Too many artifact redirects');
-  }
-
-  async uploadAsset(releaseId, file, contentType) {
-    ensure(
-      this.writable && positive(releaseId),
-      'Release uploads are disabled',
-    );
-    const name = path.basename(file);
-    const size = fs.statSync(file).size;
-    ensure(
-      /^[A-Za-z0-9.-]+$/.test(name) && positive(size) && size < 1000000000,
-      'Invalid release upload',
-    );
-    const target =
-      'https://uploads.github.com/repos/' +
-      repository +
-      '/releases/' +
-      releaseId +
-      '/assets?name=' +
-      encodeURIComponent(name);
-    const stream = fs.createReadStream(file);
-    try {
-      const response = await fetchResponse(target, {
-        method: 'POST',
-        timeout: 900000,
-        redirect: 'manual',
-        duplex: 'half',
-        body: stream,
-        headers: {
-          authorization: 'Bearer ' + this.token,
-          accept: 'application/vnd.github+json',
-          'x-github-api-version': '2022-11-28',
-          'content-type': contentType,
-          'content-length': String(size),
-        },
-      });
-      if (!response.ok) throw new ApiError(response.status, 'POST', target);
-      return parseJson(await bounded(response, 1024 * 1024));
-    } finally {
-      stream.destroy();
-    }
-  }
-
-  async downloadAsset(asset, destination) {
-    ensure(
-      /^[A-Za-z0-9.-]+$/.test(asset.name) &&
-        positive(asset.size) &&
-        asset.size < 1000000000 &&
-        /^sha256:[0-9a-f]{64}$/.test(asset.digest),
-      'Invalid release download',
-    );
-    let target =
-      'https://github.com/' +
-      repository +
-      '/releases/download/site-artifacts/' +
-      asset.name;
-    for (let redirect = 0; redirect < 6; redirect++) {
-      const url = new URL(target);
-      ensure(
-        url.protocol === 'https:' && !url.username && !url.password,
-        'Unsafe asset redirect',
-      );
-      const response = await fetchResponse(url, {
-        timeout: 900000,
-        redirect: 'manual',
-      });
-      if ([301, 302, 303, 307, 308].includes(response.status)) {
-        target = new URL(response.headers.get('location'), url).href;
-        await response.body?.cancel();
-        continue;
-      }
-      if (!response.ok) throw new ApiError(response.status, 'GET', url);
-      let size = 0;
-      const hash = createHash('sha256');
-      const validator = new Transform({
-        transform(chunk, encoding, done) {
-          size += chunk.length;
-          if (size > asset.size)
-            return done(new Error('Asset exceeds declared size'));
-          hash.update(chunk);
-          done(null, chunk);
-        },
-      });
-      await pipeline(
-        Readable.fromWeb(response.body),
-        validator,
-        fs.createWriteStream(destination, { flags: 'wx', mode: 0o600 }),
-      );
-      ensure(
-        size === asset.size && 'sha256:' + hash.digest('hex') === asset.digest,
-        'Downloaded asset digest or size mismatch',
-      );
-      return;
-    }
-    throw new Error('Too many release redirects');
   }
 
   async branch(name) {

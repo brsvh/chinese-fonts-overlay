@@ -222,11 +222,6 @@ in
 
         name = elemAt request 1;
 
-        siteRequest =
-          if tag == null then
-            null
-          else
-            match "ci/site/([0-9a-f]{40})/([0-9a-f-]{36})" tag;
       in
       {
         ciSystems = [
@@ -235,23 +230,6 @@ in
 
         onPush = optionalAttrs trusted (
           if
-            siteRequest != null
-            && ref == "refs/tags/${tag}"
-            && elemAt siteRequest 0 == rev
-          then
-            {
-              deploySite = {
-                outputs = {
-                  effects = {
-                    deploySite = makeSiteEffect {
-                      inherit rev tag;
-                      action = "deploySite";
-                    };
-                  };
-                };
-              };
-            }
-          else if
             request != null
             && ref == "refs/tags/${tag}"
             && elemAt request 2 == rev
@@ -287,7 +265,6 @@ in
                     effects = {
                       buildSite = makeSiteEffect {
                         inherit rev;
-                        action = "buildSite";
                       };
                     };
                   };

@@ -76,6 +76,7 @@ in
       devShells = {
         ci = pkgs.mkShell {
           packages = with pkgs; [
+            awscli2
             git
             gnutar
             guile
