@@ -73,12 +73,17 @@ Hercules runs the ordinary Make build inside an Effect on the agent advertising
 it contains private rendering caches and staged archives, never public font
 closures. Disable remote builders and post-build hooks for these builds.
 
-The main-branch Effect queues a `ci/site/<revision>/<nonce>` tag before
-building. Its upload Effect runs in a later job with a fresh GitToken. Share the
-private mount and lock across both stages; publish only while the source is
-still main. Upload immutable source-and-digest names to the `site-artifacts`
-prerelease and send `site-ready` with the release and asset IDs. Never replace
-existing assets.
+The `buildSite` Effect records its request in `/site-state/requests/` before
+queuing a `ci/site/<revision>/<nonce>` tag. The `deploySite` Effect runs in a
+later job with a fresh GitToken. Share the private mount and lock across both
+stages; publish only while the source is still main. Reuse recorded requests on
+retries. After accepting a request, remove its trigger before uploading; rerun
+the existing failed job instead of creating another tag. Apply the same
+lifecycle to font publication, preserving its durable request and cache state.
+Delete only verified internal trigger references at their expected revisions.
+Keep version tags and the fixed `site-artifacts` tag. Upload immutable
+source-and-digest names to the `site-artifacts` prerelease and send `site-ready`
+with the release and asset IDs. Never replace existing assets.
 
 The Pages workflow executes only trusted main-branch code. Validate repository,
 sender, uploader, asset IDs, manifest, archive and source revision before

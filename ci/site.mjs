@@ -13,6 +13,7 @@ import {
 } from './common.mjs';
 import { GitHub, output } from './github.mjs';
 import { fields, positive } from './records.mjs';
+import { createTrigger, deleteTrigger, triggerInfo } from './triggers.mjs';
 
 const repositoryId = 772409384;
 const herculesId = 47349067;
@@ -150,16 +151,47 @@ async function ensureAsset(api, release, file, contentType, owner) {
   return asset;
 }
 
+function requestFile(source) {
+  ensure(sha.test(source), 'Invalid site source revision');
+  return path.join(stateDirectory, 'requests', source + '.json');
+}
+
+function siteRequest(source) {
+  const file = requestFile(source);
+  if (!fs.existsSync(file)) return null;
+  const record = readJson(file);
+  const trigger = triggerInfo(record.tag);
+  ensure(
+    record.source === source &&
+      trigger.kind === 'site' &&
+      trigger.rev === source,
+    'Invalid staged site request',
+  );
+  return record;
+}
+
+async function queueSite(api, source) {
+  const record = siteRequest(source) ?? {
+    source,
+    tag: 'ci/site/' + source + '/' + randomUUID(),
+    queued: false,
+  };
+  if (!record.queued && !record.accepted) {
+    fs.mkdirSync(path.dirname(requestFile(source)), { recursive: true });
+    writeJson(requestFile(source), record);
+    await createTrigger(api, record.tag, source);
+    record.queued = true;
+    writeJson(requestFile(source), record);
+  }
+  return record;
+}
+
 export async function buildSite(source) {
   ensure(sha.test(source), 'Invalid site source revision');
   const api = herculesApi();
   if (source !== (await mainRevision(api))) return;
-  // Queue a later job so upload receives a fresh credential after rendering.
-  const tag = 'ci/site/' + source + '/' + randomUUID();
-  await api.request('/git/refs', {
-    method: 'POST',
-    body: { ref: 'refs/tags/' + tag, sha: source },
-  });
+  // The shared lock makes the queued upload wait for the completed build.
+  await queueSite(api, source);
   command(
     'git',
     [
@@ -220,9 +252,15 @@ export async function buildSite(source) {
   }
 }
 
-export async function deploySite(source) {
+export async function deploySite(source, tag) {
   ensure(sha.test(source), 'Invalid site source revision');
   const api = herculesApi();
+  const record = siteRequest(source);
+  ensure(record?.tag === tag, 'Site deployment was not scheduled');
+  record.accepted = true;
+  writeJson(requestFile(source), record);
+  // A rerun uses its retained request, never a new trigger tag.
+  await deleteTrigger(api, tag, source);
   if (source !== (await mainRevision(api))) return;
   const directory = path.join(stateDirectory, 'releases', source);
   const files = fs
@@ -469,8 +507,8 @@ if (
   try {
     const [action, ...args] = process.argv.slice(2);
     if (action === 'buildSite' && args.length === 1) await buildSite(args[0]);
-    else if (action === 'deploySite' && args.length === 1)
-      await deploySite(args[0]);
+    else if (action === 'deploySite' && args.length === 2)
+      await deploySite(args[0], args[1]);
     else if (action === 'receiveSite' && args.length === 1)
       await receiveSite(args[0]);
     else if (action === 'checkSite' && args.length === 1)

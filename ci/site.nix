@@ -3,6 +3,7 @@
   action,
   rev,
   root,
+  tag ? null,
 }:
 let
   pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
@@ -27,7 +28,11 @@ effects.mkEffect {
     set -euo pipefail
     umask 077
     flock /site-state/site.lock \
-      node ${root}/ci/site.mjs ${action} ${rev}
+      node ${root}/ci/site.mjs ${action} ${rev} ${
+        pkgs.lib.optionalString (tag != null) (
+          pkgs.lib.escapeShellArg tag
+        )
+      }
   '';
 
   inputs = with pkgs; [

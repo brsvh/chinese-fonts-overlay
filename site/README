@@ -95,18 +95,22 @@ make -C site release SOURCE_REVISION="$(git rev-parse HEAD)"
 接收归档时，使用校验清单解包到新目录：
 
 #+begin_src sh
-nix develop .#site-publish
+nix develop .#ci
 guile -L site/module site/scripts/archive.scm unpack \
   /path/to/site.tar.gz /path/to/site.json /path/to/new-public
 #+end_src
 
 解包会核对文件大小、SHA-256 和提交号，拒绝路径越界、重复文件及链接。
-此环境仅提供归档工具，不下载字体集合。收到的归档仍须来自可信发布流程；
+此环境提供 CI 与归档工具，不下载字体集合。收到的归档仍须来自可信发布流程；
 校验和本身不能证明发布者身份。
 
 主线网站由 Hercules CI 调用 Make 构建。预览缓存与构建文件留在私有目录，
 公开归档交接到 =site-artifacts= 预发布版本，再由 GitHub Actions 校验并
 发布到 Pages。字体构建和二进制缓存发布独立运行。
+调度与发布控制位于 =ci/=，不属于网站生成代码。
+
+失败时重试原来的 Hercules 任务。任务复用已记录的发布请求，
+临时触发 tag 在发布任务接收请求后回收。
 
 发布流程保留当前及前两个成功发布的归档，尚未完成发布的产物不参与清理。
 需要回退时，在 Actions 中手动运行 =Website publication=，将 =release=

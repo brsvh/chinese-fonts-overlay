@@ -244,7 +244,7 @@ in
                 outputs = {
                   effects = {
                     deploySite = makeSiteEffect {
-                      inherit rev;
+                      inherit rev tag;
                       action = "deploySite";
                     };
                   };

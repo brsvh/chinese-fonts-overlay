@@ -25,6 +25,7 @@ import {
 } from './common.mjs';
 import { GitHub, Superseded } from './github.mjs';
 import { same } from './records.mjs';
+import { createTrigger, deleteTrigger, triggerKey } from './triggers.mjs';
 
 const planKey = 'main-plan';
 const kinds = ['cache'];
@@ -75,41 +76,6 @@ export async function current(api, revision) {
 
   if (ref.object.sha !== revision) {
     throw new Superseded('A newer main revision exists');
-  }
-}
-
-export function triggerInfo(tag) {
-  const pattern = /^ci\/package\/(cache|preview)\/([^/]+)\/([a-f0-9]{40})\//;
-  const match = pattern.exec(tag);
-  ensure(
-    match &&
-      identifier.test(match[2]) &&
-      /^[a-f0-9-]{36}$/.test(tag.slice(match[0].length)),
-    'Invalid internal trigger',
-  );
-  return { kind: match[1], name: match[2], rev: match[3] };
-}
-
-export async function deleteTrigger(api, tag, revision) {
-  ensure(triggerInfo(tag).rev === revision, 'Trigger revision differs');
-  const ref = await api.request('/git/ref/tags/' + tag, { missing: true });
-
-  if (!ref) {
-    return;
-  }
-
-  ensure(ref.object.sha === revision, 'Trigger was moved');
-
-  try {
-    await api.request('/git/refs/tags/' + tag, { method: 'DELETE' });
-  } catch (error) {
-    if (
-      !(error instanceof ApiError) ||
-      ![404, 422].includes(error.status) ||
-      (await api.request('/git/ref/tags/' + tag, { missing: true }))
-    ) {
-      throw error;
-    }
   }
 }
 
@@ -248,10 +214,7 @@ export async function planFonts(api, state, metadata, inventory, bootstrap) {
     previous?.pending ?? { cache: [] },
   );
   const requests = {};
-  const retired = [
-    ...(previous?.retired ?? []),
-    ...Object.values(previous?.requests ?? {}),
-  ];
+  const retired = [...(previous?.retired ?? [])];
   const pending = { cache: [] };
 
   for (const name of selected) {
@@ -266,13 +229,22 @@ export async function planFonts(api, state, metadata, inventory, bootstrap) {
       (await rootsAvailable(Object.values(item.outputs), metadata.cache));
     if (complete) continue;
     pending.cache.push(name);
-    requests['cache:' + name] = {
-      kind: 'cache',
-      name,
-      rev: revision,
-      buildKey: item.buildKey,
-      tag: 'ci/package/cache/' + name + '/' + revision + '/' + randomUUID(),
-    };
+    const old = previous?.requests?.['cache:' + name];
+    requests['cache:' + name] =
+      old?.rev === revision && old.buildKey === item.buildKey
+        ? old
+        : {
+            kind: 'cache',
+            name,
+            rev: revision,
+            buildKey: item.buildKey,
+            tag:
+              'ci/package/cache/' + name + '/' + revision + '/' + randomUUID(),
+          };
+  }
+
+  for (const item of Object.values(previous?.requests ?? {})) {
+    if (requests['cache:' + item.name]?.tag !== item.tag) retired.push(item);
   }
 
   const observed = {
@@ -298,11 +270,20 @@ export async function planFonts(api, state, metadata, inventory, bootstrap) {
 
   for (const item of Object.values(requests)) {
     await current(api, revision);
-    await api.request('/git/refs', {
-      method: 'POST',
-      body: { ref: 'refs/tags/' + item.tag, sha: revision },
-    });
-    console.log('Scheduled', item.kind, item.name);
+    if (item.queued) continue;
+    const accepted = await state.get(triggerKey(item.tag));
+    if (accepted) {
+      ensure(
+        accepted.tag === item.tag && accepted.rev === revision,
+        'Accepted request differs from the plan',
+      );
+    } else {
+      await createTrigger(api, item.tag, revision);
+    }
+    item.queued = true;
+    await current(api, revision);
+    await state.put(planKey, observed);
+    console.log('Scheduled publishFont', item.name);
   }
 
   return observed;
@@ -330,6 +311,12 @@ export async function verifyRequest(api, state, metadata, inventory) {
 export async function publishFont(api, state, metadata, inventory, secrets) {
   const { item } = await verifyRequest(api, state, metadata, inventory);
   const guard = () => verifyRequest(api, state, metadata, inventory);
+  await state.put(triggerKey(metadata.tag), {
+    tag: metadata.tag,
+    rev: metadata.rev,
+  });
+  // Delete with the fresh job credential, before a long cache transfer.
+  await deleteTrigger(api, metadata.tag, metadata.rev);
   const record = {
     schema,
     policy,
@@ -353,7 +340,6 @@ export async function publishFont(api, state, metadata, inventory, secrets) {
 
   await guard();
   await state.put(publicationKey('cache', metadata.name), record);
-  await deleteTrigger(api, metadata.tag, metadata.rev);
 }
 
 export async function run(metadata) {
