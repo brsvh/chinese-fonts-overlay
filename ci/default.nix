@@ -109,6 +109,32 @@ let
 in
 if mode == "inventory" then
   inventory
+else if mode == "languages" then
+  let
+    catalog =
+      import (projectRoot + /site/catalog.nix)
+        {
+          inherit projectRoot;
+          pkgs = fontPkgs;
+        };
+  in
+  {
+    scanner =
+      discard
+        flake.apps.${system}.update-font-languages.program;
+    packages = listToAttrs (
+      map (
+        entry:
+        let
+          package = inventory.packages.${entry.id};
+        in
+        nameValuePair entry.attribute {
+          inherit (entry) languages;
+          inherit (package) drvPath windows;
+        }
+      ) catalog.packages
+    );
+  }
 else if mode == "outputs" then
   concatMap (
     name:

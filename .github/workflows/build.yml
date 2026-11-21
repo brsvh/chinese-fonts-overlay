@@ -108,19 +108,46 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  languages:
+    name: Check font languages
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31.11.1
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.34.8/install
+          extra_nix_config: |
+            accept-flake-config = false
+            allow-import-from-derivation = false
+            builders =
+            experimental-features = nix-command flakes ca-derivations
+            extra-substituters = https://cache.bingshan.org
+            extra-trusted-public-keys = cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
+      - name: Check affected language coverage
+        run: nix run --no-update-lock-file --no-write-lock-file .#ci -- pr-check-languages
+
   result:
     name: Package builds
-    needs: [plan, build]
+    needs: [plan, build, languages]
     if: always()
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - name: Verify build results
+      - name: Verify font checks
         env:
+          LANGUAGE_RESULT: ${{ needs.languages.result }}
           PLAN_RESULT: ${{ needs.plan.result }}
           COUNT: ${{ needs.plan.outputs.count }}
           BUILD_RESULT: ${{ needs.build.result }}
         run: |
+          if [[ "$LANGUAGE_RESULT" != success ]]; then
+            echo 'Font language coverage failed, was cancelled, or is missing.' >&2
+            exit 1
+          fi
           if [[ "$PLAN_RESULT" != success ]]; then
             echo 'Font selection failed.' >&2
             exit 1

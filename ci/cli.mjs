@@ -4,6 +4,7 @@ import { GitHub } from './github.mjs';
 import { validatePlan } from './records.mjs';
 import { buildShard, preparePlan } from './builds.mjs';
 import { recordBuilds } from './receipts.mjs';
+import { checkLanguages } from './languages.mjs';
 
 const { values, positionals } = parseArgs({
   allowPositionals: true,
@@ -40,6 +41,12 @@ try {
       readJson(process.env.GITHUB_EVENT_PATH),
     );
     process.exitCode = ok ? 0 : 1;
+  } else if (command === 'pr-check-languages') {
+    checkLanguages(
+      values.root,
+      values.directory,
+      readJson(process.env.GITHUB_EVENT_PATH),
+    );
   } else if (command === 'record-builds') {
     await recordBuilds();
   } else {

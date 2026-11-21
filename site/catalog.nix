@@ -57,9 +57,7 @@ let
       package = pkgs."${vendor}Packages".${name};
       meta = package.meta;
       id = "${vendor}.${name}";
-      info = fontInfo.validate id (
-        package.chinese-fonts-overlay-site or { }
-      );
+      info = fontInfo.validatePackage "${vendor}Packages.${name}" package;
       redistributable =
         (meta.redistributable or false) == true;
     in

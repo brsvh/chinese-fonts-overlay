@@ -16,6 +16,7 @@ let
     match
     removeAttrs
     sort
+    toList
     unique
     ;
 
@@ -80,6 +81,14 @@ let
     value: isList value && all isString value;
   ordered =
     values: values == sort lessThan (unique values);
+  nonempty =
+    value:
+    isString value
+    && match "[[:space:]]*" value == null;
+  httpUrl =
+    value:
+    isString value
+    && match "https?://[^[:space:]]+" value != null;
 
   validNotice =
     notice:
@@ -169,6 +178,55 @@ let
       )
       "${id}: chinese-fonts-overlay-site.styles must be sorted, unique registered styles; unknown must stand alone";
     info;
+
+  validatePackage =
+    attribute: package:
+    let
+      meta = package.meta or { };
+      licenses = toList (meta.license or [ ]);
+      homepages = toList (meta.homepage or [ ]);
+    in
+    assert assertMsg (nonempty
+      (package.pname or null)
+    ) "${attribute}: pname must be a nonempty string";
+    assert assertMsg
+      (nonempty (package.version or null))
+      "${attribute}: version must be a nonempty string";
+    assert assertMsg
+      (nonempty (meta.description or null))
+      "${attribute}: meta.description must be a nonempty string";
+    assert assertMsg
+      (isString (meta.longDescription or ""))
+      "${attribute}: meta.longDescription must be a string";
+    assert assertMsg
+      (homepages != [ ] && all httpUrl homepages)
+      "${attribute}: meta.homepage must contain one or more HTTP(S) URLs";
+    assert assertMsg
+      (
+        licenses != [ ]
+        && all (
+          license:
+          nonempty license
+          || (
+            isAttrs license
+            && nonempty (
+              license.fullName or (license.shortName or null)
+            )
+            && (!(license ? free) || isBool license.free)
+            && (!(license ? url) || httpUrl license.url)
+          )
+        ) licenses
+      )
+      "${attribute}: meta.license must contain named licenses with valid optional free and url fields";
+    assert assertMsg
+      (
+        !(meta ? redistributable)
+        || isBool meta.redistributable
+      )
+      "${attribute}: meta.redistributable must be a boolean";
+    validate attribute (
+      package.chinese-fonts-overlay-site or { }
+    );
 in
 {
   inherit
@@ -176,6 +234,7 @@ in
     noticeLevels
     styles
     validate
+    validatePackage
     vendors
     ;
 }

@@ -31,6 +31,25 @@ in
           {
             fontconfig = languageFontconfig;
           };
+
+      fontPkgs = import packageNixpkgs {
+        inherit system;
+
+        config = {
+          allowUnfree = true;
+        };
+
+        overlays = [
+          self.overlays.default
+        ];
+      };
+
+      fontCatalog =
+        import (projectRoot + /site/catalog.nix)
+          {
+            inherit projectRoot;
+            pkgs = fontPkgs;
+          };
     in
     {
       _module = {
@@ -71,6 +90,12 @@ in
             import (projectRoot + /ci) { inherit pkgs; }
           }/bin/chinese-fonts-overlay-ci";
         };
+      };
+
+      checks = {
+        font-metadata = pkgs.writeText "font-metadata.json" (
+          builtins.toJSON fontCatalog
+        );
       };
 
       devShells = {
