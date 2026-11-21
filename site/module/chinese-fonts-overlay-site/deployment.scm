@@ -116,7 +116,10 @@
                (cache (string-append state-directory "/cache"))
                (arguments (list "nix" "develop" "--no-write-lock-file"
                                 "--no-update-lock-file" (string-append root "#site")
-                                "-c" "make" "-C" (string-append root "/site") "-j2"
+                                ;; Make writes ordinary files to the private mount,
+                                ;; outside the Effect's inherited Nix build directory.
+                                "-c" "env" "NIX_ENFORCE_PURITY=0"
+                                "make" "-C" (string-append root "/site") "-j2"
                                 (string-append "BUILD_DIR=" build)
                                 (string-append "CACHE_DIR=" cache)
                                 (string-append "SOURCE_REVISION=" source))))
