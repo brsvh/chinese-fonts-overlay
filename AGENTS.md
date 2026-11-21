@@ -2,8 +2,9 @@
 
 ## Scope
 
-This file applies to the entire repository. When working in a directory, also
-read any more specific `AGENTS.md` that applies there. All website work requires
+This file applies to the entire repository. Keep maintenance guidelines in only
+this file and `site/AGENTS.md`; package and tool instructions belong here.
+Package maintenance tools belong outside `site/`. All website work requires
 reading [site/AGENTS.md](site/AGENTS.md), including Nix registration and
 development-tool configuration outside `site/`. Website architecture, data, and
 publication conventions belong there; language skills cover implementation
@@ -57,6 +58,100 @@ Select skills according to the code's execution target:
 Modules that run in both native Guile and Hoot must follow both sets of
 guidelines. Guile dependencies available to the compiler are not necessarily
 available in Wasm.
+
+## Font Package Metadata
+
+Maintain package information only in `package.nix` under
+`passthru.chinese-fonts-overlay-site`. Read the
+[actual schema](lib/font-info.nix) and
+[contribution guide](.github/CONTRIBUTING.md); do not create a separate
+per-package index. Font vendors, styles, and license costs are verified
+manually. Languages come from font coverage scans and must be sorted and unique.
+Preserve per-package notices, and exclude aggregate packages using the
+`isFontAggregate` flag supplied by the composition functions.
+
+License costs follow the project's `gpu` / `gcu` / `paid` convention. Use the
+full names `gratisPersonalUse` and `gratisCommercialUse` as field values for
+`gpu` (gratis personal use) and `gcu` (gratis commercial use), respectively: a
+license can be obtained at no charge for personal or commercial use. `paid`
+means a license must be purchased. `free` means no license fee. The `free` cost
+value and the license's `free` attribute describe separate dimensions; do not
+infer a cost category from the software-freedom classification.
+
+A cost category does not imply the same fee for every use case. For example,
+free personal screen display with separately paid printing remains
+`gratisPersonalUse`; do not classify a font as `paid` solely because some uses
+require payment. Likewise, `gratisCommercialUse` does not promise free licensing
+for every commercial use. Verify the permitted purposes, conditions, and
+separately charged uses against upstream terms, and record relevant restrictions
+and sources in `notices`. A free font download does not establish a free use
+license. Do not infer license costs from font scans.
+
+Styles are overlapping labels, not mutually exclusive categories. Preserve all
+verified styles in a package, including styles reached through variable axes.
+For example, Gothic faces normally use both `hei` and `sans`, while Song faces
+use `serif` and `song`. Use `rounded` for rounded typefaces, `handwritten` for
+handwriting, and `symbol` for icon, emoji, or dedicated symbol fonts.
+Calligraphic or decorative handwriting may also use `cal` or `art`; do not use
+either as a catch-all for handwriting. Prefer publisher descriptions, then
+inspect actual preview glyphs across relevant faces. Do not infer the whole
+package's style from its name or first face. Ask the maintainer when neither
+source resolves a classification; `unknown` must stand alone when evidence is
+insufficient.
+
+The required `displayName` is the publisher's family or product name, verified
+against its homepage or release documentation. Prefer the publisher's local name
+when available. Do not concatenate weight names or duplicate translated aliases.
+Preserve distinctions between separately packaged regions, families, and
+variable-font variants; a package containing multiple independent families must
+identify them. Maintain this name in the package rather than deriving it from
+font file names or the first face's full name.
+
+The optional boolean `embedding` takes precedence over `meta.redistributable`;
+when omitted, derive it from the latter, defaulting to false if that is also
+absent. Audit embedding font files in software, websites, or devices against the
+package's license and the publisher's original terms. Free commercial use,
+rendered output, or document-only embedding does not establish this permission.
+Do not mark permission as granted when it requires a separate purchase or
+application, or when the available terms do not establish it. A true value still
+requires compliance with applicable attribution, license, source availability,
+and font replacement conditions. Omit the field when the default is correct;
+record overrides and special conditions in package notices with source links.
+The public catalog contains the final boolean; the frontend must not infer it
+again. Open-source and proprietary categories use the license's explicit `free`
+value; missing information remains unknown.
+
+Use `tools/update-font-languages/` to scan and maintain language coverage.
+Preserve Fontconfig's languages and supplement Korean per face when all modern
+compatibility jamo U+3131–U+3163 and all 11,172 modern Hangul syllables
+U+AC00–U+D7A3 are present. Archaic jamo are not required for this supplement. Do
+not infer language support from family names or a few sample glyphs. Package
+coverage is the union of its faces; rescan when the font or rule changes.
+
+Scan every selected input successfully before preparing source replacements.
+Only explicit `--write` updates the language lists, preserving all other fields;
+`--check` reports stale records through a nonzero status. Reports containing
+local font paths are private maintenance output, not website assets.
+
+## Font Language Tool
+
+Accept complete overlay attributes such as `buttaiwanPackages.genkimin2-jp`, or
+paths to `package.nix` within the selected repository. Do not confuse `pname`
+with an attribute or accept the website's vendor.package identifiers. Resolve
+all selectors before scanning, deduplicate them, and reject unrelated paths.
+
+Preserve the language coverage rules above. Scan every selected package before
+preparing replacements. Only `--write` changes language lists; preserve all
+other source content. Check mode returns failure for stale metadata.
+
+Keep process arguments separate from source expressions, pass Nix inputs as data
+and preserve URL encoding for repository paths. Reports on stdout are JSON;
+diagnostics go to stderr. Loading modules must not scan or modify anything.
+
+Run `make -C tools/update-font-languages check` in the root development shell.
+Use the shared CC0 fonts in `tests/fixtures/fonts/`; validate real package scans
+when changing Nix selection and use a temporary checkout for write checks.
+User-facing maintenance instructions belong in `.github/CONTRIBUTING.md`.
 
 ## Development Configuration
 

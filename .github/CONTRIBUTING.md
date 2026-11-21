@@ -21,15 +21,59 @@
 请填写 `passthru.chinese-fonts-overlay-site` 的
 `displayName`、字库、风格、费用分类和语言覆盖；需要说明的限制放在该包的 `notices` 中。 `displayName`
 使用发行方主页或发行说明中的家族或产品名称，优先采用其本地语言名称。 不要拼接同一家族的字重名称或重复译名；分别打包的地区版、独立家族和可变版本应保留区别。
-语言覆盖由扫描结果填写，其他分类人工核对。操作和字段说明见 [网站文档](../site/README)。
+语言覆盖由扫描结果填写，其他分类人工核对。字段约定见下文和 [字段定义](../lib/font-info.nix)。
 
 费用分类遵循 `gpu` / `gcu` / `paid` 的许可获取约定，网站分别使用 `gratisPersonalUse` /
 `gratisCommercialUse` / `paid`，无许可费使用 `free`。
 分类不表示所有场景的费用一致：屏显可免费获取个人使用许可、打印另行收费的字体仍可归为 `gratisPersonalUse`。需要说明的适用范围和限制写入
-`notices`，详见网站文档。
+`notices`。
 
 安装结果应包含上游要求的许可证和版权说明。`meta.redistributable` 只在明确允许再分发字体文件时设为 `true`；无法确认时设为
 `false` 并记录依据。允许免费下载或商用不等于允许再分发。受限字体及其来源文件不得上传到公开缓存或随 PR 提交。
+
+### 目录元数据
+
+网站只读取包定义，维护命令放在 `tools/` 中。`meta.homepage` 可填写一个 URL 或多个主页组成的列表； `meta.license`
+保存原始许可，`meta.redistributable` 表示是否允许再分发字体文件。
+
+`passthru.chinese-fonts-overlay-site` 包含这些字段：
+
+| 字段          | 说明                                                                                 |
+| ------------- | ------------------------------------------------------------------------------------ |
+| `displayName` | 发行方使用的家族或产品名称。                                                         |
+| `vendor`      | 已登记的字库标识。                                                                   |
+| `styles`      | 排序且不重复的风格列表，可同时有多个分类，例如 `hei` 和 `sans`。                     |
+| `languages`   | 扫描得到的语言代码，排序且不重复。                                                   |
+| `licenseCost` | `free`、`gratisPersonalUse`、`gratisCommercialUse` 或 `paid`。                       |
+| `embedding`   | 可选布尔值；省略时使用 `meta.redistributable`，两者缺失时为 `false`。                |
+| `notices`     | 可选说明列表，每条包含 `level`、非空的纯文本 `text`，以及可选的 HTTP(S) 来源 `url`。 |
+
+`notices.level` 支持 `note`、`tip`、`important`、`warning` 和 `caution`。 `free`
+费用分类表示无许可费，与许可证的自由软件属性分开判断。 风格优先参考上游说明，再检查实际字形；无法判断时与维护者确认。聚合包以
+`isFontAggregate` 标记，不进入网站目录。
+
+`embedding` 表示允许在软件、网页或设备中嵌入字体文件。免费商用、生成图片或仅允许嵌入文档，不足以确认此权限。
+需要另购、申请或尚未明确授予时，不标为允许。覆盖默认值时，在 `notices` 中记录限制与来源； 署名、源码提供和字体替换等原许可条件仍须遵守。
+
+### 更新语言覆盖
+
+添加或更新字体文件后，在仓库根目录运行：
+
+```sh
+nix run .#update-font-languages -- naverPackages.maru-buri --check
+nix run .#update-font-languages -- packages/naver/maru-buri/package.nix --write
+```
+
+可同时指定多个完整包属性名或 `package.nix` 路径，也可用 `--package` 重复指定。属性名以 overlay 实际导出的名称为准， 例如
+`buttaiwanPackages.genkimin2-jp`；`buttaiwan-genkimin2-jp` 是它的 `pname`。 `--all`
+选择全部包；省略 `--check` 和 `--write` 时只输出报告，`--output` 可将报告保存到文件。 在仓库外运行时，用
+`--source-root` 指定仓库。报告包含本地路径，不作为网站资源发布。
+
+工具先完成全部扫描，再更新需要修改的语言列表；其他字段保持不变。 `--check` 在记录过期时返回非零状态。Fontconfig
+根据字符覆盖推断语言，不能保证塑形或地区字形正确。 韩语识别补充检查完整的现代韩文字母和音节，不要求古韩文字母。字体或检测规则变化后，应重新扫描。
+
+通用开发环境提供 `chinese-fonts-overlay-update-font-languages` 命令。 修改维护工具后，运行
+`make -C tools/update-font-languages check`。
 
 ## 本地验证
 

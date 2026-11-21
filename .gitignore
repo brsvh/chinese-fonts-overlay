@@ -29,6 +29,7 @@
 /site/dist/
 /site/.cache/
 /site/build/
+/tools/update-font-languages/build/
 /site/public/
 /site/cache/
 /site/autom4te.cache/

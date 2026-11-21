@@ -1,8 +1,10 @@
 {
   includeFontPreviewTool ? false,
+  languageFontconfig,
   lib,
   pkgs,
   projectRoot,
+  updateFontLanguages,
   ...
 }:
 let
@@ -427,6 +429,10 @@ mkShell {
     ++ (optional includeFontPreviewTool generate-font-preview-images)
     ++ [
       git
+      languageFontconfig
+      pkgs.guile
+      pkgs.guile-json
+      updateFontLanguages
     ];
 
   shellHook = concatStringsSep "\n" (

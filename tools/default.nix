@@ -1,5 +1,6 @@
 {
   inputs,
+  packageNixpkgs,
   projectRoot,
   self,
   ...
@@ -19,6 +20,18 @@ in
       system,
       ...
     }:
+    let
+      languageFontconfig =
+        (import packageNixpkgs { inherit system; })
+        .fontconfig;
+
+      updateFontLanguages =
+        pkgs.callPackage
+          ./update-font-languages/package.nix
+          {
+            fontconfig = languageFontconfig;
+          };
+    in
     {
       _module = {
         args = {
@@ -39,6 +52,14 @@ in
       };
 
       apps = {
+        update-font-languages = {
+          type = "app";
+          program = lib.getExe updateFontLanguages;
+          meta = {
+            description = "Scan and maintain font package languages";
+          };
+        };
+
         font-ci = {
           type = "app";
 
@@ -64,6 +85,8 @@ in
                   lib
                   pkgs
                   projectRoot
+                  updateFontLanguages
+                  languageFontconfig
                   ;
               };
         in
