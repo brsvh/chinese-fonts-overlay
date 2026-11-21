@@ -106,9 +106,10 @@ preparation must leave the existing published site intact.
 
 Website handoff uses no tag, Release or deployment receipt. Keep font trigger
 and cache-receipt lifecycles independent: delete only verified internal font
-references at their expected revisions. Only `ci/package/cache/` is a font
-trigger namespace. Do not retain old website or preview trigger records, upload
-markers, or compatibility paths. Preserve historical version tags.
+references at their expected revisions. Use
+`ci/package/<package>/<revision>/<uuid>` for font triggers. Do not retain old
+website or preview trigger records, upload markers, or compatibility paths.
+Preserve historical version tags.
 
 ## Nix
 

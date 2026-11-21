@@ -2,8 +2,9 @@ import { createHash } from 'node:crypto';
 import { ensure, identifier } from './common.mjs';
 
 export function triggerInfo(tag) {
-  const font =
-    /^ci\/package\/cache\/([^/]+)\/([a-f0-9]{40})\/[a-f0-9-]{36}$/.exec(tag);
+  const font = /^ci\/package\/([^/]+)\/([a-f0-9]{40})\/[a-f0-9-]{36}$/.exec(
+    tag,
+  );
   ensure(font && identifier.test(font[1]), 'Invalid internal trigger');
   return { kind: 'cache', name: font[1], rev: font[2] };
 }

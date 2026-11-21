@@ -235,8 +235,7 @@ export async function planFonts(api, state, metadata, inventory) {
             name,
             rev: revision,
             buildKey: item.buildKey,
-            tag:
-              'ci/package/cache/' + name + '/' + revision + '/' + randomUUID(),
+            tag: 'ci/package/' + name + '/' + revision + '/' + randomUUID(),
           };
   }
 

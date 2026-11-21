@@ -178,9 +178,9 @@ in
           if tag == null then
             null
           else
-            match "ci/package/(cache)/([a-z0-9_.+-]+)/([0-9a-f]{40})/([0-9a-f-]{36})" tag;
+            match "ci/package/([a-z0-9_.+-]+)/([0-9a-f]{40})/([0-9a-f-]{36})" tag;
 
-        name = elemAt request 1;
+        name = elemAt request 0;
 
       in
       {
@@ -192,7 +192,7 @@ in
           if
             request != null
             && ref == "refs/tags/${tag}"
-            && elemAt request 2 == rev
+            && elemAt request 1 == rev
             && hasAttr name candidates
           then
             {
