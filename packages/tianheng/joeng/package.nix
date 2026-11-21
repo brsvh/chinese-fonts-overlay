@@ -154,6 +154,7 @@ stdenvNoCC.mkDerivation {
         "kj"
         "kk"
         "kl"
+        "ko"
         "kr"
         "ku-am"
         "ku-tr"

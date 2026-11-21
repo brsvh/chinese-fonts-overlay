@@ -170,6 +170,12 @@ language lists, preserving other metadata. Check mode fails when recorded data
 is stale. Package language coverage is the union across its faces, but each
 preview must still use sample text actually supported by that face.
 
+Preserve Fontconfig's detected languages and supplement Korean per face when the
+actual charset covers modern compatibility jamo U+3131–U+3163 and all 11,172
+modern Hangul syllables U+AC00–U+D7A3. Archaic jamo are not required for this
+additional detection. Do not infer language support from family names or the
+presence of a few sample glyphs; rescan metadata when these rules change.
+
 Maintain language-to-sample mappings and Simplified Chinese language names in
 `data/`. Preserve the samples' actual languages, the Chinese regional naming
 format, and source notes. Do not restore per-package sample selectors or add a

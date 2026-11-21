@@ -14,14 +14,53 @@
   "Recognize the Fontconfig language-tag syntax accepted by package metadata."
   (and (string? value) (string-match "^[a-z]{2,3}(-[a-z0-9]{2,8})*$" value)))
 
+(define (parse-charset text file)
+  "Parse ordered Fontconfig hex ranges in TEXT; reject malformed FILE data."
+  (let loop ((tokens (string-tokenize text)) (previous -1) (ranges '()))
+    (if (null? tokens)
+        (reverse ranges)
+        (let* ((token (car tokens))
+               (match (string-match "^([0-9a-fA-F]+)(-([0-9a-fA-F]+))?$" token))
+               (first (and match (string->number (match:substring match 1) 16)))
+               (last (and match
+                          (string->number (or (match:substring match 3)
+                                              (match:substring match 1))
+                                          16))))
+          (unless (and first last (< previous first) (<= first last #x10ffff))
+            (error "Invalid Fontconfig charset" file token))
+          (loop (cdr tokens) last (cons (cons first last) ranges))))))
+
+(define (covers-range? ranges first last)
+  "Check that ordered RANGES cover every code point from FIRST through LAST."
+  (let loop ((ranges ranges) (next first))
+    (and (pair? ranges)
+         (let ((range (car ranges)))
+           (cond
+            ((< (cdr range) next) (loop (cdr ranges) next))
+            ((> (car range) next) #f)
+            ((>= (cdr range) last) #t)
+            (else (loop (cdr ranges) (+ 1 (cdr range)))))))))
+
+(define (modern-korean? ranges)
+  "Recognize complete modern Hangul syllables and compatibility jamo in RANGES."
+  ;; Fontconfig also requires archaic compatibility jamo (U+3165-U+318E).
+  ;; Unicode 17, section 18.6 defines the 11,172 modern precomposed syllables.
+  (and (covers-range? ranges #x3131 #x3163)
+       (covers-range? ranges #xac00 #xd7a3)))
+
 (define (parse-scan-line directory file line)
   "Parse one Fontconfig face row, rejecting malformed output with FILE context."
   (match (string-split line #\tab)
-    ((index-text family style language-text)
+    ((index-text family style language-text charset-text)
      (let ((index (string->number index-text))
            (languages
-            (sort (delete-duplicates (delete "" (string-split language-text #\|)))
-                  string<?)))
+            (sort
+             (delete-duplicates
+              (append (delete "" (string-split language-text #\|))
+                      (if (modern-korean? (parse-charset charset-text file))
+                          '("ko")
+                          '())))
+             string<?)))
        (unless (and (exact-integer? index) (>= index 0)
                     (every language-tag? languages))
          (error "Invalid Fontconfig face" file line))
@@ -30,7 +69,7 @@
          ("family" . ,family)
          ("style" . ,style)
          ("languages" . ,(list->vector languages)))))
-    (_ (error "Expected four Fontconfig fields" file line))))
+    (_ (error "Expected five Fontconfig fields" file line))))
 
 (define (fontconfig-environment configuration)
   "Build env arguments that isolate Fontconfig using CONFIGURATION."
@@ -51,7 +90,9 @@
          (apply capture "env"
                 (append environment
                         (list "fc-scan" "--format"
-                              "%{index}\t%{family[0]}\t%{style[0]}\t%{lang}\n"
+                              (string-append
+                               "%{index}\t%{family[0]}\t%{style[0]}\t"
+                               "%{lang}\t%{charset}\n")
                               file)))))
     (when (string-null? (string-trim-both text))
       (error "Fontconfig returned no faces" file))

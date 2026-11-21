@@ -120,6 +120,7 @@ stdenvNoCC.mkDerivation {
         "is"
         "it"
         "kj"
+        "ko"
         "ku-tr"
         "kwm"
         "lb"

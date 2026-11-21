@@ -219,6 +219,7 @@ stdenvNoCC.mkDerivation {
         "kl"
         "km"
         "kn"
+        "ko"
         "kok"
         "kr"
         "ks"
