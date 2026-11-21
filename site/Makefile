@@ -14,8 +14,8 @@ CFLAGS ?= -O2 -g
 SOURCE_REVISION ?=
 RELEASE_DIR ?= $(BUILD_DIR)/release
 
-BUILD_DIR := $(abspath $(BUILD_DIR))
-CACHE_DIR := $(abspath $(CACHE_DIR))
+override BUILD_DIR := $(abspath $(BUILD_DIR))
+override CACHE_DIR := $(abspath $(CACHE_DIR))
 BIN := $(BUILD_DIR)/bin
 WEB := $(BUILD_DIR)/web
 INPUTS := $(BUILD_DIR)/inputs
@@ -55,10 +55,10 @@ else
 	test -r "$(CATALOG)" && test -r "$(PREVIEWS)"
 endif
 
-$(BIN) $(WEB) $(BUILD_DIR)/tests:
+$(BUILD_DIR) $(BIN) $(WEB) $(BUILD_DIR)/tests:
 	mkdir -p "$@"
 
-$(BUILD_DIR)/native.settings: FORCE
+$(BUILD_DIR)/native.settings: FORCE | $(BUILD_DIR)
 	$(PKG_CONFIG) --atleast-version=2.66 glib-2.0
 	$(SCHEME) "$(SOURCE_DIR)/scripts/settings.scm" "$@" \
 	  "$(CC)" "$(CPPFLAGS)" "$(CFLAGS)" "$(LDFLAGS)" \
@@ -87,7 +87,7 @@ $(BIN)/image-fixtures: $(SOURCE_DIR)/tests/image-fixtures.c \
 	  "$<" "$(SOURCE_DIR)/src/webp-image.c" \
 	  $(LDFLAGS) $$($(PKG_CONFIG) --libs $(FONT_LIBS)) -lm -o "$@"
 
-$(BUILD_DIR)/web.settings: FORCE
+$(BUILD_DIR)/web.settings: FORCE | $(BUILD_DIR)
 	$(SCHEME) "$(SOURCE_DIR)/scripts/settings.scm" "$@" \
 	  "$(HOOT)" "$(TAILWINDCSS)" "$(DAISYUI)" "$(DAISYUI_THEME)" \
 	  "$(shell command -v $(HOOT))" "$(shell command -v $(TAILWINDCSS))" \
