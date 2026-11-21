@@ -16,17 +16,21 @@
     "yuyang-regular.ttf" "yuyang-medium.ttf"))
 
 (define (require condition message . arguments)
+  "Raise MESSAGE with ARGUMENTS when a validation CONDITION is false."
   (unless condition (apply error message arguments)))
 
 (define (matches? pattern value)
+  "Match PATTERN against VALUE only when it is a string."
   (and (string? value) (regexp-exec (make-regexp pattern) value)))
 
 (define (public-path? name)
+  "Recognize a relative regular-file NAME permitted in the public archive."
   (or (member name root-files)
       (matches? "^assets/images/[0-9a-f]{64}\\.webp$" name)
       (matches? "^assets/previews/[0-9a-f]{64}\\.json$" name)))
 
 (define (release-name manifest)
+  "Return the immutable basename for a validated release MANIFEST."
   (string-append "site-" (jref manifest "source") "-"
                  (jref manifest "sha256")))
 
@@ -54,6 +58,7 @@
   manifest)
 
 (define (public-files directory)
+  "List allowed files in DIRECTORY, rejecting links and incomplete output."
   (define (walk relative)
     (let* ((path (if (string-null? relative) directory
                      (string-append directory "/" relative)))
@@ -109,7 +114,8 @@
               (archive (string-append destination "/site.tar.gz")))
           (write-text list-file (string-append (string-join files "\n") "\n"))
           (run "tar" "--format=ustar" "--mtime=@0" "--owner=0" "--group=0"
-               "--numeric-owner" "--no-recursion" "--hard-dereference"
+               "--numeric-owner" "--mode=0644" "--no-recursion"
+               "--hard-dereference"
                "--directory" directory
                "--create" "--gzip" "--file" archive "--files-from" list-file)
           (delete-file list-file)
@@ -128,6 +134,7 @@
         (apply throw arguments)))))
 
 (define (header-string bytes start count)
+  "Decode a NUL-terminated UTF-8 field within COUNT bytes at byte offset START."
   (let loop ((end start))
     (if (or (= end (+ start count)) (= 0 (bytevector-u8-ref bytes end)))
         (utf8->string (let ((part (make-bytevector (- end start))))
@@ -136,20 +143,24 @@
         (loop (+ end 1)))))
 
 (define (octal-field header start count)
+  "Read an octal number from COUNT bytes of HEADER at byte offset START."
   (let ((text (string-trim-both (header-string header start count))))
     (require (matches? "^[0-7]+$" text) "Invalid tar numeric field")
     (string->number text 8)))
 
 (define (read-exactly port count)
+  "Read COUNT bytes from PORT, rejecting premature end of the archive."
   (let ((bytes (get-bytevector-n port count)))
     (require (and (bytevector? bytes) (= (bytevector-length bytes) count))
              "Truncated site archive")
     bytes))
 
 (define (zero-block? bytes)
+  "Return true when every byte in the bytevector BYTES is zero."
   (every zero? (bytevector->u8-list bytes)))
 
 (define (extract-files port destination manifest)
+  "Extract bounded ustar data from PORT into the owned DESTINATION directory."
   ;; Only our regular-file ustar subset is accepted; no links, PAX overrides,
   ;; absolute paths, directories, duplicate entries or executable file modes.
   (let ((seen (make-hash-table)))

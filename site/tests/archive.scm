@@ -14,6 +14,7 @@
             "yuyang-regular.ttf" "yuyang-medium.ttf"))
 (write-json (string-append public "/catalog.json")
             `(("sourceRevision" . ,source)))
+(chmod (string-append public "/index.html") #o755)
 (mkdir-p (string-append public "/assets/previews"))
 (write-json (string-append public "/assets/previews/"
                            (make-string 64 #\b) ".json")
@@ -25,6 +26,7 @@
             ("tsanger-license.pdf" . "UI_FONT_LICENSE")))
 
 (define (failure-message thunk)
+  "Return the diagnostic from THUNK's expected content-validation failure."
   (catch 'misc-error thunk
          (lambda (key procedure message arguments . rest)
            (apply format #f message arguments))))
@@ -40,8 +42,10 @@
                                      ".tar.gz"))
              (output (string-append root "/extracted")))
         (unpack-site archive manifest output)
-        (test-equal "Round-trip public files" "index.html"
-                    (read-text (string-append output "/index.html")))
+        (test-assert "Round-trip public files with normalized permissions"
+          (and (equal? (map file-digest (files-under public))
+                       (map file-digest (files-under output)))
+               (= #o644 (stat:perms (stat (string-append output "/index.html"))))))
         (test-assert "Reject corrupt archive before extraction"
           (string-contains
            (failure-message
