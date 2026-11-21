@@ -24,19 +24,18 @@ current shell directory or the skill directory.
 
 This workflow describes the Chinese-fonts-overlay layout: `packages/`,
 `lib/licenses.nix`, a root `README`, contribution guidance under `.github/`, and
-the preview generator under `tools/`. Confirm those paths, package discovery,
-flake outputs, catalog inputs, and preview publication settings in the actual
-checkout. Adapt renamed equivalents; do not introduce this layout into an
-unrelated project. If the required integration cannot be identified, report what
-is missing before editing it.
+the generated preview website under `site/`. Confirm those paths, package
+discovery, flake outputs, catalog inputs, and preview publication settings in
+the actual checkout. Adapt renamed equivalents; do not introduce this layout
+into an unrelated project. If the required integration cannot be identified,
+report what is missing before editing it.
 
 Discover tools through the target's declared development environment. Nix,
 Fontconfig (`fc-scan`), `file`, and a downloader are needed for their respective
 steps; do not assume they are globally installed. Resolve companion skills such
-as `nix-coding` and `create-font-preview` by name from the available skill
-catalog, not by a fixed sibling path. Use them when available or required by the
-target's instructions; otherwise follow the target's own documented equivalent
-workflow.
+as `nix-coding` by name from the available skill catalog, not by a fixed sibling
+path. Use them when available or required by the target's instructions;
+otherwise follow the target's own documented equivalent workflow.
 
 ## Workflow
 
@@ -100,16 +99,13 @@ workflow.
       the new file is not yet tracked by Git;
     - evaluate `meta.license.shortName` and any important package attributes;
     - inspect the built font files with `fc-scan`.
-10. Check the target's preview workflow after package builds succeed:
-    - distinguish a generated website from the branch-preview generator; their
-      inputs and samples may differ, so validating one does not validate both;
-    - for a website, follow its maintenance instructions and inspect the package
-      entry, licensing information, language coverage, and included font styles;
-    - where branch previews are still required, use the available
-      `create-font-preview` skill or the verified local generator workflow for
-      each final package `pname`, not its attribute or directory name;
-    - configure sample keys only for the workflow that consumes them, then
-      inspect the generated images; clean up only task-owned temporary files.
+10. Check the generated website after package builds succeed:
+    - follow the target's website maintenance instructions;
+    - inspect the package entry, licensing information, language coverage, and
+      all included font styles in the generated previews;
+    - use the website's language samples, without adding per-package sample keys
+      or restoring historical branch-preview tooling;
+    - clean up only task-owned temporary files.
 11. Complete user-facing integration:
     - if the catalog is generated from package metadata, maintain that source of
       truth instead of adding a manual README gallery or a second package index;

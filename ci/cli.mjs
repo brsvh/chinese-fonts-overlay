@@ -1,8 +1,8 @@
 import { parseArgs } from 'node:util';
 import { ensure, inventory, readJson, writeJson } from './common.mjs';
 import { GitHub } from './github.mjs';
-import { validatePlan } from './previews.mjs';
-import { buildShard, preparePlan, previewManifest } from './actions.mjs';
+import { validatePlan } from './records.mjs';
+import { buildShard, preparePlan } from './actions.mjs';
 import { recordBuilds } from './receipts.mjs';
 
 const { values, positionals } = parseArgs({
@@ -13,7 +13,6 @@ const { values, positionals } = parseArgs({
     output: { type: 'string' },
     plan: { type: 'string' },
     shard: { type: 'string' },
-    'package-name': { type: 'string' },
   },
 });
 
@@ -23,8 +22,6 @@ try {
 
   if (command === 'inventory') {
     writeJson(values.output, inventory(values.root));
-  } else if (command === 'preview-manifest') {
-    previewManifest(values.root, values['package-name'], values.output);
   } else if (command === 'pr-plan') {
     await preparePlan(
       values.root,

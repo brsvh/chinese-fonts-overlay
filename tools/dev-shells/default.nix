@@ -1,5 +1,4 @@
 {
-  includeFontPreviewTool ? false,
   languageFontconfig,
   lib,
   pkgs,
@@ -28,7 +27,6 @@ let
     ;
 
   inherit (pkgs)
-    callPackage
     git
     mkShell
     writeText
@@ -92,11 +90,6 @@ let
     (pkgs.formats.toml { }).generate
       (baseNameOf output)
       data;
-
-  generate-font-preview-images = callPackage (
-    projectRoot
-    + /tools/generate-font-preview-images/package.nix
-  ) { };
 
   files = {
     clang-format = {
@@ -422,7 +415,6 @@ mkShell {
     (concatMap (
       name: files.${name}.packages or [ ]
     ) names)
-    ++ (optional includeFontPreviewTool generate-font-preview-images)
     ++ [
       git
       languageFontconfig

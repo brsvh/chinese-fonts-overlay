@@ -64,7 +64,7 @@ in
           type = "app";
 
           meta = {
-            description = "Incremental font CI and preview tools";
+            description = "Incremental font builds and cache publication";
           };
 
           program = "${
@@ -73,28 +73,20 @@ in
         };
       };
 
-      devShells =
-        let
-          mkDevShell =
-            includeFontPreviewTool:
-            import
-              (projectRoot + /tools/dev-shells/default.nix)
-              {
-                inherit
-                  includeFontPreviewTool
-                  lib
-                  pkgs
-                  projectRoot
-                  updateFontLanguages
-                  languageFontconfig
-                  ;
-              };
-        in
-        {
-          default = mkDevShell false;
-
-          generator = mkDevShell true;
-        };
+      devShells = {
+        default =
+          import
+            (projectRoot + /tools/dev-shells/default.nix)
+            {
+              inherit
+                lib
+                pkgs
+                projectRoot
+                updateFontLanguages
+                languageFontconfig
+                ;
+            };
+      };
 
       formatter =
         import (projectRoot + /tools/formatter.nix)

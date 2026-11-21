@@ -93,7 +93,7 @@ Use dependency versions from the current flake inputs; lock-file updates are a
 separate task. Local functionality takes priority over styling and CI. The
 website URL is `https://brsvh.github.io/chinese-fonts-overlay/`. Do not change
 deployment configuration without an explicit request. Historical PNG preview
-branches and tooling are separate from the website build.
+branches remain archives; preview generation belongs to the website build.
 
 ## CI Publication
 

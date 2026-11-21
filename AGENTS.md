@@ -50,9 +50,9 @@ artifacts and never executes PR code. Land compatible consumers before changing
 producer formats. Preserve legacy preview receipts during the transition.
 
 Preserve the historical preview branches and the pre-migration `v0.2.0` tag. Do
-not restore automatic PNG generation or the preview App. Keep legacy build
-receipts readable, and preserve Hercules cache receipts and pending cache
-publications when changing CI state.
+not restore PNG preview tooling or the preview App. Keep legacy build receipts
+readable, and preserve Hercules cache receipts and pending cache publications
+when changing CI state.
 
 Website builds use the private Hercules Effect mount and the existing Make
 targets. GitHub Pages receives validated release archives; it does not build

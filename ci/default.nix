@@ -6,8 +6,6 @@
   system ? "x86_64-linux",
 }:
 let
-  previewRequests = { };
-
   projectRoot = /. + root;
   flake = builtins.getFlake root;
 
@@ -107,25 +105,8 @@ let
     system = fontPkgs.stdenv.hostPlatform.system;
   };
 
-  renderer = fontPkgs.callPackage (
-    projectRoot
-    + /tools/generate-font-preview-images/package.nix
-  ) { };
-
 in
-if mode == "requests" then
-  previewRequests
-else if mode == "preview-requests" then
-  let
-    declaration = projectRoot + /ci/default.nix;
-  in
-  if builtins.pathExists declaration then
-    import declaration {
-      mode = "requests";
-    }
-  else
-    { }
-else if mode == "inventory" then
+if mode == "inventory" then
   inventory
 else if mode == "outputs" then
   concatMap (
@@ -138,22 +119,6 @@ else if mode == "outputs" then
     in
     map (output: package.${output}) package.outputs
   ) selection
-else if mode == "renderer" then
-  renderer
-else if mode == "preview-config" then
-  {
-    rendererDrvPath = discard renderer.drvPath;
-
-    requests = import ./default.nix {
-      inherit root;
-      mode = "preview-requests";
-    };
-
-    samples = import (
-      projectRoot
-      + /tools/generate-font-preview-images/sample-keys.nix
-    );
-  }
 else if mode == "runtime" then
   pkgs.writeShellApplication {
     name = "font-ci";

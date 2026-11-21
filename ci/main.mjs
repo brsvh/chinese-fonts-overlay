@@ -24,7 +24,7 @@ import {
   storePattern,
 } from './common.mjs';
 import { GitHub, Superseded } from './github.mjs';
-import { same } from './previews.mjs';
+import { same } from './records.mjs';
 
 const planKey = 'main-plan';
 const kinds = ['cache'];

@@ -329,31 +329,14 @@ export function applyPolicy(inventory, graph) {
   };
 }
 
-export function previewKeys(inventory, configuration) {
-  for (const [name, item] of Object.entries(inventory.packages)) {
-    item.sampleKey = configuration.samples[item.vendor]?.[item.pname];
-    item.previewKey = digest({
-      buildKey: item.buildKey,
-      sample: item.sampleKey ?? null,
-      renderer: configuration.rendererDrvPath,
-      request: configuration.requests?.[name] ?? null,
-      schema,
-    });
-  }
-
-  return inventory;
-}
-
-export function inventory(root, withPreviews = false) {
+export function inventory(root) {
   const raw = evaluate(root, 'inventory');
   const audited = applyPolicy(raw, derivationGraph(raw.packages));
   // Keep the receipt format readable by the trusted legacy consumer.
   for (const item of Object.values(audited.packages)) {
     item.previewKey = item.buildKey;
   }
-  return withPreviews
-    ? previewKeys(audited, evaluate(root, 'preview-config'))
-    : audited;
+  return audited;
 }
 
 export function cacheRestrictions(current, baseline) {

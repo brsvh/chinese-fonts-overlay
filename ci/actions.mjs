@@ -23,7 +23,7 @@ import {
   validateContext,
   validatePlan,
   workflowPath,
-} from './previews.mjs';
+} from './records.mjs';
 
 export function controllerDigest(root) {
   const files = fs
@@ -249,46 +249,4 @@ export function buildShard(root, plan, shardId, directory, event) {
   }
 
   return !failed;
-}
-
-export function previewManifest(root, names, output) {
-  const current = inventory(root, true);
-  const requested = [...new Set(names.split(','))].sort();
-  const selected = Object.entries(current.packages).filter(([, item]) =>
-    requested.includes(item.pname),
-  );
-  ensure(
-    requested.length > 0 &&
-      same(
-        requested,
-        [...new Set(selected.map(([, item]) => item.pname))].sort(),
-      ),
-    'Unknown or empty package name selection',
-  );
-  ensure(
-    selected.every(([, item]) => !item.windows),
-    'Windows fonts and their dependents are excluded',
-  );
-  ensure(
-    selected.every(([, item]) => item.sampleKey),
-    'Missing preview sample key',
-  );
-  evaluate(
-    root,
-    'outputs',
-    selected.map(([name]) => name),
-    true,
-  );
-  const rows = [];
-
-  for (const [, item] of selected) {
-    for (const value of Object.values(item.outputs)) {
-      if (fs.existsSync(path.join(value, 'share/fonts'))) {
-        rows.push([item.vendor, item.pname, item.sampleKey, value].join('\t'));
-      }
-    }
-  }
-
-  ensure(rows.length > 0, 'Selected packages contain no font directory');
-  fs.writeFileSync(output, rows.join('\n') + '\n');
 }

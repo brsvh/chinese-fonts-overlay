@@ -41,7 +41,7 @@ export async function planningState(api, number, headRepository, controller) {
 }
 
 export async function saveReceipts(api, run, pull, plan, records) {
-  return api.updateImages(
+  return api.updateRecords(
     buildStateBranch,
     'Record font builds for PR #' + pull.number,
     async (entries) => {
@@ -93,9 +93,7 @@ export async function recordBuilds() {
     );
     ensure(run.status === 'completed', 'Build run is incomplete');
     await currentGuard(api, run, pull);
-    const { plan, records, errors } = await consume(api, run, pull, {
-      previews: false,
-    });
+    const { plan, records, errors } = await consume(api, run, pull);
     await saveReceipts(api, run, pull, plan, records);
     ensure(errors.length === 0, errors.join('\n'));
   } catch (error) {
