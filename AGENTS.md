@@ -26,9 +26,11 @@ Markdown or YAML formats.
 Org documents have a maximum of 80 display columns per complete source line,
 including markup and link URLs. Count Chinese characters and full-width
 punctuation as two columns and ASCII characters as one. Leave one space between
-Chinese and English text in prose. Do not split words, code, or URLs when
-wrapping lines; the descriptive text of a long link may wrap. Verify display
-width with a facility such as Emacs's `string-width`, not character counts.
+Chinese and English text in prose, including Chinese punctuation next to English
+text or Org inline markup. For example, write `， =foo=` rather than `，=foo=` so
+GitHub recognizes the markup. Do not split words, code, or URLs when wrapping
+lines; the descriptive text of a long link may wrap. Verify display width with a
+facility such as Emacs's `string-width`, not character counts.
 
 The website presents font listings, previews, and license information; do not
 append per-package images to README files. Maintain contribution procedures in

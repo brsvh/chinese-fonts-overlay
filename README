@@ -49,7 +49,7 @@ chinese-fonts-overlay = {
 }
 #+end_src
 
-使用独立的 Home Manager 时，先为 =pkgs= 启用相同的 overlay，
+使用独立的 Home Manager 时，先为 =pkgs= 启用相同的 overlay ，
 再通过 =home.packages= 安装字体，将 =fonts.fontconfig.enable= 设为 =true= 即可。
 非自由字体需在导入 nixpkgs 时设置 =config.allowUnfree = true;= 才能构建。
 
@@ -58,7 +58,7 @@ chinese-fonts-overlay = {
 
 ** 二进制缓存
 
-项目缓存提供部分允许再分发的字体。NixOS 用户可以在配置中加入：
+项目缓存提供部分允许再分发的字体。 NixOS 用户可以在配置中加入：
 
 #+begin_src nix
 nix.settings = {
@@ -81,6 +81,6 @@ nix.settings = {
 
 ** 许可
 
-仓库代码使用 [[file:COPYING][CC0]]；字体各自遵循上游许可证。
+仓库代码使用 [[file:COPYING][CC0]] ；字体各自遵循上游许可证。
 能下载、构建或免费使用某款字体，并不意味着可以再分发它。
 具体条件请查看字体条目中的许可链接和注意事项。
