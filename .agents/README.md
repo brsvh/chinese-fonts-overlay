@@ -12,12 +12,11 @@ skill directory.
 - `guile-web-coding`: native Guile HTTP services and SXML/HTML generation.
 - `hoot-coding`: Scheme compiled to browser Wasm and its host interactions.
 - `nix-coding`: Nix style, formatting, and validation.
+- `daisyui-coding`: daisyUI components, semantic colors and CSS integration.
 - `commit`: staged-diff review and GNU-style messages when a commit is
   requested.
 - `create-font-package`: font packaging in a Chinese-fonts-overlay-compatible
   Nix repository.
-- `create-font-preview`: generation and repair of branch previews in that
-  layout.
 
 ## Using another environment
 
@@ -32,7 +31,7 @@ Resolve companion skills by their names in the current environment; they need
 not be installed next to one another. Report a missing skill when the project
 requires it. For optional companions, use the project's rules and available
 references. Font workflows retain their specialized layout conventions, but
-verify actual paths, preview branches, Git remotes, and publication addresses
+verify actual paths, build entry points, Git remotes and publication addresses
 before use. Do not apply the original repository's addresses to another fork.
 
 ## Validation scripts

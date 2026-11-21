@@ -4,95 +4,120 @@
 
 * 字体预览网站
 
-字体预览网站用于查找字体、查看不同字重和款式，以及了解包名与许可信息。
-预览是固定样文的透明无损 WebP 图片，不支持在线输入文字试用。
+网站展示字体、字重和款式，以及包名与许可信息。
+预览使用固定样文的透明无损 WebP 图片，不提供在线输入文字试用。
 
-** 构建与预览
+** 本地预览
 
-在仓库根目录运行：
+在仓库根目录进入网站开发环境，选择要查看的字体：
 
 #+begin_src sh
 nix develop .#site
-make -C site
+make -C site PACKAGES=naverPackages.maru-buri
 make -C site serve
 #+end_src
 
-构建完成后打开 [[http://127.0.0.1:8000/][本地预览]]。
-首次构建需要准备字体并绘制预览，耗时较长；受限字体需按包的要求提供本地文件。
-修改代码或包信息后，再次运行 =make -C site= ，然后刷新页面。
+打开 [[http://127.0.0.1:8000/][本地页面]]。
+=PACKAGES= 接受完整的 overlay 属性名，多个包用空格分隔并加引号：
 
-网站生成在 =site/build/public/= ，预览缓存放在 =site/.cache/= 。
-再次构建会复用有效缓存；构建失败时，上一份完整网站仍会保留。
-服务器只读取已有网站，不触发构建，也不会修改字体包。
+#+begin_src sh
+make -C site PACKAGES='naverPackages.maru-buri justfontPackages.huninn'
+#+end_src
 
-可指定端口或查看其他输出目录：
+省略 =PACKAGES= 时构建全部字体。首次构建需要下载字体并绘制预览；
+部分受限字体需要按包定义准备本地来源。修改代码或包信息后，重新运行
+=make= 并刷新页面。网站构建不会修改字体包。
+
+默认筛选简体中文、无衬线体和开源许可，字库与费用全选。
+单包预览看不到结果时，请调整语言、风格和许可筛选。
+同一类别的选项取并集，不同类别的条件同时满足；筛选状态保存在 URL 中。
+
+网站生成在 =site/build/public/= ，预览缓存位于 =site/.cache/= 。
+构建会复用有效缓存，失败时保留上一份完整网站。服务器只读取已有输出，
+不会触发构建。端口和输出目录可以单独指定：
 
 #+begin_src sh
 make -C site serve PORT=8080
 make -C site serve DIRECTORY=/path/to/public
 #+end_src
 
-默认筛选简体中文、无衬线体和开源许可，字库与费用全选，嵌入式使用不勾选。
-同一类别选中多项时，符合其中一项即可；不同类别的条件需要同时满足。
-筛选状态保存在 URL 中，可分享链接或通过浏览器前进、后退恢复。
-预览放大后超出页面时，可以横向滚动。
+** 开发与检查
 
-** 开发与测试
-
-在开发环境中运行：
+网站使用一个 Makefile ： =make= 构建， =make check= 测试，
+=make serve= 启动本地服务。以上命令从仓库根目录运行时需加 =-C site= 。
 
 #+begin_src sh
 make -C site -j4 check
 #+end_src
 
-测试使用小型素材，不下载整个字体集合。字体位于
-=site/tests/fixtures/fonts/= ，按本项目 CC0 声明提供。它们只包含自制
-三角形字形，用于检查字体处理，不用于比较字形外观。
+测试使用 =tests/fixtures/fonts/= 中的 CC0 素材，不下载整个字体集合。
+素材的自制三角形字形用于验证字体处理，不用于比较字形外观。
+界面改动还应在浏览器中检查筛选、展开内容和窄屏布局。
 
-构建规则直接写在 =site/Makefile= 中。 =module/= 和 =scripts/= 是 Guile
-生成与服务代码， =src/= 是原生字体工具， =web/= 是 Hoot 交互与样式，
-=data/= 保存语言名称和样文。字体包信息的维护见
-[[file:../.github/CONTRIBUTING.md][贡献指南]]，独立于网站构建。
+=module/= 和 =scripts/= 保存 Guile 生成与服务代码， =src/= 是原生字体工具，
+=web/= 是 Hoot 交互与样式， =data/= 保存语言名称和样文。
+字体包与元数据维护见 [[file:../.github/CONTRIBUTING.md][贡献指南]]。
 
-用 =BUILD_DIR= 可以将编译产物、测试日志和网站放到其他目录：
+用独立目录预览，可以保留另一份构建结果：
 
 #+begin_src sh
-make -C site BUILD_DIR=/tmp/font-site
+make -C site BUILD_DIR=/tmp/font-site PACKAGES=naverPackages.maru-buri
 make -C site serve BUILD_DIR=/tmp/font-site
 #+end_src
 
-=make clean= 清理构建结果，保留预览缓存； =make clean-cache= 显式清理预览缓存。
-二者都在 =site/= 中运行，或加上 =-C site= 。
+同一目录切换 =PACKAGES= 会重新准备输入。 =make clean= 删除构建结果，
+保留预览缓存； =make clean-cache= 清理预览缓存。
 
-*** 自行提供依赖
+*** 不使用 Nix 准备输入
 
 需要 GNU Make 4.3 或更新版本、 Guile 3 、 guile-json 、 guile-gcrypt 、 Hoot 、
 C 编译器、 pkg-config 、 FreeType 、 Fontconfig 、 GLib 2.66 或更新版本、
-Pango 、 Cairo 和 libwebp 。
-样式使用 Tailwind CSS 4.3.4 独立编译器与 daisyUI 5.7.39 插件。
+Pango 、 Cairo 和 libwebp 。样式使用 Tailwind CSS 4.3.4 与 daisyUI 5.7.39 。
 
-用环境变量 =DAISYUI= 、 =DAISYUI_THEME= 指定插件， =UI_FONT_REGULAR= 、
+=DAISYUI= 和 =DAISYUI_THEME= 指定插件及主题； =UI_FONT_REGULAR= 、
 =UI_FONT_MEDIUM= 指定仓耳渔阳体 W02 、 W03 原始 TTF ，
-=UI_FONT_LICENSE= 指定授权声明 PDF 。资源路径使用绝对路径。
+=UI_FONT_LICENSE= 指定授权声明 PDF 。以上资源路径均使用绝对路径。
 
-网站构建默认通过 Nix 准备字体和目录输入。已有输入时，可以同时指定
-=CATALOG= 和 =PREVIEWS= 两个 JSON 文件，跳过这一步；
-源码不在 Git 仓库中时，用 =SOURCE_REVISION= 指定完整提交号。
-=CC= 、 =CFLAGS= 、 =GUILE= 、 =HOOT= 和 =TAILWINDCSS= 可覆盖对应工具或参数。
+同时提供 =CATALOG= 和 =PREVIEWS= 两个 JSON 文件即可跳过 Nix 输入准备，
+不能再与 =PACKAGES= 混用。源码不在 Git 仓库中时，使用 =SOURCE_REVISION=
+指定完整提交号。 =CC= 、 =CFLAGS= 、 =GUILE= 、 =HOOT= 和 =TAILWINDCSS=
+可覆盖对应工具或参数。
 
-** 发布归档
+** 样文与许可
 
-构建完成后，可在网站开发环境中将现有输出打包：
+=data/language-names.json= 使用 Babel/CLDR 的简体中文名称，
+并补充历史语言与中文地区名称。 CLDR 数据遵循
+[[https://www.unicode.org/license.txt][Unicode 数据许可]]。
+
+=data/language-samples.json= 保存样文及来源，包括
+[[https://docs.gtk.org/Pango/method.Language.get_sample_string.html][Pango
+样文]]、
+[[https://gitlab.freedesktop.org/fontconfig/fontconfig/-/tree/main/fc-lang][
+Fontconfig 语言字表]]，以及项目补充内容。
+修改时核对名称、实际语言、字符覆盖和来源，备选样文必须属于同一语言。
+构建直接读取这些数据，不依赖 Babel 或在线翻译。
+
+公开输出包含 HTML 、 CSS 、 JSON 、 Hoot/Wasm 资源、 SVG 标识和 WebP 图片。
+目录字体的原始文件、私有渲染清单和缓存不进入输出；界面使用的仓耳渔阳体
+W02 、 W03 原始字体和授权声明随网站附带。
+网站代码使用 [[file:../COPYING][CC0]] ，字体各自遵循上游许可。
+
+** 归档与发布
+
+对外发布前先提交并推送源码，再构建完整目录，不设置 =PACKAGES= 。
+源码和许可链接使用构建时的提交号；本地未提交的修改不会出现在链接中。
+
+在网站开发环境中打包现有输出：
 
 #+begin_src sh
 make -C site release SOURCE_REVISION="$(git rev-parse HEAD)"
 #+end_src
 
-归档和 JSON 校验清单放在 =site/build/release/= 。该命令不重建网站，
-提交号必须与目录中的版本一致；再次打包时，用 =RELEASE_DIR= 指定新目录。
-归档只包含公开文件，并核对界面字体和授权声明的来源。
+归档和校验清单写入 =site/build/release/= ，不会重建网站。
+提交号必须与目录一致；再次打包时用 =RELEASE_DIR= 指定新目录。
+归档仅包含公开文件，并核对界面字体及授权声明的来源。
 
-接收归档时，使用校验清单解包到新目录：
+接收归档时，在新目录解包并校验：
 
 #+begin_src sh
 nix develop .#ci
@@ -100,50 +125,18 @@ guile -L site/module site/scripts/archive.scm unpack \
   /path/to/site.tar.gz /path/to/site.json /path/to/new-public
 #+end_src
 
-解包会核对文件大小、 SHA-256 和提交号，拒绝路径越界、重复文件及链接。
-此环境提供 CI 与归档工具，不下载字体集合。收到的归档仍须来自可信发布流程；
-校验和本身不能证明发布者身份。
+该命令检查大小、 SHA-256 、提交号和归档路径，拒绝重复文件及链接。
+校验和不能证明发布者身份，归档仍须来自可信流程。
 
-主线网站由 Hercules CI 调用 Make 构建。预览缓存与构建文件留在私有目录，
-通过校验的公开归档上传到 Garage ，再由 GitHub Actions 的 =deploy= 工作流
-下载、校验并发布到 Pages 。字体构建和二进制缓存发布独立运行。
-调度与发布控制位于 =ci/= ，不属于网站生成代码。
+Hercules CI 的 =buildSite= 调用 Make 构建，将通过校验的公开归档上传到
+Garage 。 GitHub Actions 的 =deploy= 下载、校验并发布到 Pages 。
+调度与凭据处理位于 =ci/= ，字体构建和二进制缓存发布独立运行。
 
-Garage 使用独立的私有 bucket ， Hercules 持有读写凭据， Actions 仅有只读
-凭据。存储入口、配额和加密凭据由 fleet 管理。 Actions 需要配置
-=SITE_S3_ACCESS_KEY_ID= 和 =SITE_S3_SECRET_ACCESS_KEY= 两个仓库 secret 。
+Garage 使用私有 bucket ，最多保留两个完整版本，包括等待发布的版本。
+Hercules 持有读写凭据， Actions 仅持有只读凭据；端点、配额和加密密钥由
+fleet 管理。 Actions 使用 =SITE_S3_ACCESS_KEY_ID= 和
+=SITE_S3_SECRET_ACCESS_KEY= 两个仓库 secret 。
 
-最多保留两个完整构建版本，包括等待发布的版本。上传新版本前先清理最旧版本，
-保留最近的完整归档；完成标记最后上传。 bucket 的逻辑配额为 2 GiB ，
-后台回收可能暂时占用额外磁盘空间。此流程不使用 tag 或 Release 传递产物。
-
-构建失败时重试原来的 Hercules 任务；下载或发布失败时重试 =deploy= 。
-手动运行 =deploy= 会使用当前 main 的完整归档，部署前再次核对提交号。
-准备失败不影响已经发布的网站。需要回退源码时，先在 main 撤销相应改动，
-再按正常流程构建发布。
-
-** 语言名称与样文
-
-=data/language-names.json= 使用 Babel/CLDR 的简体中文名称，
-并补充历史语言与中文地区名称。 CLDR 数据遵循
-[[https://www.unicode.org/license.txt][Unicode 数据许可]]。
-
-=data/language-samples.json= 保存固定样文及来源，包括
-[[https://docs.gtk.org/Pango/method.Language.get_sample_string.html][Pango
-样文]]、
-[[https://gitlab.freedesktop.org/fontconfig/fontconfig/-/tree/main/fc-lang][
-Fontconfig 语言字表]]，以及项目补充的样文。缺少完整语句时可使用同语言字表。
-新增或修改时，核对中文名称、实际语言、字形覆盖和来源；备选样文须属于同一语言。
-构建直接读取这些文件，不依赖 Babel ，也不联网翻译。
-
-** 静态输出与许可
-
-生成的网页包含 HTML 、 CSS 、公开 JSON 、 Hoot/Wasm 资源、
-SVG 标识和无损 WebP ，可直接放在静态 HTTP 服务器上，无需后端程序。
-目录字体只以图片展示，原始字体文件、私有渲染清单和缓存不会放入输出目录。
-界面使用的仓耳渔阳体 W02 、 W03 原始字体及授权声明随站点附带。
-网站代码使用 [[file:../COPYING][CC0]] ，字体各自遵循上游许可。
-
-源码和许可链接指向构建时的提交版本。
-本地预览会包含未提交的修改，但这些修改不会出现在链接对应的页面中。
-对外提供生成的网页前，应先提交并推送相应改动。
+构建失败时重试 Hercules 任务；下载或发布失败时重试 =deploy= 。
+手动运行 =deploy= 仅发布当前 main 对应的完整归档，准备失败时保留现有网站。
+需要回退源码时，在 main 撤销相应改动，再重新构建发布。

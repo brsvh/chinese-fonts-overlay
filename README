@@ -5,25 +5,13 @@
 * Chinese Fonts Overlay
 
 Chinese Fonts Overlay 提供中文字体的 Nix 包，也收录日文、韩文等字体。
-启用 overlay 后，可以按需安装单个字体或整个字库。
+通过 overlay ，可以安装单款字体或整个字库。
 
-** 查找字体
+在 [[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]]
+查看字体效果、包名和许可信息，按语言、字库或风格查找字体。
+包定义位于 [[file:packages/][packages/]] 。
 
-[[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]]展示字体效果、
-包名和许可信息，支持按语言、字库和风格筛选。
-也可以在本地构建，在仓库根目录运行：
-
-#+begin_src sh
-nix develop .#site
-make -C site
-make -C site serve
-#+end_src
-
-运行后打开 [[http://127.0.0.1:8000/][本地预览]]。
-首次下载和生成预览需要一些时间。
-更多用法见 [[file:site/README][网站说明]]。
-
-** 安装字体
+** 安装
 
 在现有 flake 的 =inputs= 中添加：
 
@@ -33,8 +21,8 @@ chinese-fonts-overlay = {
 };
 #+end_src
 
-将 =overlays.default= 加入 =nixpkgs.overlays= 列表，再选择要安装的字体。
-例如，通过 =specialArgs= 将 =inputs= 传给 NixOS 模块后，可以这样配置：
+将 overlay 加入 NixOS 配置，再选择字体。例如，通过 =specialArgs=
+将 =inputs= 传给模块后：
 
 #+begin_src nix
 { inputs, pkgs, ... }:
@@ -49,16 +37,15 @@ chinese-fonts-overlay = {
 }
 #+end_src
 
-使用独立的 Home Manager 时，先为 =pkgs= 启用相同的 overlay ，
-再通过 =home.packages= 安装字体，将 =fonts.fontconfig.enable= 设为 =true= 即可。
-非自由字体需在导入 nixpkgs 时设置 =config.allowUnfree = true;= 才能构建。
+将 =justfontPackages.huninn= 换成所需字体，也可以选用 =lxgw-fonts=
+这样的字库合集。构建非自由字体时，需要允许对应的非自由包。
 
-字体的属性名可以在预览网站或[[file:packages/][包目录]]中查找。
-也可以选择 =pkgs.lxgw-fonts= 这样的字库合集。
+使用独立的 Home Manager 时，为其 =pkgs= 启用相同的 overlay ，
+通过 =home.packages= 安装字体，并设置 =fonts.fontconfig.enable = true;= 。
 
 ** 二进制缓存
 
-项目缓存提供部分允许再分发的字体。 NixOS 用户可以在配置中加入：
+缓存提供允许再分发的部分字体。 NixOS 用户可加入：
 
 #+begin_src nix
 nix.settings = {
@@ -69,18 +56,19 @@ nix.settings = {
 };
 #+end_src
 
-其他系统可在 =nix.conf= 中配置相同的地址和公钥。
-使用 Nix daemon 时，修改后需重启服务。
-缓存不包含 Windows 字体及不可再分发的字体，
-版本或构建条件不匹配时会在本地构建。
+其他系统在 =nix.conf= 中配置相同地址和公钥；使用 Nix daemon 时，
+修改后需重启服务。缓存不包含 Windows 字体及不可再分发的字体。
+没有匹配的缓存时， Nix 会在本地构建。
 
-** 参与维护
+** 贡献与开发
 
-添加字体、报告问题或提交修改，请参阅[[file:.github/CONTRIBUTING.md][贡献指南]]。
-网站的本地构建和样文维护见 [[file:site/README][网站说明]]。
+新增字体、更新包或报告问题，请阅读
+[[file:.github/CONTRIBUTING.md][贡献指南]]。
+网站的本地预览、测试和构建方法见 [[file:site/README][网站说明]]。
+维护约定见 [[file:AGENTS.md][AGENTS.md]] ，适用于人工和自动化修改。
 
 ** 许可
 
-仓库代码使用 [[file:COPYING][CC0]] ；字体各自遵循上游许可证。
-能下载、构建或免费使用某款字体，并不意味着可以再分发它。
-具体条件请查看字体条目中的许可链接和注意事项。
+仓库代码使用 [[file:COPYING][CC0]] ，字体各自遵循上游许可证。
+下载、构建或免费使用字体，不代表可以再分发字体文件。
+使用前请核对字体条目中的许可和限制。

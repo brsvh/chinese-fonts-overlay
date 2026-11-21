@@ -1,203 +1,157 @@
 # Website Maintenance Guidelines
 
-This file applies to `site/` and supplements the
-[root guidelines](../AGENTS.md). Unless stated otherwise, paths are relative to
-this directory. Review the implementation and documentation together; do not
-describe planned capabilities as verified. The user's later explicit decisions
-take precedence over these conventions.
+Read the [root guidelines](../AGENTS.md) as well. This file covers website work,
+including related configuration outside `site/`. Paths below are relative to
+this directory unless stated otherwise. User instructions belong in
+[README](README).
 
-## Structure and Responsibilities
+## Boundaries
 
-The website uses one handwritten `Makefile`. Nix supplies the development shell,
-pinned tools, interface assets, and font inputs. There is no website app or
-server package. `make` builds the static website, `make check` runs small
-fixture tests, and `make serve` serves an existing public directory.
+One handwritten `Makefile` owns the build. Nix supplies pinned tools, interface
+assets and font inputs; there is no separate website or server package. `make`
+builds, `make check` tests licensed fixtures, `make serve` serves existing
+output, and `make release` archives it. Do not introduce a second build system.
 
-| Location                                         | Responsibility                                                |
-| ------------------------------------------------ | ------------------------------------------------------------- |
-| `Makefile`, `build-aux/`                         | Build dependencies and small build helpers                    |
-| `scripts/`, `module/chinese-fonts-overlay-site/` | Guile build entry points, rendering orchestration and serving |
-| `src/`                                           | Native font inspection, rendering and image validation        |
-| `web/`                                           | Hoot interactions, static HTML and styles                     |
-| `data/`                                          | Verified language names and multilingual sample text          |
-| `tests/`, `tests/fixtures/fonts/`                | Website tests and CC0 font fixtures                           |
+Keep dependency ordering in Make and transformations in Guile. `scripts/` and
+`module/chinese-fonts-overlay-site/` handle generation, rendering orchestration,
+serving and platform-independent archive validation. `src/` contains native font
+tools; `web/` contains Hoot interactions and styles; `data/` contains language
+names and samples. Module loading must not start services or builds.
 
-Use Guile for handwritten website automation. Keep dependency ordering in Make
-and website transformations and artifact validation in Guile. CI scheduling,
-credentials and remote publication belong to `../ci/` and use JavaScript
-modules. Short Make recipes are normal build support. Loading a module must not
-start a build or server.
+CI scheduling, credentials, remote state and publication belong to JavaScript
+modules in `../ci/`. Package definitions and language maintenance belong outside
+`site/`; website builds and tests must never rewrite packages.
 
-All changes to `package.nix` belong to font-package maintenance outside this
-directory. The standalone `tools/update-font-languages/` tool owns language
-scanning and updates. Website builds, tests and serving never rewrite packages.
+## Inputs and builds
 
-## Interface and Styling
+Read package metadata through `catalog.nix` and the shared
+[validator](../lib/font-info.nix). Do not create a second package index. Exclude
+`isFontAggregate` packages, preserve notices and sources, and resolve embedding
+once in the public catalog. Missing license freedom is unknown.
 
-Before changing website components, styles, themes, or Tailwind CSS and daisyUI
-build configuration, use
-[daisyui-coding](../.agents/skills/daisyui-coding/SKILL.md). This also applies
-to Scheme/SXML-generated HTML and website dependency configuration outside
-`site/`. When Guile, Hoot, or Nix is involved, also follow the corresponding
-skills specified in the root guidelines.
+By default, build the complete catalog into `BUILD_DIR/public`. `PACKAGES`
+selects complete overlay attributes for local previews. Validate every selector
+before realizing fonts, reject unknown or aggregate attributes, deduplicate the
+selection and include it in input fingerprints. Realize only selected font
+inputs; changing or clearing the selection must invalidate prepared inputs.
+Reject `PACKAGES` with explicit `CATALOG` and `PREVIEWS`.
 
-When integrating or upgrading dependencies, check that the official skill and
-component sources referenced by the skill match the project's dependency
-versions. Prefer tools provided by the currently locked Nixpkgs. Pin missing
-dependencies separately by version and hash; do not update the lock file merely
-because an online example uses the latest version.
+Separate native compilation, browser assets, input preparation, rendering and
+publication. Refresh inputs when definitions, locks, catalog rules or package
+membership change. Do not freeze data when entering a shell. Explicit `CATALOG`
+and `PREVIEWS` must be supplied together and support builds without Nix.
 
-The current dependencies are the Tailwind CSS 4.3.4 standalone compiler and the
-daisyUI 5.7.39 plugin package. Nix supplies dependencies, and Make compiles CSS;
-do not introduce a Node project or a runtime CDN. Use the standard Modus
-Operandi theme and TsangerYuYangT W02 and W03 for the interface font. New
-complete class names must be discoverable through the CSS entry point's explicit
-source scanning. Pass continuous preview dimensions through CSS variables. Keep
-filtering, URL state, and asynchronous loading policy in Hoot; browser
-interfaces provide only the necessary host operations.
+Support independent build directories, read-only sources and an explicit
+`SOURCE_REVISION` without Git. Keep intermediates and test logs under
+`BUILD_DIR`. `make serve` requires only Guile and the selected public directory;
+it must not prepare inputs or rebuild. `make clean` preserves preview caches;
+`make clean-cache` removes only the renderer's owned entries.
 
-## Building and Serving
+## Interface and data
 
-- Maintain `Makefile` directly, following the root 80-column and tab rules. Use
-  the root `.bake.toml` with mbake. Do not restore Autotools, installed website
-  commands or a second Nix build implementation.
-- The default target builds the complete website into `BUILD_DIR/public`. Keep
-  native compilation, browser assets, input preparation, preview rendering and
-  final publication separate. Reuse unchanged previews for page-only edits.
-- `make check` uses small licensed fixtures and must not fetch the font
-  collection. `make serve` only needs Guile and the selected public directory;
-  it never compiles assets, prepares inputs or rebuilds the website.
-- `make release` packages existing public output without rebuilding it. Require
-  an explicit source revision matching the catalog and a new release directory.
-  Verify the two interface fonts and their license against the declared build
-  inputs. Release archives contain only regular files from the public allowlist,
-  remain below the Pages size limit and carry a SHA-256 manifest. Validate that
-  manifest and the archive before making extracted output available to deploy.
-- Support `BUILD_DIR` outside the source tree, with read-only sources and an
-  explicit `SOURCE_REVISION` when Git is unavailable. Keep intermediate files,
-  native binaries, test logs and public output beneath the build directory.
-- Preserve preview caches across `make clean`. `make clean-cache` explicitly
-  clears the renderer's owned cache entries. Never remove unrelated files or
-  treat the repository itself as a build or cache directory.
-- Refresh inputs from the current source tree when package definitions, locks,
-  catalog rules or the set of packages changes. Do not freeze metadata when
-  entering the development shell. Explicit `CATALOG` and `PREVIEWS` JSON inputs
-  support offline builds without Nix; both must be supplied together.
-- After build changes, exercise clean and incremental builds, parallel Make, an
-  independent build directory, small tests and real HTTP responses. Check
-  failure preservation and that serving does not trigger a build. There is no
-  installation or source-distribution contract; the deliverable is `public/`.
-- Keep user instructions in [README](README), in concise Chinese Org format. Do
-  not add separate development documentation or generated change histories.
+Use [daisyui-coding](../.agents/skills/daisyui-coding/SKILL.md) for components,
+styles, themes and their build configuration, including generated SXML. Follow
+the applicable Nix, Guile or Hoot skills too. Use locked dependencies, verify
+upstream guidance when upgrading, and do not update locks merely to match an
+example. Nix supplies Tailwind and daisyUI; Make compiles CSS. Do not add a Node
+project or runtime CDN.
 
-Use dependency versions from the current flake inputs; lock-file updates are a
-separate task. Local functionality takes priority over styling and CI. The
-website URL is `https://brsvh.github.io/chinese-fonts-overlay/`. Do not change
-deployment configuration without an explicit request. Preview generation belongs
-to the website build; do not restore separate image publication branches.
+Use the standard Modus Operandi theme and original TsangerYuYangT W02/W03
+interface fonts. Keep complete class names discoverable by CSS source scanning;
+continuous dimensions use CSS variables. Filtering, URL state and loading policy
+belong to Hoot. Browser bindings expose only necessary host operations.
 
-## CI Publication
+Default filters select Simplified Chinese, sans-serif and open-source licenses,
+with all vendors and costs and embedding unchecked. Choices within a category
+use OR; categories use AND. Empty selections match nothing. Reset restores
+defaults. Select-all includes collapsed options and reflects partial selections.
+URL state and browser navigation must restore the same choices.
 
-CI calls the existing Make targets and the archive command interface. Keep
-platform-independent packaging and validation here; maintain Hercules and GitHub
-publication rules in the root `AGENTS.md` and their implementation in `../ci/`.
-Website modules must not handle hosting credentials or remote state. The
-`buildSite` Effect transfers validated output through Garage; the `deploy`
-workflow downloads and publishes it. Keep the two-version retention policy and
-S3 access in `../ci/`, independent of archive generation and font caching.
+Maintain Simplified Chinese language names and sample mappings in `data/` with
+source notes. Preserve regional naming and actual sample languages; alternatives
+must be in the same language. Do not add per-package sample selectors or a Babel
+runtime dependency. Use stable machine keys and Chinese labels, including
+unknown values. Package language coverage is a union, but each face's sample
+must be supported by that face. Never conceal missing samples with fallback
+fonts or another language.
 
-## Data Ownership
+## Public output and caching
 
-Read package metadata from `passthru.chinese-fonts-overlay-site` using
-[the schema](../lib/font-info.nix). Package-maintenance rules belong to
-[root guidelines](../AGENTS.md) and the
-[contribution guide](../.github/CONTRIBUTING.md). Do not create another
-per-package index. Exclude packages marked `isFontAggregate`.
+Publish static HTML, CSS, public JSON, matching Hoot/Wasm assets, SVG
+identifiers and transparent lossless WebP images. Catalog fonts are fixed images
+only; never publish original font files, private manifests, local paths or
+caches. The only font-file exception is the original interface W02/W03 TTFs,
+accompanied by their license statement. Redistribution metadata does not permit
+restoring live text previews.
 
-Resolve optional `embedding` against `meta.redistributable`, defaulting to false
-when both are absent. Publish the final boolean rather than inferring it in the
-frontend. License category comes from the license's explicit `free` value;
-missing information remains unknown. Preserve costs, notices and source links.
+Render in memory with Pango/Cairo and encode directly with libwebp: lossless,
+quality 75, method 6 and exact transparent pixels. Convert premultiplied Cairo
+ARGB correctly. Cache WebP only; validate decoded pixels, transparency and
+nonblank content. Include encoding settings in cache identities. Preserve faces,
+collection members, weights and named variable instances without converting or
+subsetting font files. Scale images to the requested preview size and allow
+horizontal scrolling instead of shrinking to fit.
 
-Default filters are Simplified Chinese, sans-serif, all vendors, all costs, and
-open-source licenses. Font embedding is unchecked by default. Combine choices
-within a category with OR and different categories with AND; an empty selection
-means no matches. Reset restores these defaults. Select-all checkboxes include
-collapsed options and reflect partial selection. URL state and browser Back and
-Forward must restore the same selections.
+Source links for packages, website code and licensing use the same full commit
+ID. Cache identities include font contents, faces/instances, sample text and
+relevant inspection/rendering settings. Reuse valid caches, bound concurrency
+and propagate worker failures. Validate all staged output before replacing the
+public directory; failures preserve the previous complete output. Clean only
+artifacts owned by the operation.
 
-Package language coverage is the union across its faces; each preview must still
-use sample text actually supported by that face. Language coverage maintenance
-and its detection rules belong to the standalone maintenance tool.
+Keep discovery, validation, rendering and publication separate. Validate process
+exit status and structured output. Pass argument arrays, not shell-interpolated
+filenames. Protocol stdout is machine-readable; diagnostics use stderr.
+Distinguish JSON false, null, empty objects and arrays in both Guile and Hoot.
 
-Maintain language-to-sample mappings and Simplified Chinese language names in
-`data/`. Preserve the samples' actual languages, the Chinese regional naming
-format, and source notes. Do not restore per-package sample selectors or add a
-Babel runtime dependency. Use stable machine keys for categories and retain
-Chinese UI labels, including the label for unknown values.
+## Archives and publication
 
-## Output and Expensive Operations
+`make release` archives existing public output without rebuilding. Require an
+explicit revision matching the catalog and a new release directory. Verify the
+interface fonts and license against declared inputs. Allow only regular public
+files, enforce the Pages size limit and produce a SHA-256 manifest. Validate
+both manifest and archive before making extracted output available to deploy.
 
-The website is entirely static, publishing HTML, CSS, public metadata JSON,
-matching Hoot/Wasm assets, and transparent lossless WebP images. Use fixed
-images for all catalog fonts; do not publish their original files, private
-rendering manifests, local paths, or caches. Interface fonts are the sole
-exception: ship the original TsangerYuYangT W02 and W03 TTF files and their
-license statement with the site. Use `redistributable` for status display and
-the default value of `embedding`; do not use it as grounds to restore live
-previews of user-entered text.
+Hercules `buildSite` uses Make on the agent advertising
+`chinese-fonts-overlay-site`. Its private `/site-state` mount holds rendering
+caches and staged archives. Disable remote builders and post-build hooks, and
+serialize build/upload with the mount lock. Only trusted main accesses the mount
+and `site-artifact-upload` secret. Long builds use public GitHub reads rather
+than expiring GitTokens.
 
-Render previews in memory with Pango/Cairo and encode them directly with
-libwebp. Cache and publish WebP only. Use lossless encoding with quality 75,
-method 6, and exact transparent pixels; correctly convert Cairo's premultiplied
-ARGB pixels before encoding. In lossless mode, quality controls compression
-effort, not pixel fidelity. Validate decoded pixels, transparency, and nonblank
-content before publication. Include rendering and encoding configuration in
-cache identities.
+Upload validated archives only to the private `chinese-fonts-overlay-site`
+Garage bucket at `https://s3.bingshan.org`, region `garage`, using path-style
+requests. Fleet owns endpoint, quota and encrypted keys. Hercules has bucket
+read/write access without ownership; Actions has read-only access. Never reuse
+unrelated credentials or upload font closures.
 
-Preserve all supported faces, font collection members, weights, and named
-variable-font instances. Use the original formats directly; do not convert or
-subset fonts. Show samples for the selected languages. Do not hide missing
-samples by substituting another language or a fallback font. Source links must
-point to the GitHub page for `package.nix` at a full commit ID. Footer links for
-website source code, the commit, and the website license must use that same
-commit. Scale images to the actual preview size; allow horizontal scrolling when
-space is insufficient instead of shrinking them to the container width.
+Store immutable archives under the source revision and write `manifest.json`
+last. Under the single-writer lock, keep at most two complete versions including
+pending deployments: remove the oldest before the next upload, retaining the
+newest complete version. Reuse matching objects on retry and reject differing
+replacements. Clean abandoned objects and abort stale multipart uploads. The 2
+GiB logical quota does not bound temporary physical usage during reclamation.
 
-Handle discovery, validation, rendering, and publication separately. Parse
-subprocess output as data and validate its structure and exit status. Pass
-argument arrays rather than interpolating filenames into shell commands. Keep
-tool-protocol standard output machine-readable and send diagnostics to standard
-error. Distinguish JSON false, null, empty objects, and empty arrays explicitly
-across native Guile and Hoot.
+The `deploy` workflow accepts verified Hercules `ci/hercules/onPush/buildSite`
+successes or manual retries for current main. Run trusted default-branch code;
+validate repository, sender, event source, manifest and archive. Check current
+main before download and immediately before deployment. Serialize deployments
+and restrict the Pages environment to main. Only the deploy job receives Pages
+and OIDC write permissions; S3 read credentials belong only to preparation.
+Preparation failures preserve the published site. Keep font-cache publication
+independent; website handoff uses no tags, Releases or deployment receipts.
 
-Reuse valid caches. Cache identifiers must include the font content, faces and
-instances, sample text, and parsing and rendering configuration that can affect
-the output. Limit rendering concurrency and propagate worker failures. Validate
-all output successfully in a staging directory before replacing the published
-output; preserve the previous complete website on failure. Clean up only
-temporary artifacts owned by the current task, not unrelated caches.
+## Verification
 
-## Verification Scope
+Use small CC0 fixtures in `tests/fixtures/fonts/`; `make check` must not fetch
+the collection. Cover observable behavior and distinct failure boundaries, not
+private helpers, fixed schema numbers or incidental layouts. Merge overlapping
+coverage and remove obsolete assertions. For rejection checks, keep other inputs
+valid and assert the expected diagnostic. Native Scheme tests use SRFI-64 and
+must exit unsuccessfully on failure.
 
-Test only final observable functionality and supported user actions, not
-intermediate development steps, historical implementations, or private helper
-structures. Keep tests minimal, covering only necessary behavior and distinct
-failure boundaries. Merge overlapping coverage and remove obsolete assertions;
-do not accumulate tests for every refactor. Do not separately test trivial
-wrappers, fixed schema numbers, incidental page hooks, or internal layouts. When
-testing rejection, all other input conditions must be valid. Check the expected
-diagnostic; do not treat an arbitrary exception as success. Test helpers only
-prepare inputs or return results; keep assertions in test cases.
-
-Prefer small, licensed fixtures covering static fonts, font collections,
-variable instances, Unicode, missing glyphs, and invalid or nontransparent
-images. Choose verification appropriate to the changed boundary: native tools,
-Guile transformations and command exit status, real HTTP responses, or browser
-interactions. Native tests use SRFI-64, and failures must be reflected in the
-process exit status.
-
-During migrations, compare actual metadata, faces, sample selections, and public
-artifacts, not just counts. Reuse full-catalog output and caches when valid;
-rebuild the entire font collection only when the change requires it. Clearly
-report what has and has not been verified.
+After build changes, check clean/incremental and parallel builds, an independent
+build directory, selection changes, failure preservation and actual HTTP
+serving. Verify that serving does not build. Inspect UI changes in a browser.
+Reuse existing complete outputs and caches when valid; rebuild the collection
+only when needed. Report verification limits explicitly.

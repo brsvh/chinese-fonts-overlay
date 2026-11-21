@@ -1,256 +1,145 @@
 # Maintenance Guidelines
 
-## Scope
+These conventions apply to everyone maintaining this repository, including
+agents. Read the root [README](README) for usage and
+[CONTRIBUTING.md](.github/CONTRIBUTING.md) for the contribution workflow.
 
-This file applies to the entire repository. Keep maintenance guidelines in only
-this file and `site/AGENTS.md`; package and tool instructions belong here.
-Package maintenance tools belong outside `site/`. All website work requires
-reading [site/AGENTS.md](site/AGENTS.md), including Nix registration and
-development-tool configuration outside `site/`. Website architecture, data, and
-publication conventions belong there; language skills cover implementation
-conventions only.
+## Scope and documentation
 
-## Documentation
+Keep maintenance instructions in this file and [site/AGENTS.md](site/AGENTS.md)
+only. Read the latter for any website work, including its Nix registration and
+development environment. Package definitions and maintenance tools belong
+outside `site/`; website architecture and publication conventions belong there.
 
-The project's default documentation is the root [README](README). Project
-documentation uses Chinese. Skills and their usage instructions use English and
-remain in Markdown. `AGENTS.md` files at every level remain in Markdown and may
-be entirely in English; they are exempt from the Chinese-language requirement
-for project documentation.
+Project documentation uses Chinese. Default documentation files are named
+`README`, start with `# -*- mode: org; -*-`, and use Org headings, links and
+source blocks. Use one level-one heading and no `#+title`. Keep community files
+in `.github/` in GitHub-supported formats. Skills, their usage instructions and
+these two `AGENTS.md` files may use English Markdown.
 
-Use `README` for the default documentation in project and code directories. Its
-first line must be `# -*- mode: org; -*-`, and it must use Org headings, links,
-and source blocks. Keep community files in `.github/`, using GitHub-supported
-Markdown or YAML formats.
+Write for readers using or maintaining the project. Describe current interfaces
+and stable conventions, not session history, intermediate attempts or deployment
+status. Keep contribution instructions in `.github/CONTRIBUTING.md` and website
+operations in `site/README`. Do not recreate `docs/`, per-package README
+previews or duplicate development guides.
 
-Org documents have a maximum of 80 display columns per complete source line,
-including markup and link URLs. Count Chinese characters and full-width
-punctuation as two columns and ASCII characters as one. Leave one space between
-Chinese and English text in prose, including Chinese punctuation next to English
-text or Org inline markup. For example, write `， =foo=` rather than `，=foo=` so
-GitHub recognizes the markup. Do not split words, code, or URLs when wrapping
-lines; the descriptive text of a long link may wrap. Verify display width with a
-facility such as Emacs's `string-width`, not character counts.
+Org source lines are limited to 80 display columns, including markup and URLs.
+Chinese characters and full-width punctuation count as two columns. Verify with
+Emacs `string-width` or an equivalent display-width facility. Leave a space
+between Chinese and English text or inline markup, including after Chinese
+punctuation. Do not split words, code or URLs; a long link's description may
+wrap.
 
-The website presents font listings, previews, and license information; do not
-append per-package images to README files. Maintain contribution procedures in
-[.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) and website operations in
-[site/README](site/README). Do not recreate `docs/` or separate copies of
-development documentation. Keep website links current. Do not change deployment
-workflows without an explicit request.
+## Font packages
 
-## CI Maintenance
+Maintain catalog information only in `package.nix`, under
+`passthru.chinese-fonts-overlay-site`. The schema is
+[lib/font-info.nix](lib/font-info.nix); field meanings and review criteria are
+in the contribution guide. Reuse this validator for the catalog and
+whole-collection flake check. Exclude packages marked `isFontAggregate`; do not
+maintain a separate package index.
 
-Validate maintenance tools and CI through actual use. Do not add or maintain
-separate test suites for them. Keep source-format and Nix evaluation checks,
-runtime validation, and the website's own functional tests.
+Verify publisher names, homepages, styles, fees and permissions against upstream
+sources. Preserve distinctions between separately packaged families, regions and
+variable variants. Styles overlap and must cover relevant faces and axes; do not
+classify an entire package from its name or first face. Inspect previews when
+upstream descriptions are insufficient, then ask a maintainer if still unclear.
+`unknown` must stand alone. Preserve notices and their source links.
 
-Use camelCase Hercules action categories: `planFonts`, `buildFont/<package>`,
-`publishFont/<package>` and `buildSite`. Match effect names to their actions.
-Keep font builds as ordinary Nix outputs and credentialed publication in
-Effects. The CLI is `chinese-fonts-overlay-ci`, exposed through `nix run .#ci`.
-Transport keys and receipt fields are compatibility contracts; do not rename
-them merely to match job labels.
+Keep license cost, software freedom, redistribution and embedding distinct. Free
+downloads or commercial use do not establish redistribution or embedding rights.
+A fee category need not cover every use case; record relevant limits and
+separately charged uses. Omit `embedding` when its default is correct; otherwise
+record the override and source in notices. The default is
+`meta.redistributable`, or false when absent. Publish the resolved boolean; the
+frontend must not infer it again. Missing license freedom remains unknown.
 
-Keep PR and mainline font builds and their audited binary-cache publication
-independent of website publication. Successful PR build receipts are JSON data
-on `font-build-state`; the trusted default-branch consumer validates producer
-artifacts and never executes PR code. Plans, shard results and saved PR records
-use the current strict record schema, without preview fields or older-format
-fallbacks. Coordinate producer and consumer changes after prior runs finish.
-Create the record branch on the first successful write; do not import historical
-preview records.
+Languages are sorted, unique coverage results from
+`tools/update-font-languages/`. Preserve Fontconfig results and supplement
+Korean per face only when all modern compatibility jamo U+3131–U+3163 and all
+11,172 modern Hangul syllables U+AC00–U+D7A3 are present. Archaic jamo are not
+required. Package coverage is the union of its faces. Empty coverage is valid;
+do not infer languages from names or sample text. Rescan after font or detection
+changes.
 
-Preserve historical version tags, including `v0.2.0`. Do not restore PNG preview
-tooling, preview branches or the preview App. Preserve current Hercules cache
-receipts and pending cache publications when changing CI state. Mainline
-planning uses its saved inventory; without state, audit the current collection
-and schedule packages that lack a matching verified cache receipt. Do not import
-a hardcoded historical flake as a baseline.
+The tool accepts complete overlay attributes or repository `package.nix` paths,
+not `pname` or website identifiers. Resolve and deduplicate all selectors before
+scanning; reject unrelated paths. Scan all inputs before preparing replacements.
+Only `--write` changes language lists, preserving other source content;
+`--check` fails for stale records. Pass Nix inputs as data, preserve URL
+encoding and keep arguments separate from source expressions. JSON reports go to
+stdout and diagnostics to stderr. Reports containing local paths stay private.
+Module loading must have no scanning or writing effects.
 
-Website builds use the private Hercules Effect mount and the existing Make
-targets. GitHub Pages receives validated archives; it does not build fonts. Keep
-the Pages environment restricted to main. Publication control lives in `ci/` as
-JavaScript modules. Website generation and platform-independent archive
-validation remain in `site/` using Guile.
+## CI
 
-The `buildSite` Effect runs on the agent advertising
-`chinese-fonts-overlay-site`. Its mount appears at `/site-state` and holds
-private rendering caches and staged archives. Disable remote builders and
-post-build hooks. Serialize build and upload with the mount's lock; only trusted
-main may access it or the `site-artifact-upload` secret. Use public GitHub reads
-rather than an expiring GitToken during long builds.
+Validate tools and CI through actual use; do not add separate test suites for
+them. Retain formatting, Nix evaluation, runtime validation and website tests.
+Every PR checks all non-aggregate package metadata without realizing fonts.
+Language verification is independent of build receipts: compare font
+derivations, recorded languages and the scanner, then scan affected packages.
+Report fonts requiring local Windows sources as unverified, not successful
+scans.
 
-Upload only validated public archives to the private Garage bucket
-`chinese-fonts-overlay-site` at `https://s3.bingshan.org`, using region `garage`
-and path-style S3 requests. Fleet owns the endpoint, quota and encrypted keys.
-Hercules has bucket read/write access without ownership; Actions has read-only
-access. Never reuse Nextcloud credentials or upload font closures and caches.
+Keep PR/mainline font builds, audited binary-cache publication and website
+publication independent. PR build records are JSON on `font-build-state`. The
+trusted default-branch consumer validates producer identity, context and data;
+it must never execute PR code. Keep the strict current record schema and
+coordinate producer/consumer changes after prior runs finish. Do not upload
+restricted font files, source archives, private scans or unaudited closures.
 
-Store an immutable archive beneath its source revision and write `manifest.json`
-last as the completion marker. Keep at most two complete versions, including
-pending deployments: reserve space by deleting the oldest before uploading the
-next, while keeping the newest complete version. Reuse matching objects on retry
-and reject differing replacements. Clean abandoned objects under the
-single-writer lock; abort stale multipart uploads. The 2 GiB logical bucket
-quota is a backstop, not an exact bound on physical storage during reclamation.
+Use camelCase Hercules categories: `planFonts`, `buildFont/<package>`,
+`publishFont/<package>` and `buildSite`. Font builds are ordinary Nix outputs;
+credentialed publication uses Effects. Publication control is JavaScript in
+`ci/`, exposed through `nix run .#ci`; website generation and archive validation
+are Guile in `site/`. Transport fields are contracts, not cosmetic job names.
 
-The `deploy` workflow accepts successful `ci/hercules/onPush/buildSite` statuses
-from Hercules CI or a manual main-branch retry. Execute trusted default-branch
-code, validate the repository, sender, event source, manifest and archive, and
-check current main before downloading and again immediately before deployment.
-Serialize Pages deployments. Grant Pages and OIDC write permissions only to the
-deploy job; expose S3 read credentials only to artifact preparation. A manual
-run retries current main, not an arbitrary historical revision. Failed
-preparation must leave the existing published site intact.
+Preserve cache receipts and pending publications. Mainline planning uses its
+saved inventory or audits current packages against verified cache receipts. Font
+triggers use `ci/package/<package>/<revision>/<uuid>`; delete verified internal
+references only at their expected revisions. Preserve historical version tags,
+including `v0.2.0`. Do not restore preview branches, preview Apps, PNG tooling
+or old-format compatibility. Website transfer uses no tags or Releases. Keep
+deployment policy separate from font-cache state, and do not change repository
+protection or deployment configuration without a request.
 
-Website handoff uses no tag, Release or deployment receipt. Keep font trigger
-and cache-receipt lifecycles independent: delete only verified internal font
-references at their expected revisions. Use
-`ci/package/<package>/<revision>/<uuid>` for font triggers. Do not retain old
-website or preview trigger records, upload markers, or compatibility paths.
-Preserve historical version tags.
+## Implementation and verification
 
-## Nix
+Before editing or reviewing Nix, read
+[nix-coding](.agents/skills/nix-coding/SKILL.md) and its style reference; use
+the repository formatter and verify the affected evaluation. Font packages use
+the root lock, while development tools use `tools/flake.lock`.
 
-Before writing, editing, reviewing, or refactoring `.nix` files, use
-[nix-coding](.agents/skills/nix-coding/SKILL.md), read its referenced style
-guide, and perform the required formatting and verification.
+Use [c-coding](.agents/skills/c-coding/SKILL.md) for handwritten C,
+[guile-coding](.agents/skills/guile-coding/SKILL.md) for native Scheme,
+[guile-web-coding](.agents/skills/guile-web-coding/SKILL.md) for HTTP or SXML,
+and [hoot-coding](.agents/skills/hoot-coding/SKILL.md) for browser Wasm. Shared
+Scheme follows both execution targets' rules; native dependencies are not
+necessarily available in Hoot. Skills define implementation conventions, not
+repository architecture.
 
-## C and Scheme
+Choose verification by the changed behavior. Build and inspect affected fonts,
+check their languages and preview relevant faces. Run website fixture tests for
+website changes and inspect UI changes in a browser. Check documentation links,
+commands and formatting without rebuilding the collection. State what was and
+was not verified.
 
-Select skills according to the code's execution target:
+Maintain development configuration in `tools/dev-shells/default.nix`.
+`nix develop` creates ignored links for `.bake.toml`, `.clang-format`,
+`.editorconfig`, `prek.toml` and `treefmt.toml`; edit their Nix definitions, not
+these generated files. Use GNU clang-format when needed; do not add C formatting
+to treefmt, hooks or CI without a request, or format unrelated files.
 
-| Work                                                    | Skill                                                                                                   |
-| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Handwritten C and native font tools                     | [c-coding](.agents/skills/c-coding/SKILL.md)                                                            |
-| Native Guile modules, scripts, and tests                | [guile-coding](.agents/skills/guile-coding/SKILL.md)                                                    |
-| Native HTTP handling and SXML/HTML                      | [guile-web-coding](.agents/skills/guile-web-coding/SKILL.md), together with the native Guile guidelines |
-| Scheme compiled to browser Wasm and its host interfaces | [hoot-coding](.agents/skills/hoot-coding/SKILL.md)                                                      |
-
-Modules that run in both native Guile and Hoot must follow both sets of
-guidelines. Guile dependencies available to the compiler are not necessarily
-available in Wasm.
-
-## Font Package Metadata
-
-Maintain package information only in `package.nix` under
-`passthru.chinese-fonts-overlay-site`. Read the
-[actual schema](lib/font-info.nix) and
-[contribution guide](.github/CONTRIBUTING.md); do not create a separate
-per-package index. Font vendors, styles, and license costs are verified
-manually. Languages come from font coverage scans and must be sorted and unique.
-Preserve per-package notices, and exclude aggregate packages using the
-`isFontAggregate` flag supplied by the composition functions.
-
-License costs follow the project's `gpu` / `gcu` / `paid` convention. Use the
-full names `gratisPersonalUse` and `gratisCommercialUse` as field values for
-`gpu` (gratis personal use) and `gcu` (gratis commercial use), respectively: a
-license can be obtained at no charge for personal or commercial use. `paid`
-means a license must be purchased. `free` means no license fee. The `free` cost
-value and the license's `free` attribute describe separate dimensions; do not
-infer a cost category from the software-freedom classification.
-
-A cost category does not imply the same fee for every use case. For example,
-free personal screen display with separately paid printing remains
-`gratisPersonalUse`; do not classify a font as `paid` solely because some uses
-require payment. Likewise, `gratisCommercialUse` does not promise free licensing
-for every commercial use. Verify the permitted purposes, conditions, and
-separately charged uses against upstream terms, and record relevant restrictions
-and sources in `notices`. A free font download does not establish a free use
-license. Do not infer license costs from font scans.
-
-Styles are overlapping labels, not mutually exclusive categories. Preserve all
-verified styles in a package, including styles reached through variable axes.
-For example, Gothic faces normally use both `hei` and `sans`, while Song faces
-use `serif` and `song`. Use `rounded` for rounded typefaces, `handwritten` for
-handwriting, and `symbol` for icon, emoji, or dedicated symbol fonts.
-Calligraphic or decorative handwriting may also use `cal` or `art`; do not use
-either as a catch-all for handwriting. Prefer publisher descriptions, then
-inspect actual preview glyphs across relevant faces. Do not infer the whole
-package's style from its name or first face. Ask the maintainer when neither
-source resolves a classification; `unknown` must stand alone when evidence is
-insufficient.
-
-The required `displayName` is the publisher's family or product name, verified
-against its homepage or release documentation. Prefer the publisher's local name
-when available. Do not concatenate weight names or duplicate translated aliases.
-Preserve distinctions between separately packaged regions, families, and
-variable-font variants; a package containing multiple independent families must
-identify them. Maintain this name in the package rather than deriving it from
-font file names or the first face's full name.
-
-The optional boolean `embedding` takes precedence over `meta.redistributable`;
-when omitted, derive it from the latter, defaulting to false if that is also
-absent. Audit embedding font files in software, websites, or devices against the
-package's license and the publisher's original terms. Free commercial use,
-rendered output, or document-only embedding does not establish this permission.
-Do not mark permission as granted when it requires a separate purchase or
-application, or when the available terms do not establish it. A true value still
-requires compliance with applicable attribution, license, source availability,
-and font replacement conditions. Omit the field when the default is correct;
-record overrides and special conditions in package notices with source links.
-The public catalog contains the final boolean; the frontend must not infer it
-again. Open-source and proprietary categories use the license's explicit `free`
-value; missing information remains unknown.
-
-Use `tools/update-font-languages/` to scan and maintain language coverage.
-Preserve Fontconfig's languages and supplement Korean per face when all modern
-compatibility jamo U+3131–U+3163 and all 11,172 modern Hangul syllables
-U+AC00–U+D7A3 are present. Archaic jamo are not required for this supplement. Do
-not infer language support from family names or a few sample glyphs. Package
-coverage is the union of its faces; rescan when the font or rule changes.
-
-Scan every selected input successfully before preparing source replacements.
-Only explicit `--write` updates the language lists, preserving all other fields;
-`--check` reports stale records through a nonzero status. Reports containing
-local font paths are private maintenance output, not website assets.
-
-## Font Language Tool
-
-Accept complete overlay attributes such as `buttaiwanPackages.genkimin2-jp`, or
-paths to `package.nix` within the selected repository. Do not confuse `pname`
-with an attribute or accept the website's vendor.package identifiers. Resolve
-all selectors before scanning, deduplicate them, and reject unrelated paths.
-
-Preserve the language coverage rules above. Scan every selected package before
-preparing replacements. Only `--write` changes language lists; preserve all
-other source content. Check mode returns failure for stale metadata.
-
-Keep process arguments separate from source expressions, pass Nix inputs as data
-and preserve URL encoding for repository paths. Reports on stdout are JSON;
-diagnostics go to stderr. Loading modules must not scan or modify anything.
-
-User-facing maintenance instructions belong in `.github/CONTRIBUTING.md`.
-
-## Development Configuration
-
-Maintain configuration in `tools/dev-shells/default.nix`. `nix develop` creates
-Git-ignored links for `.bake.toml`, `.clang-format`, `.editorconfig`,
-`prek.toml`, and `treefmt.toml`. Edit the corresponding Nix definitions; do not
-edit or commit the generated files.
-
-C uses GNU style. The development environment provides clang-format with the GNU
-preset; use it as needed and inspect the diff. Without an explicit request, do
-not add it to treefmt, commit checks, or CI, and do not format unrelated source
-files.
-
-Handwritten `Makefile`, `GNUmakefile`, `makefile`, `*.mk`, and `Makefile.am`
-files have a maximum of 80 columns and must use actual tabs as recipe prefixes.
-The development environment provides mbake from the bake project. From the
-repository root, run `mbake format --config .bake.toml FILE`; add `--check` to
-check without changing files.
-
-The pinned mbake version neither wraps nor rejects overlong lines. Check line
-width with `editorconfig-checker -disable-indentation FILE`. Leave indentation
-checks to mbake so valid space-indented continuation lines are not mistaken for
-missing tabs. When wrapping lines manually, preserve Make and shell quoting and
-whitespace semantics. Do not format generated `Makefile.in` files or configured
-Makefiles.
+Handwritten Makefiles use real recipe tabs and at most 80 columns. From the
+root, run `mbake format --config .bake.toml FILE` (add `--check` to inspect
+only), then `editorconfig-checker -disable-indentation FILE` for line widths.
+The pinned mbake does not enforce width; preserve quoting and whitespace when
+wrapping. Do not format generated Makefiles.
 
 ## Commits
 
-When creating a commit, use [commit](.agents/skills/commit/SKILL.md), complete
-the required staged-change checks, and use a GNU-style commit message. See the
-[contribution guidelines](.github/CONTRIBUTING.md) for how to split changes into
-commits.
+Preserve unrelated local changes. Split commits by independent purpose,
+following the contribution guide. Before committing, use
+[commit](.agents/skills/commit/SKILL.md), review staged changes and complete its
+checks. Use English GNU-style subjects and file bullets. Do not claim checks
+that were not run.

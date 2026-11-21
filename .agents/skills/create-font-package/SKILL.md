@@ -95,12 +95,19 @@ otherwise follow the target's own documented equivalent workflow.
       narrower request and report the skipped integration.
 09. Validate narrowly:
     - run the target's configured Nix formatter on the changed files;
-    - build the new package through the overlay, using an impure expression when
-      the new file is not yet tracked by Git;
-    - evaluate `meta.license.shortName` and any important package attributes;
-    - inspect the built font files with `fc-scan`.
+    - register new files with Git before using a Git-backed flake; an impure
+      expression alone does not make untracked files visible to that flake;
+    - build the package through the overlay and inspect installed fonts and
+      required license files;
+    - run the target's metadata check and language maintenance tool in check
+      mode; build success does not validate passthru metadata or language lists;
+    - use the tool's explicit write mode when updating coverage, then review the
+      source diff. Keep private scan reports out of public artifacts.
 10. Check the generated website after package builds succeed:
-    - follow the target's website maintenance instructions;
+    - follow the target's website maintenance instructions, selecting only the
+      affected package attributes when supported; for this layout, use
+      `make -C site PACKAGES='<overlay attributes>'` in the website shell;
+    - adjust default filters to the selected font's language, style and license;
     - inspect the package entry, licensing information, language coverage, and
       all included font styles in the generated previews;
     - use the website's language samples, without adding per-package sample keys
