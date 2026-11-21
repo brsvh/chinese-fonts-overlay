@@ -331,31 +331,29 @@ in "
       (error "Use either --write or --check"))
     (let* ((sources (package-sources source-root))
            (identifiers (if all? (sort (map car sources) string<?)
-                            (resolve-packages selected sources))))
-      (unless (every (lambda (id) (assoc id sources)) identifiers)
-        (error "Unknown package" identifiers))
-      (let* ((packages (realize-packages source-root identifiers))
-             (coverage (map (lambda (package)
-                              (cons (jref package "id")
-                                    (scan-fonts (jref package "path"))))
-                            packages))
-             (changed
-              (filter (lambda (package)
-                        (not (equal? (jref package "languages")
-                                     (jref (jref coverage (jref package "id"))
-                                           "languages"))))
-                      packages))
-             (report `(("scanner" . ,(scanner-version))
-                       ("packages" . ,coverage)))
-             (output (option-ref options 'output #f)))
-        (when write?
-          (write-language-updates! changed coverage sources))
-        (if output
-            (write-json output report)
-            (begin (scm->json report) (newline)))
-        (if (and check? (pair? changed))
-            (begin
-              (format (current-error-port) "Outdated language coverage: ~a~%"
-                      (map (lambda (package) (jref package "id")) changed))
-              1)
-            0)))))
+                            (resolve-packages selected sources)))
+           (packages (realize-packages source-root identifiers))
+           (coverage (map (lambda (package)
+                            (cons (jref package "id")
+                                  (scan-fonts (jref package "path"))))
+                          packages))
+           (changed
+            (filter (lambda (package)
+                      (not (equal? (jref package "languages")
+                                   (jref (jref coverage (jref package "id"))
+                                         "languages"))))
+                    packages))
+           (report `(("scanner" . ,(scanner-version))
+                     ("packages" . ,coverage)))
+           (output (option-ref options 'output #f)))
+      (when write?
+        (write-language-updates! changed coverage sources))
+      (if output
+          (write-json output report)
+          (begin (scm->json report) (newline)))
+      (if (and check? (pair? changed))
+          (begin
+            (format (current-error-port) "Outdated language coverage: ~a~%"
+                    (map (lambda (package) (jref package "id")) changed))
+            1)
+          0))))
