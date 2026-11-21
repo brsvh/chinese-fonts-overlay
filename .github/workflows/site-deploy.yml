@@ -1,0 +1,128 @@
+name: Website publication
+
+on:
+  repository_dispatch:
+    types: [site-ready]
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Previously deployed site-REVISION-SHA256 basename
+        required: true
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: site-pages
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Validate website
+    if: github.repository == 'brsvh/chinese-fonts-overlay' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: read
+    outputs:
+      ready: ${{ steps.receive.outputs.ready }}
+      source: ${{ steps.receive.outputs.source }}
+      base: ${{ steps.receive.outputs.base }}
+      archive: ${{ steps.receive.outputs.archive }}
+      manifest: ${{ steps.receive.outputs.manifest }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31.11.1
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.34.8/install
+          extra_nix_config: |
+            accept-flake-config = false
+            experimental-features = nix-command flakes ca-derivations
+      - name: Authenticate and unpack website
+        id: receive
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          nix develop --no-update-lock-file --no-write-lock-file .#site-publish
+          -c guile --no-auto-compile -L site/module
+          site/scripts/deploy.scm receive public
+      - uses: actions/upload-pages-artifact@v4
+        if: steps.receive.outputs.ready == 'true'
+        with:
+          path: public
+          retention-days: 1
+
+  deploy:
+    name: Deploy website
+    needs: prepare
+    if: needs.prepare.outputs.ready == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+    outputs:
+      deployed: ${{ steps.current.outputs.ready }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31.11.1
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.34.8/install
+          extra_nix_config: |
+            accept-flake-config = false
+            experimental-features = nix-command flakes ca-derivations
+      - name: Check publication is still current
+        id: current
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SITE_SOURCE: ${{ needs.prepare.outputs.source }}
+        run: >-
+          nix develop --no-update-lock-file --no-write-lock-file .#site-publish
+          -c guile --no-auto-compile -L site/module
+          site/scripts/deploy.scm current "$SITE_SOURCE"
+      - uses: actions/deploy-pages@v4
+        id: pages
+        if: steps.current.outputs.ready == 'true'
+
+  record:
+    name: Retain website releases
+    needs: [prepare, deploy]
+    if: needs.deploy.outputs.deployed == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31.11.1
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.34.8/install
+          extra_nix_config: |
+            accept-flake-config = false
+            experimental-features = nix-command flakes ca-derivations
+      - name: Record success and retain recent deployments
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SITE_BASE: ${{ needs.prepare.outputs.base }}
+          SITE_ARCHIVE: ${{ needs.prepare.outputs.archive }}
+          SITE_MANIFEST: ${{ needs.prepare.outputs.manifest }}
+        run: >-
+          nix develop --no-update-lock-file --no-write-lock-file .#site-publish
+          -c guile --no-auto-compile -L site/module
+          site/scripts/deploy.scm record
+          "$SITE_BASE" "$SITE_ARCHIVE" "$SITE_MANIFEST"

@@ -54,6 +54,7 @@
       devShells = {
         site-publish = pkgs.mkShell {
           packages = with pkgs; [
+            curl
             guile
             guile-gcrypt
             guile-json

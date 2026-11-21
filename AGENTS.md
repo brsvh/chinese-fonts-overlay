@@ -51,6 +51,12 @@ been deployed and checked. Preserve the historical preview branches and the
 pre-migration `v0.2.0` tag. Do not discard Hercules cache receipts or pending
 cache publications when retiring preview state.
 
+Website builds use the private Hercules Effect mount and the existing Make
+targets. GitHub Pages receives validated release archives; it does not build
+fonts. Keep the Pages environment restricted to main and the `ci/site/**` tag
+namespace restricted to administrators and Hercules CI. Publication details live
+in `site/AGENTS.md`.
+
 ## Nix
 
 Before writing, editing, reviewing, or refactoring `.nix` files, use

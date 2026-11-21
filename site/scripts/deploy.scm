@@ -1,0 +1,16 @@
+(use-modules (chinese-fonts-overlay-site deployment)
+             (ice-9 match))
+
+(catch #t
+       (lambda ()
+         (match (cdr (command-line))
+           (("build" source) (site-build source))
+           (("upload" source) (site-upload source))
+           (("receive" destination) (receive-site destination))
+           (("current" source) (check-current source))
+           (("record" base archive manifest)
+            (record-deployment base (string->number archive) (string->number manifest)))
+           (_ (error "Expected build, upload, receive, current or record arguments"))))
+       (lambda (key . arguments)
+         (print-exception (current-error-port) #f key arguments)
+         (exit 1)))

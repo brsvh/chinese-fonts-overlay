@@ -104,6 +104,14 @@ guile -L site/module site/scripts/archive.scm unpack \
 此环境仅提供归档工具，不下载字体集合。收到的归档仍须来自可信发布流程；
 校验和本身不能证明发布者身份。
 
+主线网站由 Hercules CI 调用 Make 构建。预览缓存与构建文件留在私有目录，
+公开归档交接到 =site-artifacts= 预发布版本，再由 GitHub Actions 校验并
+发布到 Pages。字体构建和二进制缓存发布独立运行。
+
+发布流程保留当前及前两个成功发布的归档，尚未完成发布的产物不参与清理。
+需要回退时，在 Actions 中手动运行 =Website publication=，将 =release=
+填写为已成功发布的 =site-提交号-SHA256= 文件名前缀，不含扩展名。
+
 ** 语言名称与样文
 
 =data/language-names.json= 使用 Babel/CLDR 的简体中文名称，

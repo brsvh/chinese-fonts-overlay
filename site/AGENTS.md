@@ -96,6 +96,29 @@ site is not currently deployed. Without an explicit request, do not add
 deployment configuration or modify the separate CI preview sample table at
 `../tools/generate-font-preview-images/sample-keys.nix`.
 
+## CI Publication
+
+Hercules runs the ordinary Make build inside an Effect on the agent advertising
+`chinese-fonts-overlay-site`. The mount with that name appears at `/site-state`;
+it contains private rendering caches and staged archives, never public font
+closures. Disable remote builders and post-build hooks for these builds.
+
+The main-branch Effect queues a `ci/site/<revision>/<nonce>` tag before
+building. Its upload Effect runs in a later job with a fresh GitToken. Share the
+private mount and lock across both stages; publish only while the source is
+still main. Upload immutable source-and-digest names to the `site-artifacts`
+prerelease and send `site-ready` with the release and asset IDs. Never replace
+existing assets.
+
+The Pages workflow executes only trusted main-branch code. Validate repository,
+sender, uploader, asset IDs, manifest, archive and source revision before
+extraction. GitHub Actions receives only static output and never builds fonts.
+Grant Pages and OIDC write permissions only to the deployment job. Record a
+successful deployment before pruning; retain three distinct successful archives
+and all pending artifacts. Manual rollback requires a successful deployment
+receipt verified against its workflow run. Preserve the previous live website
+when preparation or deployment fails.
+
 ## Data Ownership
 
 Read package metadata from `passthru.chinese-fonts-overlay-site` using
