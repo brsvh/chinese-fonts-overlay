@@ -28,14 +28,17 @@
     (dynamic-wind
         (lambda () #t)
         (lambda ()
-          (let ((config (string-append temporary "/curl.conf")))
+          (let ((header (string-append temporary "/authorization")))
             (when token
-              (require-value (matches? "^[A-Za-z0-9_]+$" token)
+              ;; Tokens are opaque; validate only the single-line HTTP boundary.
+              (require-value (and (string? token) (not (string-null? token))
+                                  (string-every
+                                   (lambda (character)
+                                     (<= 33 (char->integer character) 126))
+                                   token))
                              "Invalid credential format")
-              (write-text config
-                          (string-append "header = \"Authorization: Bearer "
-                                         token "\"\n"))
-              (chmod config #o600))
+              (write-text header (string-append "Authorization: Bearer " token "\n"))
+              (chmod header #o600))
             (apply run
                    (append
                     (list "curl" "--disable" "--silent" "--show-error" "--fail"
@@ -45,7 +48,7 @@
                           "--output" destination "--request" method
                           "--header" "Accept: application/vnd.github+json"
                           "--header" "X-GitHub-Api-Version: 2022-11-28")
-                    (if token (list "--config" config) '())
+                    (if token (list "--header" (string-append "@" header)) '())
                     (if redirects? '("--location" "--max-redirs" "5") '())
                     (if file
                         (list "--header" (string-append "Content-Type: " content-type)

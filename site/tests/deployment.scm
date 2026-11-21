@@ -15,6 +15,8 @@
                          ("archive" . 11) ("manifest" . 12)))))
 (define assets '())
 (define paths '())
+(define request (module-ref (resolve-module '(chinese-fonts-overlay-site github))
+                            'github-request))
 
 (define (failure thunk)
   "Return a boundary error message, without accepting unrelated exceptions."
@@ -48,6 +50,37 @@
 (dynamic-wind
     (lambda () #t)
     (lambda ()
+      (let* ((utilities (resolve-module '(chinese-fonts-overlay-site util)))
+             (original-run (module-ref utilities 'run))
+             (token "ghs_123_eyJ.fixture-with_new.format")
+             (received #f)
+             (header-file #f))
+        (dynamic-wind
+            (lambda ()
+              (module-set!
+               utilities 'run
+               (lambda arguments
+                 (let ((header (find (lambda (argument)
+                                      (string-prefix? "@/" argument)) arguments))
+                       (output (cadr (member "--output" arguments))))
+                   (set! header-file (substring header 1))
+                   (set! received (read-text header-file))
+                   (unless (= #o600 (stat:perms (stat header-file)))
+                     (error "Credential file is not private"))
+                   (write-json output '(("ok" . #t)))))))
+            (lambda ()
+              (test-assert "Send an opaque installation token in a private header file"
+                           (and (jref (request token "/test") "ok")
+                                (equal? received
+                                        (string-append "Authorization: Bearer " token "\n"))
+                                (not (file-exists? header-file))))
+              (test-assert "Reject credential header injection before transfer"
+                           (every (lambda (invalid)
+                                    (string-contains
+                                     (failure (lambda () (request invalid "/test")))
+                                     "Invalid credential format"))
+                                  '("" "fixture\rInjected: yes" "fixture\nInjected: yes"))))
+            (lambda () (module-set! utilities 'run original-run))))
       (let ((public (string-append root "/input")))
         (mkdir public)
         (for-each (lambda (name) (write-text (string-append public "/" name) name))
