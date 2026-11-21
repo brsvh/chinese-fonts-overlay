@@ -27,9 +27,7 @@
           (loop (string-replace-substring
                  text
                  placeholder
-                 (if (string=? key "GUILE")
-                     value
-                     (object->string value)))
+                 (object->string value))
                 tail))))))
   (_
    (error "usage: substitute.scm INPUT OUTPUT KEY VALUE ...")))
