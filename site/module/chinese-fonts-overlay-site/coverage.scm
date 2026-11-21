@@ -7,6 +7,7 @@
   #:use-module (json)
   #:use-module (ice-9 format)
   #:use-module (srfi srfi-1)
+  #:use-module (web uri)
   #:export (scan-fonts replace-languages update-font-info))
 
 (define (language-tag? value)
@@ -137,33 +138,40 @@
            (substring block (match:end match))
            (substring tail (match:start end))))))))
 
-(define (package-expression root identifiers)
-  "Select IDENTIFIERS from ROOT with a Nix expression, without shell parsing."
-  (string-append
-   "let root = "
-   (scm->json-string root)
-   "; flake = builtins.getFlake "
-   (scm->json-string (string-append "git+file://" root))
-   "; "
-   "pkgs = import flake.inputs.nixpkgs { "
-   "config = { allowUnfree = true; }; "
-   "overlays = [ (import (root + \"/default.nix\")) ]; }; selected = [ "
-   (string-join
-    (map (lambda (id)
-           (let* ((dot (string-index id #\.))
-                  (vendor (substring id 0 dot))
-                  (name (substring id (+ dot 1))))
-             (string-append
-              "{ id = "
-              (scm->json-string id)
-              "; package = pkgs."
-              vendor
-              "Packages."
-              (scm->json-string name)
-              "; }")))
-         identifiers)
-    " ")
-   " ]; in "))
+(define (package-command root identifiers arguments result)
+  "Build a Nix command for RESULT, passing input paths and names as data."
+  (append
+   (list "env"
+         (string-append "FONT_SITE_SOURCE_ROOT=" root)
+         (string-append "FONT_SITE_SOURCE_FLAKE=git+file://"
+                        (string-join (map uri-encode (string-split root #\/))
+                                     "/"))
+         (string-append "FONT_SITE_IDENTIFIERS="
+                        (scm->json-string (list->vector identifiers)))
+         "nix")
+   arguments
+   (list
+    "--impure" "--expr"
+    (string-append
+     "let
+  root = builtins.getEnv \"FONT_SITE_SOURCE_ROOT\";
+  flake = builtins.getFlake (builtins.getEnv \"FONT_SITE_SOURCE_FLAKE\");
+  pkgs = import flake.inputs.nixpkgs {
+    config = { allowUnfree = true; };
+    overlays = [ (import (root + \"/default.nix\")) ];
+  };
+  inherit (pkgs.lib) concatStringsSep getAttrFromPath head splitString tail;
+  selected = map (id:
+    let parts = splitString \".\" id;
+    in {
+      inherit id;
+      package = getAttrFromPath [
+        (head parts + \"Packages\")
+        (concatStringsSep \".\" (tail parts))
+      ] pkgs;
+    }) (builtins.fromJSON (builtins.getEnv \"FONT_SITE_IDENTIFIERS\"));
+in "
+     result))))
 
 (define (scanner-version)
   "Capture the Fontconfig version reported on stderr."
@@ -193,27 +201,27 @@
 
 (define (realize-packages root identifiers)
   "Evaluate IDENTIFIERS in ROOT and build missing font outputs for scanning."
-  (let* ((expression (package-expression root identifiers))
-         (packages
+  (let* ((packages
           (jarray
            (json-string->scm
-            (capture "nix" "eval" "--impure" "--json" "--expr"
-                     (string-append
-                      expression
-                      "map (entry: { inherit (entry) id; "
-                      "path = toString entry.package; "
-                      "languages = "
-                      "entry.package.chinese-fonts-overlay-site.languages; "
-                      "}) selected")))))
+            (apply capture
+                   (package-command
+                    root identifiers '("eval" "--json")
+                    (string-append
+                     "map (entry: { inherit (entry) id; "
+                     "path = toString entry.package; "
+                     "languages = "
+                     "entry.package.chinese-fonts-overlay-site.languages; "
+                     "}) selected"))))))
          (missing (filter (lambda (package)
                             (not (file-exists? (jref package "path"))))
                           packages)))
     (unless (null? missing)
-      (run "nix" "build" "--impure" "--no-link" "--expr"
-           (string-append
-            (package-expression root (map (lambda (package) (jref package "id"))
-                                          missing))
-            "map (entry: entry.package) selected")))
+      (apply run
+             (package-command
+              root (map (lambda (package) (jref package "id")) missing)
+              '("build" "--no-link")
+              "map (entry: entry.package) selected")))
     packages))
 
 (define (write-language-updates! packages coverage sources)
