@@ -7,192 +7,80 @@
 字体预览网站用于查找字体、查看不同字重和款式，以及了解包名与许可信息。
 预览是固定样文的透明无损 WebP 图片，不支持在线输入文字试用。
 
-** 本地预览
+** 构建与预览
 
 在仓库根目录运行：
 
 #+begin_src sh
-nix run .#site
+nix develop .#site
+make -C site
+make -C site serve
 #+end_src
 
-运行后打开 [[http://127.0.0.1:8000/][本地预览]]。
-服务只监听本机，可用 =--port= 指定端口。
-首次生成需要下载、构建字体并绘制图片，耗时较长。
-受限字体还需按包的要求提供本地文件。修改代码或包信息后，重新运行并刷新页面。
+构建完成后打开 [[http://127.0.0.1:8000/][本地预览]]。
+首次构建需要准备字体并绘制预览，耗时较长；受限字体需按包的要求提供本地文件。
+修改代码或包信息后，再次运行 =make -C site=，然后刷新页面。
+
+网站生成在 =site/build/public/=，预览缓存放在 =site/.cache/=。
+再次构建会复用有效缓存；构建失败时，上一份完整网站仍会保留。
+服务器只读取已有网站，不触发构建，也不会修改字体包。
+
+可指定端口或查看其他输出目录：
 
 #+begin_src sh
-nix run .#site -- --port 8080
-nix run .#site -- --build
-nix run .#site -- --serve-only --output site/dist
-nix run .#site -- --help
+make -C site serve PORT=8080
+make -C site serve DIRECTORY=/path/to/public
 #+end_src
-
-=--build= 只生成静态文件，使用 =--serve-only= 可以直接查看已有结果。
-生成的文件放在 =site/dist/= 目录，缓存放在 =site/.cache/= 目录，
-分别用 =--output= 和 =--cache= 指定其他路径。
-再次生成时会复用有效缓存；如果生成失败，上一次完整结果会保留。
 
 默认筛选简体中文、无衬线体和开源许可，字库与费用全选，嵌入式使用不勾选。
 同一类别选中多项时，符合其中一项即可；不同类别的条件需要同时满足。
-点击重置可恢复默认筛选。筛选条件保存在 URL 中，可以分享链接，
-也可以用浏览器的前进、后退恢复。展开字体包可查看各款式；
-放大图片后，如果宽度超出页面，可以横向滚动查看。
+筛选状态保存在 URL 中，可分享链接或通过浏览器前进、后退恢复。
+预览放大后超出页面时，可以横向滚动。
 
 ** 开发与测试
 
-从仓库根目录进入开发环境，再创建独立的构建目录：
+在开发环境中运行：
 
 #+begin_src sh
-nix develop .#site
-cd site
-./bootstrap
-mkdir -p build
-cd build
-../configure
-make
-make check
+make -C site -j4 check
 #+end_src
 
-=make= 编译原生 C 工具、Hoot 浏览器程序和样式。
-=make check= 使用小型测试素材，不下载整个字体集合。
-改动构建系统后，还应运行 =make distcheck= 检查源码发行包，并检查暂存安装。
+测试使用小型素材，不下载整个字体集合。测试字体位于 =tests/fixtures/fonts/=，
+只包含自制三角形字形，按本项目 CC0 声明提供。它们用于检查字体处理，
+不用于比较字形外观。
 
-在同一构建目录中生成或预览网站：
+构建规则直接写在 =site/Makefile= 中。=module/= 和 =scripts/= 是 Guile
+生成与服务代码，=src/= 是原生字体工具，=web/= 是 Hoot 交互与样式，
+=data/= 保存语言名称和样文。字体包信息的维护见
+[[file:../.github/CONTRIBUTING.md][贡献指南]]，独立于网站构建。
+
+用 =BUILD_DIR= 可以将编译产物、测试日志和网站放到其他目录：
 
 #+begin_src sh
-make site
-make serve PORT=8080
+make -C site BUILD_DIR=/tmp/font-site
+make -C site serve BUILD_DIR=/tmp/font-site
 #+end_src
 
-这两个目标将网页和缓存分别写入构建目录下的 =public/= 和 =cache/= 目录，
-可用 =OUTPUT= 和 =CACHE= 指定其他路径。
-修改包信息后，重新进入开发环境以刷新输入。
+=make clean= 清理构建结果，保留预览缓存；=make clean-cache= 显式清理预览缓存。
+二者都在 =site/= 中运行，或加上 =-C site=。
 
-*** 代码位置
+*** 自行提供依赖
 
-- =module/chinese-fonts-overlay-site/= :: Guile 目录生成、渲染调度与本地服务。
-- =src/= :: C 字体解析、Pango/Cairo 绘制和 libwebp 编码。
-- =web/= :: Hoot 交互、浏览器接口和页面样式。
-- =data/= :: 语言名称与固定样文。
-- =tests/= :: 功能测试和测试素材。
-- =catalog.nix= 和 =previews.nix= :: 公开目录与私有字体输入。
+需要 GNU Make 4.3 或更新版本、Guile 3、guile-json、guile-gcrypt、Hoot、
+C 编译器、pkg-config、FreeType、Fontconfig、GLib 2.66 或更新版本、Pango、
+Cairo 和 libwebp。
+样式使用 Tailwind CSS 4.3.4 独立编译器与 daisyUI 5.7.39 插件。
 
-构建规则写在 =Makefile.am= 和 =configure.ac= 中，修改后运行 =./bootstrap= 更新。
-生成的配置脚本和 Makefile 不应直接修改。
-代码和格式约定见 [[file:../AGENTS.md][维护指引]]，贡献流程见
-[[file:../.github/CONTRIBUTING.md][贡献指南]]。
+用环境变量 =DAISYUI=、=DAISYUI_THEME= 指定插件，=UI_FONT_REGULAR=、
+=UI_FONT_MEDIUM= 指定仓耳渔阳体 W02、W03 原始 TTF，
+=UI_FONT_LICENSE= 指定授权声明 PDF。资源路径使用绝对路径。
 
-=tests/fixtures/= 中的字体只包含自制三角形字形，按本项目 CC0 声明提供。
-它们用于测试静态字体、可变字重、字体集合、英语和符号的处理，不用于比较字形外观。
-=tests/image-fixtures.c= 生成的图片也按 CC0 提供，用于验证 WebP 像素和格式。
+网站构建默认通过 Nix 准备字体和目录输入。已有输入时，可以同时指定
+=CATALOG= 和 =PREVIEWS= 两个 JSON 文件，跳过这一步；
+源码不在 Git 仓库中时，用 =SOURCE_REVISION= 指定完整提交号。
+=CC=、=CFLAGS=、=GUILE=、=HOOT= 和 =TAILWINDCSS= 可覆盖对应工具或参数。
 
-*** 不使用 Nix 构建
-
-需要 Guile 3、guile-json、guile-gcrypt、Hoot、C 编译器、pkg-config、
-FreeType、Fontconfig、GLib 2.66 或更新版本、Pango、Cairo 和 libwebp。
-样式使用 Tailwind CSS 4.3.4 独立编译器与 daisyUI 5.7.39 独立插件。
-配置前设置以下环境变量，资源路径使用绝对路径：
-
-- =TAILWINDCSS= :: Tailwind CSS 编译器。
-- =DAISYUI= 和 =DAISYUI_THEME= :: 同一版本的 daisyUI 插件和主题插件。
-- =UI_FONT_REGULAR= 和 =UI_FONT_MEDIUM= :: 仓耳渔阳体 W02、W03 原始 TTF。
-- =UI_FONT_LICENSE= :: 仓耳字库授权声明 PDF。
-
-源码发行包包含 =configure= 脚本，可在解压目录中执行：
-
-#+begin_src sh
-./configure --prefix=/usr
-make
-make check
-make DESTDIR="$PWD/staged" install
-#+end_src
-
-安装后使用 =chinese-fonts-overlay-site= 命令运行。
-生成网站还需提供 =CATALOG= 和 =PREVIEWS= JSON 输入；
-如果源码不在 Git 仓库中，用 =SOURCE_REVISION= 或 =--revision= 指定完整提交号。
-
-** 数据维护
-
-*** 字体包信息
-
-网站从各包的 =package.nix= 读取信息：
-
-- =meta.homepage= :: 上游主页，支持单个 URL 或 URL 列表。
-- =meta.license= :: 许可证名称和链接。
-- =meta.redistributable= :: 是否允许再分发字体文件。
-
-标记为 =passthru.isFontAggregate = true= 的聚合包不进入目录。
-
-网站专用字段放在 =passthru.chinese-fonts-overlay-site= 属性集中，
-可用分类和校验规则见 [[file:../lib/font-info.nix][字段定义]]：
-
-- =displayName= :: 发行方使用的家族或产品名称，优先采用其本地语言名称。
-  同一家族不拼接字重；分别打包的地区版、可变版和独立家族须保留区别。
-- =vendor= :: 已登记的字库或发行项目标识。
-- =styles= :: 人工核对的风格列表，排序且不重复，一款字体可以有多个分类。
-  例如黑体同时标记 =hei= 和 =sans= 两项。
-  优先依据上游说明，再检查各款式的预览；依据不足时请维护者判断。
-- =languages= :: 扫描得到的语言代码列表，排序且不重复。
-- =licenseCost= :: 获取字体使用许可的费用分类，可用值与适用范围见下文。
-- =embedding= :: 可选布尔值，表示是否允许在软件、网页或设备中嵌入字体文件。
-  未填写时采用 =meta.redistributable= 的值，两者都未填写时视为不允许。
-  手动填写的值优先于默认值。
-  依据上游协议核对，免费商用或仅限文档的嵌入许可不等同于此权限。
-  需要另外购买、申请或尚未明确授予的权限，不标为允许。
-- =notices= :: 可选注意事项列表。每条用 =level= 指定级别，
-  用 =text= 填写非空的纯文本，还可用 =url= 附上 HTTP(S) 来源链接。
-  级别可选 =note= / =tip= / =important= / =warning= / =caution= 五种。
-
-费用分类沿用项目的 =gpu= / =gcu= / =paid= 约定，
-网站字段值与这些标记的对应关系如下：
-
-| =licenseCost=         | 对应标记   | 含义                             |
-|-----------------------+------------+----------------------------------|
-| =free=                | 无单独标记 | 无许可费                         |
-| =gratisCommercialUse= | =gcu=      | 可为商业用途免费获取字体使用许可 |
-| =gratisPersonalUse=   | =gpu=      | 可为个人用途免费获取字体使用许可 |
-| =paid=                | =paid=     | 需要付费购买字体使用许可         |
-
-=gpu= 是 gratis personal use，=gcu= 是 gratis commercial use，
-=paid= 是 paid license。网站使用 =gpu= 和 =gcu= 的全称作为字段值。
-=licenseCost= 中的 =free= 表示无许可费；许可证的 =free= 属性表示自由软件属性。
-这两个维度分开判断，不以是否属于自由软件来代替费用分类。
-
-这些标记不表示所有使用场景的费用一致。
-例如，本地屏显可免费获取个人使用许可，但打印需要额外购买许可，
-仍归为 =gratisPersonalUse=；不能仅因某些场景收费就改为 =paid=。
-同样，=gratisCommercialUse= 不代表所有商业使用场景均免费。
-应按上游许可核对免费获取许可的用途、条件和另行收费的场景，
-将需要说明的限制与来源写入 =notices=。
-可免费下载字体文件不等于可免费获取使用许可，费用分类不能从字体扫描结果推断。
-
-嵌入许可的署名、源码或字体替换机制等条件仍须遵守，
-覆盖默认值的依据和特殊条件应在 =notices= 中说明。
-许可类别依据许可证的 =free= 属性；缺失时为“未知”。
-费用、嵌入权限和再分发权限需分别核对。
-
-*** 更新语言覆盖
-
-添加或更新字体文件后，在仓库根目录扫描目标包：
-
-#+begin_src sh
-nix develop .#site -c chinese-fonts-overlay-site update-font-info \
-  --package naver.maru-buri --write --output /tmp/maru-buri-coverage.json
-nix develop .#site -c chinese-fonts-overlay-site update-font-info \
-  --package naver.maru-buri --check --output /tmp/maru-buri-coverage.json
-#+end_src
-
-=--package= 可重复指定，使用 =--all= 可扫描全部包。
-省略 =--write= 和 =--check= 时只生成报告。
-=--write= 在扫描全部成功后更新语言列表。
-=--check= 用于检查已有记录，记录过期时返回非零状态。
-普通网站构建不改写包定义。报告含本地路径，不公开发布。
-
-Fontconfig 根据字符覆盖推断语言，不能保证塑形或地区字形正确。
-包的语言列表是全部款式的并集；每款预览只使用它实际支持的样文。
-升级 Fontconfig 后也应重新扫描并审查变化。
-
-*** 语言名称与样文
+** 语言名称与样文
 
 =data/language-names.json= 使用 Babel/CLDR 的简体中文名称，
 并补充历史语言与中文地区名称。CLDR 数据遵循

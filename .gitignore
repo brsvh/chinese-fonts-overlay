@@ -25,18 +25,19 @@
 # previews
 /font-preview-images
 
-# site
-/site/dist/
+# website and maintenance build outputs
 /site/.cache/
 /site/build/
 /tools/update-font-languages/build/
+
+# Local output from earlier builds
+/site/dist/
 /site/public/
 /site/cache/
 /site/autom4te.cache/
 /site/aclocal.m4
 /site/configure
 /site/configure~
-/site/Makefile
 /site/Makefile.in
 /site/build-aux/compile
 /site/build-aux/depcomp

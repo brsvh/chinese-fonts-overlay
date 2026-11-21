@@ -1,5 +1,5 @@
 (use-modules (chinese-fonts-overlay-site util)
-             (chinese-fonts-overlay-site command)
+             (chinese-fonts-overlay-site build)
              (chinese-fonts-overlay-site previews)
              (srfi srfi-1)
              (srfi srfi-64))
@@ -92,10 +92,14 @@
     (write-json inputs-file sources)
     (command-result
      (lambda ()
-       (main (list "--build" "--catalog" catalog-file "--previews" inputs-file
-                   "--source-root" temporary "--revision" commit
-                   "--cache" (string-append temporary "/cache")
-                   "--output" output))))))
+       (catch #t
+              (lambda ()
+                (build-site catalog-file inputs-file
+                            (string-append temporary "/cache") output commit)
+                0)
+              (lambda (key . args)
+                (print-exception (current-error-port) #f key args)
+                1))))))
 
 (define (published-files)
   "Return public relative paths and content digests in a stable order."

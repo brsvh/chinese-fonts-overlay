@@ -13,7 +13,9 @@ Chinese Fonts Overlay 提供中文字体的 Nix 包，也收录日文、韩文�
 在仓库根目录运行：
 
 #+begin_src sh
-nix run .#site
+nix develop .#site
+make -C site
+make -C site serve
 #+end_src
 
 运行后打开 [[http://127.0.0.1:8000/][本地预览]]。
@@ -74,7 +76,7 @@ nix.settings = {
 ** 参与维护
 
 添加字体、报告问题或提交修改，请参阅[[file:.github/CONTRIBUTING.md][贡献指南]]。
-网站的本地开发和数据维护见 [[file:site/README][网站说明]]。
+网站的本地构建和样文维护见 [[file:site/README][网站说明]]。
 
 ** 许可
 

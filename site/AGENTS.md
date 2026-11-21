@@ -8,27 +8,28 @@ take precedence over these conventions.
 
 ## Structure and Responsibilities
 
-The website belongs to the private `tools` flake. `default.nix` registers it in
-the root flake's `private.modules` and provides `apps.site`. Preserve argument
-forwarding through `nix run .#site -- ...`, including port selection and
-build-only mode. Before editing Nix, read
-[nix-coding](../.agents/skills/nix-coding/SKILL.md) and its style guide.
+The website uses one handwritten `Makefile`. Nix supplies the development shell,
+pinned tools, interface assets, and font inputs. There is no website app or
+server package. `make` builds the static website, `make check` runs small
+fixture tests, and `make serve` serves an existing public directory.
 
-| Location                                                 | Responsibility                                           |
-| -------------------------------------------------------- | -------------------------------------------------------- |
-| `bootstrap`, `configure.ac`, `Makefile.am`, `build-aux/` | Autotools entry points and build support                 |
-| `module/chinese-fonts-overlay-site/`, `scripts/`         | Native Guile modules and command entry points            |
-| `src/`                                                   | Native font parsing, rendering, and image validation     |
-| `web/`                                                   | Hoot Scheme, static HTML, and minimal browser interfaces |
-| `data/`                                                  | Verified language names and multilingual sample text     |
-| `tests/`                                                 | Functional tests and small redistributable fixtures      |
+| Location                                         | Responsibility                                                |
+| ------------------------------------------------ | ------------------------------------------------------------- |
+| `Makefile`, `build-aux/`                         | Build dependencies and small build helpers                    |
+| `scripts/`, `module/chinese-fonts-overlay-site/` | Guile build entry points, rendering orchestration and serving |
+| `src/`                                           | Native font inspection, rendering and image validation        |
+| `web/`                                           | Hoot interactions, static HTML and styles                     |
+| `data/`                                          | Verified language names and multilingual sample text          |
+| `tests/`, `../tests/fixtures/fonts/`             | Website tests and shared CC0 font fixtures                    |
 
-Use Guile for handwritten website automation, including bootstrap helpers,
-catalog generation, coverage scanning, rendering orchestration, local serving,
-and test drivers. Autoconf-generated shell code and short Make invocations are
-normal build support; do not move maintenance policy into shell, Python, or
-JavaScript to bypass the Guile implementation. Optional validation scripts in
-skill directories are not website source code.
+Use Guile for handwritten website automation. Keep dependency ordering in Make
+and transformations, validation and publication in Guile. Short Make recipes are
+normal build support; do not move maintenance policy into shell, Python or
+JavaScript. Loading a module must not start a build or server.
+
+All changes to `package.nix` belong to font-package maintenance outside this
+directory. The standalone `tools/update-font-languages/` tool owns language
+scanning and updates. Website builds, tests and serving never rewrite packages.
 
 ## Interface and Styling
 
@@ -46,48 +47,41 @@ dependencies separately by version and hash; do not update the lock file merely
 because an online example uses the latest version.
 
 The current dependencies are the Tailwind CSS 4.3.4 standalone compiler and the
-daisyUI 5.7.39 plugin package. Nix supplies dependencies, and Autotools compiles
-CSS; do not introduce a Node project or a runtime CDN. Use the standard Modus
+daisyUI 5.7.39 plugin package. Nix supplies dependencies, and Make compiles CSS;
+do not introduce a Node project or a runtime CDN. Use the standard Modus
 Operandi theme and TsangerYuYangT W02 and W03 for the interface font. New
 complete class names must be discoverable through the CSS entry point's explicit
 source scanning. Pass continuous preview dimensions through CSS variables. Keep
 filtering, URL state, and asynchronous loading policy in Hoot; browser
 interfaces provide only the necessary host operations.
 
-## Building, Installation, and Distribution
+## Building and Serving
 
-- `Makefile.am` follows the root guidelines' 80-column and tab rules. Explicitly
-  use the root `.bake.toml` with mbake. Its GNU Make validation does not replace
-  Automake checks. Do not format generated files.
-- Maintain `configure.ac` and `Makefile.am`, and regenerate configuration and
-  auxiliary files through bootstrap. configure/pkg-config checks dependencies in
-  the pinned environment. Nix wraps the same build rather than duplicating build
-  logic.
-- Support separate build directories and source directories that are read-only
-  after bootstrap. Write Wasm, runtime assets, binaries, logs, caches, and
-  website output to writable directories. Distinguish `srcdir` from the build
-  directory correctly; do not assume the caller is in `site/`.
-- Normal compilation and tests must not require downloading the entire font
-  collection. Full catalog generation explicitly consumes metadata and private
-  font inputs; small tests must not depend on the network.
-- Keep `make`, `make check`, website generation and serving, installation and
-  uninstallation, `clean`, `distclean`, and distribution targets working. Use
-  Automake's `foreign` mode. Documentation uses Chinese Org format, with the
-  mode declaration retained on the first line of `README`. Keep local operation,
-  build, and data-maintenance instructions in [README](README); do not restore
-  separate development documentation.
-- Do not add `AUTHORS`, `ChangeLog`, `COPYING`, `INSTALL`, or `NEWS` in this
-  directory. The repository's root license still applies. Source distributions
-  must build without Git or a generated change history.
-- Support `prefix` and `DESTDIR`. Installed commands must find their modules,
-  data, native tools, and matching Hoot resources without relying on a source
-  checkout or a recorded build directory. Accept an explicit source commit ID
-  when Git is unavailable. Help and version commands must not require font
-  inputs or a repository. Loading a module must not start a build or server.
-- After changing the build system, perform a build in a separate directory, the
-  relevant checks, a staged installation, and `make distcheck`. Successful Nix
-  evaluation does not replace actual execution. Report verification that failed
-  or could not be completed accurately.
+- Maintain `Makefile` directly, following the root 80-column and tab rules. Use
+  the root `.bake.toml` with mbake. Do not restore Autotools, installed website
+  commands or a second Nix build implementation.
+- The default target builds the complete website into `BUILD_DIR/public`. Keep
+  native compilation, browser assets, input preparation, preview rendering and
+  final publication separate. Reuse unchanged previews for page-only edits.
+- `make check` uses small licensed fixtures and must not fetch the font
+  collection. `make serve` only needs Guile and the selected public directory;
+  it never compiles assets, prepares inputs or rebuilds the website.
+- Support `BUILD_DIR` outside the source tree, with read-only sources and an
+  explicit `SOURCE_REVISION` when Git is unavailable. Keep intermediate files,
+  native binaries, test logs and public output beneath the build directory.
+- Preserve preview caches across `make clean`. `make clean-cache` explicitly
+  clears the renderer's owned cache entries. Never remove unrelated files or
+  treat the repository itself as a build or cache directory.
+- Refresh inputs from the current source tree when package definitions, locks,
+  catalog rules or the set of packages changes. Do not freeze metadata when
+  entering the development shell. Explicit `CATALOG` and `PREVIEWS` JSON inputs
+  support offline builds without Nix; both must be supplied together.
+- After build changes, exercise clean and incremental builds, parallel Make, an
+  independent build directory, small tests and real HTTP responses. Check
+  failure preservation and that serving does not trigger a build. There is no
+  installation or source-distribution contract; the deliverable is `public/`.
+- Keep user instructions in [README](README), in concise Chinese Org format. Do
+  not add separate development documentation or generated change histories.
 
 Use dependency versions from the current flake inputs; lock-file updates are a
 separate task. Local functionality takes priority over styling and CI. The
@@ -98,64 +92,16 @@ deployment configuration or modify the separate CI preview sample table at
 
 ## Data Ownership
 
-Maintain package information only in `package.nix` under
-`passthru.chinese-fonts-overlay-site`. Read the
-[actual schema](../lib/font-info.nix) and [maintenance instructions](README); do
-not create a separate per-package index. Font vendors, styles, and license costs
-are verified manually. Languages come from font coverage scans and must be
-sorted and unique. Preserve per-package notices, and exclude aggregate packages
-using the `isFontAggregate` flag supplied by the composition functions.
+Read package metadata from `passthru.chinese-fonts-overlay-site` using
+[the schema](../lib/font-info.nix). Package-maintenance rules belong to
+[root guidelines](../AGENTS.md) and the
+[contribution guide](../.github/CONTRIBUTING.md). Do not create another
+per-package index. Exclude packages marked `isFontAggregate`.
 
-License costs follow the project's `gpu` / `gcu` / `paid` convention. Use the
-full names `gratisPersonalUse` and `gratisCommercialUse` as field values for
-`gpu` (gratis personal use) and `gcu` (gratis commercial use), respectively: a
-license can be obtained at no charge for personal or commercial use. `paid`
-means a license must be purchased. `free` means no license fee. The `free` cost
-value and the license's `free` attribute describe separate dimensions; do not
-infer a cost category from the software-freedom classification.
-
-A cost category does not imply the same fee for every use case. For example,
-free personal screen display with separately paid printing remains
-`gratisPersonalUse`; do not classify a font as `paid` solely because some uses
-require payment. Likewise, `gratisCommercialUse` does not promise free licensing
-for every commercial use. Verify the permitted purposes, conditions, and
-separately charged uses against upstream terms, and record relevant restrictions
-and sources in `notices`. A free font download does not establish a free use
-license. Do not infer license costs from font scans.
-
-Styles are overlapping labels, not mutually exclusive categories. Preserve all
-verified styles in a package, including styles reached through variable axes.
-For example, Gothic faces normally use both `hei` and `sans`, while Song faces
-use `serif` and `song`. Use `rounded` for rounded typefaces, `handwritten` for
-handwriting, and `symbol` for icon, emoji, or dedicated symbol fonts.
-Calligraphic or decorative handwriting may also use `cal` or `art`; do not use
-either as a catch-all for handwriting. Prefer publisher descriptions, then
-inspect actual preview glyphs across relevant faces. Do not infer the whole
-package's style from its name or first face. Ask the maintainer when neither
-source resolves a classification; `unknown` must stand alone when evidence is
-insufficient.
-
-The required `displayName` is the publisher's family or product name, verified
-against its homepage or release documentation. Prefer the publisher's local name
-when available. Do not concatenate weight names or duplicate translated aliases.
-Preserve distinctions between separately packaged regions, families, and
-variable-font variants; a package containing multiple independent families must
-identify them. Maintain this name in the package rather than deriving it from
-font file names or the first face's full name.
-
-The optional boolean `embedding` takes precedence over `meta.redistributable`;
-when omitted, derive it from the latter, defaulting to false if that is also
-absent. Audit embedding font files in software, websites, or devices against the
-package's license and the publisher's original terms. Free commercial use,
-rendered output, or document-only embedding does not establish this permission.
-Do not mark permission as granted when it requires a separate purchase or
-application, or when the available terms do not establish it. A true value still
-requires compliance with applicable attribution, license, source availability,
-and font replacement conditions. Omit the field when the default is correct;
-record overrides and special conditions in package notices with source links.
-The public catalog contains the final boolean; the frontend must not infer it
-again. Open-source and proprietary categories use the license's explicit `free`
-value; missing information remains unknown.
+Resolve optional `embedding` against `meta.redistributable`, defaulting to false
+when both are absent. Publish the final boolean rather than inferring it in the
+frontend. License category comes from the license's explicit `free` value;
+missing information remains unknown. Preserve costs, notices and source links.
 
 Default filters are Simplified Chinese, sans-serif, all vendors, all costs, and
 open-source licenses. Font embedding is unchecked by default. Combine choices
@@ -164,17 +110,9 @@ means no matches. Reset restores these defaults. Select-all checkboxes include
 collapsed options and reflect partial selection. URL state and browser Back and
 Forward must restore the same selections.
 
-Normal website builds do not rewrite package definitions. An explicit coverage
-update first scans all selected inputs; only after success does it write the
-language lists, preserving other metadata. Check mode fails when recorded data
-is stale. Package language coverage is the union across its faces, but each
-preview must still use sample text actually supported by that face.
-
-Preserve Fontconfig's detected languages and supplement Korean per face when the
-actual charset covers modern compatibility jamo U+3131–U+3163 and all 11,172
-modern Hangul syllables U+AC00–U+D7A3. Archaic jamo are not required for this
-additional detection. Do not infer language support from family names or the
-presence of a few sample glyphs; rescan metadata when these rules change.
+Package language coverage is the union across its faces; each preview must still
+use sample text actually supported by that face. Language coverage maintenance
+and its detection rules belong to the standalone maintenance tool.
 
 Maintain language-to-sample mappings and Simplified Chinese language names in
 `data/`. Preserve the samples' actual languages, the Chinese regional naming
