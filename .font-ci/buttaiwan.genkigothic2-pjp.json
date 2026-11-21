@@ -1,5 +1,5 @@
 {
-  "buildKey": "0917d6d3a1291803561faa822961353acf0cd770f49b124916ba7f26010e4d32",
+  "buildKey": "718ef3eceb43191d5b2f8bc366a6a5907f250f36ab2632ee67c12f6e3df2057c",
   "images": [
     {
       "height": 83,
@@ -40,11 +40,11 @@
   ],
   "package": "buttaiwan.genkigothic2-pjp",
   "pname": "buttaiwan-genkigothic2-pjp",
-  "previewKey": "890a597d9d5f904288ac1e51c67210f04b3ffebd99d6b9aab8bc22269450d34c",
+  "previewKey": "1fa3e7586d5e91e87ef61ae60bf425d9068912bcc744bd6b43c22dc936c4f6e0",
   "schema": 1,
   "source": {
     "kind": "main",
-    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+    "rev": "fe6a8d462475686561c7dd236f2a33b9639031e3"
   },
   "vendor": "buttaiwan"
 }
