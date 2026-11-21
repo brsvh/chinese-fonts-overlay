@@ -80,6 +80,30 @@ Cairo 和 libwebp。
 源码不在 Git 仓库中时，用 =SOURCE_REVISION= 指定完整提交号。
 =CC=、=CFLAGS=、=GUILE=、=HOOT= 和 =TAILWINDCSS= 可覆盖对应工具或参数。
 
+** 发布归档
+
+构建完成后，可在网站开发环境中将现有输出打包：
+
+#+begin_src sh
+make -C site release SOURCE_REVISION="$(git rev-parse HEAD)"
+#+end_src
+
+归档和 JSON 校验清单放在 =site/build/release/=。该命令不重建网站，
+提交号必须与目录中的版本一致；再次打包时，用 =RELEASE_DIR= 指定新目录。
+归档只包含公开文件，并核对界面字体和授权声明的来源。
+
+接收归档时，使用校验清单解包到新目录：
+
+#+begin_src sh
+nix develop .#site-publish
+guile -L site/module site/scripts/archive.scm unpack \
+  /path/to/site.tar.gz /path/to/site.json /path/to/new-public
+#+end_src
+
+解包会核对文件大小、SHA-256 和提交号，拒绝路径越界、重复文件及链接。
+此环境仅提供归档工具，不下载字体集合。收到的归档仍须来自可信发布流程；
+校验和本身不能证明发布者身份。
+
 ** 语言名称与样文
 
 =data/language-names.json= 使用 Babel/CLDR 的简体中文名称，

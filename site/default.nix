@@ -52,6 +52,16 @@
     in
     {
       devShells = {
+        site-publish = pkgs.mkShell {
+          packages = with pkgs; [
+            guile
+            guile-gcrypt
+            guile-json
+            gnutar
+            gzip
+          ];
+        };
+
         site = pkgs.mkShell (
           interfaceAssets
           // {
@@ -69,9 +79,11 @@
               fontPkgs.fontconfig
               git
               gnumake
+              gnutar
               guile-gcrypt
               guile-hoot
               guile-json
+              gzip
               nix
               pkg-config
               tailwindcss_4

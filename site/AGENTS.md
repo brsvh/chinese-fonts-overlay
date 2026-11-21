@@ -66,6 +66,12 @@ interfaces provide only the necessary host operations.
 - `make check` uses small licensed fixtures and must not fetch the font
   collection. `make serve` only needs Guile and the selected public directory;
   it never compiles assets, prepares inputs or rebuilds the website.
+- `make release` packages existing public output without rebuilding it. Require
+  an explicit source revision matching the catalog and a new release directory.
+  Verify the two interface fonts and their license against the declared build
+  inputs. Release archives contain only regular files from the public allowlist,
+  remain below the Pages size limit and carry a SHA-256 manifest. Validate that
+  manifest and the archive before making extracted output available to deploy.
 - Support `BUILD_DIR` outside the source tree, with read-only sources and an
   explicit `SOURCE_REVISION` when Git is unavailable. Keep intermediate files,
   native binaries, test logs and public output beneath the build directory.

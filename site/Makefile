@@ -12,6 +12,7 @@ TAILWINDCSS ?= tailwindcss
 PKG_CONFIG ?= pkg-config
 CFLAGS ?= -O2 -g
 SOURCE_REVISION ?=
+RELEASE_DIR ?= $(BUILD_DIR)/release
 
 BUILD_DIR := $(abspath $(BUILD_DIR))
 CACHE_DIR := $(abspath $(CACHE_DIR))
@@ -35,7 +36,7 @@ SCHEME_ENV = FONT_SITE_DATA="$(SOURCE_DIR)/data" FONT_SITE_WEB="$(WEB)" \
 	FONT_SITE_INSPECTOR="$(BIN)/font-info" \
 	FONT_SITE_RENDERER="$(BIN)/render-font-samples"
 
-.PHONY: all check serve clean clean-cache inputs FORCE
+.PHONY: all check release serve clean clean-cache inputs FORCE
 
 all: $(NATIVE) $(ASSETS) inputs
 	$(SCHEME_ENV) $(SCHEME) "$(SOURCE_DIR)/scripts/build.scm" \
@@ -132,6 +133,13 @@ check: $(NATIVE) $(ASSETS) $(BIN)/image-fixtures | $(BUILD_DIR)/tests
 	  $(SCHEME) "$(SOURCE_DIR)/tests/publication.scm"
 	cd "$(BUILD_DIR)/tests" && \
 	  $(SCHEME) "$(SOURCE_DIR)/tests/server.scm"
+	cd "$(BUILD_DIR)/tests" && \
+	  $(SCHEME) "$(SOURCE_DIR)/tests/archive.scm"
+
+release:
+	$(SCHEME) "$(SOURCE_DIR)/scripts/archive.scm" pack \
+	  "$(abspath $(DIRECTORY))" "$(SOURCE_REVISION)" \
+	  "$(abspath $(RELEASE_DIR))"
 
 serve:
 	$(SCHEME) "$(SOURCE_DIR)/scripts/serve.scm" "$(DIRECTORY)" "$(PORT)"
