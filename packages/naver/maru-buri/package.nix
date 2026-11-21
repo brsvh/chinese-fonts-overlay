@@ -194,6 +194,7 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "serif"
+        "song"
       ];
 
       vendor = "naver";
