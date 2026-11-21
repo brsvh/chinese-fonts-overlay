@@ -49,7 +49,7 @@ jobs:
         run: >-
           nix develop --no-update-lock-file --no-write-lock-file .#ci
           -c node ci/site.mjs receiveSite public
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5.0.0
         if: steps.receive.outputs.ready == 'true'
         with:
           path: public
@@ -89,7 +89,7 @@ jobs:
         run: >-
           nix develop --no-update-lock-file --no-write-lock-file .#ci
           -c node ci/site.mjs checkSite "$SITE_SOURCE"
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5.0.1
         id: pages
         if: steps.current.outputs.ready == 'true'
 
