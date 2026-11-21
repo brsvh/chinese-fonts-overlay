@@ -1,6 +1,7 @@
 repository:
   name: chinese-fonts-overlay
   description: Chinese fonts collection for Nix/NixOS user.
+  homepage: https://brsvh.github.io/chinese-fonts-overlay/
   private: false
   topics: >-
     chinese-fonts, fonts, nix-flake, nix-overlays, nix-packages, nixos-flake
