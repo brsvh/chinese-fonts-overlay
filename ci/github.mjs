@@ -6,7 +6,6 @@ import { pipeline } from 'node:stream/promises';
 import {
   ApiError,
   bounded,
-  bytes,
   ensure,
   fetchResponse,
   fingerprint,

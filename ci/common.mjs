@@ -358,30 +358,27 @@ export function cacheRestrictions(current, baseline) {
   ].sort();
 }
 
-export function plan(base, current, receipts = {}, options = {}) {
+export function plan(base, current, receipts = {}) {
   ensure(
     base.policy === policy &&
       current.policy === policy &&
       base.system === current.system,
     'A matching evaluated baseline is required',
   );
-  const pending = new Set(options.pending ?? []);
   const tasks = [];
   const skipped = [];
 
   for (const name of Object.keys(current.packages).sort()) {
     const item = current.packages[name];
     const before = base.packages[name];
-    const changed = before?.buildKey !== item.buildKey || pending.has(name);
-
-    if (!changed) {
+    if (before?.buildKey === item.buildKey) {
       continue;
     }
 
-    if (item.windows || (options.main && !item.cacheable)) {
+    if (item.windows) {
       skipped.push({
         package: name,
-        reason: item.windows ? 'windows' : 'not-redistributable',
+        reason: 'windows',
       });
       continue;
     }
