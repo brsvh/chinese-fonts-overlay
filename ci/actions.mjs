@@ -9,7 +9,6 @@ import {
   digest,
   ensure,
   evaluate,
-  identifier,
   inventory,
   plan,
   policy,
@@ -20,7 +19,6 @@ import {
 import { output } from './github.mjs';
 import { planningState } from './receipts.mjs';
 import {
-  render,
   same,
   validateContext,
   validatePlan,
@@ -75,35 +73,13 @@ export function runContext(root, event, env = process.env) {
   });
 }
 
-export function previewRequests(root) {
-  const value = evaluate(root, 'preview-requests');
-  ensure(
-    value &&
-      typeof value === 'object' &&
-      !Array.isArray(value) &&
-      Object.keys(value).length <= 1024 &&
-      Object.entries(value).every(
-        ([name, token]) =>
-          identifier.test(name) &&
-          typeof token === 'string' &&
-          token.length > 0 &&
-          token.length <= 128,
-      ),
-    'Invalid preview repair requests',
-  );
-  return value;
-}
-
 function baselineInventory(root, directory, event) {
   const base = path.join(directory, 'base');
   ensure(!fs.existsSync(base), 'Use a fresh baseline directory');
   git(root, 'worktree', 'add', '--detach', base, event.pull_request.base.sha);
 
   try {
-    return {
-      ...inventory(base, false),
-      previewRequests: previewRequests(base),
-    };
+    return inventory(base);
   } finally {
     git(root, 'worktree', 'remove', '--force', base);
   }
@@ -119,12 +95,8 @@ export async function preparePlan(root, directory, event, api) {
   const number = event.number;
   const headRepository = event.pull_request.head.repo.full_name;
   const state = await planningState(api, number, headRepository, controller);
-  const requested = Object.entries(previewRequests(root))
-    .filter(([name, token]) => base.previewRequests[name] !== token)
-    .map(([name]) => name);
-  const options = { previewRequests: requested };
-  const required = plan(base, current, {}, options);
-  const selected = plan(base, current, state.receipts, options);
+  const required = plan(base, current);
+  const selected = plan(base, current, state.receipts);
   const packages = {};
 
   for (const task of required.tasks) {
@@ -232,7 +204,6 @@ export function buildShard(root, plan, shardId, directory, event) {
   };
   const roots = new Set();
   let failed = false;
-  let renderer;
   process.env.FONT_CI_CACHE_PATH = path.join(directory, 'cache');
 
   for (const name of shard.tasks) {
@@ -265,28 +236,6 @@ export function buildShard(root, plan, shardId, directory, event) {
       );
       receipt.buildSucceeded = true;
       realized.forEach((value) => roots.add(value));
-
-      if (expected.preview) {
-        renderer ??= evaluate(root, 'renderer', [], true)[0].outputs.out;
-        roots.add(renderer);
-        const generated = render(
-          renderer,
-          path.join(directory, 'rendered', name),
-          name,
-          item,
-          { kind: 'pr', ...context },
-        );
-        const target = path.join(artifacts, 'previews', name);
-
-        for (const [file, data] of Object.entries(generated.files)) {
-          const output = path.join(target, file);
-          fs.mkdirSync(path.dirname(output), { recursive: true });
-          fs.writeFileSync(output, data);
-        }
-
-        writeJson(path.join(target, 'manifest.json'), generated.manifest);
-        receipt.previewGenerated = true;
-      }
     } catch (error) {
       failed = true;
       console.error('Failed', name, error.message, error.details ?? '');
@@ -303,7 +252,7 @@ export function buildShard(root, plan, shardId, directory, event) {
 }
 
 export function previewManifest(root, names, output) {
-  const current = inventory(root);
+  const current = inventory(root, true);
   const requested = [...new Set(names.split(','))].sort();
   const selected = Object.entries(current.packages).filter(([, item]) =>
     requested.includes(item.pname),

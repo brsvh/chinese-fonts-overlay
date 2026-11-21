@@ -1,6 +1,6 @@
 import { parseArgs } from 'node:util';
 import { ensure, inventory, readJson, writeJson } from './common.mjs';
-import { GitHub, publishCommand } from './github.mjs';
+import { GitHub } from './github.mjs';
 import { validatePlan } from './previews.mjs';
 import { buildShard, preparePlan, previewManifest } from './actions.mjs';
 import { recordBuilds } from './receipts.mjs';
@@ -45,8 +45,6 @@ try {
     process.exitCode = ok ? 0 : 1;
   } else if (command === 'record-builds') {
     await recordBuilds();
-  } else if (['identify', 'publish', 'finalize'].includes(command)) {
-    await publishCommand(command);
   } else {
     throw new Error('Unknown command: ' + command);
   }

@@ -93,7 +93,7 @@ jobs:
             fonts-v2-${{ runner.os }}-${{ runner.arch }}-2.34.8-${{ matrix.cacheKey }}-
             fonts-v2-${{ runner.os }}-${{ runner.arch }}-2.34.8-
           paths: .ci-work/cache
-      - name: Build selected fonts and render new-font previews
+      - name: Build selected fonts
         env:
           SHARD: ${{ matrix.id }}
         run: |
@@ -106,14 +106,6 @@ jobs:
           name: font-receipts-${{ github.run_attempt }}-${{ matrix.id }}
           path: .ci-work/artifacts/receipts.json
           if-no-files-found: error
-          retention-days: 14
-      - name: Upload validated PNGs and preview manifests
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v7.0.2
-        with:
-          name: font-previews-${{ github.run_attempt }}-${{ matrix.id }}
-          path: .ci-work/artifacts/previews
-          if-no-files-found: ignore
           retention-days: 14
 
   result:

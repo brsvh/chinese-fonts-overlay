@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
 import {
   ApiError,
   applyPolicy,
@@ -15,7 +16,6 @@ import {
   parseJson,
   pathInfo,
   policy,
-  previewKeys,
   readJson,
   repository,
   request,
@@ -24,21 +24,10 @@ import {
   storePattern,
 } from './common.mjs';
 import { GitHub, Superseded } from './github.mjs';
-import {
-  expectedPreview,
-  formalBranch,
-  imagePath,
-  maxBundle,
-  maxImage,
-  maxImages,
-  packageName,
-  render,
-  same,
-  validateManifest,
-} from './previews.mjs';
+import { same } from './previews.mjs';
 
 const planKey = 'main-plan';
-const kinds = ['cache', 'preview'];
+const kinds = ['cache'];
 
 export class State {
   constructor(token, baseUrl, guard) {
@@ -218,166 +207,20 @@ export async function publishCache(outputs, denied, cache, netrc, guard) {
   await guard();
 }
 
-export function manifestPath(name) {
-  ensure(identifier.test(name), 'Invalid formal preview package');
-  return '.font-ci/' + name + '.json';
-}
-
-export async function ownership(api, entries, name) {
-  const entry = entries[manifestPath(name)];
-
-  if (!entry) {
-    return null;
-  }
-
-  const manifest = parseJson(await api.blob(entry, 1024 * 1024));
-  ensure(
-    manifest.package === name &&
-      typeof manifest.pname === 'string' &&
-      packageName.test(manifest.pname) &&
-      Array.isArray(manifest.images) &&
-      manifest.images.length > 0 &&
-      manifest.images.length <= maxImages,
-    'Invalid formal preview ownership',
-  );
-  const paths = manifest.images.map((image) =>
-    imagePath(image.path, name.split('.')[0], manifest.pname),
-  );
-  ensure(new Set(paths).size === paths.length, 'Duplicate owned image');
-  return { manifest, paths };
-}
-
-export async function formalBundle(api, entries, name, item) {
-  const owned = await ownership(api, entries, name);
-
-  if (!owned) {
-    return null;
-  }
-
-  const expected = expectedPreview(name, item);
-
-  const matching = Object.entries(expected).every(
-    ([key, value]) => owned.manifest[key] === value,
-  );
-
-  if (!matching || owned.manifest.source?.kind !== 'main') {
-    return null;
-  }
-
-  const files = {};
-  let total = 0;
-
-  for (const file of owned.paths) {
-    if (!entries[file]) {
-      return null;
-    }
-
-    const data = await api.blob(entries[file], maxImage);
-    total += data.length;
-    ensure(total <= maxBundle, 'Formal bundle is too large');
-    files[file] = data;
-  }
-
-  validateManifest(owned.manifest, files, expected);
-  return { manifest: owned.manifest, files };
-}
-
-export async function writeFormal(api, bundles, removed, guard) {
-  return api.updateImages(
-    formalBranch,
-    'Render main font previews',
-    async (entries) => {
-      const changes = {};
-      const owners = new Map();
-      const managed = {};
-
-      for (const file of Object.keys(entries)) {
-        const match = /^\.font-ci\/(.+)\.json$/.exec(file);
-
-        if (!match) {
-          continue;
-        }
-
-        const name = match[1];
-        const owned = await ownership(api, entries, name);
-        managed[name] = owned;
-
-        for (const image of owned.paths) {
-          ensure(!owners.has(image), 'Multiple image owners');
-          owners.set(image, name);
-        }
-      }
-
-      for (const name of new Set([...Object.keys(bundles), ...removed])) {
-        const old = managed[name]?.paths ?? [];
-        const result = bundles[name];
-
-        if (!result) {
-          for (const file of old) {
-            changes[file] = null;
-          }
-
-          if (managed[name]) {
-            changes[manifestPath(name)] = null;
-          }
-
-          continue;
-        }
-
-        const { manifest, files } = result;
-        validateManifest(manifest, files, { package: name });
-        ensure(manifest.source.kind === 'main', 'Formal source must be main');
-
-        for (const file of old.filter((file) => !Object.hasOwn(files, file))) {
-          changes[file] = null;
-        }
-
-        for (const [file, data] of Object.entries(files)) {
-          ensure(
-            !owners.has(file) || owners.get(file) === name,
-            'Cannot overwrite another package preview',
-          );
-          changes[file] = data;
-        }
-
-        changes[manifestPath(name)] = bytes(manifest);
-      }
-
-      return changes;
-    },
-    guard,
-  );
-}
-
 function eligible(item) {
   return item?.cacheable === true && item.windows === false;
 }
 
-export function candidates(baseline, inventory, pending, repairs, before) {
-  const result = { cache: new Set(), preview: new Set() };
-
-  for (const [name, item] of Object.entries(inventory.packages)) {
-    if (!eligible(item)) {
-      continue;
-    }
-
-    const old = baseline.packages[name];
-
-    if (old?.buildKey !== item.buildKey || pending.cache.includes(name)) {
-      result.cache.add(name);
-    }
-
-    if (
-      !old ||
-      old.previewKey !== item.previewKey ||
-      pending.preview.includes(name) ||
-      repairs[name] !== before[name]
-    ) {
-      result.preview.add(name);
-    }
-  }
-
-  return result;
+export function candidates(baseline, inventory, pending) {
+  return Object.entries(inventory.packages)
+    .filter(
+      ([name, item]) =>
+        eligible(item) &&
+        (baseline.packages[name]?.buildKey !== item.buildKey ||
+          pending.cache.includes(name)),
+    )
+    .map(([name]) => name)
+    .sort();
 }
 
 export async function schedule(api, state, metadata, inventory, bootstrap) {
@@ -399,112 +242,37 @@ export async function schedule(api, state, metadata, inventory, bootstrap) {
     ['ahead', 'identical'].includes(comparison.status),
     'Main baseline is not an ancestor',
   );
-  const repairs = metadata.previewRequests;
-
-  for (const name of Object.keys(repairs)) {
-    ensure(inventory.packages[name], 'Unknown preview repair package');
-  }
-
   const selected = candidates(
     baseline,
     inventory,
-    previous?.pending ?? { cache: [], preview: [] },
-    repairs,
-    previous?.previewRequests ?? {},
+    previous?.pending ?? { cache: [] },
   );
   const requests = {};
   const retired = [
     ...(previous?.retired ?? []),
     ...Object.values(previous?.requests ?? {}),
   ];
-  const { entries } = await api.branch(formalBranch);
-  const managed = Object.keys(entries)
-    .map((file) => /^\.font-ci\/(.+)\.json$/.exec(file)?.[1])
-    .filter(Boolean);
-  const removed = managed.filter((name) => !eligible(inventory.packages[name]));
-  const previewTargets = [
-    ...new Set([
-      ...(previous?.previewTargets ?? []),
-      ...managed,
-      ...selected.preview,
-    ]),
-  ].filter((name) => eligible(inventory.packages[name]));
+  const pending = { cache: [] };
 
-  for (const name of previewTargets) {
-    selected.preview.add(name);
-  }
-
-  const pending = { cache: [], preview: [] };
-
-  for (const kind of kinds) {
-    for (const name of [...selected[kind]].sort()) {
-      const item = inventory.packages[name];
-      const published = await state.get(publicationKey(kind, name));
-      const valid =
-        published?.schema === schema &&
-        published.policy === policy &&
-        published.package === name &&
-        published.buildKey === item.buildKey;
-      let complete = false;
-
-      if (kind === 'cache') {
-        complete =
-          valid &&
-          same(published.cache, metadata.cache) &&
-          (await rootsAvailable(Object.values(item.outputs), metadata.cache));
-      } else {
-        try {
-          complete = !!(await formalBundle(api, entries, name, item));
-        } catch (error) {
-          console.error('Preview needs repair:', name, error.message);
-        }
-
-        if (
-          complete &&
-          (!valid ||
-            published.previewKey !== item.previewKey ||
-            published.repair !== (repairs[name] ?? null))
-        ) {
-          await current(api, revision);
-          await state.put(publicationKey(kind, name), {
-            schema,
-            policy,
-            package: name,
-            rev: revision,
-            buildKey: item.buildKey,
-            previewKey: item.previewKey,
-            repair: repairs[name] ?? null,
-          });
-        }
-      }
-
-      if (complete) {
-        continue;
-      }
-
-      ensure(
-        kind !== 'preview' || item.sampleKey,
-        'Missing preview sample key: ' + name,
-      );
-      pending[kind].push(name);
-      requests[kind + ':' + name] = {
-        kind,
-        name,
-        rev: revision,
-        buildKey: item.buildKey,
-        previewKey: item.previewKey,
-        repair: repairs[name] ?? null,
-        tag:
-          'ci/package/' +
-          kind +
-          '/' +
-          name +
-          '/' +
-          revision +
-          '/' +
-          randomUUID(),
-      };
-    }
+  for (const name of selected) {
+    const item = inventory.packages[name];
+    const published = await state.get(publicationKey('cache', name));
+    const complete =
+      published?.schema === schema &&
+      published.policy === policy &&
+      published.package === name &&
+      published.buildKey === item.buildKey &&
+      same(published.cache, metadata.cache) &&
+      (await rootsAvailable(Object.values(item.outputs), metadata.cache));
+    if (complete) continue;
+    pending.cache.push(name);
+    requests['cache:' + name] = {
+      kind: 'cache',
+      name,
+      rev: revision,
+      buildKey: item.buildKey,
+      tag: 'ci/package/cache/' + name + '/' + revision + '/' + randomUUID(),
+    };
   }
 
   const observed = {
@@ -515,15 +283,9 @@ export async function schedule(api, state, metadata, inventory, bootstrap) {
     pending,
     requests,
     retired,
-    previewTargets,
-    previewRequests: repairs,
   };
   await current(api, revision);
   await state.put(planKey, observed);
-
-  if (removed.length) {
-    await writeFormal(api, {}, removed, () => current(api, revision));
-  }
 
   for (const trigger of retired) {
     await current(api, revision);
@@ -557,8 +319,7 @@ export async function verifyRequest(api, state, metadata, inventory) {
     !selected ||
     selected.tag !== metadata.tag ||
     selected.rev !== metadata.rev ||
-    selected.buildKey !== item.buildKey ||
-    selected.previewKey !== item.previewKey
+    selected.buildKey !== item.buildKey
   ) {
     throw new Superseded('This request was replaced or never scheduled');
   }
@@ -567,12 +328,7 @@ export async function verifyRequest(api, state, metadata, inventory) {
 }
 
 export async function publishPackage(api, state, metadata, inventory, secrets) {
-  const { item, selected } = await verifyRequest(
-    api,
-    state,
-    metadata,
-    inventory,
-  );
+  const { item } = await verifyRequest(api, state, metadata, inventory);
   const guard = () => verifyRequest(api, state, metadata, inventory);
   const record = {
     schema,
@@ -582,37 +338,15 @@ export async function publishPackage(api, state, metadata, inventory, secrets) {
     rev: metadata.rev,
   };
 
-  if (metadata.mode === 'cache') {
-    await publishCache(
-      Object.values(item.outputs),
-      inventory.forbiddenPaths,
-      metadata.cache,
-      secrets['public-cache']?.data.netrc,
-      guard,
-    );
-    record.cache = metadata.cache;
-  } else {
-    await guard();
-    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'main-preview-'));
-
-    try {
-      const result = render(metadata.renderer, directory, metadata.name, item, {
-        kind: 'main',
-        rev: metadata.rev,
-      });
-      await writeFormal(api, { [metadata.name]: result }, [], guard);
-      const { entries } = await api.branch(formalBranch);
-      ensure(
-        await formalBundle(api, entries, metadata.name, item),
-        'Published main preview is missing',
-      );
-    } finally {
-      fs.rmSync(directory, { recursive: true, force: true });
-    }
-
-    record.previewKey = item.previewKey;
-    record.repair = selected.repair;
-  }
+  ensure(metadata.mode === 'cache', 'Only audited font caches are published');
+  await publishCache(
+    Object.values(item.outputs),
+    inventory.forbiddenPaths,
+    metadata.cache,
+    secrets['public-cache']?.data.netrc,
+    guard,
+  );
+  record.cache = metadata.cache;
 
   await guard();
   await state.put(publicationKey(metadata.mode, metadata.name), record);
@@ -633,18 +367,12 @@ export async function run(metadata) {
     () => current(api, metadata.rev),
   );
   const raw = metadata.inventory;
-  const inventory = previewKeys(
-    applyPolicy(raw, derivationGraph(raw.packages)),
-    metadata.previewConfiguration,
-  );
+  const inventory = applyPolicy(raw, derivationGraph(raw.packages));
 
   try {
     if (metadata.mode === 'plan') {
       const base = metadata.bootstrap;
-      const bootstrap = previewKeys(
-        applyPolicy(base, derivationGraph(base.packages)),
-        metadata.previewConfiguration,
-      );
+      const bootstrap = applyPolicy(base, derivationGraph(base.packages));
       await schedule(api, state, metadata, inventory, bootstrap);
     } else {
       ensure(kinds.includes(metadata.mode), 'Unknown Hercules mode');
@@ -663,9 +391,14 @@ export async function run(metadata) {
   }
 }
 
-try {
-  await run(readJson(process.argv[2]));
-} catch (error) {
-  console.error(error.message);
-  process.exitCode = 1;
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(process.argv[1]).href
+) {
+  try {
+    await run(readJson(process.argv[2]));
+  } catch (error) {
+    console.error(error.message);
+    process.exitCode = 1;
+  }
 }

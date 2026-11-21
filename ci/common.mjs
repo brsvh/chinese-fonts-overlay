@@ -344,9 +344,13 @@ export function previewKeys(inventory, configuration) {
   return inventory;
 }
 
-export function inventory(root, withPreviews = true) {
+export function inventory(root, withPreviews = false) {
   const raw = evaluate(root, 'inventory');
   const audited = applyPolicy(raw, derivationGraph(raw.packages));
+  // Keep the receipt format readable by the trusted legacy consumer.
+  for (const item of Object.values(audited.packages)) {
+    item.previewKey = item.buildKey;
+  }
   return withPreviews
     ? previewKeys(audited, evaluate(root, 'preview-config'))
     : audited;
@@ -377,22 +381,16 @@ export function plan(base, current, receipts = {}, options = {}) {
       base.system === current.system,
     'A matching evaluated baseline is required',
   );
-  const requested = new Set(options.previewRequests ?? []);
   const pending = new Set(options.pending ?? []);
   const tasks = [];
   const skipped = [];
-
-  for (const name of requested) {
-    ensure(current.packages[name], 'Unknown preview repair package');
-  }
 
   for (const name of Object.keys(current.packages).sort()) {
     const item = current.packages[name];
     const before = base.packages[name];
     const changed = before?.buildKey !== item.buildKey || pending.has(name);
-    const needsPreview = !options.main && (!before || requested.has(name));
 
-    if (!changed && !needsPreview) {
+    if (!changed) {
       continue;
     }
 
@@ -409,24 +407,16 @@ export function plan(base, current, receipts = {}, options = {}) {
       receipt.policy === policy &&
       receipt.buildKey === item.buildKey &&
       receipt.buildSucceeded === true;
-    const shown =
-      built &&
-      receipt.previewKey === item.previewKey &&
-      receipt.previewPublished === true;
-    const render = needsPreview && !shown;
-    const build = (changed && !built) || render;
-
-    if (!build && !render) {
+    if (built) {
       continue;
     }
 
-    ensure(!render || item.sampleKey, 'Missing preview sample: ' + name);
     tasks.push({
       package: name,
       buildKey: item.buildKey,
       cacheable: item.cacheable,
-      build,
-      preview: render,
+      build: true,
+      preview: false,
       previewKey: item.previewKey,
     });
   }

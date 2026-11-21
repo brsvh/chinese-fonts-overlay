@@ -87,24 +87,6 @@ let
     url = "https://cache.bingshan.org";
   };
 
-  renderer = pkgs.callPackage (
-    projectRoot
-    + /tools/generate-font-preview-images/package.nix
-  ) { };
-
-  previewConfiguration = {
-    rendererDrvPath = builtins.unsafeDiscardStringContext renderer.drvPath;
-
-    requests = import ./default.nix {
-      mode = "requests";
-    };
-
-    samples = import (
-      projectRoot
-      + /tools/generate-font-preview-images/sample-keys.nix
-    );
-  };
-
   makeEffect =
     {
       mode,
@@ -121,21 +103,15 @@ let
               cache
               inventory
               mode
-              previewConfiguration
               repository
               rev
               ;
           }
           // optionalAttrs (mode == "plan") {
             inherit bootstrap;
-
-            previewRequests = previewConfiguration.requests;
           }
           // optionalAttrs (mode != "plan") {
             inherit name tag;
-          }
-          // optionalAttrs (mode == "preview") {
-            renderer = toString renderer;
           }
         )
       );
@@ -223,7 +199,7 @@ in
             nativeBuildInputs = [ pkgs.nodejs ];
           }
           ''
-            node --test ${./.}/receipts.test.mjs
+            node --test ${./.}/receipts.test.mjs ${./.}/builds.test.mjs
             touch "$out"
           '';
     };
@@ -249,7 +225,7 @@ in
           if tag == null then
             null
           else
-            match "ci/package/(cache|preview)/([a-z0-9_.+-]+)/([0-9a-f]{40})/([0-9a-f-]{36})" tag;
+            match "ci/package/(cache)/([a-z0-9_.+-]+)/([0-9a-f]{40})/([0-9a-f-]{36})" tag;
 
         mode = elemAt request 0;
         name = elemAt request 1;
