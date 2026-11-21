@@ -121,44 +121,20 @@ nix flake check --no-update-lock-file --no-write-lock-file --print-build-logs
 `nix flake check` 不替代单包构建。C 的 clang-format 和 Makefile 的 mbake 为按需工具， 具体约定见
 [维护指引](../AGENTS.md)。在 PR 中写明实际执行的检查和未完成的部分。
 
-## 预览与现有 CI
+## 网站与 CI
 
-网站目前尚未部署，预定地址为 <https://brsvh.github.io/chinese-fonts-overlay/>。
-字体效果在本地网站中检查；网站样文按语言维护，详见 [网站数据维护说明](../site/README)。
+在[字体预览网站](https://brsvh.github.io/chinese-fonts-overlay/)查看字体效果，
+修改字体后也可以在本地构建网站检查。样文按语言维护，构建和数据维护方法见 [网站说明](../site/README)。无需维护旧 PNG 样本表或向
+README 添加图片。
 
-现有 CI 仍独立生成按包的预览图。新增包时，继续在
-[`sample-keys.nix`](../tools/generate-font-preview-images/sample-keys.nix) 中按
-`pname` 选择样本，Windows 字体除外。不要把这张表当作网站的样文配置，也不需要将生成的图片链接复制到 README。
+PR 检查包括 `Flake checks` 和 `Package builds`。字体构建复用已验证的成功记录， Windows 字体不参与 PR
+自动构建。网站和语言维护工具的 Make 测试使用仓库内的 许可素材，不构建整个字体集合，也不改写字体包。
 
-已有包更新不会自动请求重绘 PR 预览。确需刷新时，在 `ci/default.nix` 的 `previewRequests`
-中添加或更换标记，并说明原因，例如：
+`Record font builds` 使用默认分支的代码核对工作流、PR、提交号和产物， 将成功记录写入
+`font-build-state`。保留旧预览分支中的有效记录；保护记录分支， 限制删除和强制推送，仅允许维护者及可信发布流程写入。
 
-```nix
-previewRequests = {
-  "lxgw.neo-zhisong" = "refresh-screen-preview";
-};
-```
-
-键使用 `<字库>.<包属性>`，值使用本次刷新对应的非空标记。需要本地检查旧预览工具时，可指定输出目录：
-
-```sh
-nix develop .#generator -c generate-font-preview-images \
-  --package-name lxgw-neo-zhisong --output-dir /tmp/font-previews
-```
-
-已有有效图片默认复用；确认要重绘时再加 `--override`。实际查看图片，确认有内容、横向排列且覆盖应有的款式。
-
-当前 PR 检查包括 `Flake checks`、`Package builds` 和 `Font previews`。
-构建和预览会复用输入未变的成功结果，Windows 字体不参与自动构建。 PR 预览评论来自现有图片发布流程；修改发布器时，要兼容仍运行于默认分支的版本。
-
-`Record font builds` 独立保存成功构建记录到 `font-build-state`，不依赖预览图片或评论 App。
-它只使用默认分支的代码，核对原始工作流、PR、提交号和产物后写入 JSON。 迁移期间仍读取旧预览分支中的有效记录；新消费者应先进入默认分支，再调整生产端。
-保护记录分支，限制删除和强制推送，并仅允许维护者及可信发布流程写入。
-
-`Flake checks` 还会运行网站和语言维护工具的 Make 测试。测试使用仓库内的许可素材， 不构建整个字体集合，也不改写字体包。
-
-主线 Hercules CI 仅向公开缓存发布明确允许再分发、且不属于 Windows 字体的包， 并将正式预览发布到
-`font-preview-images` 分支。PR 检查通过不代表主线发布已完成。 网站部署将另行接入，当前仍使用上述流程。
+主线 Hercules CI 独立构建字体并发布二进制缓存，只公开明确允许再分发且不属于 Windows 字体的包。网站也由 Hercules CI
+构建，私有缓存与字体文件留在构建主机， 仅将检查后的静态网站归档交给 GitHub Pages。网站发布失败不会撤回已成功的字体构建。
 
 ## 提交修改
 

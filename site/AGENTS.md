@@ -91,10 +91,9 @@ interfaces provide only the necessary host operations.
 
 Use dependency versions from the current flake inputs; lock-file updates are a
 separate task. Local functionality takes priority over styling and CI. The
-planned website URL is `https://brsvh.github.io/chinese-fonts-overlay/`; the
-site is not currently deployed. Without an explicit request, do not add
-deployment configuration or modify the separate CI preview sample table at
-`../tools/generate-font-preview-images/sample-keys.nix`.
+website URL is `https://brsvh.github.io/chinese-fonts-overlay/`. Do not change
+deployment configuration without an explicit request. Historical PNG preview
+branches and tooling are separate from the website build.
 
 ## CI Publication
 

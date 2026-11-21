@@ -34,9 +34,8 @@ The website presents font listings, previews, and license information; do not
 append per-package images to README files. Maintain contribution procedures in
 [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) and website operations in
 [site/README](site/README). Do not recreate `docs/` or separate copies of
-development documentation. The preview website URL is currently only planned; do
-not describe it as deployed. Do not change deployment workflows without an
-explicit request.
+development documentation. Keep website links current. Do not change deployment
+workflows without an explicit request.
 
 ## CI Maintenance
 
@@ -46,10 +45,10 @@ on `font-build-state`; the trusted default-branch consumer validates producer
 artifacts and never executes PR code. Land compatible consumers before changing
 producer formats. Preserve legacy preview receipts during the transition.
 
-Retire PNG generation and the preview App only after the replacement website has
-been deployed and checked. Preserve the historical preview branches and the
-pre-migration `v0.2.0` tag. Do not discard Hercules cache receipts or pending
-cache publications when retiring preview state.
+Preserve the historical preview branches and the pre-migration `v0.2.0` tag. Do
+not restore automatic PNG generation or the preview App. Keep legacy build
+receipts readable, and preserve Hercules cache receipts and pending cache
+publications when changing CI state.
 
 Website builds use the private Hercules Effect mount and the existing Make
 targets. GitHub Pages receives validated release archives; it does not build
