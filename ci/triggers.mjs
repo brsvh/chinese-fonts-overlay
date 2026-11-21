@@ -3,11 +3,9 @@ import { ensure, identifier } from './common.mjs';
 
 export function triggerInfo(tag) {
   const font =
-    /^ci\/package\/(cache|preview)\/([^/]+)\/([a-f0-9]{40})\/[a-f0-9-]{36}$/.exec(
-      tag,
-    );
-  ensure(font && identifier.test(font[2]), 'Invalid internal trigger');
-  return { kind: font[1], name: font[2], rev: font[3] };
+    /^ci\/package\/cache\/([^/]+)\/([a-f0-9]{40})\/[a-f0-9-]{36}$/.exec(tag);
+  ensure(font && identifier.test(font[1]), 'Invalid internal trigger');
+  return { kind: 'cache', name: font[1], rev: font[2] };
 }
 
 export function triggerKey(tag) {

@@ -17,12 +17,10 @@ let
     mapAttrs
     match
     optionalAttrs
-    optionals
     ;
 
   system = "x86_64-linux";
   repository = "brsvh/chinese-fonts-overlay";
-  bootstrapRev = "da90d47fa1a6f8fbfcc5795bc9351c98142f37ea";
 
   pkgs = import packageNixpkgs {
     inherit system;
@@ -55,33 +53,6 @@ let
     && !inventory.packages.${name}.windows
   ) packages;
 
-  bootstrapFlake = builtins.getFlake "git+https://github.com/brsvh/chinese-fonts-overlay.git?rev=${bootstrapRev}";
-
-  bootstrapPkgs =
-    import bootstrapFlake.inputs.nixpkgs
-      {
-        inherit system;
-
-        config = {
-          allowUnfree = true;
-        };
-
-        overlays = [
-          bootstrapFlake.overlays.default
-        ];
-      };
-
-  bootstrap = import ./default.nix {
-    mode = "inventory";
-    pkgs = bootstrapPkgs;
-    root = builtins.unsafeDiscardStringContext bootstrapFlake.outPath;
-  };
-
-  bootstrapPackages = mapAttrs (
-    _: info:
-    attrByPath info.attrPath null bootstrapPkgs
-  ) bootstrap.packages;
-
   cache = {
     publicKey = "cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=";
     url = "https://cache.bingshan.org";
@@ -102,16 +73,12 @@ let
             builtins.toJSON (
               {
                 inherit
-                  bootstrapRev
                   cache
                   inventory
                   action
                   repository
                   rev
                   ;
-              }
-              // optionalAttrs (action == "planFonts") {
-                inherit bootstrap;
               }
               // optionalAttrs (action != "planFonts") {
                 inherit name tag;
@@ -124,17 +91,10 @@ let
         pkgs.writeText
           "chinese-fonts-overlay-ci-derivations"
           (
-            concatMapStringsSep "\n"
-              (
-                package:
-                builtins.unsafeDiscardOutputDependency package.drvPath
-              )
-              (
-                attrValues packages
-                ++ optionals (action == "planFonts") (
-                  attrValues bootstrapPackages
-                )
-              )
+            concatMapStringsSep "\n" (
+              package:
+              builtins.unsafeDiscardOutputDependency package.drvPath
+            ) (attrValues packages)
           );
     in
     effects.mkEffect (

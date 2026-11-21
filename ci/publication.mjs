@@ -187,7 +187,7 @@ export function candidates(baseline, inventory, pending) {
     .sort();
 }
 
-export async function planFonts(api, state, metadata, inventory, bootstrap) {
+export async function planFonts(api, state, metadata, inventory) {
   const revision = metadata.rev;
   await current(api, revision);
   const previous = await state.get(planKey);
@@ -195,17 +195,16 @@ export async function planFonts(api, state, metadata, inventory, bootstrap) {
     !previous || (previous.schema === schema && previous.policy === policy),
     'Main state requires explicit migration',
   );
-  const baseline = previous?.inventory ?? bootstrap;
-  const comparison = await api.request(
-    '/compare/' +
-      (previous?.observedRev ?? metadata.bootstrapRev) +
-      '...' +
-      revision,
-  );
-  ensure(
-    ['ahead', 'identical'].includes(comparison.status),
-    'Main baseline is not an ancestor',
-  );
+  const baseline = previous?.inventory ?? { packages: {} };
+  if (previous) {
+    const comparison = await api.request(
+      '/compare/' + previous.observedRev + '...' + revision,
+    );
+    ensure(
+      ['ahead', 'identical'].includes(comparison.status),
+      'Main baseline is not an ancestor',
+    );
+  }
   const selected = candidates(
     baseline,
     inventory,
@@ -358,9 +357,7 @@ export async function run(metadata) {
 
   try {
     if (metadata.action === 'planFonts') {
-      const base = metadata.bootstrap;
-      const bootstrap = applyPolicy(base, derivationGraph(base.packages));
-      await planFonts(api, state, metadata, inventory, bootstrap);
+      await planFonts(api, state, metadata, inventory);
     } else {
       ensure(metadata.action === 'publishFont', 'Unknown Hercules action');
       await publishFont(api, state, metadata, inventory, secrets);
