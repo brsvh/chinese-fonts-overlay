@@ -13,6 +13,8 @@ PKG_CONFIG ?= pkg-config
 CFLAGS ?= -O2 -g
 SOURCE_REVISION ?=
 RELEASE_DIR ?= $(BUILD_DIR)/release
+PACKAGES ?=
+export PACKAGES
 
 override BUILD_DIR := $(abspath $(BUILD_DIR))
 override CACHE_DIR := $(abspath $(CACHE_DIR))
@@ -52,6 +54,9 @@ else ifeq ($(origin CATALOG),file)
 else ifeq ($(origin PREVIEWS),file)
 	$(error Set CATALOG and PREVIEWS together)
 else
+ifneq ($(strip $(PACKAGES)),)
+	$(error PACKAGES cannot be combined with CATALOG and PREVIEWS)
+endif
 	test -r "$(CATALOG)" && test -r "$(PREVIEWS)"
 endif
 

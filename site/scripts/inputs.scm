@@ -1,11 +1,16 @@
 (use-modules (chinese-fonts-overlay-site util)
              (ice-9 match)
+             (json)
              (srfi srfi-1)
+             (srfi srfi-13)
              (web uri))
 
 (define (prepare-inputs root destination)
   "Refresh catalog and private font inputs from ROOT when source content changes."
-  (let* ((paths (append-map
+  (let* ((selection (sort (delete-duplicates
+                          (string-tokenize (or (getenv "PACKAGES") "")))
+                         string<?))
+         (paths (append-map
                  (lambda (name) (files-under (string-append root "/" name)))
                  '("packages" "overlays" "lib")))
          (files (sort
@@ -18,7 +23,9 @@
                  string<?))
          (digest (text-digest
                   (object->string
-                   (map (lambda (file) (cons file (file-digest file))) files))))
+                   (cons selection
+                         (map (lambda (file) (cons file (file-digest file)))
+                              files)))))
          (stamp (string-append destination "/source.sha256"))
          (catalog (string-append destination "/catalog.json"))
          (previews (string-append destination "/fonts.json")))
@@ -31,6 +38,8 @@
               (string-trim-both
                (capture
                 "env" (string-append "FONT_SITE_SOURCE_ROOT=" root)
+                (string-append "FONT_SITE_PACKAGES="
+                               (scm->json-string (list->vector selection)))
                 (string-append "FONT_SITE_SOURCE_FLAKE=git+file://"
                                (string-join
                                 (map uri-encode (string-split root #\/)) "/"))
