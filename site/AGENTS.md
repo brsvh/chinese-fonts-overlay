@@ -23,9 +23,10 @@ fixture tests, and `make serve` serves an existing public directory.
 | `tests/`, `tests/fixtures/fonts/`                | Website tests and CC0 font fixtures                           |
 
 Use Guile for handwritten website automation. Keep dependency ordering in Make
-and transformations, validation and publication in Guile. Short Make recipes are
-normal build support; do not move maintenance policy into shell, Python or
-JavaScript. Loading a module must not start a build or server.
+and website transformations and artifact validation in Guile. CI scheduling,
+credentials and remote publication belong to `../ci/` and use JavaScript
+modules. Short Make recipes are normal build support. Loading a module must not
+start a build or server.
 
 All changes to `package.nix` belong to font-package maintenance outside this
 directory. The standalone `tools/update-font-languages/` tool owns language
@@ -97,26 +98,10 @@ branches remain archives; preview generation belongs to the website build.
 
 ## CI Publication
 
-Hercules runs the ordinary Make build inside an Effect on the agent advertising
-`chinese-fonts-overlay-site`. The mount with that name appears at `/site-state`;
-it contains private rendering caches and staged archives, never public font
-closures. Disable remote builders and post-build hooks for these builds.
-
-The main-branch Effect queues a `ci/site/<revision>/<nonce>` tag before
-building. Its upload Effect runs in a later job with a fresh GitToken. Share the
-private mount and lock across both stages; publish only while the source is
-still main. Upload immutable source-and-digest names to the `site-artifacts`
-prerelease and send `site-ready` with the release and asset IDs. Never replace
-existing assets.
-
-The Pages workflow executes only trusted main-branch code. Validate repository,
-sender, uploader, asset IDs, manifest, archive and source revision before
-extraction. GitHub Actions receives only static output and never builds fonts.
-Grant Pages and OIDC write permissions only to the deployment job. Record a
-successful deployment before pruning; retain three distinct successful archives
-and all pending artifacts. Manual rollback requires a successful deployment
-receipt verified against its workflow run. Preserve the previous live website
-when preparation or deployment fails.
+CI calls the existing Make targets and the archive command interface. Keep
+platform-independent packaging and validation here; maintain Hercules and GitHub
+publication rules in the root `AGENTS.md` and their implementation in `../ci/`.
+Website modules must not handle hosting credentials or remote state.
 
 ## Data Ownership
 

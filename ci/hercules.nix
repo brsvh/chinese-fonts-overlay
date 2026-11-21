@@ -181,7 +181,7 @@ let
 
   makeSiteEffect =
     args:
-    import (projectRoot + /site/hercules.nix) (
+    import ./site.nix (
       {
         inherit inputs;
         root = projectRoot;

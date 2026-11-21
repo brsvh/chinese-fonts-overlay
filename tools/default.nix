@@ -74,6 +74,18 @@ in
       };
 
       devShells = {
+        ci = pkgs.mkShell {
+          packages = with pkgs; [
+            git
+            guile
+            guile-gcrypt
+            guile-json
+            gnutar
+            gzip
+            nix
+            nodejs
+          ];
+        };
         default =
           import
             (projectRoot + /tools/dev-shells/default.nix)

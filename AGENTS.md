@@ -57,8 +57,30 @@ when changing CI state.
 Website builds use the private Hercules Effect mount and the existing Make
 targets. GitHub Pages receives validated release archives; it does not build
 fonts. Keep the Pages environment restricted to main and the `ci/site/**` tag
-namespace restricted to administrators and Hercules CI. Publication details live
-in `site/AGENTS.md`.
+namespace restricted to administrators and Hercules CI. Publication control
+lives in `ci/` as JavaScript modules. Website generation and
+platform-independent archive validation remain in `site/` using Guile.
+
+Hercules runs the ordinary Make build inside an Effect on the agent advertising
+`chinese-fonts-overlay-site`. The mount with that name appears at `/site-state`;
+it contains private rendering caches and staged archives, never public font
+closures. Disable remote builders and post-build hooks for these builds.
+
+The main-branch Effect queues a `ci/site/<revision>/<nonce>` tag before
+building. Its upload Effect runs in a later job with a fresh GitToken. Share the
+private mount and lock across both stages; publish only while the source is
+still main. Upload immutable source-and-digest names to the `site-artifacts`
+prerelease and send `site-ready` with the release and asset IDs. Never replace
+existing assets.
+
+The Pages workflow executes only trusted main-branch code. Validate repository,
+sender, uploader, asset IDs, manifest, archive and source revision before
+extraction. GitHub Actions receives only static output and never builds fonts.
+Grant Pages and OIDC write permissions only to the deployment job. Record a
+successful deployment before pruning; retain three distinct successful archives
+and all pending artifacts. Manual rollback requires a successful deployment
+receipt verified against its workflow run. Preserve the previous live website
+when preparation or deployment fails.
 
 ## Nix
 

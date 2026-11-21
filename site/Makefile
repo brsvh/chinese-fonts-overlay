@@ -135,8 +135,6 @@ check: $(NATIVE) $(ASSETS) $(BIN)/image-fixtures | $(BUILD_DIR)/tests
 	  $(SCHEME) "$(SOURCE_DIR)/tests/server.scm"
 	cd "$(BUILD_DIR)/tests" && \
 	  $(SCHEME) "$(SOURCE_DIR)/tests/archive.scm"
-	cd "$(BUILD_DIR)/tests" && \
-	  $(SCHEME) "$(SOURCE_DIR)/tests/deployment.scm"
 
 release:
 	$(SCHEME) "$(SOURCE_DIR)/scripts/archive.scm" pack \

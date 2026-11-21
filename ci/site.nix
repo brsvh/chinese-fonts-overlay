@@ -27,12 +27,10 @@ effects.mkEffect {
     set -euo pipefail
     umask 077
     flock /site-state/site.lock \
-      guile --no-auto-compile -L ${root}/site/module \
-      ${root}/site/scripts/deploy.scm ${mode} ${rev}
+      node ${root}/ci/site.mjs ${mode} ${rev}
   '';
 
   inputs = with pkgs; [
-    curl
     git
     gnutar
     guile
@@ -40,6 +38,7 @@ effects.mkEffect {
     guile-json
     gzip
     nix
+    nodejs
     util-linux
   ];
 

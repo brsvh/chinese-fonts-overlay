@@ -52,17 +52,6 @@
     in
     {
       devShells = {
-        site-publish = pkgs.mkShell {
-          packages = with pkgs; [
-            curl
-            guile
-            guile-gcrypt
-            guile-json
-            gnutar
-            gzip
-          ];
-        };
-
         site = pkgs.mkShell (
           interfaceAssets
           // {
