@@ -1,4 +1,5 @@
 {
+  flakeUrl ? root,
   mode ? "runtime",
   pkgs ? null,
   root ? null,
@@ -7,7 +8,7 @@
 }:
 let
   projectRoot = /. + root;
-  flake = builtins.getFlake root;
+  flake = builtins.getFlake flakeUrl;
 
   fontPkgs =
     if pkgs != null then

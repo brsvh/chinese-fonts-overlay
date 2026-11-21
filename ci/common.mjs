@@ -161,6 +161,7 @@ export function evaluate(root, mode, selection = [], build = false) {
         ...process.env,
         FONT_CI_EVALUATOR: evaluator,
         FONT_CI_ARGUMENTS: JSON.stringify({
+          flakeUrl: 'git+' + pathToFileURL(path.resolve(root)).href,
           root: path.resolve(root),
           mode,
           selection,
