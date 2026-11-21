@@ -20,7 +20,7 @@ fixture tests, and `make serve` serves an existing public directory.
 | `src/`                                           | Native font inspection, rendering and image validation        |
 | `web/`                                           | Hoot interactions, static HTML and styles                     |
 | `data/`                                          | Verified language names and multilingual sample text          |
-| `tests/`, `../tests/fixtures/fonts/`             | Website tests and shared CC0 font fixtures                    |
+| `tests/`, `tests/fixtures/fonts/`                | Website tests and CC0 font fixtures                           |
 
 Use Guile for handwritten website automation. Keep dependency ordering in Make
 and transformations, validation and publication in Guile. Short Make recipes are

@@ -72,8 +72,7 @@ nix run .#update-font-languages -- packages/naver/maru-buri/package.nix --write
 工具先完成全部扫描，再更新需要修改的语言列表；其他字段保持不变。 `--check` 在记录过期时返回非零状态。Fontconfig
 根据字符覆盖推断语言，不能保证塑形或地区字形正确。 韩语识别补充检查完整的现代韩文字母和音节，不要求古韩文字母。字体或检测规则变化后，应重新扫描。
 
-通用开发环境提供 `chinese-fonts-overlay-update-font-languages` 命令。 修改维护工具后，运行
-`make -C tools/update-font-languages check`。
+通用开发环境提供 `chinese-fonts-overlay-update-font-languages` 命令。
 
 ## 本地验证
 
@@ -108,6 +107,7 @@ nix build --impure --expr '
 - 包定义：构建受影响的包，检查安装内容和预览；字体变化后重新扫描语言覆盖。
 - 网站：按 [site/README](../site/README) 构建并运行功能测试，界面变化还需在浏览器中检查。
 - Nix 或开发工具：运行格式检查及相关求值检查。
+- 维护工具和 CI：通过实际运行验证，不另行维护测试套件。
 - 纯文档：检查示例、链接和排版，无需构建整个字体集合。
 
 常用检查命令：
@@ -128,7 +128,7 @@ nix flake check --no-update-lock-file --no-write-lock-file --print-build-logs
 README 添加图片。
 
 PR 检查包括 `Flake checks` 和 `Package builds`。字体构建复用已验证的成功记录， Windows 字体不参与 PR
-自动构建。网站和语言维护工具的 Make 测试使用仓库内的 许可素材，不构建整个字体集合，也不改写字体包。
+自动构建。网站测试使用仓库内的许可素材，不构建整个字体集合，也不改写字体包。
 
 `Record font builds` 使用默认分支的代码核对工作流、PR、提交号和产物， 将成功记录写入
 `font-build-state`。保留旧预览分支中的有效记录；保护记录分支， 限制删除和强制推送，仅允许维护者及可信发布流程写入。

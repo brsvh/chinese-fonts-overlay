@@ -190,20 +190,6 @@ let
     );
 in
 {
-  perSystem =
-    { pkgs, ... }:
-    {
-      checks.font-ci =
-        pkgs.runCommand "font-ci-tests"
-          {
-            nativeBuildInputs = [ pkgs.nodejs ];
-          }
-          ''
-            node --test ${./.}/receipts.test.mjs ${./.}/builds.test.mjs
-            touch "$out"
-          '';
-    };
-
   flake = {
     herculesCI =
       {

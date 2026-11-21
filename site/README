@@ -45,9 +45,9 @@ make -C site serve DIRECTORY=/path/to/public
 make -C site -j4 check
 #+end_src
 
-测试使用小型素材，不下载整个字体集合。测试字体位于 =tests/fixtures/fonts/=，
-只包含自制三角形字形，按本项目 CC0 声明提供。它们用于检查字体处理，
-不用于比较字形外观。
+测试使用小型素材，不下载整个字体集合。字体位于
+=site/tests/fixtures/fonts/=，按本项目 CC0 声明提供。它们只包含自制
+三角形字形，用于检查字体处理，不用于比较字形外观。
 
 构建规则直接写在 =site/Makefile= 中。=module/= 和 =scripts/= 是 Guile
 生成与服务代码，=src/= 是原生字体工具，=web/= 是 Hoot 交互与样式，

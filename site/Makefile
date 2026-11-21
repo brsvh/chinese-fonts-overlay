@@ -129,7 +129,7 @@ $(WEB)/tsanger-license.pdf: $(UI_FONT_LICENSE) \
 check: $(NATIVE) $(ASSETS) $(BIN)/image-fixtures | $(BUILD_DIR)/tests
 	cd "$(BUILD_DIR)/tests" && $(SCHEME_ENV) \
 	  FONT_SITE_IMAGE_FIXTURES="$(BIN)/image-fixtures" \
-	  FONT_SITE_FIXTURES="$(SOURCE_DIR)/../tests/fixtures/fonts" \
+	  FONT_SITE_FIXTURES="$(SOURCE_DIR)/tests/fixtures/fonts" \
 	  $(SCHEME) "$(SOURCE_DIR)/tests/publication.scm"
 	cd "$(BUILD_DIR)/tests" && \
 	  $(SCHEME) "$(SOURCE_DIR)/tests/server.scm"

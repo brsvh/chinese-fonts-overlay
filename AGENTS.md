@@ -39,6 +39,10 @@ workflows without an explicit request.
 
 ## CI Maintenance
 
+Validate maintenance tools and CI through actual use. Do not add or maintain
+separate test suites for them. Keep source-format and Nix evaluation checks,
+runtime validation, and the website's own functional tests.
+
 Keep PR and mainline font builds and their audited binary-cache publication
 independent of website publication. Successful PR build receipts are JSON data
 on `font-build-state`; the trusted default-branch consumer validates producer
@@ -166,9 +170,6 @@ Keep process arguments separate from source expressions, pass Nix inputs as data
 and preserve URL encoding for repository paths. Reports on stdout are JSON;
 diagnostics go to stderr. Loading modules must not scan or modify anything.
 
-Run `make -C tools/update-font-languages check` in the root development shell.
-Use the shared CC0 fonts in `tests/fixtures/fonts/`; validate real package scans
-when changing Nix selection and use a temporary checkout for write checks.
 User-facing maintenance instructions belong in `.github/CONTRIBUTING.md`.
 
 ## Development Configuration

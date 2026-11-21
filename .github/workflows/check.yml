@@ -32,9 +32,7 @@ jobs:
             extra-trusted-public-keys = cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
       - name: Check source formatting
         run: nix fmt --no-update-lock-file --no-write-lock-file -- --fail-on-change
-      - name: Evaluate flake and run CI contract tests
+      - name: Evaluate flake
         run: nix flake check --no-update-lock-file --no-write-lock-file --print-build-logs
       - name: Check website with licensed fixtures
         run: nix develop --no-update-lock-file --no-write-lock-file .#site -c make -C site -j2 check
-      - name: Check font language maintenance
-        run: nix develop --no-update-lock-file --no-write-lock-file -c make -C tools/update-font-languages check
