@@ -41,7 +41,8 @@ import {
 
 const apiRoot = 'https://api.github.com/repos/' + repository;
 const maxJson = 16 * 1024 * 1024;
-const imageBranches = [temporaryBranch, formalBranch];
+export const buildStateBranch = 'font-build-state';
+const imageBranches = [temporaryBranch, formalBranch, buildStateBranch];
 
 export function blobSha(data) {
   return createHash('sha1')
@@ -502,7 +503,7 @@ export async function artifactFiles(api, artifacts, name, optional = false) {
   return unzip(data);
 }
 
-export async function consume(api, run, pull) {
+export async function consume(api, run, pull, { previews = true } = {}) {
   const artifacts = await api.pages(
     '/actions/runs/' + run.id + '/artifacts',
     'artifacts',
@@ -561,6 +562,10 @@ export async function consume(api, run, pull) {
         plan,
         shard,
       );
+      if (!previews) {
+        Object.assign(records, value.packages);
+        continue;
+      }
       const files = await artifactFiles(
         api,
         artifacts,

@@ -3,6 +3,7 @@ import { ensure, inventory, readJson, writeJson } from './common.mjs';
 import { GitHub, publishCommand } from './github.mjs';
 import { validatePlan } from './previews.mjs';
 import { buildShard, preparePlan, previewManifest } from './actions.mjs';
+import { recordBuilds } from './receipts.mjs';
 
 const { values, positionals } = parseArgs({
   allowPositionals: true,
@@ -42,6 +43,8 @@ try {
       readJson(process.env.GITHUB_EVENT_PATH),
     );
     process.exitCode = ok ? 0 : 1;
+  } else if (command === 'record-builds') {
+    await recordBuilds();
   } else if (['identify', 'publish', 'finalize'].includes(command)) {
     await publishCommand(command);
   } else {

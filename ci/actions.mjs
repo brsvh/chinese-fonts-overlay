@@ -17,7 +17,8 @@ import {
   schema,
   writeJson,
 } from './common.mjs';
-import { output, readState } from './github.mjs';
+import { output } from './github.mjs';
+import { planningState } from './receipts.mjs';
 import {
   render,
   same,
@@ -117,7 +118,7 @@ export async function preparePlan(root, directory, event, api) {
   const controller = controllerDigest(root);
   const number = event.number;
   const headRepository = event.pull_request.head.repo.full_name;
-  const state = await readState(api, number, headRepository, controller);
+  const state = await planningState(api, number, headRepository, controller);
   const requested = Object.entries(previewRequests(root))
     .filter(([name, token]) => base.previewRequests[name] !== token)
     .map(([name]) => name);

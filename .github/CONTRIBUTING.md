@@ -151,6 +151,10 @@ nix develop .#generator -c generate-font-preview-images \
 当前 PR 检查包括 `Flake checks`、`Package builds` 和 `Font previews`。
 构建和预览会复用输入未变的成功结果，Windows 字体不参与自动构建。 PR 预览评论来自现有图片发布流程；修改发布器时，要兼容仍运行于默认分支的版本。
 
+`Record font builds` 独立保存成功构建记录到 `font-build-state`，不依赖预览图片或评论 App。
+它只使用默认分支的代码，核对原始工作流、PR、提交号和产物后写入 JSON。 迁移期间仍读取旧预览分支中的有效记录；新消费者应先进入默认分支，再调整生产端。
+保护记录分支，限制删除和强制推送，并仅允许维护者及可信发布流程写入。
+
 主线 Hercules CI 仅向公开缓存发布明确允许再分发、且不属于 Windows 字体的包， 并将正式预览发布到
 `font-preview-images` 分支。PR 检查通过不代表主线发布已完成。 网站部署将另行接入，当前仍使用上述流程。
 

@@ -38,6 +38,19 @@ development documentation. The preview website URL is currently only planned; do
 not describe it as deployed. Do not change deployment workflows without an
 explicit request.
 
+## CI Maintenance
+
+Keep PR and mainline font builds and their audited binary-cache publication
+independent of website publication. Successful PR build receipts are JSON data
+on `font-build-state`; the trusted default-branch consumer validates producer
+artifacts and never executes PR code. Land compatible consumers before changing
+producer formats. Preserve legacy preview receipts during the transition.
+
+Retire PNG generation and the preview App only after the replacement website has
+been deployed and checked. Preserve the historical preview branches and the
+pre-migration `v0.2.0` tag. Do not discard Hercules cache receipts or pending
+cache publications when retiring preview state.
+
 ## Nix
 
 Before writing, editing, reviewing, or refactoring `.nix` files, use
