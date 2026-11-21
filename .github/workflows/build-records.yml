@@ -36,4 +36,4 @@ jobs:
       - name: Record validated successful builds
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: nix run --no-update-lock-file --no-write-lock-file .#font-ci -- record-builds
+        run: nix run --no-update-lock-file --no-write-lock-file .#ci -- record-builds

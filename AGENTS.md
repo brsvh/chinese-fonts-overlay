@@ -43,6 +43,13 @@ Validate maintenance tools and CI through actual use. Do not add or maintain
 separate test suites for them. Keep source-format and Nix evaluation checks,
 runtime validation, and the website's own functional tests.
 
+Use camelCase Hercules action categories: `planFonts`, `buildFont/<package>`,
+`publishFont/<package>`, `buildSite`, and `deploySite`. Match effect names to
+their actions. Keep font builds as ordinary Nix outputs and credentialed
+publication in Effects. The CLI is `chinese-fonts-overlay-ci`, exposed through
+`nix run .#ci`. Transport keys and receipt fields are compatibility contracts;
+do not rename them merely to match job labels.
+
 Keep PR and mainline font builds and their audited binary-cache publication
 independent of website publication. Successful PR build receipts are JSON data
 on `font-build-state`; the trusted default-branch consumer validates producer

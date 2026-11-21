@@ -89,36 +89,40 @@ let
 
   makeEffect =
     {
-      mode,
+      action,
       rev,
       name ? null,
       tag ? null,
     }:
     let
-      metadata = pkgs.writeText "font-ci-${mode}.json" (
-        builtins.toJSON (
-          {
-            inherit
-              bootstrapRev
-              cache
-              inventory
-              mode
-              repository
-              rev
-              ;
-          }
-          // optionalAttrs (mode == "plan") {
-            inherit bootstrap;
-          }
-          // optionalAttrs (mode != "plan") {
-            inherit name tag;
-          }
-        )
-      );
+      metadata =
+        pkgs.writeText
+          "chinese-fonts-overlay-ci-${action}.json"
+          (
+            builtins.toJSON (
+              {
+                inherit
+                  bootstrapRev
+                  cache
+                  inventory
+                  action
+                  repository
+                  rev
+                  ;
+              }
+              // optionalAttrs (action == "planFonts") {
+                inherit bootstrap;
+              }
+              // optionalAttrs (action != "planFonts") {
+                inherit name tag;
+              }
+            )
+          );
 
       # Opaque derivation paths supply metadata, not dependencies on font outputs.
       derivations =
-        pkgs.writeText "font-ci-derivations"
+        pkgs.writeText
+          "chinese-fonts-overlay-ci-derivations"
           (
             concatMapStringsSep "\n"
               (
@@ -127,7 +131,7 @@ let
               )
               (
                 attrValues packages
-                ++ optionals (mode == "plan") (
+                ++ optionals (action == "planFonts") (
                   attrValues bootstrapPackages
                 )
               )
@@ -135,7 +139,7 @@ let
     in
     effects.mkEffect (
       {
-        inherit mode;
+        inherit action;
 
         DERIVATION_ROOTS = derivations;
 
@@ -150,7 +154,7 @@ let
 
         effectScript = ''
           set -euo pipefail
-          node ${./.}/main.mjs ${metadata}
+          node ${./.}/publication.mjs ${metadata}
         '';
 
         inputs = with pkgs; [
@@ -158,24 +162,27 @@ let
           nodejs
         ];
 
-        name = "font-ci-${mode}";
+        name = "chinese-fonts-overlay-ci-${action}";
 
         secretsMap = {
           git = {
             type = "GitToken";
           };
         }
-        // optionalAttrs (mode == "cache") {
+        // optionalAttrs (action == "publishFont") {
           public-cache = "public-cache-upload";
         };
       }
-      // optionalAttrs (mode != "plan") {
+      // optionalAttrs (action != "planFonts") {
         # Only the package selected by a verified plan gets realized for publishing.
-        ROOTS = pkgs.writeText "font-ci-public-roots" (
-          concatMapStringsSep "\n" (
-            output: toString packages.${name}.${output}
-          ) packages.${name}.outputs
-        );
+        ROOTS =
+          pkgs.writeText
+            "chinese-fonts-overlay-ci-public-roots"
+            (
+              concatMapStringsSep "\n" (
+                output: toString packages.${name}.${output}
+              ) packages.${name}.outputs
+            );
       }
     );
 
@@ -213,7 +220,6 @@ in
           else
             match "ci/package/(cache)/([a-z0-9_.+-]+)/([0-9a-f]{40})/([0-9a-f-]{36})" tag;
 
-        mode = elemAt request 0;
         name = elemAt request 1;
 
         siteRequest =
@@ -234,10 +240,14 @@ in
             && elemAt siteRequest 0 == rev
           then
             {
-              site-upload = {
-                outputs.effects.upload = makeSiteEffect {
-                  inherit rev;
-                  mode = "upload";
+              deploySite = {
+                outputs = {
+                  effects = {
+                    deploySite = makeSiteEffect {
+                      inherit rev;
+                      action = "deploySite";
+                    };
+                  };
                 };
               };
             }
@@ -248,16 +258,17 @@ in
             && hasAttr name candidates
           then
             {
-              "${mode}/${name}" = {
+              "buildFont/${name}" = {
+                outputs = {
+                  buildFont = packages.${name};
+                };
+              };
+              "publishFont/${name}" = {
                 outputs = {
                   effects = {
-                    publish = makeEffect {
-                      inherit
-                        mode
-                        name
-                        rev
-                        tag
-                        ;
+                    publishFont = makeEffect {
+                      inherit name rev tag;
+                      action = "publishFont";
                     };
                   };
                 };
@@ -271,18 +282,22 @@ in
                 && tag == null
               )
               {
-                plan = {
+                buildSite = {
                   outputs = {
                     effects = {
-                      site = makeSiteEffect {
+                      buildSite = makeSiteEffect {
                         inherit rev;
-                        mode = "build";
+                        action = "buildSite";
                       };
-
-                      plan = makeEffect {
+                    };
+                  };
+                };
+                planFonts = {
+                  outputs = {
+                    effects = {
+                      planFonts = makeEffect {
                         inherit rev;
-
-                        mode = "plan";
+                        action = "planFonts";
                       };
                     };
                   };

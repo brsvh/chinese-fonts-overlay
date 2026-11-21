@@ -468,18 +468,18 @@ if (
 ) {
   try {
     const [action, ...args] = process.argv.slice(2);
-    if (action === 'build' && args.length === 1) await buildSite(args[0]);
-    else if (action === 'upload' && args.length === 1)
+    if (action === 'buildSite' && args.length === 1) await buildSite(args[0]);
+    else if (action === 'deploySite' && args.length === 1)
       await deploySite(args[0]);
-    else if (action === 'receive' && args.length === 1)
+    else if (action === 'receiveSite' && args.length === 1)
       await receiveSite(args[0]);
-    else if (action === 'current' && args.length === 1)
+    else if (action === 'checkSite' && args.length === 1)
       await checkSite(args[0]);
-    else if (action === 'record' && args.length === 3)
+    else if (action === 'recordSite' && args.length === 3)
       await recordSite(args[0], Number(args[1]), Number(args[2]));
     else
       throw new Error(
-        'Expected build, upload, receive, current or record arguments',
+        'Expected buildSite, deploySite, receiveSite, checkSite or recordSite arguments',
       );
   } catch (error) {
     console.error(error.message, error.details ?? '');

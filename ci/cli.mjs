@@ -2,7 +2,7 @@ import { parseArgs } from 'node:util';
 import { ensure, inventory, readJson, writeJson } from './common.mjs';
 import { GitHub } from './github.mjs';
 import { validatePlan } from './records.mjs';
-import { buildShard, preparePlan } from './actions.mjs';
+import { buildShard, preparePlan } from './builds.mjs';
 import { recordBuilds } from './receipts.mjs';
 
 const { values, positionals } = parseArgs({

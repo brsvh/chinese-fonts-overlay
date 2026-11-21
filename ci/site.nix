@@ -1,6 +1,6 @@
 {
   inputs,
-  mode,
+  action,
   rev,
   root,
 }:
@@ -9,7 +9,7 @@ let
   effects = inputs.hercules-ci-effects.lib.withPkgs pkgs;
 in
 effects.mkEffect {
-  name = "font-site-${mode}";
+  name = "chinese-fonts-overlay-ci-${action}";
   dontUnpack = true;
 
   NIX_CONFIG = ''
@@ -27,7 +27,7 @@ effects.mkEffect {
     set -euo pipefail
     umask 077
     flock /site-state/site.lock \
-      node ${root}/ci/site.mjs ${mode} ${rev}
+      node ${root}/ci/site.mjs ${action} ${rev}
   '';
 
   inputs = with pkgs; [

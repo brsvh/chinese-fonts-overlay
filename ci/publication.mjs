@@ -223,7 +223,7 @@ export function candidates(baseline, inventory, pending) {
     .sort();
 }
 
-export async function schedule(api, state, metadata, inventory, bootstrap) {
+export async function planFonts(api, state, metadata, inventory, bootstrap) {
   const revision = metadata.rev;
   await current(api, revision);
   const previous = await state.get(planKey);
@@ -313,7 +313,7 @@ export async function verifyRequest(api, state, metadata, inventory) {
   const item = inventory.packages[metadata.name];
   ensure(eligible(item), 'Package cannot enter the public build pipeline');
   const observed = await state.get(planKey);
-  const selected = observed?.requests[metadata.mode + ':' + metadata.name];
+  const selected = observed?.requests['cache:' + metadata.name];
 
   if (
     !selected ||
@@ -327,7 +327,7 @@ export async function verifyRequest(api, state, metadata, inventory) {
   return { item, selected };
 }
 
-export async function publishPackage(api, state, metadata, inventory, secrets) {
+export async function publishFont(api, state, metadata, inventory, secrets) {
   const { item } = await verifyRequest(api, state, metadata, inventory);
   const guard = () => verifyRequest(api, state, metadata, inventory);
   const record = {
@@ -338,7 +338,10 @@ export async function publishPackage(api, state, metadata, inventory, secrets) {
     rev: metadata.rev,
   };
 
-  ensure(metadata.mode === 'cache', 'Only audited font caches are published');
+  ensure(
+    metadata.action === 'publishFont',
+    'Only audited font caches are published',
+  );
   await publishCache(
     Object.values(item.outputs),
     inventory.forbiddenPaths,
@@ -349,7 +352,7 @@ export async function publishPackage(api, state, metadata, inventory, secrets) {
   record.cache = metadata.cache;
 
   await guard();
-  await state.put(publicationKey(metadata.mode, metadata.name), record);
+  await state.put(publicationKey('cache', metadata.name), record);
   await deleteTrigger(api, metadata.tag, metadata.rev);
 }
 
@@ -370,20 +373,20 @@ export async function run(metadata) {
   const inventory = applyPolicy(raw, derivationGraph(raw.packages));
 
   try {
-    if (metadata.mode === 'plan') {
+    if (metadata.action === 'planFonts') {
       const base = metadata.bootstrap;
       const bootstrap = applyPolicy(base, derivationGraph(base.packages));
-      await schedule(api, state, metadata, inventory, bootstrap);
+      await planFonts(api, state, metadata, inventory, bootstrap);
     } else {
-      ensure(kinds.includes(metadata.mode), 'Unknown Hercules mode');
-      await publishPackage(api, state, metadata, inventory, secrets);
+      ensure(metadata.action === 'publishFont', 'Unknown Hercules action');
+      await publishFont(api, state, metadata, inventory, secrets);
     }
   } catch (error) {
     if (!(error instanceof Superseded)) {
       throw error;
     }
 
-    if (kinds.includes(metadata.mode)) {
+    if (metadata.action === 'publishFont') {
       await deleteTrigger(api, metadata.tag, metadata.rev);
     }
 

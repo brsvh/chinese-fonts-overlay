@@ -121,7 +121,7 @@ else if mode == "outputs" then
   ) selection
 else if mode == "runtime" then
   pkgs.writeShellApplication {
-    name = "font-ci";
+    name = "chinese-fonts-overlay-ci";
 
     runtimeInputs = with pkgs; [
       git

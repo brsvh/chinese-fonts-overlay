@@ -48,7 +48,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >-
           nix develop --no-update-lock-file --no-write-lock-file .#ci
-          -c node ci/site.mjs receive public
+          -c node ci/site.mjs receiveSite public
       - uses: actions/upload-pages-artifact@v4
         if: steps.receive.outputs.ready == 'true'
         with:
@@ -88,7 +88,7 @@ jobs:
           SITE_SOURCE: ${{ needs.prepare.outputs.source }}
         run: >-
           nix develop --no-update-lock-file --no-write-lock-file .#ci
-          -c node ci/site.mjs current "$SITE_SOURCE"
+          -c node ci/site.mjs checkSite "$SITE_SOURCE"
       - uses: actions/deploy-pages@v4
         id: pages
         if: steps.current.outputs.ready == 'true'
@@ -121,5 +121,5 @@ jobs:
           SITE_MANIFEST: ${{ needs.prepare.outputs.manifest }}
         run: >-
           nix develop --no-update-lock-file --no-write-lock-file .#ci
-          -c node ci/site.mjs record
+          -c node ci/site.mjs recordSite
           "$SITE_BASE" "$SITE_ARCHIVE" "$SITE_MANIFEST"

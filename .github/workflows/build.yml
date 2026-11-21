@@ -45,7 +45,7 @@ jobs:
         name: Compare derivations and reuse verified successes
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: nix run --no-update-lock-file --no-write-lock-file .#font-ci -- pr-plan
+        run: nix run --no-update-lock-file --no-write-lock-file .#ci -- pr-plan
       - uses: actions/upload-artifact@v7.0.2
         with:
           name: font-plan-${{ github.run_attempt }}
@@ -97,7 +97,7 @@ jobs:
         env:
           SHARD: ${{ matrix.id }}
         run: |
-          nix run --no-update-lock-file --no-write-lock-file .#font-ci -- \
+          nix run --no-update-lock-file --no-write-lock-file .#ci -- \
             pr-build --plan .ci-work/plan.json --shard "$SHARD"
       - name: Upload successful per-package build records
         if: ${{ !cancelled() }}

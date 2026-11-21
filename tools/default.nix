@@ -60,16 +60,16 @@ in
           };
         };
 
-        font-ci = {
+        ci = {
           type = "app";
 
           meta = {
-            description = "Incremental font builds and cache publication";
+            description = "Font build planning and publication records";
           };
 
           program = "${
             import (projectRoot + /ci) { inherit pkgs; }
-          }/bin/font-ci";
+          }/bin/chinese-fonts-overlay-ci";
         };
       };
 
@@ -77,10 +77,10 @@ in
         ci = pkgs.mkShell {
           packages = with pkgs; [
             git
+            gnutar
             guile
             guile-gcrypt
             guile-json
-            gnutar
             gzip
             nix
             nodejs
