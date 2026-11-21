@@ -1,5 +1,5 @@
 {
-  "buildKey": "b5c670ac0866bd1dc5fe4772d1a294a962018ab4d3339a86a2e9339509974a0b",
+  "buildKey": "16ed22a0f67a676ceb383f3d28eac864d3fa248a83989cec8abc923d6b30f3e0",
   "images": [
     {
       "height": 94,
@@ -40,11 +40,11 @@
   ],
   "package": "buttaiwan.genkigothic2-tc",
   "pname": "buttaiwan-genkigothic2-tc",
-  "previewKey": "9d247eb0e7482fd30462891b2818b5d70b740749a4a3ed03486ef76d3dfa2d9d",
+  "previewKey": "c1570674f811e63e02e0d4aedd99eecd5dbe2cbf2d016c92dad800db2591d860",
   "schema": 1,
   "source": {
     "kind": "main",
-    "rev": "89ec4f91c50bbc3515641b91b2fa63538f1df8f5"
+    "rev": "fe6a8d462475686561c7dd236f2a33b9639031e3"
   },
   "vendor": "buttaiwan"
 }
