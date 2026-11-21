@@ -137,7 +137,7 @@ PR 检查包括 `Flake checks` 和 `Package builds`。字体构建复用已验�
 构建，私有缓存与字体文件留在构建主机， 仅将检查后的静态网站归档交给 GitHub Pages。网站发布失败不会撤回已成功的字体构建。
 
 `ci/` 维护构建调度和发布控制，网站的生成、打包及本地服务由 `site/Makefile` 提供。 Hercules 任务分为
-`planFonts`、`buildFont`、`publishFont`、`buildSite` 和 `deploySite`。 可运行
+`planFonts`、`buildFont`、`publishFont` 和 `buildSite`。 可运行
 `nix run .#ci -- inventory --output inventory.json` 查看字体构建清单。
 
 ## 提交修改

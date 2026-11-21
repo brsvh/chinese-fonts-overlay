@@ -46,11 +46,11 @@ separate test suites for them. Keep source-format and Nix evaluation checks,
 runtime validation, and the website's own functional tests.
 
 Use camelCase Hercules action categories: `planFonts`, `buildFont/<package>`,
-`publishFont/<package>`, `buildSite`, and `deploySite`. Match effect names to
-their actions. Keep font builds as ordinary Nix outputs and credentialed
-publication in Effects. The CLI is `chinese-fonts-overlay-ci`, exposed through
-`nix run .#ci`. Transport keys and receipt fields are compatibility contracts;
-do not rename them merely to match job labels.
+`publishFont/<package>` and `buildSite`. Match effect names to their actions.
+Keep font builds as ordinary Nix outputs and credentialed publication in
+Effects. The CLI is `chinese-fonts-overlay-ci`, exposed through `nix run .#ci`.
+Transport keys and receipt fields are compatibility contracts; do not rename
+them merely to match job labels.
 
 Keep PR and mainline font builds and their audited binary-cache publication
 independent of website publication. Successful PR build receipts are JSON data
@@ -64,37 +64,46 @@ readable, and preserve Hercules cache receipts and pending cache publications
 when changing CI state.
 
 Website builds use the private Hercules Effect mount and the existing Make
-targets. GitHub Pages receives validated release archives; it does not build
-fonts. Keep the Pages environment restricted to main and the `ci/site/**` tag
-namespace restricted to administrators and Hercules CI. Publication control
-lives in `ci/` as JavaScript modules. Website generation and
-platform-independent archive validation remain in `site/` using Guile.
+targets. GitHub Pages receives validated archives; it does not build fonts. Keep
+the Pages environment restricted to main. Publication control lives in `ci/` as
+JavaScript modules. Website generation and platform-independent archive
+validation remain in `site/` using Guile.
 
-Hercules runs the ordinary Make build inside an Effect on the agent advertising
-`chinese-fonts-overlay-site`. The mount with that name appears at `/site-state`;
-it contains private rendering caches and staged archives, never public font
-closures. Disable remote builders and post-build hooks for these builds.
+The `buildSite` Effect runs on the agent advertising
+`chinese-fonts-overlay-site`. Its mount appears at `/site-state` and holds
+private rendering caches and staged archives. Disable remote builders and
+post-build hooks. Serialize build and upload with the mount's lock; only trusted
+main may access it or the `site-artifact-upload` secret. Use public GitHub reads
+rather than an expiring GitToken during long builds.
 
-The `buildSite` Effect records its request in `/site-state/requests/` before
-queuing a `ci/site/<revision>/<nonce>` tag. The `deploySite` Effect runs in a
-later job with a fresh GitToken. Share the private mount and lock across both
-stages; publish only while the source is still main. Reuse recorded requests on
-retries. After accepting a request, remove its trigger before uploading; rerun
-the existing failed job instead of creating another tag. Apply the same
-lifecycle to font publication, preserving its durable request and cache state.
-Delete only verified internal trigger references at their expected revisions.
-Keep version tags and the fixed `site-artifacts` tag. Upload immutable
-source-and-digest names to the `site-artifacts` prerelease and send `site-ready`
-with the release and asset IDs. Never replace existing assets.
+Upload only validated public archives to the private Garage bucket
+`chinese-fonts-overlay-site` at `https://s3.bingshan.org`, using region `garage`
+and path-style S3 requests. Fleet owns the endpoint, quota and encrypted keys.
+Hercules has bucket read/write access without ownership; Actions has read-only
+access. Never reuse Nextcloud credentials or upload font closures and caches.
 
-The Pages workflow executes only trusted main-branch code. Validate repository,
-sender, uploader, asset IDs, manifest, archive and source revision before
-extraction. GitHub Actions receives only static output and never builds fonts.
-Grant Pages and OIDC write permissions only to the deployment job. Record a
-successful deployment before pruning; retain three distinct successful archives
-and all pending artifacts. Manual rollback requires a successful deployment
-receipt verified against its workflow run. Preserve the previous live website
-when preparation or deployment fails.
+Store an immutable archive beneath its source revision and write `manifest.json`
+last as the completion marker. Keep at most two complete versions, including
+pending deployments: reserve space by deleting the oldest before uploading the
+next, while keeping the newest complete version. Reuse matching objects on retry
+and reject differing replacements. Clean abandoned objects under the
+single-writer lock; abort stale multipart uploads. The 2 GiB logical bucket
+quota is a backstop, not an exact bound on physical storage during reclamation.
+
+The `deploy` workflow accepts successful `ci/hercules/onPush/buildSite` statuses
+from Hercules CI or a manual main-branch retry. Execute trusted default-branch
+code, validate the repository, sender, event source, manifest and archive, and
+check current main before downloading and again immediately before deployment.
+Serialize Pages deployments. Grant Pages and OIDC write permissions only to the
+deploy job; expose S3 read credentials only to artifact preparation. A manual
+run retries current main, not an arbitrary historical revision. Failed
+preparation must leave the existing published site intact.
+
+Website handoff uses no tag, Release or deployment receipt. Keep font trigger
+and cache-receipt lifecycles independent: delete only verified internal font
+references at their expected revisions. During migration, retain the old site
+Release and website trigger state until the S3-backed deployment is verified;
+then remove only that obsolete website state. Preserve historical version tags.
 
 ## Nix
 

@@ -105,16 +105,22 @@ guile -L site/module site/scripts/archive.scm unpack \
 校验和本身不能证明发布者身份。
 
 主线网站由 Hercules CI 调用 Make 构建。预览缓存与构建文件留在私有目录，
-公开归档交接到 =site-artifacts= 预发布版本，再由 GitHub Actions 校验并
-发布到 Pages 。字体构建和二进制缓存发布独立运行。
+通过校验的公开归档上传到 Garage ，再由 GitHub Actions 的 =deploy= 工作流
+下载、校验并发布到 Pages 。字体构建和二进制缓存发布独立运行。
 调度与发布控制位于 =ci/= ，不属于网站生成代码。
 
-失败时重试原来的 Hercules 任务。任务复用已记录的发布请求，
-临时触发 tag 在发布任务接收请求后回收。
+Garage 使用独立的私有 bucket ， Hercules 持有读写凭据， Actions 仅有只读
+凭据。存储入口、配额和加密凭据由 fleet 管理。 Actions 需要配置
+=SITE_S3_ACCESS_KEY_ID= 和 =SITE_S3_SECRET_ACCESS_KEY= 两个仓库 secret 。
 
-发布流程保留当前及前两个成功发布的归档，尚未完成发布的产物不参与清理。
-需要回退时，在 Actions 中手动运行 =Website publication= ，将 =release=
-填写为已成功发布的 =site-提交号-SHA256= 文件名前缀，不含扩展名。
+最多保留两个完整构建版本，包括等待发布的版本。上传新版本前先清理最旧版本，
+保留最近的完整归档；完成标记最后上传。 bucket 的逻辑配额为 2 GiB ，
+后台回收可能暂时占用额外磁盘空间。此流程不使用 tag 或 Release 传递产物。
+
+构建失败时重试原来的 Hercules 任务；下载或发布失败时重试 =deploy= 。
+手动运行 =deploy= 会使用当前 main 的完整归档，部署前再次核对提交号。
+准备失败不影响已经发布的网站。需要回退源码时，先在 main 撤销相应改动，
+再按正常流程构建发布。
 
 ** 语言名称与样文
 

@@ -101,7 +101,10 @@ branches remain archives; preview generation belongs to the website build.
 CI calls the existing Make targets and the archive command interface. Keep
 platform-independent packaging and validation here; maintain Hercules and GitHub
 publication rules in the root `AGENTS.md` and their implementation in `../ci/`.
-Website modules must not handle hosting credentials or remote state.
+Website modules must not handle hosting credentials or remote state. The
+`buildSite` Effect transfers validated output through Garage; the `deploy`
+workflow downloads and publishes it. Keep the two-version retention policy and
+S3 access in `../ci/`, independent of archive generation and font caching.
 
 ## Data Ownership
 
