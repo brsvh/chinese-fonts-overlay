@@ -55,13 +55,18 @@ them merely to match job labels.
 Keep PR and mainline font builds and their audited binary-cache publication
 independent of website publication. Successful PR build receipts are JSON data
 on `font-build-state`; the trusted default-branch consumer validates producer
-artifacts and never executes PR code. Land compatible consumers before changing
-producer formats. Preserve legacy preview receipts during the transition.
+artifacts and never executes PR code. Plans, shard results and saved PR records
+use the current strict record schema, without preview fields or older-format
+fallbacks. Coordinate producer and consumer changes after prior runs finish.
+Create the record branch on the first successful write; do not import historical
+preview records.
 
-Preserve the historical preview branches and the pre-migration `v0.2.0` tag. Do
-not restore PNG preview tooling or the preview App. Keep legacy build receipts
-readable, and preserve Hercules cache receipts and pending cache publications
-when changing CI state.
+Preserve historical version tags, including `v0.2.0`. Do not restore PNG preview
+tooling, preview branches or the preview App. Preserve current Hercules cache
+receipts and pending cache publications when changing CI state. Mainline
+planning uses its saved inventory; without state, audit the current collection
+and schedule packages that lack a matching verified cache receipt. Do not import
+a hardcoded historical flake as a baseline.
 
 Website builds use the private Hercules Effect mount and the existing Make
 targets. GitHub Pages receives validated archives; it does not build fonts. Keep
@@ -101,9 +106,9 @@ preparation must leave the existing published site intact.
 
 Website handoff uses no tag, Release or deployment receipt. Keep font trigger
 and cache-receipt lifecycles independent: delete only verified internal font
-references at their expected revisions. During migration, retain the old site
-Release and website trigger state until the S3-backed deployment is verified;
-then remove only that obsolete website state. Preserve historical version tags.
+references at their expected revisions. Only `ci/package/cache/` is a font
+trigger namespace. Do not retain old website or preview trigger records, upload
+markers, or compatibility paths. Preserve historical version tags.
 
 ## Nix
 
