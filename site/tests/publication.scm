@@ -27,7 +27,7 @@
                (string-append directory "/" font)))
   `(("id" . ,(string-append "test." name))
     ("pname" . ,name)
-    ("displayName" . ,(string-append "测试字体 " name))
+    ("displayName" . ,(string-append "测试字体 " name ": @{A}, B"))
     ("attribute" . ,(string-append "testPackages." name))
     ("version" . "1")
     ("vendor" . "test")
@@ -69,6 +69,15 @@
     ("styleLabels" ("sans" . "无衬线体"))
     ("noticeLevelLabels" ("warning" . "警告"))))
 
+(define manual-build (string-append temporary "/docs"))
+(define manual (string-append manual-build "/manual"))
+(define manual-reference (string-append temporary "/reference.json"))
+(write-json manual-reference catalog)
+(run "env" "-u" "MAKEFLAGS" "make" "-C" (getenv "FONT_SITE_DOCS") "check"
+     (string-append "BUILD_DIR=" manual-build)
+     (string-append "REFERENCE=" manual-reference)
+     (string-append "SOURCE_REVISION=" revision))
+
 (define inputs
   (map (lambda (package)
          (cons (jref package "id")
@@ -95,7 +104,8 @@
        (catch #t
               (lambda ()
                 (build-site catalog-file inputs-file
-                            (string-append temporary "/cache") output commit)
+                            (string-append temporary "/cache") output commit
+                            #:manual manual)
                 0)
               (lambda (key . args)
                 (print-exception (current-error-port) #f key args)
@@ -146,7 +156,17 @@
 (test-assert "Package and site links use the source revision"
   (every (lambda (path)
            (string-contains page (string-append revision path)))
-         '("/packages/test/english/package.nix" "/README" "/COPYING" "/site")))
+         '("/packages/test/english/package.nix" "/COPYING" "/site")))
+
+(test-assert "Manual shares the site shell and preserves literal metadata"
+  (let ((manual-page
+         (read-text (string-append output "/manual/Vendor_002dtest.html"))))
+    (and (string-contains page "href=\"./manual/index.html\"")
+         (string-contains manual-page "aria-label=\"手册目录\"")
+         (string-contains manual-page "class=\"site-footer\"")
+         (string-contains manual-page "&lt;script&gt;unsafe&lt;/script&gt;")
+         (not (string-contains manual-page "href=\"javascript:"))
+         (file-exists? (string-append output "/manual/chinese-fonts-overlay.info")))))
 
 (test-assert "Single and multiple upstream homepages are linked in source order"
   (let ((first (string-contains
@@ -169,7 +189,8 @@
        '("variable" "collection")))
 
 (test-equal "Catalog preserves reviewed display names and explicit embedding"
-  '("测试字体 english" "测试字体 variable" #t #f "open" 300 "normal")
+  '("测试字体 english: @{A}, B" "测试字体 variable: @{A}, B"
+    #t #f "open" 300 "normal")
   (let ((package (published-package "english"))
         (face (car (published-faces "variable"))))
     (list (jref package "displayName")
@@ -184,6 +205,7 @@
   (and (every (lambda (name) (assoc name snapshot))
               '("index.html" "catalog.json" "bridge.js" "main.wasm"
                 "reflect.js" "reflect.wasm" "wtf8.wasm" "style.css"
+                "fonts.css" "presentation.js" "manual.js"
                 "licenses.html" "tsanger-license.pdf" "favicon.svg" "cc0.svg"))
        (equal? (filter font-file? (map car snapshot))
                '("yuyang-medium.ttf" "yuyang-regular.ttf"))
@@ -202,10 +224,11 @@
     "Run the normal incremental build against the existing fixture inputs."
     (system* (or (getenv "GUILE") "guile") "--no-auto-compile"
              "-L" (string-append root "/module")
+             "-L" (string-append (getenv "FONT_SITE_DOCS") "/module")
              (string-append root "/scripts/build.scm")
              root temporary (string-append temporary "/cache")
              (string-append temporary "/catalog.json")
-             (string-append temporary "/inputs.json") revision))
+             (string-append temporary "/inputs.json") revision manual))
   (symlink (getenv "FONT_SITE_WEB") (string-append temporary "/web"))
   (test-assert "Incremental builds restore changed and missing output"
     (and (zero? (rebuild))
@@ -240,9 +263,37 @@
         inputs revision "Missing language samples")
   (list catalog inputs "main" "Expected a full source commit SHA")))
 
+(let* ((file (string-append manual "/reference.json"))
+       (reference (read-json file)))
+  (dynamic-wind
+    (lambda ()
+      (write-json file (jset reference "sourceRevision" (make-string 40 #\a))))
+    (lambda ()
+      (let ((result (build-result catalog inputs)))
+        (test-assert "Reject a manual from a different source revision"
+          (and (= 1 (car result))
+               (string-contains (cdr result)
+                                "Manual and website source revisions differ")))))
+    (lambda () (write-json file reference))))
+
+(let ((page (string-append manual "/html/Installation.html"))
+      (saved (string-append temporary "/saved-manual-page")))
+  (dynamic-wind
+    (lambda () (rename-file page saved))
+    (lambda ()
+      (let ((result (build-result catalog inputs)))
+        (test-assert "Reject a manual with a missing linked page"
+          (and (= 1 (car result))
+               (string-contains (cdr result) "Broken manual link")))))
+    (lambda () (rename-file saved page))))
+
 (define incomplete-web (string-append temporary "/incomplete-web"))
 (mkdir-p incomplete-web)
-(copy-file (web-file "index.html") (string-append incomplete-web "/index.html"))
+(for-each
+ (lambda (file)
+   (unless (equal? (basename file) "bridge.js")
+     (copy-file file (string-append incomplete-web "/" (basename file)))))
+ (files-under (getenv "FONT_SITE_WEB")))
 (let ((web (getenv "FONT_SITE_WEB")))
   (dynamic-wind
     (lambda () (setenv "FONT_SITE_WEB" incomplete-web))

@@ -1,0 +1,35 @@
+<!-- Keep the first paint stable before styles, fonts or Hoot arrive. -->
+<style>
+  #page-loader { display: none; }
+  html[data-starting] { overflow: hidden; }
+  html[data-starting] body > :not(#page-loader) { visibility: hidden; }
+  html[data-starting] #page-loader { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; background: #fff; color: #595959; font: 14px/1.5 sans-serif; }
+  .startup-spinner { box-sizing: border-box; width: 32px; height: 32px; border: 3px solid #e0e0e0; border-top-color: #0031a9; border-radius: 50%; animation: startup-spin .8s linear infinite; }
+  @keyframes startup-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .startup-spinner { animation: none; } }
+</style>
+<script>
+  (() => {
+    const root = document.documentElement;
+    root.setAttribute('data-starting', '');
+    let settled = false;
+    let resolveFonts;
+    window.sitePresentationReady = new Promise(resolve => { resolveFonts = resolve; });
+    window.settleSiteFonts = ready => {
+      if (settled) return;
+      settled = true;
+      root.dataset.fonts = ready ? 'ready' : 'fallback';
+      resolveFonts();
+    };
+    window.finishSiteStartup = () => window.sitePresentationReady.then(() => {
+      clearTimeout(timeout);
+      root.removeAttribute('data-starting');
+    });
+    // Failed enhancement must leave static content readable. Once revealed,
+    // a timed-out page keeps its fallback fonts for this entire navigation.
+    const timeout = setTimeout(() => {
+      window.settleSiteFonts(false);
+      window.finishSiteStartup();
+    }, 30000);
+  })();
+</script>

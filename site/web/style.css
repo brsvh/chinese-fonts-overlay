@@ -3,6 +3,8 @@
 @source "@HTML_SOURCE@";
 @source "@SCHEME_SOURCE@";
 @source "@CATALOG_SOURCE@";
+@source "@LAYOUT_SOURCE@";
+@source "@MANUAL_SOURCE@";
 
 @plugin "@DAISYUI@" {
   themes: false;
@@ -44,20 +46,6 @@
   --noise: 0;
 }
 
-@font-face {
-  font-family: YuYang;
-  src: url("yuyang-regular.ttf") format("truetype");
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: YuYang;
-  src: url("yuyang-medium.ttf") format("truetype");
-  font-weight: 500 900;
-  font-display: swap;
-}
-
 :root {
   --header-height: 60px;
   --sample: 66px;
@@ -66,11 +54,26 @@
   --selected-bg: #ecedff;
   --success-bg: #e0f6e0;
   --warning-bg: #f8f0d0;
-  font-family: YuYang, sans-serif;
+  --site-sans: system-ui, sans-serif;
+  --site-mono: ui-monospace, monospace;
+  font-family: var(--site-sans);
   color: var(--color-base-content);
   background: var(--color-base-100);
   scrollbar-color: var(--border-color) var(--color-base-200);
   scrollbar-width: thin;
+}
+
+/* Apply downloaded fonts only while the initial loading curtain is closed. */
+:root[data-fonts="ready"] {
+  --site-sans: YuYang, sans-serif;
+  --site-mono: YuYang, ui-monospace, monospace;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--site-mono);
 }
 
 * {
@@ -771,9 +774,7 @@ h1 {
 }
 
 .copy-package code {
-  font:
-    12px / 1.5 ui-monospace,
-    monospace;
+  font: 12px / 1.5 var(--site-mono);
   overflow-wrap: anywhere;
   white-space: normal;
   text-align: left;
@@ -1206,5 +1207,580 @@ h1 {
 
   .loading {
     animation: none !important;
+  }
+}
+
+/* The manual shares the site shell; its content remains usable without Wasm. */
+.manual-main[aria-busy="true"]::before {
+  content: "";
+  position: fixed;
+  top: var(--header-height);
+  inset-inline: 0;
+  height: 2px;
+  background: var(--color-primary);
+  z-index: 50;
+}
+
+.manual-menu-toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.manual-page:has(.manual-menu-toggle:focus-visible)
+  label[for="manual-menu-toggle"] {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.manual-chapters,
+.manual-chapters ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.manual-chapters {
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.manual-chapters > li {
+  margin-block: 4px;
+}
+
+.manual-chapters a {
+  display: block;
+  padding: 7px 8px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+  border-radius: var(--radius-field);
+}
+
+.manual-chapters summary {
+  display: flex;
+  align-items: baseline;
+  cursor: pointer;
+}
+
+.manual-chapters summary::before {
+  content: "›";
+  flex: 0 0 10px;
+  color: var(--muted);
+}
+
+.manual-chapters details[open] > summary::before {
+  content: "⌄";
+}
+
+.manual-chapters summary::-webkit-details-marker {
+  display: none;
+}
+
+.manual-chapters ul {
+  margin-left: 10px;
+  padding-left: 9px;
+  border-left: 1px solid var(--color-base-300);
+}
+
+.manual-chapters a:hover,
+.manual-chapters a[aria-current] {
+  color: var(--color-primary);
+}
+
+.manual-chapters a[aria-current] {
+  font-weight: 600;
+  background: var(--selected-bg);
+  box-shadow: inset 2px 0 var(--color-primary);
+}
+
+.manual-download {
+  display: inline-block;
+  margin-block: 22px 12px;
+  font-size: 13px;
+}
+
+.manual-content,
+.manual-pager {
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+.manual-content {
+  line-height: 1.9;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+.manual-content h1,
+.manual-content h2,
+.manual-content h3,
+.manual-content h4 {
+  line-height: 1.45;
+  font-weight: 600;
+  margin-block: 2em 0.8em;
+  text-wrap: balance;
+}
+
+.manual-content h1 {
+  font-size: 30px;
+  margin-top: 8px;
+}
+
+.manual-content h2 {
+  font-size: 23px;
+}
+
+.manual-content h3 {
+  font-size: 19px;
+}
+
+.manual-content h4 {
+  font-size: 17px;
+}
+
+.manual-content
+  > :is(
+    .top-level-extent,
+    .chapter-level-extent,
+    .unnumbered-level-extent,
+    .section-level-extent
+  )
+  > :is(h1, h2) {
+  font-size: 32px;
+  margin-block: 8px 28px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.manual-content .subsection-level-extent > h3 {
+  font-size: 22px;
+  padding: 14px 18px;
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-base-200);
+  border-radius: var(--radius-box);
+  margin-top: 48px;
+}
+
+.manual-content p,
+.manual-content ul,
+.manual-content ol,
+.manual-content dl,
+.manual-content table {
+  margin-block: 1.2em;
+}
+
+.manual-content ul,
+.manual-content ol {
+  padding-left: 1.6em;
+  list-style: revert;
+}
+
+.manual-content li + li {
+  margin-top: 0.45em;
+}
+
+.manual-content li::marker {
+  color: var(--color-primary);
+}
+
+.manual-content strong,
+.manual-content b {
+  font-weight: 600;
+}
+
+.manual-content a {
+  text-decoration: underline;
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--color-primary) 35%,
+    transparent
+  );
+  text-underline-offset: 0.2em;
+}
+
+.manual-content a:hover {
+  text-decoration-color: currentColor;
+}
+
+.manual-content :is(code, samp) {
+  font-size: 0.9em;
+  padding: 0.12em 0.3em;
+  border-radius: var(--radius-selector);
+  background: var(--color-base-200);
+  box-decoration-break: clone;
+}
+
+.manual-content var {
+  color: var(--color-secondary);
+}
+
+.manual-content kbd {
+  padding: 0.12em 0.4em;
+  font-size: 0.85em;
+  background: var(--color-base-200);
+  border: 1px solid var(--color-base-300);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-field);
+}
+
+.manual-content .example {
+  margin-block: 24px;
+}
+
+.manual-content pre {
+  padding: 20px 24px;
+  background: var(--color-base-200);
+  border: 1px solid var(--color-base-300);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-box);
+  font-size: 14px;
+  line-height: 1.8;
+  tab-size: 2;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.manual-content pre :is(code, samp, kbd) {
+  padding: 0;
+  font-size: inherit;
+  background: none;
+  border: 0;
+  white-space: inherit;
+}
+
+/* Texinfo tables are definition lists, not daisyUI data tables. */
+.manual-content dl.table {
+  display: grid;
+  grid-template-columns: minmax(7em, 25%) minmax(0, 1fr);
+  width: 100%;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: normal;
+  border: 1px solid var(--color-base-300);
+  border-radius: var(--radius-box);
+}
+
+.manual-content dl.table > dt,
+.manual-content dl.table > dd {
+  min-width: 0;
+  margin: 0;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-base-300);
+}
+
+.manual-content dl.table > dt {
+  font-size: 14px;
+  font-weight: 500;
+  background: var(--color-base-200);
+}
+
+.manual-content dl.table > dt:nth-last-child(2),
+.manual-content dl.table > dd:last-child {
+  border-bottom: 0;
+}
+
+.manual-content dd > :first-child {
+  margin-top: 0;
+}
+
+.manual-content dd > :last-child {
+  margin-bottom: 0;
+}
+
+.manual-content dl.table > dd > ul.itemize {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13em), 1fr));
+  gap: 6px 16px;
+  padding: 0;
+  font-size: 14px;
+  list-style: none;
+}
+
+.manual-content dl.table > dd > ul.itemize > li {
+  margin: 0;
+}
+
+.manual-content dl.table > dd > ul.itemize code {
+  color: var(--muted);
+  background: none;
+  padding: 0;
+}
+
+.manual-content .def-block {
+  margin-block: 32px;
+  border: 1px solid var(--color-base-300);
+  border-radius: var(--radius-box);
+}
+
+.manual-content .def-line {
+  padding: 12px 20px;
+  background: var(--color-base-200);
+  border-bottom: 1px solid var(--color-base-300);
+}
+
+.manual-content .def-name {
+  font-family: var(--site-mono);
+  color: var(--color-primary);
+}
+
+.manual-content .category-def {
+  color: var(--muted);
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.manual-content .def-block > dd {
+  margin: 0;
+  padding: 20px;
+}
+
+.manual-content blockquote {
+  --manual-notice-color: var(--color-info);
+  margin-block: 24px;
+  padding: 16px 20px;
+  border-left: 3px solid var(--manual-notice-color);
+  background: color-mix(
+    in srgb,
+    var(--manual-notice-color) 4%,
+    var(--color-base-100)
+  );
+}
+
+.manual-content .manual-notice-warning blockquote,
+.manual-content .manual-notice-caution blockquote {
+  --manual-notice-color: var(--color-warning);
+}
+
+.manual-content .manual-notice-important blockquote {
+  --manual-notice-color: var(--color-secondary);
+}
+
+.manual-content .manual-notice-tip blockquote {
+  --manual-notice-color: var(--color-success);
+}
+
+.manual-content blockquote > :first-child {
+  margin-top: 0;
+}
+
+.manual-content blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.manual-content .manual-notice .b:first-child {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--manual-notice-color);
+}
+
+.manual-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.manual-content table.menu {
+  display: table;
+  padding: 0;
+  line-height: inherit;
+}
+
+.manual-content :is(td, th) {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-base-300);
+  vertical-align: top;
+  text-align: left;
+}
+
+.manual-content .menu tr:has(> th.menu-comment:empty) {
+  display: none;
+}
+
+.manual-content .menu-entry-destination {
+  width: 45%;
+  font-weight: 500;
+}
+
+.manual-content .menu-entry-description {
+  color: var(--muted);
+}
+
+/* Vendor menus are short family names; let them share the available width. */
+.manual-content [id^="Vendor_"] > table.menu {
+  display: block;
+}
+
+.manual-content [id^="Vendor_"] > .menu > tbody {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 0 16px;
+}
+
+.manual-content [id^="Vendor_"] > .menu tr {
+  display: block;
+  padding-block: 8px;
+  background: none;
+  border-bottom: 1px solid var(--color-base-300);
+}
+
+.manual-content [id^="Vendor_"] > .menu td {
+  display: block;
+  width: auto;
+  padding: 0 8px;
+  border: 0;
+}
+
+.manual-content .index-entries-printindex tr:has(td > hr) {
+  display: none;
+}
+
+.manual-content .index-letter-header-printindex {
+  background: var(--color-base-200);
+  color: var(--color-primary);
+  border-top: 2px solid var(--color-primary);
+}
+
+.manual-content .index-letters-header-printindex {
+  background: var(--color-base-200);
+}
+
+.manual-content .printindex-index-entry {
+  width: 60%;
+}
+
+.manual-content .summary-letter-printindex {
+  display: inline-block;
+  min-width: 1.5em;
+  text-align: center;
+}
+
+.manual-content .nav-panel,
+.manual-content hr {
+  display: none;
+}
+
+.manual-content .copiable-link {
+  opacity: 0;
+  font-size: 0.7em;
+  text-decoration: none;
+}
+
+.manual-content :is(h1, h2, h3, h4):hover .copiable-link,
+.manual-content .copiable-link:focus-visible {
+  opacity: 1;
+}
+
+.manual-content [id] {
+  scroll-margin-top: calc(var(--header-height) + 24px);
+}
+
+.manual-page
+  :is(.manual-content, .manual-chapters, .manual-pager)
+  a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.manual-pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 32px;
+  margin-top: 32px;
+  border-top: 1px solid var(--color-base-300);
+  font-size: 14px;
+}
+
+.manual-pager a {
+  padding: 12px 16px;
+  max-width: 48%;
+  border: 1px solid var(--color-base-300);
+  border-radius: var(--radius-box);
+  overflow-wrap: anywhere;
+}
+
+.manual-pager a:hover {
+  background: var(--selected-bg);
+  border-color: var(--color-primary);
+}
+
+.manual-pager a[rel="next"] {
+  margin-left: auto;
+  text-align: right;
+}
+
+.mobile-page-link {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .mobile-page-link {
+    display: inline-block;
+    margin-left: auto;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  .mobile-filter {
+    margin-left: 0;
+  }
+
+  .manual-menu-toggle:checked + .shell .manual-sidebar {
+    display: block;
+  }
+
+  .manual-content {
+    font-size: 15px;
+  }
+
+  .manual-content
+    > :is(
+      .top-level-extent,
+      .chapter-level-extent,
+      .unnumbered-level-extent,
+      .section-level-extent
+    )
+    > :is(h1, h2) {
+    font-size: 25px;
+  }
+
+  .manual-content h2,
+  .manual-content .subsection-level-extent > h3 {
+    font-size: 21px;
+  }
+
+  .manual-content pre {
+    padding: 14px;
+    font-size: 13px;
+  }
+
+  .manual-content dl.table {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .manual-content dl.table > dt {
+    border-bottom: 0;
+    padding-block: 8px;
+  }
+
+  .manual-content :is(.def-line, .def-block > dd, blockquote) {
+    padding: 14px;
+  }
+
+  .manual-content .menu tr {
+    display: block;
+    padding-block: 8px;
+    border-bottom: 1px solid var(--color-base-300);
+  }
+
+  .manual-content .menu td {
+    display: block;
+    width: auto;
+    padding-block: 2px;
+    border: 0;
   }
 }

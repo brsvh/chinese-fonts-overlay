@@ -77,6 +77,7 @@
               nix
               pkg-config
               tailwindcss_4
+              texinfo
             ];
           }
         );

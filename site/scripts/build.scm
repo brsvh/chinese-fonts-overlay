@@ -42,7 +42,7 @@
                  (map file-state (filter font-file? (files-under path)))))))
    inputs))
 
-(define (build root directory cache catalog-file fonts-file revision)
+(define (build root directory cache catalog-file fonts-file revision manual)
   "Build DIRECTORY/public from declared inputs, reusing unchanged stage outputs."
   (let* ((catalog (read-json catalog-file))
          (fonts (read-json fonts-file))
@@ -80,30 +80,34 @@
             (append (list catalog-file
                           (string-append module-root "build.scm")
                           (string-append module-root "catalog.scm")
+                          (string-append module-root "layout.scm")
+                          (string-append module-root "interface.scm")
+                          (string-append module-root "manual.scm")
                           (string-append root "/scripts/build.scm"))
                     (files-under (string-append root "/data"))
+                    (files-under manual)
                     (files-under web))
             (list revision preview-digest))))
       (if (current? stamp digest output)
           (format #t "Website is up to date: ~a~%" output)
           (begin
             (build-site catalog-file fonts-file cache output revision
-                        #:prepared preview-output)
+                        #:prepared preview-output #:manual manual)
             (record! stamp digest output)
             (format #t "Built website: ~a~%" output))))))
 
 (catch #t
        (lambda ()
          (match (cdr (command-line))
-           ((root directory cache catalog fonts revision)
+           ((root directory cache catalog fonts revision manual)
             (let ((revision
                    (if (string-null? revision)
                        (string-trim-both
                         (capture "git" "-C" root "rev-parse" "--verify"
                                  "HEAD^{commit}"))
                        revision)))
-              (build root directory cache catalog fonts revision)))
-           (_ (error "Usage: build.scm ROOT BUILD CACHE CATALOG FONTS REVISION"))))
+              (build root directory cache catalog fonts revision manual)))
+           (_ (error "Usage: build.scm ROOT BUILD CACHE CATALOG FONTS REVISION MANUAL"))))
        (lambda (key . args)
          (print-exception (current-error-port) #f key args)
          (exit 1)))

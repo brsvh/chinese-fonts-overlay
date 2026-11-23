@@ -1,37 +1,18 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="modus-operandi">
+<html lang="zh-CN" data-theme="modus-operandi" data-catalog>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="按语言、风格和许可筛选 Nix 中文字体包，查看各个字重与款式。">
   <title>Nix中文字体包 · 字体预览</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any">
-  <!-- Keep the first paint stable even before the theme or runtime arrives. -->
-  <style>
-    #page-loader { display: none; }
-    html[data-starting] { overflow: hidden; }
-    html[data-starting] body > :not(#page-loader) { visibility: hidden; }
-    html[data-starting] #page-loader { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; background: #fff; color: #595959; font: 14px/1.5 sans-serif; }
-    .startup-spinner { box-sizing: border-box; width: 32px; height: 32px; border: 3px solid #e0e0e0; border-top-color: #0031a9; border-radius: 50%; animation: startup-spin .8s linear infinite; }
-    @keyframes startup-spin { to { transform: rotate(360deg); } }
-    @media (prefers-reduced-motion: reduce) { .startup-spinner { animation: none; } }
-  </style>
-  <script>
-    document.documentElement.setAttribute('data-starting', '');
-    // Fail open if any later stylesheet, script or runtime cannot finish.
-    window.finishSiteStartup = () => {
-      clearTimeout(startupTimeout);
-      document.documentElement.removeAttribute('data-starting');
-    };
-    const startupTimeout = setTimeout(window.finishSiteStartup, 30000);
-  </script>
-  <link rel="stylesheet" href="style.css">
+  <!-- site-presentation -->
   <script id="language-labels" type="application/json"><!-- language-labels --></script>
   <script defer src="reflect.js"></script>
   <script defer src="bridge.js"></script>
 </head>
 <body>
-  <div id="page-loader" role="status" aria-live="polite"><span class="startup-spinner" aria-hidden="true"></span><span>正在加载...</span></div>
+  <!-- site-loader -->
   <a class="skip-link" href="#main">跳到字体目录</a>
   <svg class="icon-sheet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
@@ -42,18 +23,7 @@
     <symbol id="icon-notice" viewBox="0 0 24 24"><path d="M8 3h8l5 5v8l-5 5H8l-5-5V8Zm4 4v6m0 4h.01"/></symbol>
     <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></symbol>
   </svg>
-  <header class="header">
-    <a class="brand" href="./" aria-label="Nix中文字体包首页">
-      <img class="mark" src="favicon.svg" width="34" height="34" alt="">
-      <span><span class="brand-title">Nix中文字体包</span><span class="brand-sub">chinese-fonts-overlay</span></span>
-    </a>
-    <nav class="nav" aria-label="主导航">
-      <a href="./" aria-current="page">字体预览</a>
-      <a href="@README@">使用说明</a>
-      <a href="https://github.com/brsvh/chinese-fonts-overlay">源码仓库 ↗</a>
-    </nav>
-    <button id="sidebar-toggle" class="btn btn-ghost btn-sm mobile-filter" type="button" aria-controls="sidebar" aria-expanded="false" data-interactive disabled>筛选</button>
-  </header>
+  <!-- site-header -->
   <div class="shell">
     <aside id="sidebar" class="sidebar" aria-label="筛选条件">
       <div class="sidebar-heading"><h2>筛选条件</h2><button id="reset-filters" class="btn btn-ghost btn-xs" type="button" data-interactive disabled>↺ 重置</button></div>
@@ -84,17 +54,7 @@
           <div id="empty-results" class="empty" hidden><h2>没有符合条件的字体包</h2><p>试试减少筛选条件，或重置筛选。</p></div>
         </div>
       </div>
-      <footer class="site-footer" aria-label="网站信息">
-        <a href="@COMMIT@">字体数据 <code>@REVISION@</code></a>
-        <span class="footer-separator" aria-hidden="true"></span>
-        <a href="@WEBSITE_SOURCE@">网站源代码</a>
-        <span class="footer-separator" aria-hidden="true"></span>
-        <span>由 <a href="https://spritely.institute/hoot/">Hoot</a> 驱动</span>
-        <span class="footer-separator" aria-hidden="true"></span>
-        <a class="site-license" href="@LICENSE@">网站许可 <img src="cc0.svg" width="80" height="15" alt="CC0 1.0"></a>
-        <span class="footer-separator" aria-hidden="true"></span>
-        <a href="licenses.html">第三方声明</a>
-      </footer>
+      <!-- site-footer -->
     </main>
   </div>
 </body>

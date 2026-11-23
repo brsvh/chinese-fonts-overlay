@@ -19,19 +19,6 @@ const visibilityObserver = globalThis.IntersectionObserver
     )
   : null;
 
-// Deferred scripts run after the stylesheet; request both UI font weights
-// explicitly because the startup curtain hides the normal text.
-const presentationReady = new Promise((resolve) => {
-  const timeout = setTimeout(resolve, 10000);
-  Promise.allSettled([
-    document.fonts.load('400 15px YuYang'),
-    document.fonts.load('600 15px YuYang'),
-  ]).then(() => {
-    clearTimeout(timeout);
-    resolve();
-  });
-});
-
 Promise.resolve()
   .then(() =>
     Scheme.load_main('./main.wasm', {
@@ -118,7 +105,7 @@ Promise.resolve()
               requestAnimationFrame(() => callback()),
             ),
           onPresentationReady: (callback) =>
-            presentationReady.then(() => callback()),
+            window.sitePresentationReady.then(() => callback()),
           finishStartup: () => window.finishSiteStartup(),
           url: () => new URL(location.href),
           parameter: (url, key, fallback) =>

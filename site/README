@@ -6,6 +6,9 @@
 
 网站展示字体、字重和款式，以及包名与许可信息。
 预览使用固定样文的透明无损 WebP 图片，不提供在线输入文字试用。
+“使用手册”打开 Texinfo 手册，使用相同的页眉、尾栏和侧栏布局。
+手册内切换章节只更新正文，保留目录和已加载的字体；前进、后退及章节链接
+仍可使用。关闭 JavaScript 时，链接按普通网页方式打开。
 
 ** 本地预览
 
@@ -27,6 +30,13 @@ make -C site PACKAGES='naverPackages.maru-buri justfontPackages.huninn'
 省略 =PACKAGES= 时构建全部字体。首次构建需要下载字体并绘制预览；
 部分受限字体需要按包定义准备本地来源。修改代码或包信息后，重新运行
 =make= 并刷新页面。网站构建不会修改字体包。
+
+主页与手册在界面字体就绪后显示正文。加载失败或超时时，本次页面始终使用
+系统字体，避免阅读中途换字；不启用 JavaScript 也能阅读手册。
+
+手册按字库收录全部字体包，不受 =PACKAGES= 预览选择影响。
+构建手册只求值包信息，不下载或绘制字体。写作与独立构建方法见
+[[file:../docs/README][手册说明]]。
 
 默认筛选简体中文、无衬线体和开源许可，字库与费用全选。
 单包预览看不到结果时，请调整语言、风格和许可筛选。
@@ -72,14 +82,16 @@ make -C site serve BUILD_DIR=/tmp/font-site
 
 需要 GNU Make 4.3 或更新版本、 Guile 3 、 guile-json 、 guile-gcrypt 、 Hoot 、
 C 编译器、 pkg-config 、 FreeType 、 Fontconfig 、 GLib 2.66 或更新版本、
-Pango 、 Cairo 和 libwebp 。样式使用 Tailwind CSS 4.3.4 与 daisyUI 5.7.39 。
+Pango 、 Cairo 、 libwebp 和 Texinfo 。样式使用 Tailwind CSS 4.3.4 与
+daisyUI 5.7.39 。
 
 =DAISYUI= 和 =DAISYUI_THEME= 指定插件及主题； =UI_FONT_REGULAR= 、
 =UI_FONT_MEDIUM= 指定仓耳渔阳体 W02 、 W03 原始 TTF ，
 =UI_FONT_LICENSE= 指定授权声明 PDF 。以上资源路径均使用绝对路径。
 
-同时提供 =CATALOG= 和 =PREVIEWS= 两个 JSON 文件即可跳过 Nix 输入准备，
-不能再与 =PACKAGES= 混用。源码不在 Git 仓库中时，使用 =SOURCE_REVISION=
+同时提供 =CATALOG= 和 =PREVIEWS= 两个 JSON 文件可跳过预览的 Nix 输入准备，
+不能再与 =PACKAGES= 混用。手册还需 =REFERENCE= 指定完整元数据，
+或 =MANUAL= 指向已编译的手册目录。源码不在 Git 仓库中时，用 =SOURCE_REVISION=
 指定完整提交号。 =CC= 、 =CFLAGS= 、 =GUILE= 、 =HOOT= 和 =TAILWINDCSS=
 可覆盖对应工具或参数。
 
@@ -122,7 +134,8 @@ make -C site release SOURCE_REVISION="$(git rev-parse HEAD)"
 #+begin_src sh
 nix develop .#ci
 guile -L site/module site/scripts/archive.scm unpack \
-  /path/to/site.tar.gz /path/to/site.json /path/to/new-public
+  site/build/release/site-*.tar.gz \
+  site/build/release/site-*.json /path/to/new-public
 #+end_src
 
 该命令检查大小、 SHA-256 、提交号和归档路径，拒绝重复文件及链接。

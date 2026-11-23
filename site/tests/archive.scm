@@ -7,11 +7,15 @@
 (define source (make-string 40 #\a))
 (define public (string-append root "/public"))
 (mkdir public)
+(mkdir (string-append public "/manual"))
 (for-each (lambda (name) (write-text (string-append public "/" name) name))
           '("index.html" "licenses.html" "style.css" "bridge.js" "catalog.json"
+            "fonts.css" "presentation.js" "manual.js"
             "previews.json" "main.wasm" "reflect.js" "reflect.wasm" "wtf8.wasm"
             "favicon.svg" "cc0.svg" "tsanger-license.pdf"
-            "yuyang-regular.ttf" "yuyang-medium.ttf"))
+            "yuyang-regular.ttf" "yuyang-medium.ttf"
+            "manual/index.html" "manual/chinese-fonts-overlay.info"
+            "manual/Installation.html"))
 (write-json (string-append public "/catalog.json")
             `(("sourceRevision" . ,source)))
 (chmod (string-append public "/index.html") #o755)
@@ -43,24 +47,24 @@
              (output (string-append root "/extracted")))
         (unpack-site archive manifest output)
         (test-assert "Round-trip public files with normalized permissions"
-          (and (equal? (map file-digest (files-under public))
-                       (map file-digest (files-under output)))
-               (= #o644 (stat:perms (stat (string-append output "/index.html"))))))
+                     (and (equal? (map file-digest (files-under public))
+                                  (map file-digest (files-under output)))
+                          (= #o644 (stat:perms (stat (string-append output "/index.html"))))))
         (test-assert "Reject corrupt archive before extraction"
-          (string-contains
-           (failure-message
-            (lambda () (unpack-site archive
-                                    (jset manifest "sha256"
-                                          (make-string 64 #\0))
-                                    (string-append root "/bad"))))
-           "digest or size mismatch"))
+                     (string-contains
+                      (failure-message
+                       (lambda () (unpack-site archive
+                                               (jset manifest "sha256"
+                                                     (make-string 64 #\0))
+                                               (string-append root "/bad"))))
+                      "digest or size mismatch"))
         (delete-file (string-append public "/index.html"))
         (symlink "style.css" (string-append public "/index.html"))
         (test-assert "Reject symlink in publication output"
-          (string-contains
-           (failure-message
-            (lambda () (pack-site public source (string-append root "/links"))))
-           "link or special file"))
+                     (string-contains
+                      (failure-message
+                       (lambda () (pack-site public source (string-append root "/links"))))
+                      "link or special file"))
         ;; Use an unsafe entry with otherwise valid tar and gzip metadata.
         (run "tar" "--format=ustar" "-czf" (string-append root "/links.tar.gz")
              "-C" public "index.html")
@@ -68,13 +72,13 @@
                (metadata (jset (jset manifest "sha256" (file-digest bad))
                                "size" (stat:size (stat bad)))))
           (test-assert "Reject archive links and preserve existing output"
-            (and (string-contains
-                  (failure-message
-                   (lambda () (unpack-site bad metadata
-                                           (string-append root "/unsafe"))))
-                  "Unsafe site archive entry")
-                 (not (file-exists? (string-append root "/unsafe")))
-                 (file-exists? (string-append output "/index.html")))))))
+                       (and (string-contains
+                             (failure-message
+                              (lambda () (unpack-site bad metadata
+                                                      (string-append root "/unsafe"))))
+                             "Unsafe site archive entry")
+                            (not (file-exists? (string-append root "/unsafe")))
+                            (file-exists? (string-append output "/index.html")))))))
     (lambda () (delete-tree root)))
 (test-end "site-archive")
 (exit (zero? (test-runner-fail-count runner)))

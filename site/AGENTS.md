@@ -7,10 +7,11 @@ this directory unless stated otherwise. User instructions belong in
 
 ## Boundaries
 
-One handwritten `Makefile` owns the build. Nix supplies pinned tools, interface
-assets and font inputs; there is no separate website or server package. `make`
-builds, `make check` tests licensed fixtures, `make serve` serves existing
-output, and `make release` archives it. Do not introduce a second build system.
+The handwritten `Makefile` coordinates the site build and invokes
+`../docs/Makefile` for the manual. Nix supplies pinned tools, interface assets
+and font inputs; there is no separate website or server package. `make` builds,
+`make check` tests licensed fixtures, `make serve` serves existing output, and
+`make release` archives it. Do not introduce a second build system.
 
 Keep dependency ordering in Make and transformations in Guile. `scripts/` and
 `module/chinese-fonts-overlay-site/` handle generation, rendering orchestration,
@@ -39,7 +40,9 @@ Reject `PACKAGES` with explicit `CATALOG` and `PREVIEWS`.
 Separate native compilation, browser assets, input preparation, rendering and
 publication. Refresh inputs when definitions, locks, catalog rules or package
 membership change. Do not freeze data when entering a shell. Explicit `CATALOG`
-and `PREVIEWS` must be supplied together and support builds without Nix.
+and `PREVIEWS` must be supplied together. For builds without Nix, also supply
+`REFERENCE` with complete manual metadata or `MANUAL` with an already compiled
+manual. Never derive manual coverage from a selected preview catalog.
 
 Support independent build directories, read-only sources and an explicit
 `SOURCE_REVISION` without Git. Keep intermediates and test logs under
@@ -58,8 +61,13 @@ project or runtime CDN.
 
 Use the standard Modus Operandi theme and original TsangerYuYangT W02/W03
 interface fonts. Keep complete class names discoverable by CSS source scanning;
-continuous dimensions use CSS variables. Filtering, URL state and loading policy
-belong to Hoot. Browser bindings expose only necessary host operations.
+continuous dimensions use CSS variables. Filtering, URL state and preview
+loading policy belong to Hoot. The shared presentation bootstrap handles
+interface fonts on every page without requiring Hoot for manual reading. Reveal
+content after font readiness; on failure or timeout, keep system fonts for the
+remainder of that navigation. Never apply a late font swap after revealing
+content. With JavaScript disabled, use readable system fonts. Browser bindings
+expose only necessary host operations.
 
 Default filters select Simplified Chinese, sans-serif and open-source licenses,
 with all vendors and costs and embedding unchecked. Choices within a category
@@ -76,6 +84,31 @@ must be supported by that face. Never conceal missing samples with fallback
 fonts or another language.
 
 ## Public output and caching
+
+The manual lives at `manual/`. Compile it with Texinfo, then wrap the generated
+body using shared header and footer procedures in `layout.scm`. Derive the
+chapter sidebar from Texinfo's internal links, not a second hand-maintained
+table of contents. Preserve its chapter, vendor-section and package-subsection
+hierarchy. Manual reading and navigation must work without Hoot or JavaScript.
+Enhance same-origin manual links by replacing only the article and pager;
+preserve the shared shell, loaded fonts and sidebar state. Keep fragment links,
+keyboard focus, browser history and scroll restoration working. Superseded
+requests must not replace newer content; failed enhancement follows the original
+link. Do not intercept downloads, external links or modified clicks. Share shell
+dimensions, theme and interface fonts with the preview; scope manual typography
+to its content. Keep chapter navigation available on small screens and
+keyboard-accessible. Publish HTML and the Info download, not generated
+intermediate metadata or source includes.
+
+Keep reference fields, definitions, lists and notices in semantic Texinfo so
+they remain readable in Info. Style the generated HTML with the site's theme;
+Texinfo's `menu` and `table` classes are not daisyUI components and need scoped
+layout rules. Preserve notice levels and links to their original sources.
+
+Manual and preview source revisions must match. Include the manual and shared
+layout in publication fingerprints, but not font-image fingerprints. Rebuilding
+prose must reuse rendered previews. Validate manual output before replacing the
+complete site. Keep the archive allowlist explicit for manual files.
 
 Publish static HTML, CSS, public JSON, matching Hoot/Wasm assets, SVG
 identifiers and transparent lossless WebP images. Catalog fonts are fixed images

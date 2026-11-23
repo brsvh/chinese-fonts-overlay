@@ -14,20 +14,25 @@ CFLAGS ?= -O2 -g
 SOURCE_REVISION ?=
 RELEASE_DIR ?= $(BUILD_DIR)/release
 PACKAGES ?=
+MANUAL ?= $(BUILD_DIR)/docs/manual
+REFERENCE ?=
 export PACKAGES
 
 override BUILD_DIR := $(abspath $(BUILD_DIR))
 override CACHE_DIR := $(abspath $(CACHE_DIR))
+override REFERENCE := $(if $(REFERENCE),$(abspath $(REFERENCE)))
 BIN := $(BUILD_DIR)/bin
 WEB := $(BUILD_DIR)/web
 INPUTS := $(BUILD_DIR)/inputs
 MODULES := $(SOURCE_DIR)/module
-SCHEME = $(GUILE) --no-auto-compile -L "$(MODULES)"
+SCHEME = $(GUILE) --no-auto-compile -L "$(MODULES)" \
+	-L "$(SOURCE_DIR)/../docs/module"
 FONT_LIBS = pangocairo pangofc fontconfig cairo freetype2 glib-2.0 libwebp
 CATALOG ?= $(INPUTS)/catalog.json
 PREVIEWS ?= $(INPUTS)/fonts.json
 
-STATIC_FILES := index.html licenses.html favicon.svg cc0.svg bridge.js
+STATIC_FILES := index.html licenses.html favicon.svg cc0.svg bridge.js \
+	startup-head.html presentation.js manual.js
 STATIC_ASSETS := $(addprefix $(WEB)/,$(STATIC_FILES))
 HOOT_ASSETS := $(addprefix $(WEB)/,main.wasm reflect.js reflect.wasm wtf8.wasm)
 UI_ASSETS := $(addprefix $(WEB)/,yuyang-regular.ttf yuyang-medium.ttf \
@@ -38,12 +43,24 @@ SCHEME_ENV = FONT_SITE_DATA="$(SOURCE_DIR)/data" FONT_SITE_WEB="$(WEB)" \
 	FONT_SITE_INSPECTOR="$(BIN)/font-info" \
 	FONT_SITE_RENDERER="$(BIN)/render-font-samples"
 
-.PHONY: all check release serve clean clean-cache inputs FORCE
+.PHONY: all check release serve clean clean-cache inputs manual interface FORCE
 
-all: $(NATIVE) $(ASSETS) inputs
+all: $(NATIVE) $(ASSETS) inputs manual interface
 	$(SCHEME_ENV) $(SCHEME) "$(SOURCE_DIR)/scripts/build.scm" \
 	  "$(SOURCE_DIR)" "$(BUILD_DIR)" "$(CACHE_DIR)" \
-	  "$(CATALOG)" "$(PREVIEWS)" "$(SOURCE_REVISION)"
+	  "$(CATALOG)" "$(PREVIEWS)" "$(SOURCE_REVISION)" \
+	  "$(abspath $(MANUAL))"
+
+manual:
+ifeq ($(origin MANUAL),file)
+	$(MAKE) -C "$(SOURCE_DIR)/../docs" BUILD_DIR="$(BUILD_DIR)/docs" \
+	  SOURCE_REVISION="$(SOURCE_REVISION)" REFERENCE="$(REFERENCE)"
+else
+	test -r "$(MANUAL)/navigation.json"
+endif
+
+interface: | $(WEB)
+	$(SCHEME) "$(SOURCE_DIR)/scripts/interface.scm" "$(WEB)"
 
 inputs:
 ifeq ($(origin CATALOG)$(origin PREVIEWS),filefile)
@@ -112,11 +129,15 @@ $(WEB)/input.css: $(SOURCE_DIR)/web/style.css \
 	  "$<" "$@" HTML_SOURCE "$(SOURCE_DIR)/web/index.html" \
 	  SCHEME_SOURCE "$(SOURCE_DIR)/web/main.scm" \
 	  CATALOG_SOURCE "$(MODULES)/chinese-fonts-overlay-site/catalog.scm" \
+	  LAYOUT_SOURCE "$(MODULES)/chinese-fonts-overlay-site/layout.scm" \
+	  MANUAL_SOURCE "$(MODULES)/chinese-fonts-overlay-site/manual.scm" \
 	  DAISYUI "$(DAISYUI)" DAISYUI_THEME "$(DAISYUI_THEME)"
 
 $(WEB)/style.css: $(WEB)/input.css $(SOURCE_DIR)/web/index.html \
 	$(SOURCE_DIR)/web/main.scm \
-	$(MODULES)/chinese-fonts-overlay-site/catalog.scm $(DAISYUI) $(DAISYUI_THEME)
+	$(MODULES)/chinese-fonts-overlay-site/catalog.scm \
+	$(MODULES)/chinese-fonts-overlay-site/layout.scm \
+	$(MODULES)/chinese-fonts-overlay-site/manual.scm $(DAISYUI) $(DAISYUI_THEME)
 	$(TAILWINDCSS) -i "$<" -o "$@" --minify
 
 $(WEB)/yuyang-regular.ttf: $(UI_FONT_REGULAR) \
@@ -131,10 +152,11 @@ $(WEB)/tsanger-license.pdf: $(UI_FONT_LICENSE) \
 	$(BUILD_DIR)/web.settings | $(WEB)
 	cp -f "$(UI_FONT_LICENSE)" "$@"
 
-check: $(NATIVE) $(ASSETS) $(BIN)/image-fixtures | $(BUILD_DIR)/tests
+check: $(NATIVE) $(ASSETS) $(BIN)/image-fixtures interface | $(BUILD_DIR)/tests
 	cd "$(BUILD_DIR)/tests" && GUILE="$(GUILE)" $(SCHEME_ENV) \
 	  FONT_SITE_IMAGE_FIXTURES="$(BIN)/image-fixtures" \
 	  FONT_SITE_FIXTURES="$(SOURCE_DIR)/tests/fixtures/fonts" \
+	  FONT_SITE_DOCS="$(SOURCE_DIR)/../docs" \
 	  $(SCHEME) "$(SOURCE_DIR)/tests/publication.scm"
 	cd "$(BUILD_DIR)/tests" && \
 	  $(SCHEME) "$(SOURCE_DIR)/tests/server.scm"

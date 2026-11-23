@@ -12,7 +12,7 @@
       (for-each
        (lambda (name) (delete-tree (string-append directory "/" name)))
        (match kind
-         ("build" '("bin" "web" "inputs" "tests" "previews" "public"
+         ("build" '("bin" "web" "inputs" "tests" "previews" "public" "docs"
                     "native.settings" "web.settings" "previews.sha256"
                     "public.sha256"))
          ("cache" '("font-records" "language-images"))

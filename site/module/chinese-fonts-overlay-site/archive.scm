@@ -11,9 +11,11 @@
 (define maximum-size 1000000000)
 (define root-files
   '("index.html" "licenses.html" "style.css" "bridge.js" "catalog.json"
+    "fonts.css" "presentation.js" "manual.js"
     "previews.json" "main.wasm" "reflect.js" "reflect.wasm" "wtf8.wasm"
     "favicon.svg" "cc0.svg" "tsanger-license.pdf"
-    "yuyang-regular.ttf" "yuyang-medium.ttf"))
+    "yuyang-regular.ttf" "yuyang-medium.ttf"
+    "manual/index.html" "manual/chinese-fonts-overlay.info"))
 
 (define (require condition message . arguments)
   "Raise MESSAGE with ARGUMENTS when a validation CONDITION is false."
@@ -26,6 +28,7 @@
 (define (public-path? name)
   "Recognize a relative regular-file NAME permitted in the public archive."
   (or (member name root-files)
+      (matches? "^manual/[A-Za-z0-9_-]+\\.html$" name)
       (matches? "^assets/images/[0-9a-f]{64}\\.webp$" name)
       (matches? "^assets/previews/[0-9a-f]{64}\\.json$" name)))
 
@@ -68,7 +71,7 @@
          (require (public-path? relative) "Unexpected public file" relative)
          (list relative))
         ((directory)
-         (require (member relative '("" "assets" "assets/images"
+         (require (member relative '("" "manual" "assets" "assets/images"
                                      "assets/previews"))
                   "Unexpected public directory" relative)
          (append-map
@@ -229,6 +232,7 @@
         (lambda ()
           (extract-files port destination manifest)
           (require (zero? (close-pipe port)) "Invalid gzip archive")
+          (public-files destination)
           (require (equal? (jref manifest "source")
                            (jref (read-json
                                   (string-append destination "/catalog.json"))
