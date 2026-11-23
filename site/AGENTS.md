@@ -59,15 +59,20 @@ upstream guidance when upgrading, and do not update locks merely to match an
 example. Nix supplies Tailwind and daisyUI; Make compiles CSS. Do not add a Node
 project or runtime CDN.
 
-Use the standard Modus Operandi theme and original TsangerYuYangT W02/W03
-interface fonts. Keep complete class names discoverable by CSS source scanning;
-continuous dimensions use CSS variables. Filtering, URL state and preview
-loading policy belong to Hoot. The shared presentation bootstrap handles
-interface fonts on every page without requiring Hoot for manual reading. Reveal
-content after font readiness; on failure or timeout, keep system fonts for the
-remainder of that navigation. Never apply a late font swap after revealing
-content. With JavaScript disabled, use readable system fonts. Browser bindings
-expose only necessary host operations.
+Use the standard Modus Operandi theme. Interface typography pairs Concourse OT
+with original TsangerYuYangT W02/W03; code uses Triplicate A Code. Use Concourse
+Book (400, upright and italic), Medium (500), Semibold (600) and Bold (700), and
+Triplicate regular/bold with their italics. Read the nine original WOFF2 files
+from an optional private `MB_TYPE_DIR` outside the source checkout. Without it,
+local builds use YuYang and system monospace. Never put purchased fonts or
+receipts in Git, Nix sources or font binary caches. Keep complete class names
+discoverable by CSS source scanning; continuous dimensions use CSS variables.
+Filtering, URL state and preview loading policy belong to Hoot. The shared
+presentation bootstrap handles interface fonts on every page without requiring
+Hoot for manual reading. Reveal content after font readiness; on failure or
+timeout, keep system fonts for the remainder of that navigation. Never apply a
+late font swap after revealing content. With JavaScript disabled, use readable
+system fonts. Browser bindings expose only necessary host operations.
 
 Default filters select Simplified Chinese, sans-serif and open-source licenses,
 with all vendors and costs and embedding unchecked. Choices within a category
@@ -113,9 +118,11 @@ complete site. Keep the archive allowlist explicit for manual files.
 Publish static HTML, CSS, public JSON, matching Hoot/Wasm assets, SVG
 identifiers and transparent lossless WebP images. Catalog fonts are fixed images
 only; never publish original font files, private manifests, local paths or
-caches. The only font-file exception is the original interface W02/W03 TTFs,
-accompanied by their license statement. Redistribution metadata does not permit
-restoring live text previews.
+caches. The font-file exceptions are the original interface W02/W03 TTFs with
+their license statement and, when privately supplied, the nine selected MB Type
+WOFF2 files. Include a third-party license notice; these fonts are not CC0. Keep
+the publication allowlist exact and verify originals when creating archives.
+Redistribution metadata does not permit restoring live text previews.
 
 Render in memory with Pango/Cairo and encode directly with libwebp: lossless,
 quality 75, method 6 and exact transparent pixels. Convert premultiplied Cairo

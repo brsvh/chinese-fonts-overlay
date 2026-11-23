@@ -14,6 +14,7 @@
    ((string-suffix? ".json" path) '(application/json (charset . "utf-8")))
    ((string-suffix? ".css" path) '(text/css (charset . "utf-8")))
    ((string-suffix? ".ttf" path) '(font/ttf))
+   ((string-suffix? ".woff2" path) '(font/woff2))
    ((string-suffix? ".pdf" path) '(application/pdf))
    ((string-suffix? ".wasm" path) '(application/wasm))
    ((string-suffix? ".webp" path) '(image/webp))

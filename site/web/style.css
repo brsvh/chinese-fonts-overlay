@@ -65,8 +65,8 @@
 
 /* Apply downloaded fonts only while the initial loading curtain is closed. */
 :root[data-fonts="ready"] {
-  --site-sans: YuYang, sans-serif;
-  --site-mono: YuYang, ui-monospace, monospace;
+  --site-sans: Concourse, YuYang, sans-serif;
+  --site-mono: Triplicate, YuYang, ui-monospace, monospace;
 }
 
 code,

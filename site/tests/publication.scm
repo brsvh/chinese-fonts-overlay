@@ -1,5 +1,6 @@
 (use-modules (chinese-fonts-overlay-site util)
              (chinese-fonts-overlay-site build)
+             (chinese-fonts-overlay-site interface)
              (chinese-fonts-overlay-site previews)
              (srfi srfi-1)
              (srfi srfi-64))
@@ -201,7 +202,7 @@
           (jref face "weight") (jref face "style"))))
 
 (define snapshot (published-files))
-(test-assert "Static output includes only the two interface fonts and public assets"
+(test-assert "Static output includes only selected interface fonts and public assets"
   (and (every (lambda (name) (assoc name snapshot))
               '("index.html" "catalog.json" "bridge.js" "main.wasm"
                 "reflect.js" "reflect.wasm" "wtf8.wasm" "style.css"
@@ -209,6 +210,11 @@
                 "licenses.html" "tsanger-license.pdf" "favicon.svg" "cc0.svg"))
        (equal? (filter font-file? (map car snapshot))
                '("yuyang-medium.ttf" "yuyang-regular.ttf"))
+       (equal? (filter (lambda (name) (string-suffix? ".woff2" name))
+                       (map car snapshot))
+               (sort (filter (lambda (name) (file-exists? (web-file name)))
+                             commercial-font-names)
+                     string<?))
        (not (string-contains (read-text (string-append output "/catalog.json"))
                              temporary))
        (let ((images (files-under (string-append output "/assets/images"))))

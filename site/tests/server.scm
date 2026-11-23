@@ -23,6 +23,7 @@
 (write-text (string-append root "/index.html") "中文预览")
 
 (write-text (string-append root "/a+b.json") "{}")
+(write-text (string-append root "/interface.woff2") "wOF2")
 
 (define image-bytes #vu8(0 128 255 13 10))
 
@@ -58,6 +59,7 @@
                     (equal? body expected))))))
      '(GET HEAD))))
  `(("/" text/html ,(string->utf8 "中文预览"))
+   ("/interface.woff2" font/woff2 ,(string->utf8 "wOF2"))
    ("/sample.webp" image/webp ,image-bytes)))
 
 (for-each

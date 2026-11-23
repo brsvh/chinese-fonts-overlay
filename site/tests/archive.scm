@@ -1,6 +1,8 @@
 (use-modules (chinese-fonts-overlay-site archive)
+             (chinese-fonts-overlay-site interface)
              (chinese-fonts-overlay-site util)
              (ice-9 match)
+             (srfi srfi-1)
              (srfi srfi-64))
 
 (define root (temporary-directory "/tmp"))
@@ -58,6 +60,47 @@
                                                      (make-string 64 #\0))
                                                (string-append root "/bad"))))
                       "digest or size mismatch"))
+        ;; Byte fixtures exercise packaging without requiring purchased fonts.
+        (let* ((library (string-append root "/library"))
+               (inputs (commercial-font-inputs library))
+               (original (getenv "MB_TYPE_DIR")))
+          (dynamic-wind
+              (lambda () (setenv "MB_TYPE_DIR" library))
+              (lambda ()
+                (for-each (lambda (entry)
+                            (mkdir-p (dirname (cdr entry)))
+                            (write-text (cdr entry) (car entry)))
+                          inputs)
+                (prepare-interface library public)
+                (let* ((release (string-append root "/with-webfonts"))
+                       (manifest (pack-site public source release))
+                       (output (string-append root "/webfonts-extracted")))
+                  (unpack-site (string-append release "/" (release-name manifest)
+                                              ".tar.gz") manifest output)
+                  (test-assert "Selected webfonts round-trip as original bytes"
+                               (every (lambda (entry)
+                                        (equal? (file-digest (cdr entry))
+                                                (file-digest (string-append output "/"
+                                                                            (car entry)))))
+                                      inputs)))
+                (write-text (string-append public "/" (caar inputs)) "modified")
+                (test-assert "Reject modified commercial webfonts in an archive"
+                             (string-contains
+                              (failure-message
+                               (lambda () (pack-site public source
+                                                     (string-append root "/modified"))))
+                              "Interface asset differs from its declared input"))
+                (prepare-interface #f public)
+                (test-assert "Removing private input removes fonts and declarations"
+                             (and (not (any (lambda (name)
+                                              (file-exists? (string-append public "/" name)))
+                                            commercial-font-names))
+                                  (not (string-contains
+                                        (read-text (string-append public "/fonts.css"))
+                                        "woff2")))))
+              (lambda ()
+                (if original (setenv "MB_TYPE_DIR" original)
+                    (unsetenv "MB_TYPE_DIR")))))
         (delete-file (string-append public "/index.html"))
         (symlink "style.css" (string-append public "/index.html"))
         (test-assert "Reject symlink in publication output"

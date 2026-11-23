@@ -3,8 +3,8 @@
 const fontTimeout = setTimeout(() => window.settleSiteFonts(false), 10000);
 Promise.resolve()
   .then(() => {
-    const faces = [...document.fonts].filter(
-      (face) => face.family === 'YuYang',
+    const faces = [...document.fonts].filter((face) =>
+      ['Concourse', 'Triplicate', 'YuYang'].includes(face.family),
     );
     if (faces.length < 2)
       throw new Error('Interface font declarations missing');

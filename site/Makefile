@@ -16,7 +16,8 @@ RELEASE_DIR ?= $(BUILD_DIR)/release
 PACKAGES ?=
 MANUAL ?= $(BUILD_DIR)/docs/manual
 REFERENCE ?=
-export PACKAGES
+MB_TYPE_DIR ?=
+export PACKAGES MB_TYPE_DIR
 
 override BUILD_DIR := $(abspath $(BUILD_DIR))
 override CACHE_DIR := $(abspath $(CACHE_DIR))

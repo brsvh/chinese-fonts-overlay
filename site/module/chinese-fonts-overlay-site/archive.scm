@@ -1,5 +1,6 @@
 (define-module (chinese-fonts-overlay-site archive)
   #:use-module (chinese-fonts-overlay-site util)
+  #:use-module (chinese-fonts-overlay-site interface)
   #:use-module (ice-9 ftw)
   #:use-module (ice-9 popen)
   #:use-module (ice-9 regex)
@@ -28,6 +29,7 @@
 (define (public-path? name)
   "Recognize a relative regular-file NAME permitted in the public archive."
   (or (member name root-files)
+      (member name commercial-font-names)
       (matches? "^manual/[A-Za-z0-9_-]+\\.html$" name)
       (matches? "^assets/images/[0-9a-f]{64}\\.webp$" name)
       (matches? "^assets/previews/[0-9a-f]{64}\\.json$" name)))
@@ -84,6 +86,10 @@
   (let ((files (sort (walk "") string<?)))
     (require (every (lambda (name) (member name files)) root-files)
              "Missing required public files")
+    (let ((fonts (filter (lambda (name) (member name files))
+                         commercial-font-names)))
+      (require (or (null? fonts) (equal? fonts commercial-font-names))
+               "Incomplete commercial interface fonts"))
     files))
 
 (define (pack-site directory source destination)
@@ -110,6 +116,16 @@
      '(("yuyang-regular.ttf" . "UI_FONT_REGULAR")
        ("yuyang-medium.ttf" . "UI_FONT_MEDIUM")
        ("tsanger-license.pdf" . "UI_FONT_LICENSE")))
+    (when (any (lambda (name) (member name files)) commercial-font-names)
+      (let ((inputs (commercial-font-inputs (getenv "MB_TYPE_DIR"))))
+        (require (pair? inputs) "MB_TYPE_DIR is required to verify webfonts")
+        (for-each
+         (lambda (entry)
+           (require (equal? (file-digest (cdr entry))
+                            (file-digest (string-append directory "/" (car entry))))
+                    "Interface asset differs from its declared input"
+                    (car entry)))
+         inputs)))
     (mkdir destination)
     (catch #t
       (lambda ()
