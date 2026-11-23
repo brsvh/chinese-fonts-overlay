@@ -1,0 +1,69 @@
+@node Reference
+@chapter 接口参考
+
+@menu
+* 包属性: Package-Attributes. 区分安装属性、包名和字体名称。
+* 字库组合函数: Package-Functions. 按条件组合字体包。
+* 目录字段: Catalog-Fields. 理解生成的字体信息。
+@end menu
+
+@node Package-Attributes
+@section 包属性与公开入口
+@cindex 包属性
+@cindex pname
+
+  @code{overlays.default} 是启用本项目字体的入口。
+字库中的单包通过 @code{pkgs.@var{vendor}Packages.@var{font}} 访问。
+例如， @code{naverPackages.maru-buri} 是完整属性； @code{naver-maru-buri}
+是该包的 @code{pname} ； Maru Buri 是字体名称。这些名称用途不同，
+安装和语言扫描使用完整属性。
+
+  Flake 的 @code{packages.@var{system}} 公开字库合集。
+单款字体通过 overlay 获取。项目同时提供 @code{lib} 中的辅助函数；
+安装字体通常只需使用 overlay 和包属性。
+
+@node Package-Functions
+@section 字库组合函数
+
+  字库的包集合提供组合函数，用于把符合条件的字体放入同一个包。
+生成的包可以加入字体安装列表；组合不会改变成员字体的许可。
+
+@deffn 函数 combine' name predicate
+
+  字库包集合中的 @code{combine'} 接收合集名称和一个判断函数。
+判断函数接收单个字体包，返回 @code{true} 时将其加入合集。
+下面的例子在启用 overlay 后，选择落霞孤鹜字库中标记为无许可费的字体：
+
+@example
+pkgs.lxgwPackages.combine' "my-lxgw-fonts"
+  (font: font.chinese-fonts-overlay-site.licenseCost == "free")
+@end example
+@end deffn
+
+@deffn 函数 combine predicate
+  @code{combine} 接收同样的判断函数，使用字库预设的合集名称。
+@end deffn
+
+@deffn 函数 filterDerivations predicate attrs
+  @code{lib.filterDerivations} 接收判断函数和属性集，返回符合条件的
+derivation 列表。属性集中的辅助函数等非 derivation 值会被忽略。
+判断函数需要对传入的包有效；函数不会推断字体许可或用途。
+@end deffn
+
+@node Catalog-Fields
+@section 字体信息字段
+@cindex 字体信息
+
+  包中的 @code{passthru.chinese-fonts-overlay-site} 保存展示名称、字库、
+风格、语言、费用和注意事项。手册和网站使用同一份包定义，
+不单独维护字体的版本或许可清单。
+
+  风格可以重叠。例如，黑体通常同时属于黑体和无衬线体。
+未知风格单独列出，不与其他分类并列。支持语言是包内各款字体覆盖范围的并集，
+语言列表为空时，不据名称猜测支持范围。
+
+  嵌入权限由 @code{embedding} 指定；省略时使用
+@code{meta.redistributable} ，两者均缺失时为不允许。
+这些字段记录项目依据上游条款作出的判断，完整条件仍以许可原文为准。
+
+@include vocabulary.texi

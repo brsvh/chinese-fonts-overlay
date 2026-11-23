@@ -20,8 +20,9 @@ these two `AGENTS.md` files may use English Markdown.
 Write for readers using or maintaining the project. Describe current interfaces
 and stable conventions, not session history, intermediate attempts or deployment
 status. Keep contribution instructions in `.github/CONTRIBUTING.md` and website
-operations in `site/README`. Do not recreate `docs/`, per-package README
-previews or duplicate development guides.
+operations in `site/README`. The user manual lives in `docs/` as Texinfo;
+`docs/README` explains its local build. Do not add per-package README previews
+or duplicate development guides.
 
 Org source lines are limited to 80 display columns, including markup and URLs.
 Chinese characters and full-width punctuation count as two columns. Verify with
@@ -29,6 +30,29 @@ Emacs `string-width` or an equivalent display-width facility. Leave a space
 between Chinese and English text or inline markup, including after Chinese
 punctuation. Do not split words, code or URLs; a long link's description may
 wrap.
+
+## User manual
+
+Use [texinfo-writing](.agents/skills/texinfo-writing/SKILL.md) for the manual.
+Write original Chinese explanations in the style of the GNU Emacs user manual;
+the manual is CC0, not a copy of Emacs documentation. Referenced fonts and
+upstream material retain their own licenses. Use Texinfo nodes, menus, semantic
+markup and indexes; keep node identifiers stable when changing display titles.
+
+Keep authored guidance under `docs/`. Put all vendors under one font-reference
+chapter, with vendor sections and package subsections. Generate the complete
+reference by evaluating the pinned Nix sources. This project provides an overlay
+and packages, not a module-option interface. Do not invent options or maintain a
+parallel metadata list. Share catalog extraction through `lib/font-catalog.nix`;
+composition functions expose their actual `fontMembers`. Distinguish directly
+extracted source collections from composed collections.
+
+Metadata evaluation must not realize fonts or rewrite package files. Escape all
+metadata inserted into Texinfo, preserve notices and every upstream link, and
+exclude private paths. Manual coverage is independent of website `PACKAGES`
+selection. Keep generated files under ignored build directories. Build HTML and
+Info and check coverage and links with `make -C docs check` in the docs shell.
+Inspect integrated pages in a browser after changing the layout.
 
 ## Font packages
 

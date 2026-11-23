@@ -1,0 +1,90 @@
+@node Installation
+@chapter 安装
+@cindex 安装
+@cindex overlay
+
+  本项目通过 @dfn{overlay} 将字体包加入 Nixpkgs 的包集合。
+启用 overlay 后，使用完整包属性选择字体，例如
+@code{pkgs.justfontPackages.huninn} 。包属性是安装时使用的名称，
+与字体在应用程序中显示的家族名称不同。
+
+@menu
+* NixOS: NixOS. 在系统配置中安装。
+* Home Manager: Home-Manager. 在用户配置中安装。
+* 二进制缓存: Binary-Cache. 复用已经构建的字体。
+@end menu
+
+@node NixOS
+@section 在 NixOS 中安装
+
+  在现有 flake 的 @code{inputs} 中添加项目：
+
+@example
+chinese-fonts-overlay = @{
+  url = "github:brsvh/chinese-fonts-overlay";
+@};
+@end example
+
+  将 @code{inputs} 通过 @code{specialArgs} 传入 NixOS 模块后，
+在配置中启用 overlay ，并将需要的字体加入 @code{fonts.packages} ：
+
+@example
+@{ inputs, pkgs, ... @}:
+@{
+  nixpkgs.overlays = [
+    inputs.chinese-fonts-overlay.overlays.default
+  ];
+  fonts.packages = [
+    pkgs.justfontPackages.huninn
+  ];
+@}
+@end example
+
+  保存配置并按现有的系统更新方式应用。新启动的应用便可以使用字体；
+已经运行的应用可能需要重新启动。将示例中的包属性替换为字库小节所列的
+属性，即可安装其他字体。合集也可以放入同一个列表。
+
+@node Home-Manager
+@section 在 Home Manager 中安装
+@cindex Home Manager
+
+  独立使用 Home Manager 时，为它使用的 Nixpkgs 启用 overlay ，
+通过 @code{home.packages} 安装字体。在使用 Fontconfig 的环境中，
+同时启用 @code{fonts.fontconfig.enable} ：
+
+@example
+@{ inputs, pkgs, ... @}:
+@{
+  nixpkgs.overlays = [
+    inputs.chinese-fonts-overlay.overlays.default
+  ];
+  home.packages = [
+    pkgs.justfontPackages.huninn
+  ];
+  fonts.fontconfig.enable = true;
+@}
+@end example
+
+  此例假定已经通过 @code{extraSpecialArgs} 传入 @code{inputs} 。
+如果 Home Manager 作为 NixOS 模块运行，并使用系统的 @code{pkgs} ，
+请在 NixOS 的 Nixpkgs 配置中启用 overlay ，避免另外维护一个包集合。
+
+@node Binary-Cache
+@section 使用二进制缓存
+@cindex 二进制缓存
+
+  缓存可以减少重复构建。 NixOS 用户可将以下设置加入系统配置：
+
+@example
+nix.settings = @{
+  extra-substituters = [ "https://cache.bingshan.org" ];
+  extra-trusted-public-keys = [
+    "cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk="
+  ];
+@};
+@end example
+
+  其他环境在 @file{nix.conf} 中配置相同的地址与公钥。
+使用 Nix daemon 时，修改其配置后需要重启服务。
+缓存只包含经审核允许再分发的产物；没有匹配产物时， Nix 会尝试本地构建。
+启用缓存不会改变字体的使用许可，也不能替代需要自行提供的字体来源。

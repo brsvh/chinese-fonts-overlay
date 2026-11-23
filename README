@@ -11,6 +11,9 @@ Chinese Fonts Overlay 提供中文字体的 Nix 包，也收录日文、韩文�
 查看字体效果、包名和许可信息，按语言、字库或风格查找字体。
 包定义位于 [[file:packages/][packages/]] 。
 
+安装、使用与各字库的包参考见 [[file:docs/][使用手册源码]]；
+本地阅读与构建方法见 [[file:docs/README][手册说明]]。
+
 ** 安装
 
 在现有 flake 的 =inputs= 中添加：

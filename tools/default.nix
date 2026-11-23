@@ -99,6 +99,17 @@ in
       };
 
       devShells = {
+        docs = pkgs.mkShell {
+          packages = with pkgs; [
+            git
+            gnumake
+            guile
+            guile-gcrypt
+            guile-json
+            nix
+            texinfoInteractive
+          ];
+        };
         ci = pkgs.mkShell {
           packages = with pkgs; [
             awscli2

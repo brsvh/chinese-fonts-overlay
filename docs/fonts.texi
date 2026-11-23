@@ -1,0 +1,17 @@
+@node Fonts
+@chapter 字体包参考
+@cindex 字库
+
+  本章按发行方介绍所有字体包。每个字库先列出可用合集，
+再介绍可以单独安装的字体。安装时使用条目中的完整包属性；
+字体名称保留发行方对该字体的称呼。
+
+  版本、语言、风格和许可信息来自包定义。合集成员由组合函数求值生成，
+直接提取的上游集合另作说明。许可费用、再分发和嵌入权限含义不同，
+阅读包条目前可先参阅 @ref{Licensing, 理解许可信息} 。
+
+@menu
+@include fonts-menu.texi
+@end menu
+
+@include fonts-sections.texi

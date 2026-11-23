@@ -1,0 +1,50 @@
+# -*- mode: org; -*-
+#+language: zh-CN
+#+options: toc:nil num:nil
+
+* 使用手册
+
+手册介绍字体的安装、使用与包属性，并按字库收录所有独立字体包和合集。
+正文使用 Texinfo ，采用 CC0 ；引用的上游材料与字体仍遵循各自许可。
+
+** 构建与阅读
+
+在仓库根目录运行：
+
+#+begin_src sh
+nix develop .#docs
+make -C docs check
+info -f docs/build/manual/chinese-fonts-overlay.info
+#+end_src
+
+HTML 入口是 =docs/build/manual/html/index.html= 。构建只求值包信息，
+不下载字体。输出位于 =docs/build/= ，重复构建会复用没有变化的结果。
+=BUILD_DIR= 可以指定独立输出目录； =SOURCE_REVISION= 可指定完整提交号。
+
+在网站中查看排版和章节侧栏，使用 [[file:../site/README][网站开发环境]]：
+
+#+begin_src sh
+nix develop .#site
+make -C site PACKAGES=naverPackages.maru-buri
+make -C site serve
+#+end_src
+
+打开 [[http://127.0.0.1:8000/manual/][本地手册]]。
+预览选择不会缩减手册收录的字体。
+
+** 编写
+
+=chinese-fonts-overlay.texi= 是入口，安装、使用、接口和排查问题分别保存在
+同目录的章节文件中。正文先解释读者要解决的问题，再给出必要的命令和示例。
+用 Texinfo 的节点、菜单和索引组织内容；调整标题时保留已有节点名称。
+
+“字体包参考”一章按字库分节，单款字体是字库下面的小节。
+这些内容由 =reference.nix= 求值生成，与网站共用包元数据和校验规则。
+名称、版本、语言、风格和许可应在包定义中维护，勿编辑生成的章节。
+组合合集的成员来自组合函数，直接提取的上游集合另作说明。
+本项目没有 Nix 模块选项，接口参考介绍的是 overlay 、包属性和组合函数。
+
+=make check= 检查 HTML 链接、全部包的节点覆盖和 Info 输出。
+修改布局后还需在浏览器中检查宽屏、窄屏、键盘导航与字体预览之间的跳转。
+没有 Nix 时，可用 =REFERENCE= 指定先前求值的完整 JSON ，同时提供
+=SOURCE_REVISION= ；这也是小型本地测试使用的入口。

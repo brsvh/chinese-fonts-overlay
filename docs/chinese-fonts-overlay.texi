@@ -1,0 +1,72 @@
+\input texinfo
+@setfilename chinese-fonts-overlay.info
+@settitle Chinese Fonts Overlay 使用手册
+@set project-url https://github.com/brsvh/chinese-fonts-overlay
+@documentlanguage zh_CN
+@documentencoding UTF-8
+@paragraphindent 0
+@defcodeindex pa
+@include revision.texi
+
+@copying
+本手册正文采用 CC0 1.0 Universal ，许可全文见
+@url{https://creativecommons.org/publicdomain/zero/1.0/legalcode, CC0} 。
+字体及引用的上游材料各自遵循原有许可。
+@end copying
+
+@dircategory Fonts
+@direntry
+* Chinese Fonts Overlay: (chinese-fonts-overlay). 安装和使用 Nix 字体包。
+@end direntry
+
+@titlepage
+@title Chinese Fonts Overlay 使用手册
+@subtitle 安装、使用与字体包参考
+@page
+@insertcopying
+@end titlepage
+
+@node Top
+@top Chinese Fonts Overlay 使用手册
+
+  Chinese Fonts Overlay 将不同发行方的字体打包为 Nix 包。
+你可以安装一款字体、选择同一字库的几款字体，或安装整个合集。
+本手册先介绍安装与日常使用，再按字库列出所有字体包。
+
+  第一次使用时，请从 @ref{Installation, 安装} 开始。
+查找某款字体时，可以浏览 @ref{Fonts, 字体包参考} ，
+或使用 @ref{Package-Index, 包属性索引} 。
+网页中的字体预览展示固定样文；安装后可以在自己的应用中使用这些字体。
+
+@insertcopying
+
+@menu
+* 安装: Installation. 将字体加入系统或用户环境。
+* 使用与选择: Usage. 查找字体、使用合集和处理许可。
+* 接口参考: Reference. Overlay 、包属性和公开函数。
+* 排查问题: Troubleshooting. 处理构建、字体发现和预览问题。
+* 字体包参考: Fonts. 按字库查找字体包与合集。
+* 包属性索引: Package-Index. 按完整安装属性查找。
+* 函数索引: Function-Index. 查找公开函数。
+* 概念索引: Concept-Index. 按主题查找。
+@end menu
+
+@include installation.texi
+@include usage.texi
+@include reference.texi
+@include troubleshooting.texi
+@include fonts.texi
+
+@node Package-Index
+@unnumbered 包属性索引
+@printindex pa
+
+@node Function-Index
+@unnumbered 函数索引
+@printindex fn
+
+@node Concept-Index
+@unnumbered 概念索引
+@printindex cp
+
+@bye

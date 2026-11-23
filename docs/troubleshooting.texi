@@ -1,0 +1,41 @@
+@node Troubleshooting
+@chapter 排查问题
+
+@menu
+* 找不到包: Missing-Package. 核对 overlay 和属性名称。
+* 应用看不到字体: Missing-Font. 核对安装结果与应用发现机制。
+* 构建失败: Build-Failure. 区分许可设置、来源和下载问题。
+@end menu
+
+@node Missing-Package
+@section 找不到包属性
+
+  如果配置报告属性不存在，先确认正在使用的 @code{pkgs} 已应用本项目的
+overlay ，再核对字库小节中的完整属性。显示名称或 @code{pname} 不能代替
+安装属性。锁定到较早提交的配置可能还不包含新字体，请检查自己的锁文件。
+
+@node Missing-Font
+@section 应用中看不到字体
+
+  先确认配置已经应用，再重新启动应用。在使用 Fontconfig 的环境中，
+可运行 @command{fc-list} 检查字体是否被发现。应用菜单通常使用字体内部的
+家族名称，可能与包属性不同。
+
+  如果字符仍由其他字体显示，检查目标字体是否覆盖这些字符，以及应用自身的
+字体和回退设置。网页可能指定自己的字体；应用也可能只显示部分可变字重。
+手册中的语言覆盖信息可以帮助缩小范围，但不能替代实际字形检查。
+
+@node Build-Failure
+@section 构建失败
+
+  非自由软件检查失败时，核对 Nixpkgs 的允许设置和字体许可。
+缺少本地来源时，按照目标包定义准备文件。下载失败时，查看实际失败的 URL
+和错误消息，确认是网络问题还是上游更换了文件。
+
+  不应只为让构建通过而接受新的 hash 。上游内容变化时，需要核对版本、
+来源与安装结果，再更新包。报告问题时提供完整属性、命令、系统架构和关键日志，
+不要附上受限字体文件。
+
+  包维护和问题报告方法见
+@url{@value{project-url}/blob/@value{source-revision}/.github/CONTRIBUTING.md,
+贡献指南} 。

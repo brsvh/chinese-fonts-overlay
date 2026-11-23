@@ -26,6 +26,7 @@
 /font-preview-images
 
 # website and maintenance build outputs
+/docs/build/
 /site/.cache/
 /site/build/
 /tools/update-font-languages/build/
