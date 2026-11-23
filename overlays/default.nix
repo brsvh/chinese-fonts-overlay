@@ -32,6 +32,9 @@ let
 
   link =
     scope: pname: condition:
+    let
+      members = filterDerivations condition scope;
+    in
     stdenvNoCC.mkDerivation {
       inherit
         pname
@@ -44,7 +47,7 @@ let
 
         mkdir -p $out
 
-        for drv in ${concatStringsSep " " (filterDerivations condition scope)}; do
+        for drv in ${concatStringsSep " " members}; do
           ${lndir}/bin/lndir -silent $drv $out
         done
 
@@ -53,6 +56,7 @@ let
 
       passthru = {
         isFontAggregate = true;
+        fontMembers = members;
       };
 
       version = "0";
