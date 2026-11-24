@@ -102,13 +102,13 @@ nix run .#update-font-languages -- packages/naver/maru-buri/package.nix --check
 只构建本次涉及的字体：
 
 ```sh
-nix develop .#site
-make -C site PACKAGES=naverPackages.maru-buri
-make -C site serve
+nix develop .#pages
+make -C pages PACKAGES=naverPackages.maru-buri
+make -C pages serve
 ```
 
 多个属性用空格分隔并加引号。打开本地页面后，按该字体支持的语言和风格调整筛选条件；默认筛选可能隐藏它。省略 `PACKAGES` 会构建全部字体，更多选项见
-[网站说明](../site/README)。
+[网站说明](../pages/README)。
 
 ## 检查与 CI
 
@@ -126,7 +126,7 @@ PR 的 `Flake checks` 运行格式检查、元数据检查和网站素材测试�
 汇总字体构建与语言校验：构建可复用已验证记录；语言校验独立比较字体、语言列表及扫描工具，变化时重新扫描，不因构建命中缓存而跳过。Windows
 字体需要本地来源，不自动构建或扫描，贡献者应提供本地验证结果。
 
-网站修改运行 `nix develop .#site -c make -C site check`，界面修改还需在浏览器检查。维护工具和 CI
+网站修改运行 `nix develop .#pages -c make -C pages check`，界面修改还需在浏览器检查。维护工具和 CI
 通过实际使用验证，不另建测试套件。纯文档修改核对命令、链接和排版即可。字体使用根目录的锁定依赖，开发工具使用
 `tools/flake.lock`；更新依赖时请区分。
 

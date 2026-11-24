@@ -6,10 +6,11 @@ agents. Read the root [README](README) for usage and
 
 ## Scope and documentation
 
-Keep maintenance instructions in this file and [site/AGENTS.md](site/AGENTS.md)
-only. Read the latter for any website work, including its Nix registration and
-development environment. Package definitions and maintenance tools belong
-outside `site/`; website architecture and publication conventions belong there.
+Keep maintenance instructions in this file and
+[pages/AGENTS.md](pages/AGENTS.md) only. Read the latter for any website work,
+including its Nix registration and development environment. Package definitions
+and maintenance tools belong outside `pages/`; website architecture and
+publication conventions belong there.
 
 Project documentation uses Chinese. Default documentation files are named
 `README`, start with `# -*- mode: org; -*-`, and use Org headings, links and
@@ -20,9 +21,8 @@ these two `AGENTS.md` files may use English Markdown.
 Write for readers using or maintaining the project. Describe current interfaces
 and stable conventions, not session history, intermediate attempts or deployment
 status. Keep contribution instructions in `.github/CONTRIBUTING.md` and website
-operations in `site/README`. The user manual lives in `docs/` as Texinfo;
-`docs/README` explains its local build. Do not add per-package README previews
-or duplicate development guides.
+operations in `pages/README`. The Texinfo manual lives in `pages/doc/`. Do not
+add per-package README previews or duplicate development guides.
 
 Org source lines are limited to 80 display columns, including markup and URLs.
 Chinese characters and full-width punctuation count as two columns. Verify with
@@ -39,11 +39,11 @@ the manual is CC0, not a copy of Emacs documentation. Referenced fonts and
 upstream material retain their own licenses. Use Texinfo nodes, menus, semantic
 markup and indexes; keep node identifiers stable when changing display titles.
 
-Keep authored guidance under `docs/`. Put all vendors under one font-reference
-chapter, with vendor sections and package subsections. Generate the complete
-reference by evaluating the pinned Nix sources. This project provides an overlay
-and packages, not a module-option interface. Do not invent options or maintain a
-parallel metadata list. Share catalog extraction through
+Keep authored guidance under `pages/doc/`. Put all vendors under one
+font-reference chapter, with vendor sections and package subsections. Generate
+the complete reference by evaluating the pinned Nix sources. This project
+provides an overlay and packages, not a module-option interface. Do not invent
+options or maintain a parallel metadata list. Share catalog extraction through
 `packages/font-catalog.nix`; composition functions expose their actual
 `fontMembers`. Distinguish directly extracted source collections from composed
 collections.
@@ -52,8 +52,8 @@ Metadata evaluation must not realize fonts or rewrite package files. Escape all
 metadata inserted into Texinfo, preserve notices and every upstream link, and
 exclude private paths. Manual coverage is independent of website `PACKAGES`
 selection. Keep generated files under ignored build directories. Build HTML and
-Info and check coverage and links with `make -C docs check` in the docs shell.
-Inspect integrated pages in a browser after changing the layout.
+Info and check coverage and links with `make -C pages check-manual` in the
+manual shell. Inspect integrated pages in a browser after changing the layout.
 
 ## Font packages
 
@@ -117,7 +117,7 @@ Use camelCase Hercules categories: `planFonts`, `buildFont/<package>`,
 `publishFont/<package>` and `buildSite`. Font builds are ordinary Nix outputs;
 credentialed publication uses Effects. Publication control is JavaScript in
 `ci/`, exposed through `nix run .#ci`; website generation and archive validation
-are Guile in `site/`. Transport fields are contracts, not cosmetic job names.
+are Guile in `pages/`. Transport fields are contracts, not cosmetic job names.
 
 Preserve cache receipts and pending publications. Mainline planning uses its
 saved inventory or audits current packages against verified cache receipts. Font

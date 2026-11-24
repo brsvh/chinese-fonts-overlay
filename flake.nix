@@ -135,7 +135,7 @@
           modules = [
             (projectRoot + /tools)
             (projectRoot + /ci/hercules.nix)
-            (projectRoot + /site)
+            (projectRoot + /pages)
           ];
 
           outputs = [

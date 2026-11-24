@@ -20,8 +20,8 @@ function archiveCommand(...args) {
   return command('guile', [
     '--no-auto-compile',
     '-L',
-    path.join(root, 'site/module'),
-    path.join(root, 'site/scripts/archive.scm'),
+    path.join(root, 'pages/module'),
+    path.join(root, 'pages/build-aux/archive.scm'),
     ...args,
   ]);
 }
@@ -153,13 +153,13 @@ function buildArchive(source) {
     'develop',
     '--no-write-lock-file',
     '--no-update-lock-file',
-    sourceRoot + '#site',
+    sourceRoot + '#pages',
     '-c',
     'env',
     'NIX_ENFORCE_PURITY=0',
     'make',
     '-C',
-    path.join(sourceRoot, 'site'),
+    path.join(sourceRoot, 'pages'),
     '-j2',
     'BUILD_DIR=' + build,
     'CACHE_DIR=' + path.join(stateDirectory, 'cache'),

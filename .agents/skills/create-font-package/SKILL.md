@@ -24,7 +24,7 @@ current shell directory or the skill directory.
 
 This workflow describes the Chinese-fonts-overlay layout: `packages/`,
 `lib/licenses.nix`, a root `README`, contribution guidance under `.github/`, and
-the generated preview website under `site/`. Confirm those paths, package
+the generated preview website under `pages/`. Confirm those paths, package
 discovery, flake outputs, catalog inputs, and preview publication settings in
 the actual checkout. Adapt renamed equivalents; do not introduce this layout
 into an unrelated project. If the required integration cannot be identified,
@@ -106,7 +106,7 @@ otherwise follow the target's own documented equivalent workflow.
 10. Check the generated website after package builds succeed:
     - follow the target's website maintenance instructions, selecting only the
       affected package attributes when supported; for this layout, use
-      `make -C site PACKAGES='<overlay attributes>'` in the website shell;
+      `make -C pages PACKAGES='<overlay attributes>'` in the website shell;
     - adjust default filters to the selected font's language, style and license;
     - inspect the package entry, licensing information, language coverage, and
       all included font styles in the generated previews;

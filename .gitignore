@@ -25,43 +25,8 @@
 # previews
 /font-preview-images
 
-# website and maintenance build outputs
-/docs/build/
-/site/.cache/
-/site/build/
-/tools/update-font-languages/build/
-
-# Local output from earlier builds
-/site/dist/
-/site/public/
-/site/cache/
-/site/autom4te.cache/
-/site/aclocal.m4
-/site/configure
-/site/configure~
-/site/Makefile.in
-/site/build-aux/compile
-/site/build-aux/depcomp
-/site/build-aux/install-sh
-/site/build-aux/missing
-/site/build-aux/test-driver
-/site/compiled-web/
-/site/chinese-fonts-overlay-site
-/site/font-info
-/site/render-font-samples
-/site/image-fixtures
-/site/config.log
-/site/config.cache
-/site/config.status
-/site/src/.deps/
-/site/src/.dirstamp
-/site/src/*.o
-/site/*.log
-/site/tests/*.log
-/site/tests/*.trs
-/site/tests/.deps/
-/site/tests/.dirstamp
-/site/tests/*.o
-/site/*.tar.xz
+# Website and manual outputs
+/pages/build/
+/pages/.cache/
 
 # .gitignore ends here
