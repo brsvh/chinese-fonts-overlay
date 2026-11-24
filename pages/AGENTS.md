@@ -189,6 +189,12 @@ requests. Fleet owns endpoint, quota and encrypted keys. Hercules has bucket
 read/write access without ownership; Actions has read-only access. Never reuse
 unrelated credentials or upload font closures.
 
+Read the production webfonts from the private `chinese-fonts-overlay-webfonts`
+bucket (512 MiB) with the separate `webfont-input-read` Effect secret. Download
+only the objects declared in `etc/webfonts.json`, verify their pinned SHA-256
+digests and keep the temporary library outside the checkout and the Nix store.
+Use the same inputs for building and packing. PR checks use the fixture fonts.
+
 Store immutable archives under the source revision and write `manifest.json`
 last. Under the single-writer lock, keep at most two complete versions including
 pending deployments: remove the oldest before the next upload, retaining the

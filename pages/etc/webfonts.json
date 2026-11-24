@@ -1,0 +1,68 @@
+{
+  "prefix": "mb-type/260526",
+  "faces": [
+    {
+      "family": "Concourse",
+      "weight": "400",
+      "style": "normal",
+      "path": "WOFF2 font files (best for web)/+ OT family/Concourse OT/concourse_ot_3_book.woff2",
+      "sha256": "7d06c9be56844b7292b7b52f0c6aa0c5d6a9bcbeea83b1f4a1ec6bfaf26ad8d5"
+    },
+    {
+      "family": "Concourse",
+      "weight": "400",
+      "style": "italic",
+      "path": "WOFF2 font files (best for web)/+ OT family/Concourse OT/concourse_ot_3_book_italic.woff2",
+      "sha256": "2fff4d9111036b3ce54cd1496c5c060c143c64231a211b673d051fb2519cf48a"
+    },
+    {
+      "family": "Concourse",
+      "weight": "500",
+      "style": "normal",
+      "path": "WOFF2 font files (best for web)/+ OT family/Concourse OT/concourse_ot_4_medium.woff2",
+      "sha256": "0b4e8dffef6eb8512f5b777a949113ce73866ffa4c0b546e62d374db9cfe298a"
+    },
+    {
+      "family": "Concourse",
+      "weight": "600",
+      "style": "normal",
+      "path": "WOFF2 font files (best for web)/+ OT family/Concourse OT/concourse_ot_6_semibold.woff2",
+      "sha256": "fd3aacd88ff04e92e0ba8dd32f73ab9954dfec44fa9c895c043ae5a53dabd730"
+    },
+    {
+      "family": "Concourse",
+      "weight": "700",
+      "style": "normal",
+      "path": "WOFF2 font files (best for web)/+ OT family/Concourse OT/concourse_ot_7_bold.woff2",
+      "sha256": "a067f349727ada7a09db58d5de0444dc9ad5e5d4561ee6e624c5b97f296a1b6c"
+    },
+    {
+      "family": "Triplicate",
+      "weight": "400",
+      "style": "normal",
+      "path": "WOFF2 font files (best for web)/Triplicate A Code/triplicate_a_code_regular.woff2",
+      "sha256": "36af65e317bf57be4de7ea295d46c810921881c850b6a78f4ba7c080ffd9ed23"
+    },
+    {
+      "family": "Triplicate",
+      "weight": "400",
+      "style": "italic",
+      "path": "WOFF2 font files (best for web)/Triplicate A Code/triplicate_a_code_italic.woff2",
+      "sha256": "8156d9a51366bab1e947defa1b132bbaceaac02b8408c1fdb6dc6e13f33b7fea"
+    },
+    {
+      "family": "Triplicate",
+      "weight": "700",
+      "style": "normal",
+      "path": "WOFF2 font files (best for web)/Triplicate A Code/triplicate_a_code_bold.woff2",
+      "sha256": "802cfaaa193827473b7b35d342fe4da813a4c1671b52ae0a73f99c7ec00c17c8"
+    },
+    {
+      "family": "Triplicate",
+      "weight": "700",
+      "style": "italic",
+      "path": "WOFF2 font files (best for web)/Triplicate A Code/triplicate_a_code_bold_italic.woff2",
+      "sha256": "7a0104e395a0a1f2ebddf9a13c510b386dc4880073ee95e3c5ff45fb0190ff57"
+    }
+  ]
+}

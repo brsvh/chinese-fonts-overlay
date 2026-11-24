@@ -1,41 +1,23 @@
 (define-module (chinese-fonts-overlay pages presentation fonts)
   #:use-module (chinese-fonts-overlay pages util)
-  #:use-module (ice-9 match)
   #:use-module (srfi srfi-1)
   #:export (commercial-font-names commercial-font-inputs prepare-interface))
 
-;; Original webfonts only. The purchased library remains outside the checkout.
 (define commercial-faces
-  '(("Concourse" "400" "normal" "+ OT family/Concourse OT"
-     "concourse_ot_3_book.woff2")
-    ("Concourse" "400" "italic" "+ OT family/Concourse OT"
-     "concourse_ot_3_book_italic.woff2")
-    ("Concourse" "500" "normal" "+ OT family/Concourse OT"
-     "concourse_ot_4_medium.woff2")
-    ("Concourse" "600" "normal" "+ OT family/Concourse OT"
-     "concourse_ot_6_semibold.woff2")
-    ("Concourse" "700" "normal" "+ OT family/Concourse OT"
-     "concourse_ot_7_bold.woff2")
-    ("Triplicate" "400" "normal" "Triplicate A Code"
-     "triplicate_a_code_regular.woff2")
-    ("Triplicate" "400" "italic" "Triplicate A Code"
-     "triplicate_a_code_italic.woff2")
-    ("Triplicate" "700" "normal" "Triplicate A Code"
-     "triplicate_a_code_bold.woff2")
-    ("Triplicate" "700" "italic" "Triplicate A Code"
-     "triplicate_a_code_bold_italic.woff2")))
+  (jarray (jref (read-json (search-path %load-path "../etc/webfonts.json"))
+                "faces")))
 
-(define commercial-font-names (map last commercial-faces))
+(define (face-name face)
+  (basename (jref face "path")))
+
+(define commercial-font-names (map face-name commercial-faces))
 
 (define (commercial-font-inputs directory)
   "Map public filenames to original WOFF2 paths under purchased DIRECTORY."
   (if (or (not directory) (string-null? directory))
       '()
-      (map (match-lambda
-             ((_ _ _ folder name)
-              (cons name (string-append directory
-                                        "/WOFF2 font files (best for web)/"
-                                        folder "/" name))))
+      (map (lambda (face)
+             (cons (face-name face) (in-vicinity directory (jref face "path"))))
            commercial-faces)))
 
 (define (face-css family weight style name format-name)
@@ -78,9 +60,9 @@
             (face-css "YuYang" "500 900" "normal" "yuyang-medium.ttf" "truetype")
             (if (null? inputs) ""
                 (string-concatenate
-                 (map (match-lambda
-                        ((family weight style _ name)
-                         (face-css family weight style name "woff2")))
+                 (map (lambda (face)
+                        (face-css (jref face "family") (jref face "weight")
+                                  (jref face "style") (face-name face) "woff2"))
                       commercial-faces)))))
           (target (string-append output "/fonts.css")))
       (unless (and (file-exists? target) (equal? css (read-text target)))

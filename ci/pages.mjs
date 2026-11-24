@@ -1,8 +1,10 @@
+import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { command, ensure, readJson, repository, sha } from './common.mjs';
 import { GitHub, output } from './github.mjs';
+import { GarageBucket } from './garage.mjs';
 import { PagesArtifactStore } from './pages-artifacts.mjs';
 
 const repositoryId = 772409384;
@@ -96,7 +98,18 @@ export async function buildPages(source) {
       return;
     }
 
-    buildArchive(source);
+    const inputs = new GarageBucket(
+      'chinese-fonts-overlay-webfonts',
+      secrets.webfonts.data,
+    );
+    try {
+      const library = path.join(inputs.directory, 'library');
+      downloadWebfonts(inputs, library);
+      buildArchive(source, library);
+    } finally {
+      inputs.close();
+    }
+
     if (source !== remoteMain()) return;
 
     const directory = path.join(stateDirectory, 'releases', source);
@@ -133,7 +146,24 @@ export async function buildPages(source) {
   }
 }
 
-function buildArchive(source) {
+function downloadWebfonts(bucket, library) {
+  const { prefix, faces } = readJson(
+    path.join(root, 'pages/etc/webfonts.json'),
+  );
+  for (const face of faces) {
+    const name = path.basename(face.path);
+    const file = path.join(library, face.path);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    bucket.call('get-object', '--key', prefix + '/' + name, file);
+
+    const actual = createHash('sha256')
+      .update(fs.readFileSync(file))
+      .digest('hex');
+    ensure(actual === face.sha256, 'Webfont digest differs: ' + name);
+  }
+}
+
+function buildArchive(source, library) {
   command(
     'git',
     [
@@ -179,8 +209,9 @@ function buildArchive(source) {
     'SOURCE_REVISION=' + source,
   ];
 
-  for (const target of ['check', 'all'])
-    command('nix', [...args, target], { stdio: 'inherit' });
+  command('nix', [...args, 'check'], { stdio: 'inherit' });
+  args.push('MB_TYPE_DIR=' + library);
+  command('nix', [...args, 'all'], { stdio: 'inherit' });
 
   const releases = path.join(stateDirectory, 'releases');
   fs.mkdirSync(releases, { recursive: true });

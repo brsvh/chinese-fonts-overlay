@@ -188,10 +188,14 @@ Hercules CI 的 =buildPages= 调用 Make 构建，将通过校验的公开归档
 Garage 。 GitHub Actions 的 =deploy= 下载、校验并发布到 Pages 。
 调度与凭据处理位于 =ci/= ，字体构建和二进制缓存发布独立运行。
 
-Garage 使用私有 bucket ，最多保留两个完整版本，包括等待发布的版本。
-Hercules 持有读写凭据， Actions 仅持有只读凭据；端点、配额和加密密钥由
-fleet 管理。 Actions 使用 =PAGES_S3_ACCESS_KEY_ID= 和
-=PAGES_S3_SECRET_ACCESS_KEY= 两个仓库 secret 。
+正式构建从私有桶 =chinese-fonts-overlay-webfonts= 读取界面字体。
+该桶的配额为 512 MiB 。文件名和 SHA-256 摘要见 =etc/webfonts.json= 。
+Hercules 核对摘要后，使用同一份字体构建网站并打包。
+
+成品桶 =chinese-fonts-overlay-pages= 的配额为 2 GiB ，最多保留两个
+完整版本，包括等待发布的版本。 Hercules 可以读写成品， Actions 通过
+=PAGES_S3_ACCESS_KEY_ID= 和 =PAGES_S3_SECRET_ACCESS_KEY= 只读访问成品。
+端点、配额和加密密钥由 fleet 管理。
 
 构建失败时重试 Hercules 任务；下载或发布失败时重试 =deploy= 。
 手动运行 =deploy= 仅发布当前 main 对应的完整归档，准备失败时保留现有网站。
