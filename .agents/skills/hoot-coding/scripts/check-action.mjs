@@ -13,6 +13,7 @@ function fixture(t, load) {
     if (previous === undefined) delete globalThis.Scheme;
     else globalThis.Scheme = previous;
   });
+
   const output = { dataset: {}, textContent: 'Static status' };
   const link = { href: 'https://example.invalid/item' };
   return {
@@ -38,10 +39,12 @@ test('a timed-out load disposes its late instance without running it', {
   let disposed = 0;
   let runs = 0;
   const { root, output } = fixture(t, () => loading.promise);
+
   await assert.rejects(
     checkAction(root, { timeoutMs: 30 }),
     /Action checks timed out/,
   );
+
   loading.resolve([
     {
       call_async() {
@@ -55,6 +58,7 @@ test('a timed-out load disposes its late instance without running it', {
       },
     },
   ]);
+
   await nextTurn();
   assert.equal(disposed, 1);
   assert.equal(runs, 0);
@@ -90,13 +94,16 @@ test('lost reflected completion times out even after the host rejects', {
       },
     ];
   });
+
   await assert.rejects(
     checkAction(root, { timeoutMs: 30 }),
     /Action checks timed out/,
   );
   assert.equal(hostRejected, true);
   assert.equal(disposed, 1);
+
   completion.reject(new Error('Late reflection failure'));
+
   await nextTurn();
   assert.equal(runs, 2);
 });
@@ -130,10 +137,12 @@ test('a stalled duplicate releases held host work after disposing its owner', {
       },
     ];
   });
+
   await assert.rejects(
     checkAction(root, { timeoutMs: 30 }),
     /Action checks timed out/,
   );
+
   await nextTurn();
   assert.equal(cleanupReason, 'Action checks finished');
   assert.equal(disposedAtRejection, true);
@@ -168,10 +177,12 @@ test('an assertion failure releases held work and observes its later rejection',
       },
     ];
   });
+
   await assert.rejects(
     checkAction(root, { timeoutMs: 500 }),
     /Duplicate action or early success/,
   );
+
   await nextTurn();
   assert.equal(hostRejected, true);
 });

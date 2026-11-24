@@ -65,9 +65,11 @@ upstream guidance when upgrading, and do not update locks merely to match an
 example. Nix supplies Tailwind and daisyUI; Make compiles CSS. Do not add a Node
 project or runtime CDN.
 
-Format handwritten HTML, JavaScript and CSS with treefmt. Preserve significant
-HTML whitespace. Keep JSON placeholders outside script elements and escape
-literal less-than signs when emitting serialized JSON into the complete element.
+Use [javascript-coding](../.agents/skills/javascript-coding/SKILL.md) for
+handwritten browser scripts. Format them, HTML templates and CSS through
+treefmt. Preserve significant HTML whitespace. Keep JSON placeholders outside
+script elements and escape literal less-than signs when emitting serialized JSON
+into the complete element.
 
 Use the standard Modus Operandi theme. Interface typography pairs Concourse OT
 with original TsangerYuYangT W02/W03; code uses Triplicate A Code. Use Concourse

@@ -22,6 +22,7 @@ export async function loadAction(
       },
     },
   );
+
   return { run: () => run.call_async(), dispose: () => dispose.call() };
 }
 
@@ -32,11 +33,13 @@ export async function checkAction(root, { timeoutMs = 15000 } = {}) {
   if (!Number.isFinite(timeoutMs) || timeoutMs <= 0) {
     throw new RangeError('Expected a positive finite action check timeout');
   }
+
   const output = root.querySelector('[data-action-status]');
   const jobs = [];
   const instances = [];
   let finished = false;
   let timer;
+
   const timeoutError = new Error('Action checks timed out');
   const deadline = new Promise((_, reject) => {
     timer = setTimeout(() => reject(timeoutError), timeoutMs);
@@ -90,11 +93,13 @@ export async function checkAction(root, { timeoutMs = 15000 } = {}) {
     jobs[0].reject(new Error('Expected denial'));
     await wait(first);
     assert(output.dataset.phase === 'failed', 'Failure was not displayed');
+
     const retry = run(instance);
     await waitForJobs(2);
     jobs[1].resolve();
     await wait(retry);
     assert(output.dataset.phase === 'succeeded', 'Retry did not recover');
+
     const late = run(instance);
     await waitForJobs(3);
     instance.dispose();
@@ -107,6 +112,7 @@ export async function checkAction(root, { timeoutMs = 15000 } = {}) {
       output.textContent === before && jobs.length === 3,
       'Disposed action published or restarted',
     );
+
     const lateSuccess = await load(holdCopy);
     const pending = run(lateSuccess);
     await waitForJobs(4);
@@ -118,6 +124,7 @@ export async function checkAction(root, { timeoutMs = 15000 } = {}) {
       output.textContent === beforeSuccess,
       'Disposed success changed the UI',
     );
+
     // A throw before Promise creation follows the same Scheme failure path.
     const throwing = await load(() => {
       throw new Error('Expected host throw');
@@ -127,6 +134,7 @@ export async function checkAction(root, { timeoutMs = 15000 } = {}) {
       output.dataset.phase === 'failed',
       'Synchronous throw bypassed Scheme recovery',
     );
+
     return 'Scheme action: pending, duplicate, failure, retry, late disposal, and host throw passed';
   } finally {
     finished = true;

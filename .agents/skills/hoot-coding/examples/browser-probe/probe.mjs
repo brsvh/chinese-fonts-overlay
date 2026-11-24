@@ -6,6 +6,7 @@ const button = root.querySelector('button');
 const disposeButton = document.querySelector('#dispose');
 const remountButton = document.querySelector('#remount');
 const checksButton = document.querySelector('#checks');
+
 const wasmUrl = new URL('browser-main.wasm', import.meta.url).href;
 const supportUrl = new URL('.', import.meta.url).href;
 let cleanup = null;
@@ -23,6 +24,7 @@ function ownMount(start) {
   const controller = new AbortController();
   let active = true;
   let release = null;
+
   const ready = start(controller.signal).then((dispose) => {
     if (active) release = dispose;
     else dispose?.();
@@ -43,9 +45,11 @@ async function runChecks() {
   scratch.removeAttribute('id');
   scratch.querySelector('button').disabled = false;
   document.body.append(scratch);
+
   const update = scratch.querySelector('button');
   const notes = [];
   const resources = [];
+
   try {
     for (let cycle = 0; cycle < 2; cycle += 1) {
       const dispose = await mountStatus(scratch, wasmUrl, supportUrl);
@@ -71,6 +75,7 @@ async function runChecks() {
     const gate = new Promise((resolve) => {
       allowResult = resolve;
     });
+
     const beforeLateMount = status(scratch);
     const delayed = ownMount(async (signal) => {
       const dispose = await mountStatus(scratch, wasmUrl, supportUrl, signal);
@@ -78,9 +83,11 @@ async function runChecks() {
       await gate;
       return dispose;
     });
+
     delayed.dispose();
     allowResult();
     await delayed.ready;
+
     const afterLateMount = status(scratch);
     assert(
       afterLateMount === beforeLateMount,
@@ -96,6 +103,7 @@ async function runChecks() {
     ]) {
       scratch.querySelector('[data-status]').textContent = 'Static status';
       let rejected = false;
+
       try {
         const unexpected = await mountStatus(scratch, ...urls);
         resources.push(unexpected);
@@ -131,6 +139,7 @@ async function runChecks() {
     });
     for (const mode of [1n, 2n]) {
       let rejected = false;
+
       try {
         await runHostWork.call_async(mode);
       } catch {
@@ -140,11 +149,13 @@ async function runChecks() {
       const values = await runHostWork.call_async(0n);
       assert(values.reflector.car(values) === 'Completed', 'Recovery failed');
     }
+
     let settled = false;
     const pending = runHostWork.call_async(3n).then((values) => {
       settled = true;
       assert(values.reflector.car(values) === 'Completed', 'Wrong held result');
     });
+
     const deadline = performance.now() + 3000;
     while (!releaseHost && performance.now() < deadline) {
       await new Promise((resolve) => setTimeout(resolve, 10));
@@ -153,6 +164,7 @@ async function runChecks() {
       releaseHost && !settled,
       'Pending host work settled early or never started',
     );
+
     releaseHost();
     await pending;
     notes.push(
@@ -175,11 +187,13 @@ disposeButton.addEventListener('click', () => {
   cleanup = null;
   output.textContent = 'Disposed; Update should no longer change status';
 });
+
 remountButton.addEventListener('click', async () => {
   remountButton.disabled = true;
   disposeButton.disabled = true;
   cleanup?.();
   cleanup = null;
+
   try {
     cleanup = await mountStatus(root, wasmUrl, supportUrl);
     output.textContent = 'Remounted';
@@ -190,10 +204,12 @@ remountButton.addEventListener('click', async () => {
     disposeButton.disabled = false;
   }
 });
+
 checksButton.addEventListener('click', async () => {
   checksButton.disabled = true;
   output.textContent = 'Checks running';
   let timeout;
+
   try {
     const notes = await Promise.race([
       runChecks(),

@@ -137,7 +137,14 @@ Before editing or reviewing Nix, read
 the repository formatter and verify the affected evaluation. Font packages use
 the root lock, while development tools use `tools/flake.lock`.
 
-Use [c-coding](.agents/skills/c-coding/SKILL.md) for handwritten C,
+Use [javascript-coding](.agents/skills/javascript-coding/SKILL.md) when writing
+or reviewing handwritten JavaScript, including CI commands and browser code.
+Separate logical steps with blank lines and format with the Biome settings used
+by treefmt. Verify a refactor through its caller. For example, an inventory
+change can be checked with `nix run .#ci -- inventory --output FILE` and a
+comparison of the records in a temporary directory.
+
+Use [c-coding](.agents/skills/c-coding/SKILL.md) for C,
 [guile-coding](.agents/skills/guile-coding/SKILL.md) for native Scheme,
 [guile-web-coding](.agents/skills/guile-web-coding/SKILL.md) for HTTP or SXML,
 and [hoot-coding](.agents/skills/hoot-coding/SKILL.md) for browser Wasm. Shared
