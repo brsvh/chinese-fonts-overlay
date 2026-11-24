@@ -3,19 +3,21 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import {
-  auditClosure,
-  cacheRestrictions,
   command,
   digest,
   ensure,
-  evaluate,
-  inventory,
-  plan,
   policy,
   repository,
   writeJson,
 } from './common.mjs';
-import { output, readState } from './github.mjs';
+import {
+  auditClosure,
+  cacheRestrictions,
+  evaluate,
+  inventory,
+} from './inventory.mjs';
+import { output } from './github.mjs';
+import { readState } from './build-state.mjs';
 import {
   recordSchema,
   same,
@@ -24,12 +26,13 @@ import {
   workflowPath,
 } from './records.mjs';
 
-export function controllerDigest(root) {
+function controllerDigest(root) {
   const files = fs
     .readdirSync(path.join(root, 'ci'))
     .filter((file) => /\.(mjs|nix)$/.test(file))
     .map((file) => 'ci/' + file);
   files.push(workflowPath);
+
   return digest(
     Object.fromEntries(
       files.sort().map((file) => [
@@ -55,8 +58,10 @@ export function runContext(root, event, env = process.env) {
       pull.base.repo.full_name === repository,
     'Not an upstream main-targeting PR',
   );
+
   const merge = git(root, 'rev-parse', 'HEAD');
   ensure(merge === env.GITHUB_SHA, 'Checkout differs from the workflow');
+
   const parents = git(root, 'show', '--no-patch', '--format=%P', merge).split(
     ' ',
   );
@@ -64,6 +69,7 @@ export function runContext(root, event, env = process.env) {
     same(parents, [pull.base.sha, pull.head.sha]),
     'Merge commit parents differ from the PR event',
   );
+
   return validateContext({
     headSha: pull.head.sha,
     mergeSha: merge,
@@ -84,32 +90,88 @@ function baselineInventory(root, directory, event) {
   }
 }
 
-export async function preparePlan(root, directory, event, api) {
-  const context = runContext(root, event);
-  directory = path.resolve(directory);
-  fs.mkdirSync(directory, { recursive: true });
-  const base = baselineInventory(root, directory, event);
-  const current = inventory(root);
-  const controller = controllerDigest(root);
-  const number = event.number;
-  const headRepository = event.pull_request.head.repo.full_name;
-  const state = await readState(api, number, headRepository, controller);
-  const required = plan(base, current);
-  const selected = plan(base, current, state.receipts);
+function planBuilds(base, current, receipts) {
+  ensure(
+    base.policy === policy &&
+      current.policy === policy &&
+      base.system === current.system,
+    'A matching evaluated baseline is required',
+  );
   const packages = {};
+  const tasks = [];
+  const reused = [];
+  let skipped = 0;
 
-  for (const task of required.tasks) {
-    const item = current.packages[task.package];
-    packages[task.package] = {
+  for (const name of Object.keys(current.packages).sort()) {
+    const item = current.packages[name];
+    const before = base.packages[name];
+    if (before?.buildKey === item.buildKey) {
+      continue;
+    }
+
+    if (item.windows) {
+      skipped++;
+      continue;
+    }
+
+    packages[name] = {
       vendor: item.vendor,
       pname: item.pname,
       buildKey: item.buildKey,
       cacheable: item.cacheable,
       affected: true,
     };
+
+    const receipt = receipts[name];
+
+    if (
+      receipt?.policy === policy &&
+      receipt.buildKey === item.buildKey &&
+      receipt.buildSucceeded === true
+    ) {
+      reused.push(name);
+    } else {
+      tasks.push(name);
+    }
   }
 
-  const tasks = selected.tasks.map((task) => task.package);
+  const shards = [];
+
+  for (const cacheable of [true, false]) {
+    const selected = tasks.filter(
+      (name) => packages[name].cacheable === cacheable,
+    );
+    const size = Math.max(1, Math.ceil(selected.length / 128));
+
+    for (let index = 0; index < selected.length; index += size) {
+      shards.push({
+        id: shards.length,
+        cacheable,
+        tasks: selected.slice(index, index + size),
+      });
+    }
+  }
+
+  return { packages, tasks, shards, reused, skipped };
+}
+
+export async function preparePlan(root, directory, event, api) {
+  const context = runContext(root, event);
+  directory = path.resolve(directory);
+  fs.mkdirSync(directory, { recursive: true });
+
+  const base = baselineInventory(root, directory, event);
+  const current = inventory(root);
+  const controller = controllerDigest(root);
+  const number = event.number;
+  const headRepository = event.pull_request.head.repo.full_name;
+  const state = await readState(api, number, headRepository, controller);
+
+  const { packages, tasks, shards, reused, skipped } = planBuilds(
+    base,
+    current,
+    state.receipts,
+  );
   const value = validatePlan({
     schema: recordSchema,
     policy,
@@ -120,15 +182,12 @@ export async function preparePlan(root, directory, event, api) {
     controller,
     packages,
     tasks,
-    shards: selected.shards.map((shard) => ({
-      ...shard,
-      tasks: shard.tasks.map((task) => task.package),
-    })),
-    reused: Object.keys(packages).filter((name) => !tasks.includes(name)),
+    shards,
+    reused,
   });
+
   writeJson(path.join(directory, 'plan.json'), value);
-  current.forbiddenPaths = cacheRestrictions(current, base);
-  writeJson(path.join(directory, 'inventory.json'), current);
+
   output({
     matrix: JSON.stringify(
       value.shards.map((shard) => ({
@@ -143,24 +202,27 @@ export async function preparePlan(root, directory, event, api) {
     ),
     count: tasks.length,
   });
+
   console.log(
     'Selected',
     tasks.length,
     'packages; reused',
     value.reused.length,
     'successes; skipped',
-    required.skipped.length,
+    skipped,
   );
   return value;
 }
 
-export function exportCache(roots, forbidden, destination) {
+function exportCache(roots, forbidden, destination) {
   const selected = [...roots].sort();
   const closure = auditClosure(selected, forbidden);
+
   fs.rmSync(destination, { recursive: true, force: true });
   fs.mkdirSync(destination, { recursive: true });
   const uri = pathToFileURL(path.resolve(destination)).href;
   command('nix', ['copy', '--to', uri, ...selected]);
+
   const saved = command('nix', ['path-info', '--all', '--store', uri])
     .split('\n')
     .filter(Boolean)
@@ -177,8 +239,10 @@ export function buildShard(root, plan, shardId, directory, event) {
     same(context, plan.context) && controllerDigest(root) === plan.controller,
     'Build plan is for different inputs',
   );
+
   const shard = plan.shards[shardId];
   ensure(shard, 'Invalid shard selection');
+
   const current = inventory(root);
   directory = path.resolve(directory);
   fs.mkdirSync(directory, { recursive: true });
@@ -191,7 +255,7 @@ export function buildShard(root, plan, shardId, directory, event) {
   const artifacts = path.join(directory, 'artifacts');
   ensure(!fs.existsSync(artifacts), 'Use a fresh artifact directory');
   fs.mkdirSync(artifacts, { recursive: true });
-  writeJson(path.join(directory, 'inventory.json'), current);
+
   const receipts = {
     schema: recordSchema,
     context,
@@ -212,6 +276,7 @@ export function buildShard(root, plan, shardId, directory, event) {
         item.buildKey === expected.buildKey,
       'Re-evaluated build policy differs: ' + name,
     );
+
     const receipt = {
       buildKey: item.buildKey,
       buildSucceeded: false,

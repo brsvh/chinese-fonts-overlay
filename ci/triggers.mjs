@@ -16,6 +16,7 @@ export function triggerKey(tag) {
 
 async function reference(api, tag, revision) {
   ensure(triggerInfo(tag).rev === revision, 'Trigger revision differs');
+
   const ref = await api.request('/git/ref/tags/' + tag, { missing: true });
   ensure(
     !ref || (ref.object.type === 'commit' && ref.object.sha === revision),
@@ -26,6 +27,7 @@ async function reference(api, tag, revision) {
 
 export async function createTrigger(api, tag, revision) {
   if (await reference(api, tag, revision)) return;
+
   try {
     await api.request('/git/refs', {
       method: 'POST',
@@ -39,6 +41,7 @@ export async function createTrigger(api, tag, revision) {
 
 export async function deleteTrigger(api, tag, revision) {
   if (!(await reference(api, tag, revision))) return;
+
   try {
     await api.request('/git/refs/tags/' + tag, { method: 'DELETE' });
   } catch (error) {

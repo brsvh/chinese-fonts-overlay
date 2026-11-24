@@ -76,10 +76,14 @@ export async function buildSite(source) {
     environment('HERCULES_CI_PROJECT_PATH') === 'github/' + repository,
     'Unexpected Hercules project',
   );
+
   // Public Git reads avoid expiring tokens and anonymous API rate limits.
   if (source !== remoteMain()) return;
+
   const secrets = readJson(environment('HERCULES_CI_SECRETS_JSON'));
+
   const store = new SiteStore(secrets.siteStore.data);
+
   try {
     const existing = store.manifest(source);
     if (existing) {
@@ -91,25 +95,32 @@ export async function buildSite(source) {
       ensure(archive?.Size === manifest.size, 'Stored archive is incomplete');
       return;
     }
-    await buildArchive(source);
+
+    buildArchive(source);
     if (source !== remoteMain()) return;
+
     const directory = path.join(stateDirectory, 'releases', source);
     const names = fs
       .readdirSync(directory)
       .filter((name) => name.endsWith('.json'));
     ensure(names.length === 1, 'Missing completed site archive');
+
     const file = path.join(directory, names[0]);
     const { manifest, base } = siteManifest(file);
     ensure(manifest.source === source, 'Staged source differs');
+
     const archive = path.join(directory, base + '.tar.gz');
     const verified = path.join(directory, '.verified');
+
     try {
       archiveCommand('unpack', archive, file, verified);
     } finally {
       fs.rmSync(verified, { recursive: true, force: true });
     }
+
     store.reserve(source, base);
     await store.upload(source + '/' + base + '.tar.gz', archive);
+
     // This atomic marker is written only after the validated archive arrives.
     await store.upload(source + '/manifest.json', file);
     ensure(
@@ -146,9 +157,11 @@ function buildArchive(source) {
     command('git', ['-C', 'source', 'rev-parse', 'HEAD']) === source,
     'Unexpected source checkout',
   );
+
   const sourceRoot = fs.realpathSync('source');
   const build = path.join(stateDirectory, 'build');
   fs.mkdirSync(build, { recursive: true });
+
   const args = [
     'develop',
     '--no-write-lock-file',
@@ -165,8 +178,10 @@ function buildArchive(source) {
     'CACHE_DIR=' + path.join(stateDirectory, 'cache'),
     'SOURCE_REVISION=' + source,
   ];
+
   for (const target of ['check', 'all'])
     command('nix', [...args, target], { stdio: 'inherit' });
+
   const releases = path.join(stateDirectory, 'releases');
   fs.mkdirSync(releases, { recursive: true });
   for (const name of fs.readdirSync(releases)) {
@@ -174,6 +189,7 @@ function buildArchive(source) {
       fs.rmSync(path.join(releases, name), { recursive: true, force: true });
     }
   }
+
   const previous = fs
     .readdirSync(releases)
     .filter((name) => sha.test(name))
@@ -185,12 +201,15 @@ function buildArchive(source) {
   for (const name of previous.slice(1)) {
     fs.rmSync(path.join(releases, name), { recursive: true, force: true });
   }
+
   const temporary = fs.mkdtempSync(path.join(releases, '.staging-'));
+
   try {
     const packed = path.join(temporary, 'release');
     command('nix', [...args, 'release', 'RELEASE_DIR=' + packed], {
       stdio: 'inherit',
     });
+
     const destination = path.join(releases, source);
     fs.rmSync(destination, { recursive: true, force: true });
     fs.renameSync(packed, destination);
@@ -203,6 +222,7 @@ export async function receiveSite(destination) {
   const api = actionsApi();
   const event = readJson(environment('GITHUB_EVENT_PATH'));
   const current = await mainRevision(api);
+
   let source;
   if (environment('GITHUB_EVENT_NAME') === 'status') {
     ensure(
@@ -222,19 +242,24 @@ export async function receiveSite(destination) {
     );
     source = current;
   }
+
   if (source !== current) return output({ ready: false });
+
   const store = new SiteStore({
     accessKeyId: environment('SITE_S3_ACCESS_KEY_ID'),
     secretAccessKey: environment('SITE_S3_SECRET_ACCESS_KEY'),
   });
+
   try {
     const metadata = store.manifest(source);
     ensure(metadata, 'No completed artifact for current main; retry buildSite');
     const { manifest, base } = siteManifest(metadata.file);
     ensure(manifest.source === source, 'Manifest source differs');
+
     const key = source + '/' + base + '.tar.gz';
     const object = store.objects().find((item) => item.Key === key);
     ensure(object?.Size === manifest.size, 'Archive size differs');
+
     const archive = path.join(store.directory, 'site.tar.gz');
     store.download(key, archive, manifest.size);
     archiveCommand('unpack', archive, metadata.file, destination);
@@ -256,6 +281,7 @@ if (
   try {
     const [action, ...args] = process.argv.slice(2);
     ensure(args.length === 1, 'Expected one argument');
+
     if (action === 'buildSite') await buildSite(args[0]);
     else if (action === 'receiveSite') await receiveSite(args[0]);
     else if (action === 'checkSite') await checkSite(args[0]);

@@ -1,20 +1,6 @@
-import { inflateRawSync } from 'node:zlib';
+import { crc32, inflateRawSync } from 'node:zlib';
 import { ensure, maxData } from './common.mjs';
 import { safePath } from './records.mjs';
-
-export function crc32(data) {
-  let crc = 0xffffffff;
-
-  for (const byte of data) {
-    crc ^= byte;
-
-    for (let bit = 0; bit < 8; bit += 1) {
-      crc = (crc >>> 1) ^ (0xedb88320 & -(crc & 1));
-    }
-  }
-
-  return (crc ^ 0xffffffff) >>> 0;
-}
 
 export function unzip(data) {
   ensure(data.length >= 22 && data.length <= maxData, 'Invalid ZIP size');
@@ -32,6 +18,7 @@ export function unzip(data) {
     end >= 0 && data.readUInt32LE(end) === 0x06054b50,
     'Missing ZIP directory',
   );
+
   const count = data.readUInt16LE(end + 10);
   const directorySize = data.readUInt32LE(end + 12);
   let cursor = data.readUInt32LE(end + 16);
@@ -44,6 +31,7 @@ export function unzip(data) {
       cursor + directorySize === end,
     'Unsupported or inconsistent ZIP directory',
   );
+
   const files = {};
   const seen = new Set();
   const spans = [];
@@ -54,6 +42,7 @@ export function unzip(data) {
       cursor + 46 <= end && data.readUInt32LE(cursor) === 0x02014b50,
       'Invalid ZIP directory entry',
     );
+
     const flags = data.readUInt16LE(cursor + 8);
     const method = data.readUInt16LE(cursor + 10);
     const checksum = data.readUInt32LE(cursor + 16);
@@ -66,6 +55,7 @@ export function unzip(data) {
     const offset = data.readUInt32LE(cursor + 42);
     const next = cursor + 46 + nameSize + extraSize + commentSize;
     ensure(next <= end, 'Truncated ZIP directory entry');
+
     const nameBytes = data.subarray(cursor + 46, cursor + 46 + nameSize);
     const name = new TextDecoder('utf-8', { fatal: true }).decode(nameBytes);
     const directory = name.endsWith('/');
@@ -80,6 +70,7 @@ export function unzip(data) {
       'Unsafe or unsupported ZIP entry',
     );
     seen.add(name);
+
     const limit = 8 * 1024 * 1024;
     total += size;
     ensure(size <= limit && total <= maxData, 'ZIP expansion exceeds limit');
@@ -90,6 +81,7 @@ export function unzip(data) {
         data.readUInt16LE(offset + 8) === method,
       'Invalid ZIP local header',
     );
+
     const localName = data.readUInt16LE(offset + 26);
     const start = offset + 30 + localName + data.readUInt16LE(offset + 28);
     ensure(
@@ -104,6 +96,7 @@ export function unzip(data) {
       'Overlapping ZIP entries',
     );
     spans.push([offset, start + compressedSize]);
+
     const payload = data.subarray(start, start + compressedSize);
     let decoded = payload;
 

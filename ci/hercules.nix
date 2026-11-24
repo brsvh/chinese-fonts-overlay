@@ -73,9 +73,9 @@ let
             builtins.toJSON (
               {
                 inherit
+                  action
                   cache
                   inventory
-                  action
                   repository
                   rev
                   ;
@@ -147,14 +147,11 @@ let
     );
 
   makeSiteEffect =
-    args:
-    import ./site.nix (
-      {
-        inherit inputs;
-        root = projectRoot;
-      }
-      // args
-    );
+    rev:
+    import ./site.nix {
+      inherit inputs rev;
+      root = projectRoot;
+    };
 in
 {
   flake = {
@@ -181,7 +178,6 @@ in
             match "ci/package/([a-z0-9_.+-]+)/([0-9a-f]{40})/([0-9a-f-]{36})" tag;
 
         name = elemAt request 0;
-
       in
       {
         ciSystems = [
@@ -201,6 +197,7 @@ in
                   buildFont = packages.${name};
                 };
               };
+
               "publishFont/${name}" = {
                 outputs = {
                   effects = {
@@ -223,12 +220,11 @@ in
                 buildSite = {
                   outputs = {
                     effects = {
-                      buildSite = makeSiteEffect {
-                        inherit rev;
-                      };
+                      buildSite = makeSiteEffect rev;
                     };
                   };
                 };
+
                 planFonts = {
                   outputs = {
                     effects = {

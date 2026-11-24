@@ -4,23 +4,23 @@ import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import {
-  ApiError,
-  applyPolicy,
-  auditClosure,
   command,
-  derivationGraph,
   ensure,
-  fetchResponse,
   identifier,
-  pathInfo,
   policy,
   readJson,
   repository,
-  request,
   schema,
   sha,
   storePattern,
 } from './common.mjs';
+import {
+  applyPolicy,
+  auditClosure,
+  derivationGraph,
+  pathInfo,
+} from './inventory.mjs';
+import { ApiError, fetchResponse, request } from './http.mjs';
 import { GitHub, Superseded } from './github.mjs';
 import { same } from './records.mjs';
 import { createTrigger, deleteTrigger, triggerKey } from './triggers.mjs';
@@ -33,6 +33,7 @@ export class State {
     const url = new URL(baseUrl);
     ensure(url.protocol === 'https:' && token, 'Invalid state connection');
     ensure(typeof guard === 'function', 'Missing state write guard');
+
     this.token = token;
     this.url = baseUrl.replace(/\/$/, '') + '/api/v1/current-task/state/';
     this.guard = guard;
@@ -40,6 +41,7 @@ export class State {
 
   async access(name, value) {
     ensure(/^[a-z0-9-]+$/.test(name), 'Invalid state key');
+
     return request(this.url + name + '/data', this.token, {
       method: value === undefined ? 'GET' : 'PUT',
       body: value,
@@ -70,6 +72,7 @@ export function publicationKey(kind, name) {
 
 export async function current(api, revision) {
   ensure(sha.test(revision), 'Invalid main revision');
+
   const ref = await api.request('/git/ref/heads/main');
 
   if (ref.object.sha !== revision) {
@@ -117,6 +120,7 @@ export function verifyCache(outputs, cache, source) {
     same(cacheIdentity(source), cacheIdentity(target)),
     'Public cache metadata differs from the built closure',
   );
+
   const args = [
     'store',
     'verify',
@@ -129,6 +133,7 @@ export function verifyCache(outputs, cache, source) {
     cache.publicKey,
   ];
   command('nix', [...args, '--recursive', '--no-contents', ...outputs]);
+
   const probe = [...outputs].sort(
     (a, b) => source[a].narSize - source[b].narSize,
   )[0];
@@ -146,6 +151,7 @@ export async function publishCache(outputs, denied, cache, netrc, guard) {
       typeof netrc === 'string' && netrc.length > 0,
       'Missing public-cache-upload netrc',
     );
+
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'font-cache-'));
 
     try {
@@ -190,11 +196,13 @@ export function candidates(baseline, inventory, pending) {
 export async function planFonts(api, state, metadata, inventory) {
   const revision = metadata.rev;
   await current(api, revision);
+
   const previous = await state.get(planKey);
   ensure(
     !previous || (previous.schema === schema && previous.policy === policy),
     'Main state requires explicit migration',
   );
+
   const baseline = previous?.inventory ?? { packages: {} };
   if (previous) {
     const comparison = await api.request(
@@ -205,6 +213,7 @@ export async function planFonts(api, state, metadata, inventory) {
       'Main baseline is not an ancestor',
     );
   }
+
   const selected = candidates(
     baseline,
     inventory,
@@ -225,6 +234,7 @@ export async function planFonts(api, state, metadata, inventory) {
       same(published.cache, metadata.cache) &&
       (await rootsAvailable(Object.values(item.outputs), metadata.cache));
     if (complete) continue;
+
     pending.cache.push(name);
     const old = previous?.requests?.['cache:' + name];
     requests['cache:' + name] =
@@ -267,6 +277,7 @@ export async function planFonts(api, state, metadata, inventory) {
   for (const item of Object.values(requests)) {
     await current(api, revision);
     if (item.queued) continue;
+
     const accepted = await state.get(triggerKey(item.tag));
     if (accepted) {
       ensure(
@@ -276,6 +287,7 @@ export async function planFonts(api, state, metadata, inventory) {
     } else {
       await createTrigger(api, item.tag, revision);
     }
+
     item.queued = true;
     await current(api, revision);
     await state.put(planKey, observed);
@@ -289,6 +301,7 @@ export async function verifyRequest(api, state, metadata, inventory) {
   await current(api, metadata.rev);
   const item = inventory.packages[metadata.name];
   ensure(eligible(item), 'Package cannot enter the public build pipeline');
+
   const observed = await state.get(planKey);
   const selected = observed?.requests['cache:' + metadata.name];
 
@@ -311,8 +324,10 @@ export async function publishFont(api, state, metadata, inventory, secrets) {
     tag: metadata.tag,
     rev: metadata.rev,
   });
+
   // Delete with the fresh job credential, before a long cache transfer.
   await deleteTrigger(api, metadata.tag, metadata.rev);
+
   const record = {
     schema,
     policy,
@@ -344,6 +359,7 @@ export async function run(metadata) {
       metadata.repository === repository,
     'Not the upstream Hercules project',
   );
+
   const secrets = readJson(process.env.HERCULES_CI_SECRETS_JSON);
   const api = new GitHub(secrets.git.data.token, true);
   const state = new State(
@@ -351,6 +367,7 @@ export async function run(metadata) {
     process.env.HERCULES_CI_API_BASE_URL,
     () => current(api, metadata.rev),
   );
+
   const raw = metadata.inventory;
   const inventory = applyPolicy(raw, derivationGraph(raw.packages));
 

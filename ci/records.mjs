@@ -4,6 +4,7 @@ import {
   fingerprint,
   identifier,
   policy,
+  positiveInteger,
   repository,
   sha,
 } from './common.mjs';
@@ -26,10 +27,6 @@ export function fields(value, expected) {
   );
 }
 
-export function positive(value) {
-  return Number.isSafeInteger(value) && value > 0;
-}
-
 export function safePath(value) {
   ensure(
     typeof value === 'string' &&
@@ -49,8 +46,8 @@ export function validateContext(value) {
   ensure(
     sha.test(value.headSha) &&
       sha.test(value.mergeSha) &&
-      positive(value.runId) &&
-      positive(value.runAttempt),
+      positiveInteger(value.runId) &&
+      positiveInteger(value.runAttempt),
     'Invalid run context',
   );
   return value;
@@ -74,11 +71,12 @@ export function validatePlan(value) {
     value.schema === recordSchema &&
       value.policy === policy &&
       value.repository === repository &&
-      positive(value.pr) &&
+      positiveInteger(value.pr) &&
       /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(value.headRepository) &&
       fingerprint.test(value.controller),
     'Invalid plan identity',
   );
+
   validateContext(value.context);
   ensure(
     value.packages &&
@@ -137,6 +135,7 @@ export function validatePlan(value) {
   }
 
   ensure(same(scheduled.sort(), [...tasks].sort()), 'Shard task mismatch');
+
   const reused = value.reused;
   ensure(
     Array.isArray(reused) &&

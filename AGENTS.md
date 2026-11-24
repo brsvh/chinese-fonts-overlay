@@ -115,9 +115,11 @@ restricted font files, source archives, private scans or unaudited closures.
 
 Use camelCase Hercules categories: `planFonts`, `buildFont/<package>`,
 `publishFont/<package>` and `buildSite`. Font builds are ordinary Nix outputs;
-credentialed publication uses Effects. Publication control is JavaScript in
-`ci/`, exposed through `nix run .#ci`; website generation and archive validation
-are Guile in `pages/`. Transport fields are contracts, not cosmetic job names.
+credentialed publication uses Effects. The font workflows call `nix run .#ci`.
+Hercules invokes `ci/publication.mjs` for font publication, and the website
+workflow calls `ci/site.mjs`. Website generation and archive validation use
+Guile in `pages/`. Keep workflow command names, output keys and record fields
+stable across their producers and consumers.
 
 Preserve cache receipts and pending publications. Mainline planning uses its
 saved inventory or audits current packages against verified cache receipts. Font

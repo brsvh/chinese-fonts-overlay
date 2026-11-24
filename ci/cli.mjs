@@ -1,23 +1,24 @@
 import { parseArgs } from 'node:util';
-import { ensure, inventory, readJson, writeJson } from './common.mjs';
+import { ensure, readJson, writeJson } from './common.mjs';
+import { inventory } from './inventory.mjs';
 import { GitHub } from './github.mjs';
 import { validatePlan } from './records.mjs';
 import { buildShard, preparePlan } from './builds.mjs';
 import { recordBuilds } from './receipts.mjs';
 import { checkLanguages } from './languages.mjs';
 
-const { values, positionals } = parseArgs({
-  allowPositionals: true,
-  options: {
-    root: { type: 'string', default: '.' },
-    directory: { type: 'string', default: '.ci-work' },
-    output: { type: 'string' },
-    plan: { type: 'string' },
-    shard: { type: 'string' },
-  },
-});
-
 try {
+  const { values, positionals } = parseArgs({
+    allowPositionals: true,
+    options: {
+      root: { type: 'string', default: '.' },
+      directory: { type: 'string', default: '.ci-work' },
+      output: { type: 'string' },
+      plan: { type: 'string' },
+      shard: { type: 'string' },
+    },
+  });
+
   ensure(positionals.length === 1, 'Exactly one command is required');
   const [command] = positionals;
 
@@ -33,6 +34,7 @@ try {
   } else if (command === 'pr-build') {
     const shard = Number(values.shard);
     ensure(Number.isSafeInteger(shard) && shard >= 0, 'Invalid shard');
+
     const ok = buildShard(
       values.root,
       validatePlan(readJson(values.plan)),
@@ -40,6 +42,7 @@ try {
       values.directory,
       readJson(process.env.GITHUB_EVENT_PATH),
     );
+
     process.exitCode = ok ? 0 : 1;
   } else if (command === 'pr-check-languages') {
     checkLanguages(

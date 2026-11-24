@@ -12,9 +12,11 @@ const objectKey =
 export class SiteStore {
   constructor({ accessKeyId, secretAccessKey }) {
     ensure(accessKeyId && secretAccessKey, 'Missing site storage credentials');
+
     this.directory = fs.mkdtempSync(path.join(os.tmpdir(), 'site-store-'));
     const config = path.join(this.directory, 'config');
     fs.writeFileSync(config, '[default]\ns3 =\n    addressing_style = path\n');
+
     this.env = {
       ...process.env,
       AWS_ACCESS_KEY_ID: accessKeyId,
@@ -27,6 +29,7 @@ export class SiteStore {
       AWS_REQUEST_CHECKSUM_CALCULATION: 'WHEN_REQUIRED',
       AWS_RESPONSE_CHECKSUM_VALIDATION: 'WHEN_REQUIRED',
     };
+
     delete this.env.AWS_SESSION_TOKEN;
     delete this.env.AWS_PROFILE;
   }
@@ -58,6 +61,7 @@ export class SiteStore {
       ],
       { env: this.env },
     );
+
     return result ? JSON.parse(result) : {};
   }
 
@@ -75,17 +79,21 @@ export class SiteStore {
       objectKey.test(key) && size > 0 && size < 1000000000,
       'Invalid site download',
     );
+
     this.call('get-object', '--key', key, file);
     ensure(fs.statSync(file).size === size, 'Downloaded size differs');
   }
 
   manifest(source) {
     ensure(sha.test(source), 'Invalid source revision');
+
     const object = this.objects().find(
       (item) => item.Key === source + '/manifest.json',
     );
     if (!object) return null;
+
     ensure(object.Size <= 65536, 'Manifest too large');
+
     const file = path.join(this.directory, 'manifest.json');
     this.download(object.Key, file, object.Size);
     return { file, data: readJson(file) };
@@ -106,10 +114,12 @@ export class SiteStore {
       .filter((item) => !item.Key.startsWith(source + '/'))
       .slice(0, 1)
       .map((item) => item.Key.split('/')[0]);
+
     // Remove completion markers first; a failed deletion never invites upload.
     for (const item of complete) {
       if (!keep.includes(item.Key.split('/')[0])) this.remove(item.Key);
     }
+
     for (const item of objects.filter((item) => item.Key.endsWith('.tar.gz'))) {
       if (
         !keep.includes(item.Key.split('/')[0]) &&
@@ -117,6 +127,7 @@ export class SiteStore {
       )
         this.remove(item.Key);
     }
+
     const uploads = this.call('list-multipart-uploads').Uploads ?? [];
     for (const upload of uploads) {
       ensure(objectKey.test(upload.Key), 'Unexpected multipart upload');
@@ -134,12 +145,14 @@ export class SiteStore {
 
   async upload(key, file) {
     ensure(objectKey.test(key), 'Invalid upload key');
+
     const md5 = createHash('md5');
     const sha256 = createHash('sha256');
     for await (const chunk of fs.createReadStream(file)) {
       md5.update(chunk);
       sha256.update(chunk);
     }
+
     const checksum = sha256.digest('hex');
     if (this.objects().some((item) => item.Key === key)) {
       const existing = this.call('head-object', '--key', key);
@@ -150,6 +163,7 @@ export class SiteStore {
       );
       return;
     }
+
     // Archives are below 1 GB. A single atomic PUT avoids abandoned parts.
     this.call(
       'put-object',

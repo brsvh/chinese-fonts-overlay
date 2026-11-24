@@ -36,15 +36,17 @@ let
     mapAttrsToList
     nameValuePair
     optional
+    pipe
+    readDir
     ;
 
   discard = builtins.unsafeDiscardStringContext;
 
-  vendors = attrNames (
-    filterAttrs (_: kind: kind == "directory") (
-      builtins.readDir (projectRoot + /packages)
-    )
-  );
+  vendors = pipe (projectRoot + /packages) [
+    readDir
+    (filterAttrs (_: kind: kind == "directory"))
+    attrNames
+  ];
 
   sourceInfo = source: {
     drvPath =
@@ -56,56 +58,54 @@ let
     path = discard (toString source);
   };
 
-  entries = concatMap (
+  packageEntry =
+    vendor: name: package:
+    nameValuePair "${vendor}.${name}" {
+      inherit vendor;
+      inherit (package) pname;
+
+      attrPath = [
+        "${vendor}Packages"
+        name
+      ];
+
+      drvPath = discard package.drvPath;
+
+      outputs = listToAttrs (
+        map (
+          output:
+          nameValuePair output (
+            discard (toString package.${output})
+          )
+        ) package.outputs
+      );
+
+      redistributable =
+        (package.meta.redistributable or false) == true;
+
+      sources = map sourceInfo (
+        optional (package ? src) package.src
+        ++ (package.srcs or [ ])
+      );
+
+      version = package.version or "";
+      windows = vendor == "microsoft";
+    };
+
+  vendorEntries =
     vendor:
-    mapAttrsToList
-      (
-        name: package:
-        nameValuePair "${vendor}.${name}" {
-          inherit vendor;
-
-          attrPath = [
-            "${vendor}Packages"
-            name
-          ];
-
-          drvPath = discard package.drvPath;
-
-          outputs = listToAttrs (
-            map (
-              output:
-              nameValuePair output (
-                discard (toString package.${output})
-              )
-            ) package.outputs
-          );
-
-          pname = package.pname;
-          redistributable =
-            (package.meta.redistributable or false) == true;
-
-          sources = map sourceInfo (
-            optional (package ? src) package.src
-            ++ (package.srcs or [ ])
-          );
-
-          version = package.version or "";
-          windows = vendor == "microsoft";
-        }
-      )
-      (
-        filterAttrs (
-          _: isDerivation
-        ) fontPkgs."${vendor}Packages"
-      )
-  ) vendors;
+    pipe fontPkgs."${vendor}Packages" [
+      (filterAttrs (_: isDerivation))
+      (mapAttrsToList (packageEntry vendor))
+    ];
 
   inventory = {
-    packages = listToAttrs entries;
+    packages = listToAttrs (
+      concatMap vendorEntries vendors
+    );
     schema = 1;
     system = fontPkgs.stdenv.hostPlatform.system;
   };
-
 in
 if mode == "inventory" then
   inventory

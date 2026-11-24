@@ -1,17 +1,21 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { command, digest, evaluate, nixFlags } from './common.mjs';
+import { command, digest } from './common.mjs';
+import { evaluate, nixFlags } from './inventory.mjs';
 import { runContext } from './builds.mjs';
 
 export function checkLanguages(root, directory, event) {
   runContext(root, event);
+
   root = path.resolve(root);
   directory = path.resolve(directory);
   fs.mkdirSync(directory, { recursive: true });
+
   const base = fs.mkdtempSync(path.join(directory, 'languages-base-'));
   let previous;
   let added = false;
+
   try {
     command('git', [
       '-C',
@@ -36,6 +40,7 @@ export function checkLanguages(root, directory, event) {
   const scannerChanged = previous.scanner !== current.scanner;
   const selected = [];
   const skipped = [];
+
   for (const [attribute, item] of Object.entries(current.packages)) {
     if (
       !scannerChanged &&
@@ -43,6 +48,7 @@ export function checkLanguages(root, directory, event) {
     ) {
       continue;
     }
+
     (item.windows ? skipped : selected).push(attribute);
   }
 
@@ -53,6 +59,7 @@ export function checkLanguages(root, directory, event) {
         skipped.join(', '),
     );
   }
+
   if (process.env.GITHUB_STEP_SUMMARY) {
     fs.appendFileSync(
       process.env.GITHUB_STEP_SUMMARY,
@@ -66,6 +73,7 @@ export function checkLanguages(root, directory, event) {
           : ''),
     );
   }
+
   if (selected.length) {
     command(
       'nix',
