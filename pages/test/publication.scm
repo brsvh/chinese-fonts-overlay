@@ -13,6 +13,48 @@
 (define runner (test-runner-current))
 (define fixtures (getenv "FONT_SITE_FIXTURES"))
 (define temporary (temporary-directory (or (getenv "TMPDIR") "/tmp")))
+(define (command-result thunk)
+  "Run THUNK and return its exit status paired with captured diagnostics."
+  (let* ((file (string-append temporary "/diagnostic"))
+         (status (call-with-output-file
+                     file
+                   (lambda (port) (with-error-to-port port thunk)))))
+    (cons status (read-text file))))
+
+(let* ((source (string-append temporary "/project/pages"))
+       (modules (string-append source "/module"))
+       (handwritten (in-vicinity modules "pages/manual/reference.scm"))
+       (alias (string-append temporary "/linked-modules"))
+       (cli (string-append (getenv "FONT_SITE_SOURCE") "/build-aux/directories.scm")))
+  (define (rejected? args)
+    (let ((result
+           (command-result
+            (lambda () (apply system* (or (getenv "GUILE") "guile")
+                              "--no-auto-compile" "-L"
+                              (string-append (getenv "FONT_SITE_SOURCE") "/module")
+                              cli args)))))
+      (and (not (zero? (car result)))
+           (string-contains (cdr result) "Output directory overlaps the source tree"))))
+  (mkdir-p (dirname handwritten))
+  (write-text handwritten "source")
+  (symlink modules alias)
+  (test-assert "Building and cleaning reject source directories through symlinks"
+    (and (every rejected?
+                (list (list "clean-build" source modules)
+                      (list "clean-cache" source alias)
+                      (list "check" source (string-append alias "/new"))))
+         (equal? (read-text handwritten) "source"))))
+
+(let* ((directory (string-append temporary "/previous"))
+       (file (string-append directory "/page")))
+  (mkdir directory)
+  (write-text file "previous")
+  (test-assert "Failed installation restores the previous directory"
+    (and (catch 'system-error
+           (lambda () (replace-directory! directory rmdir) #f)
+           (lambda args #t))
+         (equal? (read-text file) "previous"))))
+
 (define image-pixels
   (call-with-input-string
    (capture (getenv "FONT_SITE_IMAGE_FIXTURES") temporary) read))
@@ -86,14 +128,6 @@
                `(("renderPath" . ,(string-append temporary "/"
                                                  (jref package "pname"))))))
        packages))
-
-(define (command-result thunk)
-  "Run THUNK and return its exit status paired with captured diagnostics."
-  (let* ((file (string-append temporary "/diagnostic"))
-         (status (call-with-output-file
-                     file
-                   (lambda (port) (with-error-to-port port thunk)))))
-    (cons status (read-text file))))
 
 (define* (build-result metadata sources #:optional (commit revision))
   "Build a complete fixture site and capture its outcome."

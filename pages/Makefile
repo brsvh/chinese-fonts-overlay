@@ -46,8 +46,8 @@ SCHEME_ENV = FONT_SITE_DATA="$(SOURCE_DIR)/etc" FONT_SITE_WEB="$(WEB)" \
 	FONT_SITE_INSPECTOR="$(BIN)/font-info" \
 	FONT_SITE_RENDERER="$(BIN)/render-font-samples"
 
-.PHONY: all check release serve clean clean-cache inputs manual check-manual \
-	interface FORCE
+.PHONY: all check check-dirs check-manual clean clean-cache inputs interface
+.PHONY: manual release serve FORCE
 
 all: $(NATIVE) $(ASSETS) inputs manual interface
 	$(SCHEME_ENV) $(SCHEME) "$(SOURCE_DIR)/build-aux/build.scm" \
@@ -55,7 +55,7 @@ all: $(NATIVE) $(ASSETS) inputs manual interface
 	  "$(CATALOG)" "$(PREVIEWS)" "$(SOURCE_REVISION)" \
 	  "$(abspath $(MANUAL))"
 
-manual:
+manual: | check-dirs
 ifeq ($(origin MANUAL),file)
 	$(SCHEME) "$(SOURCE_DIR)/build-aux/manual.scm" \
 	  "$(SOURCE_DIR)" "$(BUILD_DIR)" "$(REFERENCE)" \
@@ -70,7 +70,7 @@ check-manual: manual
 interface: | $(WEB)
 	$(SCHEME) "$(SOURCE_DIR)/build-aux/fonts.scm" "$(WEB)"
 
-inputs:
+inputs: | check-dirs
 ifeq ($(origin CATALOG)$(origin PREVIEWS),filefile)
 	$(SCHEME) "$(SOURCE_DIR)/build-aux/inputs.scm" \
 	  "$(SOURCE_DIR)/.." "$(INPUTS)"
@@ -85,7 +85,7 @@ endif
 	test -r "$(CATALOG)" && test -r "$(PREVIEWS)"
 endif
 
-$(BUILD_DIR) $(BIN) $(WEB) $(BUILD_DIR)/test:
+$(BUILD_DIR) $(BIN) $(WEB) $(BUILD_DIR)/test: | check-dirs
 	mkdir -p "$@"
 
 $(BUILD_DIR)/native.settings: FORCE | $(BUILD_DIR)
@@ -172,6 +172,8 @@ check: $(NATIVE) $(ASSETS) $(BIN)/image-fixtures interface | $(BUILD_DIR)/test
 	  $(SCHEME) "$(SOURCE_DIR)/test/archive.scm"
 
 release:
+	$(SCHEME) "$(SOURCE_DIR)/build-aux/directories.scm" check \
+	  "$(SOURCE_DIR)" "$(abspath $(RELEASE_DIR))"
 	$(SCHEME) "$(SOURCE_DIR)/build-aux/archive.scm" pack \
 	  "$(abspath $(DIRECTORY))" "$(SOURCE_REVISION)" \
 	  "$(abspath $(RELEASE_DIR))"
@@ -179,10 +181,15 @@ release:
 serve:
 	$(SCHEME) "$(SOURCE_DIR)/build-aux/serve.scm" "$(DIRECTORY)" "$(PORT)"
 
+check-dirs:
+	$(SCHEME) "$(SOURCE_DIR)/build-aux/directories.scm" check \
+	  "$(SOURCE_DIR)" "$(BUILD_DIR)" "$(CACHE_DIR)" \
+	  "$(BIN)" "$(WEB)" "$(INPUTS)" "$(BUILD_DIR)/test"
+
 clean:
-	$(SCHEME) "$(SOURCE_DIR)/build-aux/clean.scm" build \
+	$(SCHEME) "$(SOURCE_DIR)/build-aux/directories.scm" clean-build \
 	  "$(SOURCE_DIR)" "$(BUILD_DIR)"
 
 clean-cache:
-	$(SCHEME) "$(SOURCE_DIR)/build-aux/clean.scm" cache \
+	$(SCHEME) "$(SOURCE_DIR)/build-aux/directories.scm" clean-cache \
 	  "$(SOURCE_DIR)" "$(CACHE_DIR)"
