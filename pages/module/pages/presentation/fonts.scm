@@ -1,5 +1,5 @@
-(define-module (presentation fonts)
-  #:use-module (util)
+(define-module (chinese-fonts-overlay pages presentation fonts)
+  #:use-module (chinese-fonts-overlay pages util)
   #:use-module (ice-9 match)
   #:use-module (srfi srfi-1)
   #:export (commercial-font-names commercial-font-inputs prepare-interface))

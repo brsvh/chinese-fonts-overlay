@@ -1,10 +1,10 @@
-(define-module (build)
-  #:use-module (util)
-  #:use-module (preview images)
-  #:use-module (preview catalog)
-  #:use-module (manual page)
-  #:use-module (presentation fonts)
-  #:use-module (presentation layout)
+(define-module (chinese-fonts-overlay pages build)
+  #:use-module (chinese-fonts-overlay pages util)
+  #:use-module (chinese-fonts-overlay pages preview images)
+  #:use-module (chinese-fonts-overlay pages preview catalog)
+  #:use-module (chinese-fonts-overlay pages manual page)
+  #:use-module (chinese-fonts-overlay pages presentation fonts)
+  #:use-module (chinese-fonts-overlay pages presentation layout)
   #:use-module (ice-9 string-fun)
   #:use-module (ice-9 regex)
   #:use-module (srfi srfi-1)
@@ -125,7 +125,7 @@
          (preview-stamp (string-append directory "/previews.sha256"))
          (output (string-append directory "/public"))
          (stamp (string-append directory "/public.sha256"))
-         (module-root (string-append root "/module/"))
+         (module-root (string-append root "/module/pages/"))
          (preview-digest
           (fingerprint
            (append

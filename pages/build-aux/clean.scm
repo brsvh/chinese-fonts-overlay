@@ -1,4 +1,4 @@
-(use-modules (util)
+(use-modules (chinese-fonts-overlay pages util)
              (ice-9 match))
 
 (define (clean kind source directory)

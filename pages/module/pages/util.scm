@@ -1,4 +1,4 @@
-(define-module (util)
+(define-module (chinese-fonts-overlay pages util)
   #:use-module (json)
   #:use-module (gcrypt hash)
   #:use-module (gcrypt base16)

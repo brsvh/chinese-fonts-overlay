@@ -1,4 +1,4 @@
-(use-modules (presentation fonts)
+(use-modules (chinese-fonts-overlay pages presentation fonts)
              (ice-9 match))
 
 (match (cdr (command-line))

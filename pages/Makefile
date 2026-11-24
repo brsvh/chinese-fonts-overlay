@@ -28,8 +28,8 @@ override REFERENCE := $(if $(REFERENCE),$(abspath $(REFERENCE)))
 BIN := $(BUILD_DIR)/bin
 WEB := $(BUILD_DIR)/web
 INPUTS := $(BUILD_DIR)/inputs
-MODULES := $(SOURCE_DIR)/module
-SCHEME = $(GUILE) --no-auto-compile -L "$(MODULES)"
+PAGE_MODULES := $(SOURCE_DIR)/module/pages
+SCHEME = $(GUILE) --no-auto-compile -L "$(SOURCE_DIR)/module"
 FONT_LIBS = pangocairo pangofc fontconfig cairo freetype2 glib-2.0 libwebp
 CATALOG ?= $(INPUTS)/catalog.json
 PREVIEWS ?= $(INPUTS)/fonts.json
@@ -130,22 +130,22 @@ $(HOOT_ASSETS) &: $(SOURCE_DIR)/web/main.scm \
 $(STATIC_ASSETS): $(WEB)/%: $(SOURCE_DIR)/web/% | $(WEB)
 	cp -f "$<" "$@"
 
-$(WEB)/input.css: $(SOURCE_DIR)/web/style.css \
+$(WEB)/input.css: $(SOURCE_DIR)/web/style.css $(SOURCE_DIR)/Makefile \
 	$(SOURCE_DIR)/build-aux/substitute.scm $(BUILD_DIR)/web.settings | $(WEB)
 	test -r "$(DAISYUI)" && test -r "$(DAISYUI_THEME)"
 	$(GUILE) --no-auto-compile "$(SOURCE_DIR)/build-aux/substitute.scm" \
 	  "$<" "$@" HTML_SOURCE "$(SOURCE_DIR)/web/index.html" \
 	  SCHEME_SOURCE "$(SOURCE_DIR)/web/main.scm" \
-	  CATALOG_SOURCE "$(MODULES)/preview/catalog.scm" \
-	  LAYOUT_SOURCE "$(MODULES)/presentation/layout.scm" \
-	  MANUAL_SOURCE "$(MODULES)/manual/page.scm" \
+	  CATALOG_SOURCE "$(PAGE_MODULES)/preview/catalog.scm" \
+	  LAYOUT_SOURCE "$(PAGE_MODULES)/presentation/layout.scm" \
+	  MANUAL_SOURCE "$(PAGE_MODULES)/manual/page.scm" \
 	  DAISYUI "$(DAISYUI)" DAISYUI_THEME "$(DAISYUI_THEME)"
 
 $(WEB)/style.css: $(WEB)/input.css $(SOURCE_DIR)/web/index.html \
 	$(SOURCE_DIR)/web/main.scm \
-	$(MODULES)/preview/catalog.scm \
-	$(MODULES)/presentation/layout.scm \
-	$(MODULES)/manual/page.scm $(DAISYUI) $(DAISYUI_THEME)
+	$(PAGE_MODULES)/preview/catalog.scm \
+	$(PAGE_MODULES)/presentation/layout.scm \
+	$(PAGE_MODULES)/manual/page.scm $(DAISYUI) $(DAISYUI_THEME)
 	$(TAILWINDCSS) -i "$<" -o "$@" --minify
 
 $(WEB)/yuyang-regular.ttf: $(UI_FONT_REGULAR) \

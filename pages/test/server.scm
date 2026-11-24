@@ -1,6 +1,6 @@
 (use-modules
- (server http)
- (util)
+ (chinese-fonts-overlay pages server http)
+ (chinese-fonts-overlay pages util)
  (ice-9 binary-ports)
  (ice-9 match)
  (rnrs bytevectors)

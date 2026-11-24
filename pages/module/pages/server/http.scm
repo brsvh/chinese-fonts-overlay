@@ -1,4 +1,4 @@
-(define-module (server http)
+(define-module (chinese-fonts-overlay pages server http)
   #:use-module (ice-9 binary-ports)
   #:use-module (web server)
   #:use-module (web request)

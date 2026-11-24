@@ -1,4 +1,4 @@
-(use-modules (server http)
+(use-modules (chinese-fonts-overlay pages server http)
              (ice-9 match)
              (ice-9 regex))
 

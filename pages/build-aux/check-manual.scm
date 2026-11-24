@@ -1,4 +1,4 @@
-(use-modules (manual validation))
+(use-modules (chinese-fonts-overlay pages manual validation))
 
 (catch #t
        (lambda () (validate-manual (cadr (command-line))))

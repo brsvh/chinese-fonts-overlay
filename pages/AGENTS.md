@@ -14,13 +14,15 @@ website or server package. `make` builds, `make check` tests licensed fixtures,
 `make serve` serves existing output, and `make release` archives it. Do not
 introduce a second build system.
 
-Keep dependencies in Make and transformations in Guile. Commands in `build-aux/`
-load native modules from `module/`. Keep manual compilation, preview
-preparation, shared presentation and HTTP serving in their respective modules.
-`doc/` contains the Texinfo sources, `etc/` the preview inputs and language
-data, and `src/` the native font tools. Browser Scheme, scripts, styles and
-templates live in `web/`. Importing a module has no build or service side
-effects.
+Keep dependencies in Make and transformations in Guile. Edit native Guile
+modules in `module/pages/`. Commands in `build-aux/` use `module/` as their load
+path. The relative symlink `module/chinese-fonts-overlay/pages` maps the
+`(chinese-fonts-overlay pages …)` namespace to the sources. Keep manual
+compilation, preview preparation, shared presentation and HTTP serving in their
+respective modules. `doc/` contains the Texinfo sources, `etc/` the preview
+inputs and language data, and `src/` the native font tools. Browser Scheme,
+scripts, styles and templates live in `web/`. Importing a module has no build or
+service side effects.
 
 CI scheduling, credentials, remote state and publication belong to JavaScript
 modules in `../ci/`. Package definitions and language maintenance belong outside
@@ -96,14 +98,14 @@ fonts or another language.
 
 The manual lives at `manual/`. Compile it with Texinfo, then wrap the generated
 body using shared header and footer procedures in
-`module/presentation/layout.scm`. Derive the chapter sidebar from Texinfo's
-internal links, not a second hand-maintained table of contents. Preserve its
-chapter, vendor-section and package-subsection hierarchy. Manual reading and
-navigation must work without Hoot or JavaScript. Enhance same-origin manual
-links by replacing only the article and pager; preserve the shared shell, loaded
-fonts and sidebar state. Keep fragment links, keyboard focus, browser history
-and scroll restoration working. Superseded requests must not replace newer
-content; failed enhancement follows the original link. Do not intercept
+`(chinese-fonts-overlay pages presentation layout)`. Derive the chapter sidebar
+from Texinfo's internal links, not a second hand-maintained table of contents.
+Preserve its chapter, vendor-section and package-subsection hierarchy. Manual
+reading and navigation must work without Hoot or JavaScript. Enhance same-origin
+manual links by replacing only the article and pager; preserve the shared shell,
+loaded fonts and sidebar state. Keep fragment links, keyboard focus, browser
+history and scroll restoration working. Superseded requests must not replace
+newer content; failed enhancement follows the original link. Do not intercept
 downloads, external links or modified clicks. Share shell dimensions, theme and
 interface fonts with the preview; scope manual typography to its content. Keep
 chapter navigation available on small screens and keyboard-accessible. Publish

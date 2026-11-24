@@ -1,8 +1,8 @@
-(define-module (manual build)
-  #:use-module (manual reference)
-  #:use-module (manual navigation)
-  #:use-module (manual validation)
-  #:use-module (util)
+(define-module (chinese-fonts-overlay pages manual build)
+  #:use-module (chinese-fonts-overlay pages manual reference)
+  #:use-module (chinese-fonts-overlay pages manual navigation)
+  #:use-module (chinese-fonts-overlay pages manual validation)
+  #:use-module (chinese-fonts-overlay pages util)
   #:use-module (ice-9 ftw)
   #:use-module (ice-9 regex)
   #:use-module (json)
@@ -30,7 +30,7 @@
                                   '("packages" "overlays" "lib"))
                       (map (lambda (name) (string-append root "/" name))
                            '("flake.nix" "flake.lock" "default.nix"
-                             "pages/doc/reference.nix" "pages/module/manual/build.scm"))))
+                             "pages/doc/reference.nix" "pages/module/pages/manual/build.scm"))))
              (digest (fingerprint inputs (list root system)))
              (stamp (string-append directory "/reference.sha256"))
              (file (string-append directory "/reference.json")))
@@ -69,7 +69,7 @@
          (doc (string-append source "/doc"))
          (inputs (append (filter (lambda (file) (string-suffix? ".texi" file))
                                  (files-under doc))
-                         (map (lambda (name) (string-append source "/module/" name))
+                         (map (lambda (name) (string-append source "/module/pages/" name))
                               '("manual/build.scm" "manual/reference.scm"
                                 "manual/navigation.scm" "manual/validation.scm"
                                 "util.scm"))

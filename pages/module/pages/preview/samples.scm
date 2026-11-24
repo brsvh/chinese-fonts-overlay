@@ -1,5 +1,5 @@
-(define-module (preview samples)
-  #:use-module (util)
+(define-module (chinese-fonts-overlay pages preview samples)
+  #:use-module (chinese-fonts-overlay pages util)
   #:use-module (srfi srfi-1)
   #:export (samples
             sample-revision

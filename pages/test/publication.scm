@@ -1,8 +1,8 @@
-(use-modules (util)
-             (build)
-             (presentation fonts)
-             (presentation layout)
-             (preview images)
+(use-modules (chinese-fonts-overlay pages util)
+             (chinese-fonts-overlay pages build)
+             (chinese-fonts-overlay pages presentation fonts)
+             (chinese-fonts-overlay pages presentation layout)
+             (chinese-fonts-overlay pages preview images)
              (srfi srfi-1)
              (srfi srfi-64))
 

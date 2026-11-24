@@ -1,4 +1,4 @@
-(use-modules (preview inputs)
+(use-modules (chinese-fonts-overlay pages preview inputs)
              (ice-9 match))
 
 (catch #t

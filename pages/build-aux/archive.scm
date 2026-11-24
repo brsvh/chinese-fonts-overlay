@@ -1,5 +1,5 @@
-(use-modules (archive)
-             (util)
+(use-modules (chinese-fonts-overlay pages archive)
+             (chinese-fonts-overlay pages util)
              (ice-9 match))
 
 (match (cdr (command-line))

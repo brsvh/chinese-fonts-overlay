@@ -1,6 +1,6 @@
-(use-modules (build)
+(use-modules (chinese-fonts-overlay pages build)
              (ice-9 match)
-             (util))
+             (chinese-fonts-overlay pages util))
 
 (catch #t
        (lambda ()

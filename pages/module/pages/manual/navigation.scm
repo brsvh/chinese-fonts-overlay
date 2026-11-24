@@ -1,5 +1,5 @@
-(define-module (manual navigation)
-  #:use-module (util)
+(define-module (chinese-fonts-overlay pages manual navigation)
+  #:use-module (chinese-fonts-overlay pages util)
   #:use-module (ice-9 regex)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-11)

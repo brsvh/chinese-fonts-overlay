@@ -74,7 +74,7 @@ make -C pages -j4 check
 素材的自制三角形字形用于验证字体处理，不用于比较字形外观。
 界面改动还应在浏览器中检查筛选、展开内容和窄屏布局。
 
-生成和服务代码在 =module/= ，入口位于 =build-aux/= 。
+生成和服务代码在 =module/pages/= ，入口位于 =build-aux/= 。
 =src/= 保存原生字体工具，
 =web/= 是 Hoot 交互与样式， =etc/= 保存语言名称和样文。
 字体包与元数据维护见 [[file:../.github/CONTRIBUTING.md][贡献指南]]。

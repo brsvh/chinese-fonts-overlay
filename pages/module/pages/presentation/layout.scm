@@ -1,5 +1,5 @@
-(define-module (presentation layout)
-  #:use-module (util)
+(define-module (chinese-fonts-overlay pages presentation layout)
+  #:use-module (chinese-fonts-overlay pages util)
   #:use-module (sxml simple)
   #:use-module (ice-9 regex)
   #:export (web-file source-repository site-header site-footer site-markup

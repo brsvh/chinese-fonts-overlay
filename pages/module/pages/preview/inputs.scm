@@ -1,5 +1,5 @@
-(define-module (preview inputs)
-  #:use-module (util)
+(define-module (chinese-fonts-overlay pages preview inputs)
+  #:use-module (chinese-fonts-overlay pages util)
   #:use-module (json)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-13)
@@ -19,7 +19,7 @@
                                  paths)
                          (map (lambda (name) (string-append root "/" name))
                               '("flake.nix" "flake.lock" "default.nix"
-                                "pages/module/preview/inputs.scm"
+                                "pages/module/pages/preview/inputs.scm"
                                 "pages/etc/inputs.nix" "pages/build-aux/inputs.scm")))
                  string<?))
          (digest (text-digest
