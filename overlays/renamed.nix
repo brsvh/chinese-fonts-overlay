@@ -1,8 +1,12 @@
 { lib }:
 let
+  inherit (lib)
+    mapAttrs
+    ;
+
   renamed =
     oldGroup: newGroup:
-    lib.mapAttrs (
+    mapAttrs (
       old: new:
       throw ''
         ${oldGroup}.${old} has been renamed to
@@ -14,6 +18,18 @@ in
   TH-fonts = throw ''
     TH-fonts has been renamed to tianheng-fonts.
   '';
+
+  THFonts = renamed "THFonts" "tianhengPackages" {
+    Hak = "hak";
+    Joeng = "joeng";
+    Khaai-P = "khaai-p";
+    Khaai-T = "khaai-t";
+    Ming = "ming";
+    Sung-P = "sung-p";
+    Sung-T = "sung-t";
+    Sy = "sy";
+    Tshyn = "tshyn";
+  };
 
   alibabaFonts =
     renamed "alibabaFonts" "alibabaPackages"
@@ -36,18 +52,6 @@ in
         FZY3K = "fzzhunyuan";
         FZY4K = "fzcuyuan";
       };
-
-  THFonts = renamed "THFonts" "tianhengPackages" {
-    Hak = "hak";
-    Joeng = "joeng";
-    Khaai-P = "khaai-p";
-    Khaai-T = "khaai-t";
-    Ming = "ming";
-    Sung-P = "sung-p";
-    Sung-T = "sung-t";
-    Sy = "sy";
-    Tshyn = "tshyn";
-  };
 
   trionestypeFonts =
     renamed "trionestypeFonts" "trionestypePackages"

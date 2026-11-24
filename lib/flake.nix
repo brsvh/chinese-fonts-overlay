@@ -60,11 +60,11 @@ let
   mkAttrsOption =
     type:
     mkOption {
-      default = { };
-
       inherit
         type
         ;
+
+      default = { };
     };
 
   deferredModuleWith =
@@ -153,13 +153,11 @@ let
     };
 
   flakeOutputOptions = mapAttrs (
-    _: type: mkAttrsOption type
+    _: mkAttrsOption
   ) flakeOutputTypes;
 
   perSystemOutputOptions =
-    mapAttrs (
-      _: type: mkAttrsOption type
-    ) perSystemOutputTypes
+    mapAttrs (_: mkAttrsOption) perSystemOutputTypes
     // {
       formatter = mkOption {
         default = null;

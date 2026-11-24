@@ -44,11 +44,10 @@
       interfaceAssets = {
         DAISYUI = daisyui;
         DAISYUI_THEME = daisyuiTheme;
-        UI_FONT_REGULAR = "${interfaceFont}/share/fonts/truetype/tsangertype/TsangerYuYangT-W02.ttf";
-        UI_FONT_MEDIUM = "${interfaceFont}/share/fonts/truetype/tsangertype/TsangerYuYangT-W03.ttf";
         UI_FONT_LICENSE = interfaceFontLicense;
+        UI_FONT_MEDIUM = "${interfaceFont}/share/fonts/truetype/tsangertype/TsangerYuYangT-W03.ttf";
+        UI_FONT_REGULAR = "${interfaceFont}/share/fonts/truetype/tsangertype/TsangerYuYangT-W02.ttf";
       };
-
     in
     {
       devShells = {

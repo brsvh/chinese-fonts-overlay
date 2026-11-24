@@ -3,10 +3,12 @@ let
     concatStringsSep
     elem
     filter
+    fromJSON
     getAttrFromPath
     listToAttrs
     nameValuePair
     splitString
+    toJSON
     unique
     ;
 
@@ -26,9 +28,7 @@ let
   };
 
   selection = unique (
-    builtins.fromJSON (
-      builtins.getEnv "FONT_PAGES_PACKAGES"
-    )
+    fromJSON (builtins.getEnv "FONT_PAGES_PACKAGES")
   );
 
   fullCatalog =
@@ -72,8 +72,6 @@ let
     map fontInput catalog.packages
   );
 in
-pkgs.writeText "font-site-inputs.json" (
-  builtins.toJSON {
-    inherit catalog fontInputs;
-  }
-)
+pkgs.writeText "font-site-inputs.json" (toJSON {
+  inherit catalog fontInputs;
+})

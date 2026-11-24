@@ -15,7 +15,7 @@ let
     ;
 
   lib = prev.lib.extend (
-    finalAttrs: prevAttrs: {
+    _: prevAttrs: {
       licenses =
         prevAttrs.licenses
         // chinese-fonts-overlay-lib.licenses;
@@ -117,18 +117,18 @@ let
 
   harmonyosSansPackages = with huaweiPackages; [
     harmonyos-sans
-    harmonyos-sans-sc
-    harmonyos-sans-tc
     harmonyos-sans-naskh-arabic
     harmonyos-sans-naskh-arabic-ui
+    harmonyos-sans-sc
+    harmonyos-sans-tc
   ];
 
   harmonyosSansVfPackages = with huaweiPackages; [
-    harmonyos-sans-vf
+    harmonyos-sans-naskh-arabic-ui-vf
+    harmonyos-sans-naskh-arabic-vf
     harmonyos-sans-sc-vf
     harmonyos-sans-tc-vf
-    harmonyos-sans-naskh-arabic-vf
-    harmonyos-sans-naskh-arabic-ui-vf
+    harmonyos-sans-vf
   ];
 
   ichitenfontPackages = mkVendorPackages "ichitenfont";
@@ -225,6 +225,10 @@ in
     trionestypePackages
     tsangertypePackages
     xiaomiPackages
+    ;
+
+  inherit (microsoftPackages)
+    windows-fonts
     ;
 
   alibaba-fonts =
@@ -379,16 +383,13 @@ in
         let
           license = drv.meta.license or null;
         in
-        (
-          (license == tsangertype-freefont-license)
-          || (license == tsangertype-font-license)
-        )
+        (license == tsangertype-freefont-license)
+        || (license == tsangertype-font-license)
       );
 
   xiaomi-fonts =
     xiaomiPackages.combine' "xiaomi-fonts"
       (_: true);
 
-  windows-fonts = microsoftPackages.windows-fonts;
 }
 // import ./renamed.nix { inherit lib; }

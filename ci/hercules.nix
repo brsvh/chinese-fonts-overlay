@@ -17,6 +17,7 @@ let
     mapAttrs
     match
     optionalAttrs
+    toJSON
     ;
 
   system = "x86_64-linux";
@@ -70,7 +71,7 @@ let
         pkgs.writeText
           "chinese-fonts-overlay-ci-${action}.json"
           (
-            builtins.toJSON (
+            toJSON (
               {
                 inherit
                   action

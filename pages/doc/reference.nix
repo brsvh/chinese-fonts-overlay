@@ -7,10 +7,14 @@ let
 
   pkgs = import flake.inputs.nixpkgs {
     inherit system;
+
     config = {
       allowUnfree = true;
     };
-    overlays = [ (import (root + "/default.nix")) ];
+
+    overlays = [
+      (import (root + "/default.nix"))
+    ];
   };
 
   inherit (pkgs.lib)
@@ -72,6 +76,7 @@ let
     in
     {
       inherit attribute;
+
       composed = package ? fontMembers;
       description = package.meta.description or "";
       members = map (entry: entry.attribute) members;

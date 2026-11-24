@@ -62,6 +62,7 @@ let
     vendor: name: package:
     nameValuePair "${vendor}.${name}" {
       inherit vendor;
+
       inherit (package) pname;
 
       attrPath = [
@@ -103,6 +104,7 @@ let
     packages = listToAttrs (
       concatMap vendorEntries vendors
     );
+
     schema = 1;
     system = fontPkgs.stdenv.hostPlatform.system;
   };
@@ -119,9 +121,6 @@ else if mode == "languages" then
         };
   in
   {
-    scanner =
-      discard
-        flake.apps.${system}.update-font-languages.program;
     packages = listToAttrs (
       map (
         entry:
@@ -130,10 +129,15 @@ else if mode == "languages" then
         in
         nameValuePair entry.attribute {
           inherit (entry) languages;
+
           inherit (package) drvPath windows;
         }
       ) catalog.packages
     );
+
+    scanner =
+      discard
+        flake.apps.${system}.update-font-languages.program;
   }
 else if mode == "outputs" then
   concatMap (

@@ -5,6 +5,11 @@
 }:
 let
   pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+
+  inherit (pkgs.lib)
+    toJSON
+    ;
+
   effects = inputs.hercules-ci-effects.lib.withPkgs pkgs;
 in
 effects.mkEffect {
@@ -18,7 +23,7 @@ effects.mkEffect {
     post-build-hook =
   '';
 
-  __hci_effect_mounts = builtins.toJSON {
+  __hci_effect_mounts = toJSON {
     "/pages-state" = "chinese-fonts-overlay-pages";
   };
 

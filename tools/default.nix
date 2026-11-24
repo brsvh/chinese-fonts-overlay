@@ -21,6 +21,11 @@ in
       ...
     }:
     let
+      inherit (lib)
+        getExe
+        toJSON
+        ;
+
       languageFontconfig =
         (import packageNixpkgs { inherit system; })
         .fontconfig;
@@ -61,18 +66,7 @@ in
       };
 
       apps = {
-        update-font-languages = {
-          type = "app";
-          program = lib.getExe updateFontLanguages;
-
-          meta = {
-            description = "Scan and maintain font package languages";
-          };
-        };
-
         ci = {
-          type = "app";
-
           meta = {
             description = "Font build planning and publication records";
           };
@@ -80,12 +74,22 @@ in
           program = "${
             import (projectRoot + /ci) { inherit pkgs; }
           }/bin/chinese-fonts-overlay-ci";
+          type = "app";
+        };
+
+        update-font-languages = {
+          meta = {
+            description = "Scan and maintain font package languages";
+          };
+
+          program = getExe updateFontLanguages;
+          type = "app";
         };
       };
 
       checks = {
         font-metadata = pkgs.writeText "font-metadata.json" (
-          builtins.toJSON fontCatalog
+          toJSON fontCatalog
         );
       };
 
