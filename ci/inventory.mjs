@@ -59,7 +59,11 @@ export function evaluate(root, mode, selection = [], build = false) {
     command('nix', args, {
       env: {
         ...process.env,
-        FONT_CI_EVALUATOR: evaluator,
+        // A language report uses the catalog layout of the revision it describes.
+        FONT_CI_EVALUATOR:
+          mode === 'languages'
+            ? path.resolve(root, 'ci/default.nix')
+            : evaluator,
         FONT_CI_ARGUMENTS: JSON.stringify({
           flakeUrl: 'git+' + pathToFileURL(path.resolve(root)).href,
           root: path.resolve(root),
