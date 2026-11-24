@@ -87,56 +87,14 @@ export async function buildPages(source) {
   const store = new PagesArtifactStore(secrets.pagesArtifacts.data);
 
   try {
-    const existing = store.manifest(source);
-    if (existing) {
-      const { manifest, base } = readArtifactManifest(existing.file);
-      ensure(manifest.source === source, 'Stored source differs');
-      const archive = store
-        .objects()
-        .find((item) => item.Key === source + '/' + base + '.tar.gz');
-      ensure(archive?.Size === manifest.size, 'Stored archive is incomplete');
-      return;
-    }
-
-    const inputs = new GarageBucket(
-      'chinese-fonts-overlay-webfonts',
-      secrets.webfonts.data,
-    );
-    try {
-      const library = path.join(inputs.directory, 'library');
-      downloadWebfonts(inputs, library);
-      buildArchive(source, library);
-    } finally {
-      inputs.close();
-    }
-
-    if (source !== remoteMain()) return;
-
-    const directory = path.join(stateDirectory, 'releases', source);
-    const names = fs
-      .readdirSync(directory)
-      .filter((name) => name.endsWith('.json'));
-    ensure(names.length === 1, 'Missing completed site archive');
-
-    const file = path.join(directory, names[0]);
-    const { manifest, base } = readArtifactManifest(file);
-    ensure(manifest.source === source, 'Staged source differs');
-
-    const archive = path.join(directory, base + '.tar.gz');
-    const verified = path.join(directory, '.verified');
-
-    try {
-      archiveCommand('unpack', archive, file, verified);
-    } finally {
-      fs.rmSync(verified, { recursive: true, force: true });
-    }
-
     const limit = secrets.pagesArtifacts.data.maxVersions ?? 2;
-    store.reserve(source, base, limit);
-    await store.upload(source + '/' + base + '.tar.gz', archive);
+    let existing = store.manifest(source);
+    if (!existing) {
+      if (!(await uploadPagesArchive(source, store, secrets, limit))) return;
+      existing = store.manifest(source);
+    }
 
-    // This atomic marker is written only after the validated archive arrives.
-    await store.upload(source + '/manifest.json', file);
+    storedArchive(store, source, existing);
     ensure(
       store.objects().filter((item) => item.Key.endsWith('/manifest.json'))
         .length <= limit,
@@ -145,6 +103,62 @@ export async function buildPages(source) {
   } finally {
     store.close();
   }
+}
+
+function storedArchive(store, source, metadata) {
+  ensure(metadata, 'No completed artifact for current main; retry buildPages');
+  const { manifest, base } = readArtifactManifest(metadata.file);
+  ensure(manifest.source === source, 'Stored source differs');
+  const key = source + '/' + base + '.tar.gz';
+  const archive = store.call('head-object', '--key', key);
+  ensure(
+    archive.ContentLength === manifest.size &&
+      archive.Metadata?.sha256 === manifest.sha256,
+    'Stored Pages archive differs from its manifest',
+  );
+  return { file: metadata.file, key, size: manifest.size };
+}
+
+async function uploadPagesArchive(source, store, secrets, limit) {
+  const inputs = new GarageBucket(
+    'chinese-fonts-overlay-webfonts',
+    secrets.webfonts.data,
+  );
+  try {
+    const library = path.join(inputs.directory, 'library');
+    downloadWebfonts(inputs, library);
+    buildArchive(source, library);
+  } finally {
+    inputs.close();
+  }
+
+  if (source !== remoteMain()) return false;
+
+  const directory = path.join(stateDirectory, 'releases', source);
+  const names = fs
+    .readdirSync(directory)
+    .filter((name) => name.endsWith('.json'));
+  ensure(names.length === 1, 'Missing completed site archive');
+
+  const file = path.join(directory, names[0]);
+  const { manifest, base } = readArtifactManifest(file);
+  ensure(manifest.source === source, 'Staged source differs');
+
+  const archive = path.join(directory, base + '.tar.gz');
+  const verified = path.join(directory, '.verified');
+
+  try {
+    archiveCommand('unpack', archive, file, verified);
+  } finally {
+    fs.rmSync(verified, { recursive: true, force: true });
+  }
+
+  store.reserve(source, base, limit);
+  await store.upload(source + '/' + base + '.tar.gz', archive);
+
+  // This atomic marker is written only after the validated archive arrives.
+  await store.upload(source + '/manifest.json', file);
+  return true;
 }
 
 function downloadWebfonts(bucket, library) {
@@ -283,21 +297,14 @@ export async function receivePagesArtifact(destination) {
   });
 
   try {
-    const metadata = store.manifest(source);
-    ensure(
-      metadata,
-      'No completed artifact for current main; retry buildPages',
+    const { file, key, size } = storedArchive(
+      store,
+      source,
+      store.manifest(source),
     );
-    const { manifest, base } = readArtifactManifest(metadata.file);
-    ensure(manifest.source === source, 'Manifest source differs');
-
-    const key = source + '/' + base + '.tar.gz';
-    const object = store.objects().find((item) => item.Key === key);
-    ensure(object?.Size === manifest.size, 'Archive size differs');
-
     const archive = path.join(store.directory, 'pages.tar.gz');
-    store.download(key, archive, manifest.size);
-    archiveCommand('unpack', archive, metadata.file, destination);
+    store.download(key, archive, size);
+    archiveCommand('unpack', archive, file, destination);
     output({ ready: true, source });
   } finally {
     store.close();
