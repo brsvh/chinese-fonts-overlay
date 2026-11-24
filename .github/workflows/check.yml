@@ -36,3 +36,5 @@ jobs:
         run: nix flake check --no-update-lock-file --no-write-lock-file --print-build-logs
       - name: Check website with licensed fixtures
         run: nix develop --no-update-lock-file --no-write-lock-file .#pages -c make -C pages -j2 check
+      - name: Check the complete HTML and Info manual
+        run: nix develop --no-update-lock-file --no-write-lock-file .#manual -c make -C pages check-manual

@@ -122,7 +122,7 @@ nix flake check --no-update-lock-file --no-write-lock-file --print-build-logs
 `nix flake check` 校验全部非聚合字体的元数据，包括 Windows
 字体，不构建字体文件。它能发现缺字段、类型、取值及排序问题，不能证明名称、风格和许可判断正确，也不替代单包构建与语言扫描。
 
-PR 的 `Flake checks` 运行格式检查、元数据检查和网站素材测试。`Package builds`
+PR 的 `Flake checks` 检查格式、字体元数据、网站测试素材和完整的 HTML、Info 手册。`Package builds`
 汇总字体构建与语言校验：构建可复用已验证记录；语言校验独立比较字体、语言列表及扫描工具，变化时重新扫描，不因构建命中缓存而跳过。Windows
 字体需要本地来源，不自动构建或扫描，贡献者应提供本地验证结果。
 
