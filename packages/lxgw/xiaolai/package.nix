@@ -73,7 +73,7 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    chinese-fonts-overlay-site = {
+    chinese-fonts-overlay-pages = {
       displayName = "小赖字体";
 
       languages = [

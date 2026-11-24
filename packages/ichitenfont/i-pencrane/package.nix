@@ -61,7 +61,7 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    chinese-fonts-overlay-site = {
+    chinese-fonts-overlay-pages = {
       displayName = "I.鋼筆鶴體";
 
       languages = [

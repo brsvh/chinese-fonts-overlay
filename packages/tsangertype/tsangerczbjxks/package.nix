@@ -75,7 +75,7 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    chinese-fonts-overlay-site = {
+    chinese-fonts-overlay-pages = {
       displayName = "仓耳曹哲斌俊秀楷书";
 
       languages = [

@@ -65,7 +65,7 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    chinese-fonts-overlay-site = {
+    chinese-fonts-overlay-pages = {
       displayName = "MiSans Latin VF";
       embedding = true;
 

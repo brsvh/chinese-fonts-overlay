@@ -19,7 +19,7 @@ mkMicrosoftFontDerivation {
   };
 
   passthru = {
-    chinese-fonts-overlay-site = {
+    chinese-fonts-overlay-pages = {
       displayName = "Segoe Fluent Icons / Segoe MDL2 Assets";
 
       languages = [ ];

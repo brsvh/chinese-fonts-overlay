@@ -69,7 +69,7 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    chinese-fonts-overlay-site = {
+    chinese-fonts-overlay-pages = {
       displayName = "HarmonyOS Sans SC VF";
       embedding = true;
 

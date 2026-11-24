@@ -26,7 +26,7 @@ mkMicrosoftFontDerivation {
   };
 
   passthru = {
-    chinese-fonts-overlay-site = {
+    chinese-fonts-overlay-pages = {
       displayName = "Segoe UI";
 
       languages = [

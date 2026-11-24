@@ -68,7 +68,7 @@ let
       members = map memberEntry (
         package.fontMembers or [ ]
       );
-      info = package.chinese-fonts-overlay-site or { };
+      info = package.chinese-fonts-overlay-pages or { };
     in
     {
       inherit attribute;

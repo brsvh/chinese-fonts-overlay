@@ -58,7 +58,7 @@ manual shell. Inspect integrated pages in a browser after changing the layout.
 ## Font packages
 
 Maintain catalog information only in `package.nix`, under
-`passthru.chinese-fonts-overlay-site`. The schema is
+`passthru.chinese-fonts-overlay-pages`. The schema is
 [packages/font-metadata.nix](packages/font-metadata.nix); field meanings and
 review criteria are in the contribution guide. Reuse this validator for the
 catalog and whole-collection flake check. Exclude packages marked

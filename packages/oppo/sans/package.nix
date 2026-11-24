@@ -70,7 +70,7 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    chinese-fonts-overlay-site = {
+    chinese-fonts-overlay-pages = {
       displayName = "OPPO Sans 4.0";
       embedding = true;
 

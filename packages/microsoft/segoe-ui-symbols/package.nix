@@ -21,7 +21,7 @@ mkMicrosoftFontDerivation {
   };
 
   passthru = {
-    chinese-fonts-overlay-site = {
+    chinese-fonts-overlay-pages = {
       displayName = "Segoe UI Emoji / Segoe UI Historic / Segoe UI Symbol";
 
       languages = [

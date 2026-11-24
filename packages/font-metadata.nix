@@ -125,27 +125,27 @@ let
             "vendor"
           ]
       )
-      "${id}: chinese-fonts-overlay-site must declare displayName, languages, licenseCost, styles, and vendor; embedding and notices are optional";
+      "${id}: chinese-fonts-overlay-pages must declare displayName, languages, licenseCost, styles, and vendor; embedding and notices are optional";
     assert assertMsg
       (!(info ? embedding) || isBool info.embedding)
-      "${id}: chinese-fonts-overlay-site.embedding must be a boolean";
+      "${id}: chinese-fonts-overlay-pages.embedding must be a boolean";
     assert assertMsg (nonempty info.displayName)
-      "${id}: chinese-fonts-overlay-site.displayName must be a nonempty string";
+      "${id}: chinese-fonts-overlay-pages.displayName must be a nonempty string";
     assert assertMsg
       (
         isList (info.notices or [ ])
         && all validNotice (info.notices or [ ])
       )
-      "${id}: chinese-fonts-overlay-site.notices must be a list of level/text entries with a registered level, nonempty text, and an optional HTTP(S) url";
+      "${id}: chinese-fonts-overlay-pages.notices must be a list of level/text entries with a registered level, nonempty text, and an optional HTTP(S) url";
     assert assertMsg
       (
         isString info.licenseCost
         && licenseCosts ? ${info.licenseCost}
       )
-      "${id}: chinese-fonts-overlay-site.licenseCost must be free, gratisCommercialUse, gratisPersonalUse, or paid";
+      "${id}: chinese-fonts-overlay-pages.licenseCost must be free, gratisCommercialUse, gratisPersonalUse, or paid";
     assert assertMsg
       (isString info.vendor && vendors ? ${info.vendor})
-      "${id}: chinese-fonts-overlay-site.vendor must name a registered vendor";
+      "${id}: chinese-fonts-overlay-pages.vendor must name a registered vendor";
     assert assertMsg
       (
         stringList info.languages
@@ -155,7 +155,7 @@ let
           match "[a-z]{2,3}(-[a-z0-9]{2,8})*" tag != null
         ) info.languages
       )
-      "${id}: chinese-fonts-overlay-site.languages must be a sorted, unique list of Fontconfig language tags";
+      "${id}: chinese-fonts-overlay-pages.languages must be a sorted, unique list of Fontconfig language tags";
     assert assertMsg
       (
         stringList info.styles
@@ -167,7 +167,7 @@ let
           || !(elem "unknown" info.styles)
         )
       )
-      "${id}: chinese-fonts-overlay-site.styles must be sorted, unique registered styles; unknown must stand alone";
+      "${id}: chinese-fonts-overlay-pages.styles must be sorted, unique registered styles; unknown must stand alone";
     info;
 
   validatePackage =
@@ -216,7 +216,7 @@ let
       )
       "${attribute}: meta.redistributable must be a boolean";
     validate attribute (
-      package.chinese-fonts-overlay-site or { }
+      package.chinese-fonts-overlay-pages or { }
     );
 in
 {

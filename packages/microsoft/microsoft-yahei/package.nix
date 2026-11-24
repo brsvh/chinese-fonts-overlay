@@ -17,7 +17,7 @@ mkMicrosoftFontDerivation {
   };
 
   passthru = {
-    chinese-fonts-overlay-site = {
+    chinese-fonts-overlay-pages = {
       displayName = "微软雅黑";
 
       languages = [

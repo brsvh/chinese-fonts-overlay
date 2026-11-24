@@ -71,7 +71,7 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    chinese-fonts-overlay-site = {
+    chinese-fonts-overlay-pages = {
       displayName = "阿里妈妈东方大楷";
       embedding = true;
 

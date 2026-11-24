@@ -230,11 +230,11 @@
     (error "Expected sorted, unique Fontconfig language tags"))
   (let ((starts
          (list-matches
-          (make-regexp "^( +)chinese-fonts-overlay-site = \\{[[:space:]]*$"
+          (make-regexp "^( +)chinese-fonts-overlay-pages = \\{[[:space:]]*$"
                        regexp/newline)
           source)))
     (unless (= 1 (length starts))
-      (error "Expected exactly one literal chinese-fonts-overlay-site block"))
+      (error "Expected exactly one literal chinese-fonts-overlay-pages block"))
     (let* ((start (car starts))
            (indent (match:substring start 1))
            (tail (substring source (match:end start)))
@@ -242,7 +242,7 @@
                  (make-regexp (string-append "^" indent "\\};") regexp/newline)
                  tail)))
       (unless end
-        (error "Cannot locate the end of chinese-fonts-overlay-site"))
+        (error "Cannot locate the end of chinese-fonts-overlay-pages"))
       (let* ((block (substring tail 0 (match:start end)))
              (matches
               (list-matches
@@ -252,7 +252,7 @@
                block)))
         (unless (= 1 (length matches))
           (error
-           "Expected one literal languages list inside chinese-fonts-overlay-site"))
+           "Expected one literal languages list inside chinese-fonts-overlay-pages"))
         (let* ((match (car matches))
                (padding (match:substring match 1))
                (replacement
@@ -349,7 +349,7 @@ in "
                      "map (entry: { inherit (entry) id; "
                      "path = toString entry.package; "
                      "languages = "
-                     "entry.package.chinese-fonts-overlay-site.languages; "
+                     "entry.package.chinese-fonts-overlay-pages.languages; "
                      "}) selected"))))))
          (missing (filter (lambda (package)
                             (not (file-exists? (jref package "path"))))

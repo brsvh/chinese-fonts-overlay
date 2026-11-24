@@ -54,7 +54,7 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
-    chinese-fonts-overlay-site = {
+    chinese-fonts-overlay-pages = {
       displayName = "王漢宗超黑體俏皮動物系列";
 
       languages = [

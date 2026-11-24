@@ -26,7 +26,7 @@
 指向发行方主页，多个相关主页使用 URL 列表。`meta.license` 保存上游许可，`meta.redistributable`
 表示是否允许再分发字体文件。免费下载或免费商用不足以确认再分发权限；无法确认时不要标为允许。
 
-网站信息只维护在 `passthru.chinese-fonts-overlay-site` 中。字段和合法取值由
+网站信息只维护在 `passthru.chinese-fonts-overlay-pages` 中。字段和合法取值由
 [packages/font-metadata.nix](../packages/font-metadata.nix) 定义：
 
 | 字段          | 要求                                                                               |

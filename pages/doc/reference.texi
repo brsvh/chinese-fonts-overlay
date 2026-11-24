@@ -36,7 +36,7 @@
 
 @example
 pkgs.lxgwPackages.combine' "my-lxgw-fonts"
-  (font: font.chinese-fonts-overlay-site.licenseCost == "free")
+  (font: font.chinese-fonts-overlay-pages.licenseCost == "free")
 @end example
 @end deffn
 
@@ -54,7 +54,7 @@ derivation 列表。属性集中的辅助函数等非 derivation 值会被忽略
 @section 字体信息字段
 @cindex 字体信息
 
-  包中的 @code{passthru.chinese-fonts-overlay-site} 保存展示名称、字库、
+  包中的 @code{passthru.chinese-fonts-overlay-pages} 保存展示名称、字库、
 风格、语言、费用和注意事项。手册和网站使用同一份包定义，
 不单独维护字体的版本或许可清单。
 
