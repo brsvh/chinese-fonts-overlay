@@ -13,7 +13,7 @@
 
 (test-begin "publication")
 (define runner (test-runner-current))
-(define fixtures (getenv "FONT_SITE_FIXTURES"))
+(define fixtures (getenv "FONT_PAGES_FIXTURES"))
 (define temporary (temporary-directory (or (getenv "TMPDIR") "/tmp")))
 (define (command-result thunk)
   "Run THUNK and return its exit status paired with captured diagnostics."
@@ -27,13 +27,13 @@
        (modules (string-append source "/module"))
        (handwritten (in-vicinity modules "pages/manual/reference.scm"))
        (alias (string-append temporary "/linked-modules"))
-       (cli (string-append (getenv "FONT_SITE_SOURCE") "/build-aux/directories.scm")))
+       (cli (string-append (getenv "FONT_PAGES_SOURCE") "/build-aux/directories.scm")))
   (define (rejected? args)
     (let ((result
            (command-result
             (lambda () (apply system* (or (getenv "GUILE") "guile")
                               "--no-auto-compile" "-L"
-                              (string-append (getenv "FONT_SITE_SOURCE") "/module")
+                              (string-append (getenv "FONT_PAGES_SOURCE") "/module")
                               cli args)))))
       (and (not (zero? (car result)))
            (string-contains (cdr result) "Output directory overlaps the source tree"))))
@@ -59,7 +59,7 @@
 
 (define image-pixels
   (call-with-input-string
-   (capture (getenv "FONT_SITE_IMAGE_FIXTURES") temporary) read))
+   (capture (getenv "FONT_PAGES_IMAGE_FIXTURES") temporary) read))
 (test-equal "Lossless WebP preserves straight RGBA from padded Cairo pixels"
   (car image-pixels) (cadr image-pixels))
 (define output (string-append temporary "/public"))
@@ -119,7 +119,7 @@
 (define manual (string-append manual-build "/manual"))
 (define manual-reference (string-append temporary "/reference.json"))
 (write-json manual-reference catalog)
-(run "env" "-u" "MAKEFLAGS" "make" "-C" (getenv "FONT_SITE_SOURCE") "check-manual"
+(run "env" "-u" "MAKEFLAGS" "make" "-C" (getenv "FONT_PAGES_SOURCE") "check-manual"
      (string-append "BUILD_DIR=" manual-build)
      (string-append "REFERENCE=" manual-reference)
      (string-append "SOURCE_REVISION=" revision))
@@ -141,7 +141,7 @@
      (lambda ()
        (catch #t
               (lambda ()
-                (build-site (getenv "FONT_SITE_SOURCE") temporary
+                (build-site (getenv "FONT_PAGES_SOURCE") temporary
                             (string-append temporary "/cache")
                             catalog-file inputs-file commit manual)
                 0)
@@ -271,7 +271,7 @@
                             (validate-image file)))
                      images)))))
 
-(let ((root (dirname (getenv "FONT_SITE_DATA")))
+(let ((root (dirname (getenv "FONT_PAGES_DATA")))
       (style (string-append output "/style.css")))
   (define (rebuild)
     "Run the normal incremental build against the existing fixture inputs."
@@ -346,39 +346,39 @@
  (lambda (file)
    (unless (equal? (basename file) "bridge.js")
      (copy-file file (string-append incomplete-web "/" (basename file)))))
- (files-under (getenv "FONT_SITE_WEB")))
-(let ((web (getenv "FONT_SITE_WEB")))
+ (files-under (getenv "FONT_PAGES_WEB")))
+(let ((web (getenv "FONT_PAGES_WEB")))
   (dynamic-wind
-    (lambda () (setenv "FONT_SITE_WEB" incomplete-web))
+    (lambda () (setenv "FONT_PAGES_WEB" incomplete-web))
     (lambda ()
       (let ((result (build-result catalog inputs)))
         (test-assert "Missing browser assets abort publication"
           (and (= 1 (car result))
                (string-contains (cdr result) "copy-file")))))
-    (lambda () (setenv "FONT_SITE_WEB" web))))
+    (lambda () (setenv "FONT_PAGES_WEB" web))))
 
-(let ((renderer (getenv "FONT_SITE_RENDERER"))
+(let ((renderer (getenv "FONT_PAGES_RENDERER"))
       (empty-renderer (search-path (string-split (getenv "PATH") #\:) "true")))
   (dynamic-wind
-    (lambda () (setenv "FONT_SITE_RENDERER" empty-renderer))
+    (lambda () (setenv "FONT_PAGES_RENDERER" empty-renderer))
     (lambda ()
       (let ((result (build-result catalog inputs)))
         (test-assert "Changed renderer invalidates cached images"
           (and (= 1 (car result))
                (string-contains (cdr result) "Renderer produced no result")))))
-    (lambda () (setenv "FONT_SITE_RENDERER" renderer))))
+    (lambda () (setenv "FONT_PAGES_RENDERER" renderer))))
 
-(let ((inspector (getenv "FONT_SITE_INSPECTOR"))
+(let ((inspector (getenv "FONT_PAGES_INSPECTOR"))
       (failed-inspector (search-path (string-split (getenv "PATH") #\:) "false")))
   (dynamic-wind
-    (lambda () (setenv "FONT_SITE_INSPECTOR" failed-inspector))
+    (lambda () (setenv "FONT_PAGES_INSPECTOR" failed-inspector))
     (lambda ()
       (let ((result (build-result catalog inputs)))
         (test-assert "Changed inspector cannot reuse stale face metadata"
           (and (= 1 (car result))
                (string-contains (cdr result) "Command failed")
                (string-contains (cdr result) failed-inspector)))))
-    (lambda () (setenv "FONT_SITE_INSPECTOR" inspector))))
+    (lambda () (setenv "FONT_PAGES_INSPECTOR" inspector))))
 
 (test-equal "Failed builds preserve the entire previous site"
   snapshot (published-files))
@@ -403,7 +403,7 @@
  (lambda (case)
    (let ((result (command-result
                   (lambda ()
-                    (system* (getenv "FONT_SITE_RENDERER") (car case))))))
+                    (system* (getenv "FONT_PAGES_RENDERER") (car case))))))
      (test-assert (cdr case)
        (and (not (zero? (car result)))
             (string-contains (cdr result) (cdr case))))))
@@ -416,7 +416,7 @@
    (let ((result
           (command-result
            (lambda ()
-             (system* (getenv "FONT_SITE_INSPECTOR") "image-info"
+             (system* (getenv "FONT_PAGES_INSPECTOR") "image-info"
                       (string-append temporary "/" (car case)))))))
      (test-assert (cdr case)
        (and (not (zero? (car result)))

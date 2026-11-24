@@ -44,9 +44,9 @@ STATIC_ASSETS := $(addprefix $(WEB)/,$(TEMPLATES) $(COPY_FILES))
 ASSETS := $(addprefix $(WEB)/,$(filter-out fonts.css,$(BROWSER_ASSETS)) \
 	$(TEMPLATES))
 NATIVE := $(BIN)/font-info $(BIN)/render-font-samples
-SCHEME_ENV = FONT_SITE_DATA="$(SOURCE_DIR)/etc" FONT_SITE_WEB="$(WEB)" \
-	FONT_SITE_INSPECTOR="$(BIN)/font-info" \
-	FONT_SITE_RENDERER="$(BIN)/render-font-samples"
+SCHEME_ENV = FONT_PAGES_DATA="$(SOURCE_DIR)/etc" FONT_PAGES_WEB="$(WEB)" \
+	FONT_PAGES_INSPECTOR="$(BIN)/font-info" \
+	FONT_PAGES_RENDERER="$(BIN)/render-font-samples"
 
 .PHONY: all check check-dirs check-manual clean clean-cache inputs interface
 .PHONY: manual release serve FORCE
@@ -167,9 +167,9 @@ $(WEB)/tsanger-license.pdf: $(UI_FONT_LICENSE) \
 
 check: $(NATIVE) $(ASSETS) $(BIN)/image-fixtures interface | $(BUILD_DIR)/test
 	cd "$(BUILD_DIR)/test" && GUILE="$(GUILE)" $(SCHEME_ENV) \
-	  FONT_SITE_IMAGE_FIXTURES="$(BIN)/image-fixtures" \
-	  FONT_SITE_FIXTURES="$(SOURCE_DIR)/test/fixtures/fonts" \
-	  FONT_SITE_SOURCE="$(SOURCE_DIR)" \
+	  FONT_PAGES_IMAGE_FIXTURES="$(BIN)/image-fixtures" \
+	  FONT_PAGES_FIXTURES="$(SOURCE_DIR)/test/fixtures/fonts" \
+	  FONT_PAGES_SOURCE="$(SOURCE_DIR)" \
 	  $(SCHEME) "$(SOURCE_DIR)/test/publication.scm"
 	cd "$(BUILD_DIR)/test" && \
 	  $(SCHEME) "$(SOURCE_DIR)/test/server.scm"

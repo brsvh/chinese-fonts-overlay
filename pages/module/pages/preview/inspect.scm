@@ -14,7 +14,7 @@
                          (search-path %load-path
                                       (in-vicinity "chinese-fonts-overlay/pages" name)))
                        modules))
-         (inspector (native-tool "FONT_SITE_INSPECTOR" "font-info")))
+         (inspector (native-tool "FONT_PAGES_INSPECTOR" "font-info")))
     (text-digest
      (object->string
       (cons (force sample-revision) (map file-digest (cons inspector sources)))))))
@@ -27,7 +27,7 @@
 (define (inspect operation file)
   "Read the native OPERATION result for FILE as data, never as code."
   (call-with-input-string
-   (capture (native-tool "FONT_SITE_INSPECTOR" "font-info") operation file)
+   (capture (native-tool "FONT_PAGES_INSPECTOR" "font-info") operation file)
    read))
 
 (define (validate-image file)

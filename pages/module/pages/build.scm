@@ -72,7 +72,7 @@
     (error "Expected a full source commit SHA" revision))
   (let* ((catalog (read-json catalog-file))
          (fonts (read-json fonts-file))
-         (web (getenv "FONT_SITE_WEB"))
+         (web (getenv "FONT_PAGES_WEB"))
          (preview-output (string-append directory "/previews"))
          (preview-stamp (string-append directory "/previews.sha256"))
          (output (string-append directory "/public"))
@@ -82,13 +82,13 @@
          (preview-digest
           (fingerprint
            (list (in-vicinity module-root "preview/images.scm")
-                 (getenv "FONT_SITE_RENDERER"))
+                 (getenv "FONT_PAGES_RENDERER"))
            (list inspection
                  (map (lambda (package)
                         (list (jref package "id") (jref package "languages")))
                       (jarray (jref catalog "packages")))
                  (font-input-state fonts)
-                 (capture (getenv "FONT_SITE_RENDERER") "--encoder-version")))))
+                 (capture (getenv "FONT_PAGES_RENDERER") "--encoder-version")))))
     (unless (current? preview-stamp preview-digest preview-output)
       (replace-directory! preview-output
         (lambda (staging)

@@ -43,7 +43,7 @@
                  (_ (error "Unexpected renderer result" line)))))
            (string-split
             (capture
-             (native-tool "FONT_SITE_RENDERER" "render-font-samples")
+             (native-tool "FONT_PAGES_RENDERER" "render-font-samples")
              file)
             #\newline))
           (for-each
@@ -235,7 +235,7 @@ The caller publishes or discards STAGING as part of the complete site build."
          (records (make-hash-table))
          (images (make-hash-table))
          (jobs (make-hash-table))
-         (renderer (native-tool "FONT_SITE_RENDERER" "render-font-samples"))
+         (renderer (native-tool "FONT_PAGES_RENDERER" "render-font-samples"))
          (renderer-id
           (text-digest (string-append (file-digest renderer) ":"
                                      (capture renderer "--encoder-version"))))

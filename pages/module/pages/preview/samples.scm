@@ -12,7 +12,7 @@
 (define (data-file name)
   "Resolve NAME relative to the configured private data directory."
   (string-append
-   (or (getenv "FONT_SITE_DATA") (error "FONT_SITE_DATA is not set"))
+   (or (getenv "FONT_PAGES_DATA") (error "FONT_PAGES_DATA is not set"))
    "/"
    name))
 

@@ -29,10 +29,10 @@
       (let* ((path
               (string-trim-both
                (capture
-                "env" (string-append "FONT_SITE_SOURCE_ROOT=" root)
-                (string-append "FONT_SITE_PACKAGES="
+                "env" (string-append "FONT_PAGES_SOURCE_ROOT=" root)
+                (string-append "FONT_PAGES_PACKAGES="
                                (scm->json-string (list->vector selection)))
-                (string-append "FONT_SITE_SOURCE_FLAKE=" (checkout-flake-url root))
+                (string-append "FONT_PAGES_SOURCE_FLAKE=" (checkout-flake-url root))
                 "nix" "build" "--impure" "--no-link" "--print-out-paths"
                 "--file" (string-append root "/pages/etc/inputs.nix"))))
              (inputs (read-json path)))

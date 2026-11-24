@@ -10,9 +10,9 @@ let
     unique
     ;
 
-  root = builtins.getEnv "FONT_SITE_SOURCE_ROOT";
+  root = builtins.getEnv "FONT_PAGES_SOURCE_ROOT";
   flake = builtins.getFlake (
-    builtins.getEnv "FONT_SITE_SOURCE_FLAKE"
+    builtins.getEnv "FONT_PAGES_SOURCE_FLAKE"
   );
 
   pkgs = import flake.inputs.nixpkgs {
@@ -27,7 +27,7 @@ let
 
   selection = unique (
     builtins.fromJSON (
-      builtins.getEnv "FONT_SITE_PACKAGES"
+      builtins.getEnv "FONT_PAGES_PACKAGES"
     )
   );
 
