@@ -41,12 +41,12 @@ selects complete overlay attributes for local previews. Validate every selector
 before realizing fonts, reject unknown or aggregate attributes, deduplicate the
 selection and include it in input fingerprints. Realize only selected font
 inputs; changing or clearing the selection must invalidate prepared inputs.
-Reject `PACKAGES` with explicit `CATALOG` and `PREVIEWS`.
+Reject `PACKAGES` with explicit `CATALOG` and `FONT_INPUTS`.
 
 Separate native compilation, browser assets, input preparation, rendering and
 publication. Refresh inputs when definitions, locks, catalog rules or package
 membership change. Do not freeze data when entering a shell. Explicit `CATALOG`
-and `PREVIEWS` must be supplied together. For builds without Nix, also supply
+and `FONT_INPUTS` must be supplied together. For builds without Nix, also supply
 `REFERENCE` with complete manual metadata or `MANUAL` with an already compiled
 manual. Never derive manual coverage from a selected preview catalog.
 
@@ -65,6 +65,10 @@ upstream guidance when upgrading, and do not update locks merely to match an
 example. Nix supplies Tailwind and daisyUI; Make compiles CSS. Do not add a Node
 project or runtime CDN.
 
+Format handwritten HTML, JavaScript and CSS with treefmt. Preserve significant
+HTML whitespace. Keep JSON placeholders outside script elements and escape
+literal less-than signs when emitting serialized JSON into the complete element.
+
 Use the standard Modus Operandi theme. Interface typography pairs Concourse OT
 with original TsangerYuYangT W02/W03; code uses Triplicate A Code. Use Concourse
 Book (400, upright and italic), Medium (500), Semibold (600) and Bold (700), and
@@ -73,12 +77,17 @@ from an optional private `MB_TYPE_DIR` outside the source checkout. Without it,
 local builds use YuYang and system monospace. Never put purchased fonts or
 receipts in Git, Nix sources or font binary caches. Keep complete class names
 discoverable by CSS source scanning; continuous dimensions use CSS variables.
-Filtering, URL state and preview loading policy belong to Hoot. The shared
-presentation bootstrap handles interface fonts on every page without requiring
-Hoot for manual reading. Reveal content after font readiness; on failure or
-timeout, keep system fonts for the remainder of that navigation. Never apply a
-late font swap after revealing content. With JavaScript disabled, use readable
-system fonts. Browser bindings expose only necessary host operations.
+
+Hoot owns catalog filters, their URL parameters and preview loading.
+`web/navigation.js` handles document navigation and loads the preview runtime
+through `web/bridge.js`. When a host binding changes, use
+[hoot-coding](../.agents/skills/hoot-coding/SKILL.md) and check its signature
+and callback behavior against `web/catalog/host.scm`. The shared presentation
+bootstrap handles interface fonts on every page without requiring Hoot for
+manual reading. Reveal content after font readiness; on failure or timeout, keep
+system fonts for the remainder of that navigation. Never apply a late font swap
+after revealing content. With JavaScript disabled, use readable system fonts.
+Browser bindings expose only necessary host operations.
 
 Default filters select Simplified Chinese, sans-serif and open-source licenses,
 with all vendors and costs and embedding unchecked. Choices within a category
@@ -101,16 +110,19 @@ body using shared header and footer procedures in
 `(chinese-fonts-overlay pages presentation layout)`. Derive the chapter sidebar
 from Texinfo's internal links, not a second hand-maintained table of contents.
 Preserve its chapter, vendor-section and package-subsection hierarchy. Manual
-reading and navigation must work without Hoot or JavaScript. Enhance same-origin
-manual links by replacing only the article and pager; preserve the shared shell,
-loaded fonts and sidebar state. Keep fragment links, keyboard focus, browser
-history and scroll restoration working. Superseded requests must not replace
-newer content; failed enhancement follows the original link. Do not intercept
-downloads, external links or modified clicks. Share shell dimensions, theme and
-interface fonts with the preview; scope manual typography to its content. Keep
-chapter navigation available on small screens and keyboard-accessible. Publish
-HTML and the Info download, not generated intermediate metadata or source
-includes.
+reading and navigation must work without Hoot or JavaScript. Enhance links
+between the preview and manual within the current document. Load Hoot only for
+the preview and retain its controls when switching views. Show third-party
+notices in a modal over either view; Back and dismissal preserve the originating
+entry. Within the manual replace only the article and pager, preserving the
+shell, loaded fonts and sidebar state. Keep fragment links, keyboard focus,
+browser history and scroll restoration working. Superseded requests must not
+replace newer content; failed enhancement follows the original link. Do not
+intercept downloads, external links or modified clicks. Share shell dimensions,
+theme and interface fonts with the preview; scope manual typography to its
+content. Keep chapter navigation available on small screens and
+keyboard-accessible. Publish HTML and the Info download, not generated
+intermediate metadata or source includes.
 
 Keep reference fields, definitions, lists and notices in semantic Texinfo so
 they remain readable in Info. Style the generated HTML with the site's theme;
@@ -120,7 +132,9 @@ layout rules. Preserve notice levels and links to their original sources.
 Manual and preview source revisions must match. Include the manual and shared
 layout in publication fingerprints, but not font-image fingerprints. Rebuilding
 prose must reuse rendered previews. Validate manual output before replacing the
-complete site. Keep the archive allowlist explicit for manual files.
+complete site. Keep the archive allowlist explicit for manual files. List
+required browser assets in `etc/browser-assets`; Make, assembly and archive
+validation share that list. Keep build-only HTML templates separate.
 
 Publish static HTML, CSS, public JSON, matching Hoot/Wasm assets, SVG
 identifiers and transparent lossless WebP images. Catalog fonts are fixed images
@@ -140,11 +154,12 @@ subsetting font files. Scale images to the requested preview size and allow
 horizontal scrolling instead of shrinking to fit.
 
 Source links for packages, website code and licensing use the same full commit
-ID. Cache identities include font contents, faces/instances, sample text and
-relevant inspection/rendering settings. Reuse valid caches, bound concurrency
-and propagate worker failures. Validate all staged output before replacing the
-public directory; failures preserve the previous complete output. Clean only
-artifacts owned by the operation.
+ID. Cache identities include font contents, faces/instances, sample text and the
+native inspector, the Scheme that derives face and sample metadata, and
+rendering settings. Reuse valid caches, bound concurrency and propagate worker
+failures. Validate all staged output before replacing the public directory;
+failures preserve the previous complete output. Clean only artifacts owned by
+the operation.
 
 Keep discovery, validation, rendering and publication separate. Validate process
 exit status and structured output. Pass argument arrays, not shell-interpolated
@@ -199,6 +214,11 @@ must exit unsuccessfully on failure.
 
 After build changes, check clean/incremental and parallel builds, an independent
 build directory, selection changes, failure preservation and actual HTTP
-serving. Verify that serving does not build. Inspect UI changes in a browser.
-Reuse existing complete outputs and caches when valid; rebuild the collection
-only when needed. Report verification limits explicitly.
+serving. Verify that serving does not build. Reuse existing complete outputs and
+caches when valid; rebuild the collection only when needed.
+
+Use `make -C pages check` from the root in the pages shell for website fixtures.
+Exercise browser changes in the built site, including the affected failure or
+fallback path. When navigation retains the preview, return to it and check that
+the control still responds once per action. Report verification limits
+explicitly.

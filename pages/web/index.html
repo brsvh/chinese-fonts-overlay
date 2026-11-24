@@ -1,61 +1,157 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="modus-operandi" data-catalog>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="按语言、风格和许可筛选 Nix 中文字体包，查看各个字重与款式。">
-  <title>Nix中文字体包 · 字体预览</title>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any">
-  <!-- site-presentation -->
-  <script id="language-labels" type="application/json"><!-- language-labels --></script>
-  <script defer src="reflect.js"></script>
-  <script defer src="bridge.js"></script>
-</head>
-<body>
-  <!-- site-loader -->
-  <a class="skip-link" href="#main">跳到字体目录</a>
-  <svg class="icon-sheet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
-    <symbol id="icon-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
-    <symbol id="icon-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="1"/><path d="M16 8V4H4v12h4"/></symbol>
-    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
-    <symbol id="icon-lock" viewBox="0 0 24 24"><rect x="6" y="10" width="12" height="10" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v3"/></symbol>
-    <symbol id="icon-notice" viewBox="0 0 24 24"><path d="M8 3h8l5 5v8l-5 5H8l-5-5V8Zm4 4v6m0 4h.01"/></symbol>
-    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></symbol>
-  </svg>
-  <!-- site-header -->
-  <div class="shell">
-    <aside id="sidebar" class="sidebar" aria-label="筛选条件">
-      <div class="sidebar-heading"><h2>筛选条件</h2><button id="reset-filters" class="btn btn-ghost btn-xs" type="button" data-interactive disabled>↺ 重置</button></div>
-      <!-- facets -->
-      <fieldset class="facet restrictions" data-interactive disabled>
-        <legend>限制条件</legend>
-        <label class="check-option" title="仅显示允许嵌入使用的字体"><input id="embedding" class="checkbox checkbox-primary checkbox-xs" type="checkbox"><span>嵌入式使用</span></label>
-      </fieldset>
-    </aside>
-    <main id="main" class="main">
-      <div class="heading">
-        <h1>字体预览</h1>
-        <p id="result-count" class="count" role="status"><!-- count --> 个字体包</p>
-        <label class="input search"><svg aria-hidden="true"><use href="#icon-search"></use></svg><input id="query" type="search" placeholder="搜索字体、字库或包名" aria-label="搜索字体、字库或包名" data-interactive disabled></label>
-      </div>
-      <div class="toolbar">
-        <div class="language-summary"><span id="current-language" class="badge badge-soft badge-primary">中文简体</span></div>
-        <label class="size-control">预览大小<input id="size" class="range range-primary range-xs" type="range" min="36" max="96" value="66" step="2" data-interactive disabled><output id="size-value" for="size">66</output></label>
-        <select id="sort" class="select select-ghost select-sm" aria-label="排序" data-interactive disabled><option value="default">默认顺序</option><option value="name">按名称排序</option></select>
-      </div>
-      <p id="status" class="startup-status" role="status">正在启动交互功能；当前可浏览完整目录。</p>
-      <noscript><p>未启用 JavaScript，仍可展开字体款式并访问源代码；筛选暂不可用。</p></noscript>
-      <p id="copy-status" class="sr-only" role="status" aria-live="polite"></p>
-      <div id="preview-region" class="preview-region">
-        <div id="preview-loading" class="preview-loading" hidden><div class="loading-message" role="status"><span class="loading loading-spinner loading-md" aria-hidden="true"></span><span>正在加载预览…</span></div></div>
-        <div id="preview-content" aria-busy="false">
-          <section id="packages" aria-label="字体包目录"><!-- packages --></section>
-          <div id="empty-results" class="empty" hidden><h2>没有符合条件的字体包</h2><p>试试减少筛选条件，或重置筛选。</p></div>
+<html lang="zh-CN" data-theme="modus-operandi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="按语言、风格和许可筛选 Nix 中文字体包，查看各个字重与款式。"
+    >
+    <title>Nix中文字体包 · 字体预览</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any">
+    <!-- site-presentation -->
+  </head>
+  <body data-view="preview">
+    <!-- site-loader -->
+    <!-- language-labels -->
+    <a class="skip-link" href="#main">跳到字体目录</a>
+    <svg
+      class="icon-sheet"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <symbol id="icon-arrow" viewBox="0 0 24 24"
+        ><path d="M7 17 17 7M7 7h10v10" /></symbol
+      >
+      <symbol id="icon-down" viewBox="0 0 24 24"
+        ><path d="m6 9 6 6 6-6" /></symbol
+      >
+      <symbol id="icon-copy" viewBox="0 0 24 24"
+        ><rect x="8" y="8" width="12" height="12" rx="1" />
+        <path d="M16 8V4H4v12h4" /></symbol
+      >
+      <symbol id="icon-check" viewBox="0 0 24 24"
+        ><path d="m5 12 4 4L19 6" /></symbol
+      >
+      <symbol id="icon-lock" viewBox="0 0 24 24"
+        ><rect x="6" y="10" width="12" height="10" rx="1" />
+        <path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v3" /></symbol
+      >
+      <symbol id="icon-notice" viewBox="0 0 24 24"
+        ><path d="M8 3h8l5 5v8l-5 5H8l-5-5V8Zm4 4v6m0 4h.01" /></symbol
+      >
+      <symbol id="icon-search" viewBox="0 0 24 24"
+        ><circle cx="10" cy="10" r="6" /><path d="m15 15 6 6" /></symbol
+      >
+    </svg>
+    <!-- site-header -->
+    <div class="shell">
+      <aside id="sidebar" class="sidebar" aria-label="筛选条件">
+        <div class="sidebar-heading"
+          ><h2>筛选条件</h2
+          ><button
+            id="reset-filters"
+            class="btn btn-ghost btn-xs"
+            type="button"
+            data-interactive
+            disabled
+            >↺ 重置</button
+          ></div
+        >
+        <!-- facets -->
+        <fieldset class="facet restrictions" data-interactive disabled>
+          <legend>限制条件</legend>
+          <label class="check-option" title="仅显示允许嵌入使用的字体"
+            ><input
+              id="embedding"
+              class="checkbox checkbox-primary checkbox-xs"
+              type="checkbox"
+            ><span>嵌入式使用</span></label
+          >
+        </fieldset>
+      </aside>
+      <main id="main" class="main" tabindex="-1">
+        <div class="heading">
+          <h1>字体预览</h1>
+          <p id="result-count" class="count" role="status">
+            <!-- count --> 个字体包</p
+          >
+          <label class="input search"
+            ><svg aria-hidden="true"><use href="#icon-search"></use></svg>
+            <input
+              id="query"
+              type="search"
+              placeholder="搜索字体、字库或包名"
+              aria-label="搜索字体、字库或包名"
+              data-interactive
+              disabled
+            ></label
+          >
         </div>
-      </div>
-      <!-- site-footer -->
-    </main>
-  </div>
-</body>
+        <div class="toolbar">
+          <div class="language-summary"
+            ><span id="current-language" class="badge badge-soft badge-primary"
+              >中文简体</span
+            ></div
+          >
+          <label class="size-control"
+            >预览大小<input
+              id="size"
+              class="range range-primary range-xs"
+              type="range"
+              min="36"
+              max="96"
+              value="66"
+              step="2"
+              data-interactive
+              disabled
+            ><output id="size-value" for="size">66</output></label
+          >
+          <select
+            id="sort"
+            class="select select-ghost select-sm"
+            aria-label="排序"
+            data-interactive
+            disabled
+            ><option value="default">默认顺序</option
+            ><option value="name">按名称排序</option></select
+          >
+        </div>
+        <p id="status" class="startup-status" role="status"
+          >正在启动交互功能；当前可浏览完整目录。</p
+        >
+        <noscript
+          ><p
+            >未启用 JavaScript，仍可展开字体款式并访问源代码；筛选暂不可用。</p
+          ></noscript
+        >
+        <p
+          id="copy-status"
+          class="sr-only"
+          role="status"
+          aria-live="polite"
+        ></p>
+        <div id="preview-region" class="preview-region">
+          <div id="preview-loading" class="preview-loading" hidden
+            ><div class="loading-message" role="status"
+              ><span
+                class="loading loading-spinner loading-md"
+                aria-hidden="true"
+              ></span><span>正在加载预览…</span></div
+            ></div
+          >
+          <div id="preview-content" aria-busy="false">
+            <section id="packages" aria-label="字体包目录">
+              <!-- packages -->
+            </section>
+            <div id="empty-results" class="empty" hidden
+              ><h2>没有符合条件的字体包</h2
+              ><p>试试减少筛选条件，或重置筛选。</p></div
+            >
+          </div>
+        </div>
+        <!-- site-footer -->
+      </main>
+    </div>
+  </body>
 </html>

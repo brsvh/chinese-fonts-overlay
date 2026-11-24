@@ -19,7 +19,7 @@
 (define samples (delay (read-json (data-file "language-samples.json"))))
 (define language-labels (delay (read-json (data-file "language-names.json"))))
 (define sample-revision
-  (delay (substring (file-digest (data-file "language-samples.json")) 0 16)))
+  (delay (file-digest (data-file "language-samples.json"))))
 
 (define (language-label tag)
   "Return the reviewed Chinese name for TAG; reject missing names."

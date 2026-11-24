@@ -6,9 +6,10 @@
 
 网站展示字体、字重和款式，以及包名与许可信息。
 预览使用固定样文的透明无损 WebP 图片，不提供在线输入文字试用。
-“使用手册”打开 Texinfo 手册，使用相同的页眉、尾栏和侧栏布局。
-手册内切换章节只更新正文，保留目录和已加载的字体；前进、后退及章节链接
-仍可使用。关闭 JavaScript 时，链接按普通网页方式打开。
+首次打开字体预览或手册章节时，页面等待界面字体就绪，再显示正文。
+在两者之间切换会保留已加载的字体。手册内切换章节时，目录保留已展开
+的条目。页脚的“第三方声明”在当前页上方打开，按 Escape 或浏览器的
+后退按钮即可回到原处。关闭 JavaScript 后，仍可通过普通链接阅读各页。
 
 ** 本地预览
 
@@ -42,8 +43,7 @@ export MB_TYPE_DIR='/path/to/MB Type Library'
 保存在源码目录之外；省略此变量时，使用渔阳体和系统等宽字体。
 打包归档时保留相同设置，以便核对字体来源。
 
-主页与手册在界面字体就绪后显示正文。加载失败或超时时，本次页面始终使用
-系统字体，避免阅读中途换字；不启用 JavaScript 也能阅读手册。
+界面字体加载失败或超时时，本次浏览使用系统字体，避免阅读中途换字。
 
 手册按字库收录全部字体包，不受 =PACKAGES= 预览选择影响。
 构建手册只求值包信息。独立构建和写作方法见 [[*使用手册][使用手册]]。
@@ -79,7 +79,7 @@ make -C pages -j4 check
 =web/= 是 Hoot 交互与样式， =etc/= 保存语言名称和样文。
 字体包与元数据维护见 [[file:../.github/CONTRIBUTING.md][贡献指南]]。
 
-用独立目录预览，可以保留另一份构建结果：
+构建和缓存目录应与源码分开。用独立目录预览，可以保留另一份构建结果：
 
 #+begin_src sh
 make -C pages BUILD_DIR=/tmp/font-site PACKAGES=naverPackages.maru-buri
@@ -100,8 +100,9 @@ daisyUI 5.7.39 。
 =UI_FONT_MEDIUM= 指定仓耳渔阳体 W02 、 W03 原始 TTF ，
 =UI_FONT_LICENSE= 指定授权声明 PDF 。以上资源路径均使用绝对路径。
 
-同时提供 =CATALOG= 和 =PREVIEWS= 两个 JSON 文件可跳过预览的 Nix 输入准备，
-不能再与 =PACKAGES= 混用。手册还需 =REFERENCE= 指定完整元数据，
+可用两个 JSON 文件提供预览输入。 =CATALOG= 是包目录， =FONT_INPUTS=
+为每个包标识指定本地字体路径 =renderPath= 。同时指定两者即可跳过 Nix
+输入准备，此时请省略 =PACKAGES= 。手册还需 =REFERENCE= 指定完整元数据，
 或 =MANUAL= 指向已编译的手册目录。源码不在 Git 仓库中时，用 =SOURCE_REVISION=
 指定完整提交号。 =CC= 、 =CFLAGS= 、 =GUILE= 、 =HOOT= 和 =TAILWINDCSS=
 可覆盖对应工具或参数。

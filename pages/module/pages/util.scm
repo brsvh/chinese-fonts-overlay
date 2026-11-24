@@ -10,6 +10,7 @@
   #:export (jref
             jset
             jarray
+            prioritize-entries
             read-json
             write-json
             read-text
@@ -19,6 +20,7 @@
             files-under
             file-digest
             fingerprint
+            native-tool
             text-digest
             run
             capture
@@ -42,6 +44,12 @@
 (define (jarray value)
   "Return a list view of a JSON array."
   (if (vector? value) (vector->list value) value))
+
+(define (prioritize-entries keys entries)
+  "Place present KEYS first, retaining the remaining entries' stable order."
+  (append
+   (filter-map (lambda (key) (assoc key entries)) keys)
+   (remove (lambda (entry) (member (car entry) keys)) entries)))
 
 (define (read-json file)
   "Read UTF-8 JSON from FILE, preserving object field order."
@@ -172,3 +180,9 @@ backup if restoring the previous directory fails."
    (object->string
     (cons values (map (lambda (file) (cons file (file-digest file)))
                       (sort files string<?))))))
+
+(define (native-tool variable name)
+  "Resolve the configured native tool or locate NAME on PATH."
+  (or (getenv variable)
+      (search-path (string-split (or (getenv "PATH") "") #\:) name)
+      (error "Native font tool not found" name)))

@@ -32,15 +32,17 @@ PAGE_MODULES := $(SOURCE_DIR)/module/pages
 SCHEME = $(GUILE) --no-auto-compile -L "$(SOURCE_DIR)/module"
 FONT_LIBS = pangocairo pangofc fontconfig cairo freetype2 glib-2.0 libwebp
 CATALOG ?= $(INPUTS)/catalog.json
-PREVIEWS ?= $(INPUTS)/fonts.json
+FONT_INPUTS ?= $(INPUTS)/fonts.json
 
-STATIC_FILES := index.html licenses.html favicon.svg cc0.svg bridge.js \
-	startup-head.html presentation.js manual.js
-STATIC_ASSETS := $(addprefix $(WEB)/,$(STATIC_FILES))
-HOOT_ASSETS := $(addprefix $(WEB)/,main.wasm reflect.js reflect.wasm wtf8.wasm)
-UI_ASSETS := $(addprefix $(WEB)/,yuyang-regular.ttf yuyang-medium.ttf \
-	tsanger-license.pdf)
-ASSETS := $(STATIC_ASSETS) $(HOOT_ASSETS) $(UI_ASSETS) $(WEB)/style.css
+BROWSER_ASSETS := $(strip $(file <$(SOURCE_DIR)/etc/browser-assets))
+TEMPLATES := index.html notices-dialog.html startup-head.html
+HOOT_FILES := $(filter %.wasm reflect.js,$(BROWSER_ASSETS))
+HOOT_ASSETS := $(addprefix $(WEB)/,$(HOOT_FILES))
+COPY_FILES := $(filter-out $(HOOT_FILES),$(filter %.js %.svg,$(BROWSER_ASSETS)))
+STATIC_ASSETS := $(addprefix $(WEB)/,$(TEMPLATES) $(COPY_FILES))
+# The interface target prepares fonts.css and optional purchased fonts.
+ASSETS := $(addprefix $(WEB)/,$(filter-out fonts.css,$(BROWSER_ASSETS)) \
+	$(TEMPLATES))
 NATIVE := $(BIN)/font-info $(BIN)/render-font-samples
 SCHEME_ENV = FONT_SITE_DATA="$(SOURCE_DIR)/etc" FONT_SITE_WEB="$(WEB)" \
 	FONT_SITE_INSPECTOR="$(BIN)/font-info" \
@@ -52,7 +54,7 @@ SCHEME_ENV = FONT_SITE_DATA="$(SOURCE_DIR)/etc" FONT_SITE_WEB="$(WEB)" \
 all: $(NATIVE) $(ASSETS) inputs manual interface
 	$(SCHEME_ENV) $(SCHEME) "$(SOURCE_DIR)/build-aux/build.scm" \
 	  "$(SOURCE_DIR)" "$(BUILD_DIR)" "$(CACHE_DIR)" \
-	  "$(CATALOG)" "$(PREVIEWS)" "$(SOURCE_REVISION)" \
+	  "$(CATALOG)" "$(FONT_INPUTS)" "$(SOURCE_REVISION)" \
 	  "$(abspath $(MANUAL))"
 
 manual: | check-dirs
@@ -71,18 +73,18 @@ interface: | $(WEB)
 	$(SCHEME) "$(SOURCE_DIR)/build-aux/fonts.scm" "$(WEB)"
 
 inputs: | check-dirs
-ifeq ($(origin CATALOG)$(origin PREVIEWS),filefile)
+ifeq ($(origin CATALOG)$(origin FONT_INPUTS),filefile)
 	$(SCHEME) "$(SOURCE_DIR)/build-aux/inputs.scm" \
 	  "$(SOURCE_DIR)/.." "$(INPUTS)"
 else ifeq ($(origin CATALOG),file)
-	$(error Set CATALOG and PREVIEWS together)
-else ifeq ($(origin PREVIEWS),file)
-	$(error Set CATALOG and PREVIEWS together)
+	$(error Set CATALOG and FONT_INPUTS together)
+else ifeq ($(origin FONT_INPUTS),file)
+	$(error Set CATALOG and FONT_INPUTS together)
 else
 ifneq ($(strip $(PACKAGES)),)
-	$(error PACKAGES cannot be combined with CATALOG and PREVIEWS)
+	$(error PACKAGES cannot be combined with CATALOG and FONT_INPUTS)
 endif
-	test -r "$(CATALOG)" && test -r "$(PREVIEWS)"
+	test -r "$(CATALOG)" && test -r "$(FONT_INPUTS)"
 endif
 
 $(BUILD_DIR) $(BIN) $(WEB) $(BUILD_DIR)/test: | check-dirs
@@ -124,8 +126,9 @@ $(BUILD_DIR)/web.settings: FORCE | $(BUILD_DIR)
 	  "$(UI_FONT_REGULAR)" "$(UI_FONT_MEDIUM)" "$(UI_FONT_LICENSE)"
 
 $(HOOT_ASSETS) &: $(SOURCE_DIR)/web/main.scm \
+	$(wildcard $(SOURCE_DIR)/web/catalog/*.scm) \
 	$(BUILD_DIR)/web.settings | $(WEB)
-	$(HOOT) compile --bundle -o "$(WEB)/main.wasm" "$<"
+	$(HOOT) compile -L "$(SOURCE_DIR)/web" --bundle -o "$(WEB)/main.wasm" "$<"
 
 $(STATIC_ASSETS): $(WEB)/%: $(SOURCE_DIR)/web/% | $(WEB)
 	cp -f "$<" "$@"
@@ -135,15 +138,17 @@ $(WEB)/input.css: $(SOURCE_DIR)/web/style.css $(SOURCE_DIR)/Makefile \
 	test -r "$(DAISYUI)" && test -r "$(DAISYUI_THEME)"
 	$(GUILE) --no-auto-compile "$(SOURCE_DIR)/build-aux/substitute.scm" \
 	  "$<" "$@" HTML_SOURCE "$(SOURCE_DIR)/web/index.html" \
+	  NOTICES_SOURCE "$(SOURCE_DIR)/web/notices-dialog.html" \
 	  SCHEME_SOURCE "$(SOURCE_DIR)/web/main.scm" \
-	  CATALOG_SOURCE "$(PAGE_MODULES)/preview/catalog.scm" \
+	  PREVIEW_PAGE_SOURCE "$(PAGE_MODULES)/preview/page.scm" \
 	  LAYOUT_SOURCE "$(PAGE_MODULES)/presentation/layout.scm" \
 	  MANUAL_SOURCE "$(PAGE_MODULES)/manual/page.scm" \
 	  DAISYUI "$(DAISYUI)" DAISYUI_THEME "$(DAISYUI_THEME)"
 
 $(WEB)/style.css: $(WEB)/input.css $(SOURCE_DIR)/web/index.html \
+	$(SOURCE_DIR)/web/notices-dialog.html \
 	$(SOURCE_DIR)/web/main.scm \
-	$(PAGE_MODULES)/preview/catalog.scm \
+	$(PAGE_MODULES)/preview/page.scm \
 	$(PAGE_MODULES)/presentation/layout.scm \
 	$(PAGE_MODULES)/manual/page.scm $(DAISYUI) $(DAISYUI_THEME)
 	$(TAILWINDCSS) -i "$<" -o "$@" --minify

@@ -1,4 +1,5 @@
 (use-modules (chinese-fonts-overlay pages archive)
+             (chinese-fonts-overlay pages presentation assets)
              (chinese-fonts-overlay pages presentation fonts)
              (chinese-fonts-overlay pages util)
              (ice-9 match)
@@ -11,13 +12,9 @@
 (mkdir public)
 (mkdir (string-append public "/manual"))
 (for-each (lambda (name) (write-text (string-append public "/" name) name))
-          '("index.html" "licenses.html" "style.css" "bridge.js" "catalog.json"
-            "fonts.css" "presentation.js" "manual.js"
-            "previews.json" "main.wasm" "reflect.js" "reflect.wasm" "wtf8.wasm"
-            "favicon.svg" "cc0.svg" "tsanger-license.pdf"
-            "yuyang-regular.ttf" "yuyang-medium.ttf"
-            "manual/index.html" "manual/chinese-fonts-overlay.info"
-            "manual/Installation.html"))
+          (append browser-assets
+                  '("index.html" "catalog.json" "previews.json" "manual/index.html"
+                    "manual/chinese-fonts-overlay.info" "manual/Installation.html")))
 (write-json (string-append public "/catalog.json")
             `(("sourceRevision" . ,source)))
 (chmod (string-append public "/index.html") #o755)
@@ -60,6 +57,25 @@
                                                      (make-string 64 #\0))
                                                (string-append root "/bad"))))
                       "digest or size mismatch"))
+        (let ((script (string-append public "/navigation.js"))
+              (saved (string-append root "/navigation.js")))
+          (dynamic-wind
+            (lambda () (rename-file script saved))
+            (lambda ()
+              (test-assert "Reject missing browser navigation"
+                (string-contains
+                 (failure-message (lambda () (pack-site public source release)))
+                 "Missing required public files")))
+            (lambda () (rename-file saved script))))
+        (let ((template (string-append public "/notices-dialog.html")))
+          (dynamic-wind
+            (lambda () (write-text template "template"))
+            (lambda ()
+              (test-assert "Reject unpublished page templates"
+                (string-contains
+                 (failure-message (lambda () (pack-site public source release)))
+                 "Unexpected public file")))
+            (lambda () (delete-file template))))
         ;; Byte fixtures exercise packaging without requiring purchased fonts.
         (let* ((library (string-append root "/library"))
                (inputs (commercial-font-inputs library))

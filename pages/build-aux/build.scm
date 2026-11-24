@@ -12,7 +12,7 @@
                         (capture "git" "-C" root "rev-parse" "--verify"
                                  "HEAD^{commit}"))
                        revision)))
-              (build-pages root directory cache catalog fonts revision manual)))
+              (build-site root directory cache catalog fonts revision manual)))
            (_ (error "Usage: build.scm ROOT BUILD CACHE CATALOG FONTS REVISION MANUAL"))))
        (lambda (key . args)
          (print-exception (current-error-port) #f key args)

@@ -1,88 +1,35 @@
 (define-module (chinese-fonts-overlay pages build)
   #:use-module (chinese-fonts-overlay pages util)
   #:use-module (chinese-fonts-overlay pages preview images)
+  #:use-module (chinese-fonts-overlay pages preview inspect)
   #:use-module (chinese-fonts-overlay pages preview catalog)
+  #:use-module (chinese-fonts-overlay pages preview page)
   #:use-module (chinese-fonts-overlay pages manual page)
   #:use-module (chinese-fonts-overlay pages presentation fonts)
   #:use-module (chinese-fonts-overlay pages presentation layout)
-  #:use-module (ice-9 string-fun)
   #:use-module (ice-9 regex)
   #:use-module (srfi srfi-1)
-  #:export (build-site build-pages))
+  #:use-module (chinese-fonts-overlay pages presentation assets)
+  #:export (build-site))
 
-(define* (build-site catalog-file previews-file cache output revision
-                     #:key prepared manual)
-  "Build a complete static site in staging and preserve OUTPUT on failure."
-  (unless (and (string? revision) (string-match "^[0-9a-f]{40}$" revision))
-    (error "Expected a full source commit SHA" revision))
-  (let* ((catalog (read-json catalog-file))
-         (parent (dirname output))
-         (temporary (temporary-directory parent))
-         (staging (string-append temporary "/public"))
-         (backup (string-append temporary "/previous"))
-         (published? #f))
-    (dynamic-wind
-        (lambda () #t)
-        (lambda ()
-          (if prepared
-              (for-each
-               (lambda (file)
-                 (let ((destination
-                        (string-append staging
-                                       (substring file (string-length prepared)))))
-                   (mkdir-p (dirname destination))
-                   (copy-file file destination)))
-               (files-under prepared))
-              (prepare-previews catalog (read-json previews-file) cache staging
-                                output))
-          (render-catalog catalog staging revision)
-          (install-manual manual staging revision)
-          (write-text
-           (string-append staging "/licenses.html")
-           (string-replace-substring
-            (string-replace-substring
-             (string-replace-substring
-              (read-text (web-file "licenses.html"))
-              "<!-- site-presentation -->" (site-presentation-head "./"))
-             "<!-- site-loader -->" (site-loader))
-            "<!-- commercial-font-notice -->"
-            (if (file-exists? (web-file "concourse_ot_3_book.woff2"))
-                (string-append
-                 "<p>西文字体为 Concourse，等宽字体为 Triplicate A Code，"
-                 "由 Matthew Butterick 设计。本站依购买许可使用原始 WOFF2 文件；"
-                 "字体不适用网站代码的 CC0 许可。</p>"
-                 "<p><a href=\"https://mbtype.com/\">MB Type</a> · "
-                 "<a href=\"https://mbtype.com/license\">字体许可</a></p>")
-                "")))
-          (for-each
-           (lambda (name)
-             (copy-file (web-file name) (string-append staging "/" name)))
-           (append
-            '("bridge.js" "presentation.js" "manual.js" "main.wasm" "reflect.js"
-              "reflect.wasm" "wtf8.wasm" "fonts.css" "style.css"
-              "favicon.svg" "cc0.svg" "yuyang-regular.ttf"
-              "yuyang-medium.ttf" "tsanger-license.pdf")
-            (filter (lambda (name) (file-exists? (web-file name)))
-                    commercial-font-names)))
-          (when (file-exists? output)
-            (rename-file output backup))
-          (catch 'system-error
-                 (lambda () (rename-file staging output) (set! published? #t))
-                 (lambda args
-                   (when (file-exists? backup)
-                     (rename-file backup output))
-                   (apply throw args))))
-        (lambda ()
-          (if (and (file-exists? backup) (not published?))
-              (format (current-error-port)
-                      "Previous website retained at ~a~%" backup)
-              (delete-tree temporary))))))
-
-(define (fingerprint files values)
-  "Hash FILES by content together with the ordered configuration VALUES."
-  (text-digest
-   (object->string
-    (cons values (map (lambda (file) (cons file (file-digest file))) files)))))
+(define (assemble-site! catalog prepared manual output revision)
+  "Assemble the prepared previews, manual and browser assets in OUTPUT."
+  (for-each
+   (lambda (file)
+     (let ((target (string-append output (substring file (string-length prepared)))))
+       (mkdir-p (dirname target))
+       (copy-file file target)))
+   (files-under prepared))
+  (let* ((rendered (read-json (string-append prepared "/previews.json")))
+         (indexed (index-preview-manifests! catalog rendered output revision)))
+    (write-public-catalog! indexed output)
+    (write-preview-page! indexed output))
+  (install-manual manual output revision)
+  (for-each
+   (lambda (name) (copy-file (web-file name) (string-append output "/" name)))
+   (append browser-assets
+           (filter (lambda (name) (file-exists? (web-file name)))
+                   commercial-font-names))))
 
 (define (file-state file)
   "Describe FILE's identity, size and modification state without reading it."
@@ -106,54 +53,54 @@
   (let ((value (output-digest digest output)))
     (atomic-write stamp (lambda (file) (write-text file value)))))
 
-(define (font-inputs inputs)
+(define (font-input-state inputs)
   "Track immutable store paths, or file changes in explicit local font inputs."
   (map
    (lambda (entry)
+     (unless (and (equal? (map car (cdr entry)) '("renderPath"))
+                  (string? (jref (cdr entry) "renderPath")))
+       (error "Font must only have a local renderer path" (car entry)))
      (let ((path (canonicalize-path (jref (cdr entry) "renderPath"))))
        (cons (car entry)
              (if (string-prefix? "/nix/store/" path) path
                  (map file-state (filter font-file? (files-under path)))))))
    inputs))
 
-(define (build-pages root directory cache catalog-file fonts-file revision manual)
+(define (build-site root directory cache catalog-file fonts-file revision manual)
   "Build DIRECTORY/public from declared inputs, reusing unchanged stage outputs."
+  (unless (and (string? revision) (string-match "^[0-9a-f]{40}$" revision))
+    (error "Expected a full source commit SHA" revision))
   (let* ((catalog (read-json catalog-file))
          (fonts (read-json fonts-file))
-         (web (string-append directory "/web"))
+         (web (getenv "FONT_SITE_WEB"))
          (preview-output (string-append directory "/previews"))
          (preview-stamp (string-append directory "/previews.sha256"))
          (output (string-append directory "/public"))
          (stamp (string-append directory "/public.sha256"))
          (module-root (string-append root "/module/pages/"))
+         (inspection (inspection-revision))
          (preview-digest
           (fingerprint
-           (append
-            (map (lambda (name) (string-append module-root name))
-                 '("preview/images.scm" "preview/samples.scm" "util.scm"))
-            (list (string-append root "/etc/language-samples.json")
-                  (getenv "FONT_SITE_INSPECTOR") (getenv "FONT_SITE_RENDERER")))
-           (list (map (lambda (package)
+           (list (in-vicinity module-root "preview/images.scm")
+                 (getenv "FONT_SITE_RENDERER"))
+           (list inspection
+                 (map (lambda (package)
                         (list (jref package "id") (jref package "languages")))
                       (jarray (jref catalog "packages")))
-                 (font-inputs fonts)
+                 (font-input-state fonts)
                  (capture (getenv "FONT_SITE_RENDERER") "--encoder-version")))))
     (unless (current? preview-stamp preview-digest preview-output)
-      (let* ((temporary (temporary-directory directory))
-             (staging (string-append temporary "/previews")))
-        (dynamic-wind
-            (lambda () #t)
-            (lambda ()
-              (prepare-previews catalog fonts cache staging preview-output)
-              (when (file-exists? preview-output) (delete-tree preview-output))
-              (rename-file staging preview-output)
-              (record! preview-stamp preview-digest preview-output))
-            (lambda () (delete-tree temporary)))))
+      (replace-directory! preview-output
+        (lambda (staging)
+          (prepare-previews catalog fonts cache staging preview-output inspection)))
+      (record! preview-stamp preview-digest preview-output))
     (let ((digest
            (fingerprint
             (append (list catalog-file
                           (string-append module-root "build.scm")
                           (string-append module-root "preview/catalog.scm")
+                          (string-append module-root "preview/page.scm")
+                          (string-append module-root "presentation/assets.scm")
                           (string-append module-root "presentation/layout.scm")
                           (string-append module-root "presentation/fonts.scm")
                           (string-append module-root "manual/page.scm")
@@ -165,7 +112,8 @@
       (if (current? stamp digest output)
           (format #t "Website is up to date: ~a~%" output)
           (begin
-            (build-site catalog-file fonts-file cache output revision
-                        #:prepared preview-output #:manual manual)
+            (replace-directory! output
+              (lambda (staging)
+                (assemble-site! catalog preview-output manual staging revision)))
             (record! stamp digest output)
             (format #t "Built website: ~a~%" output))))))

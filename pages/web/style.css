@@ -1,8 +1,9 @@
 @import "tailwindcss" source(none);
 
 @source "@HTML_SOURCE@";
+@source "@NOTICES_SOURCE@";
 @source "@SCHEME_SOURCE@";
-@source "@CATALOG_SOURCE@";
+@source "@PREVIEW_PAGE_SOURCE@";
 @source "@LAYOUT_SOURCE@";
 @source "@MANUAL_SOURCE@";
 
@@ -989,14 +990,6 @@ h1 {
   overflow-wrap: anywhere;
 }
 
-.license-text {
-  margin-top: 16px;
-  padding: 20px;
-  border: 1px solid var(--color-base-300);
-  border-radius: var(--radius-box);
-  background: var(--color-base-200);
-}
-
 .empty {
   padding: 70px 10px;
   text-align: center;
@@ -1024,8 +1017,62 @@ h1 {
   flex-shrink: 0;
 }
 
-.site-footer a {
+.site-footer a,
+.site-footer button {
   color: inherit;
+}
+
+.site-footer button {
+  cursor: pointer;
+}
+
+.site-footer button:hover {
+  text-decoration: underline;
+}
+
+html:has(.notices-dialog[open]) {
+  overflow: hidden;
+}
+
+.notices-dialog {
+  width: min(48rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 3rem);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-box);
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+}
+
+.notices-dialog[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.notices-dialog::backdrop {
+  background: color-mix(in srgb, var(--color-base-content) 44%, transparent);
+}
+
+.notices-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem clamp(1rem, 4vw, 2.5rem);
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.notices-heading h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.notices-content {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 clamp(1rem, 4vw, 2.5rem) 1rem;
 }
 
 .footer-separator {

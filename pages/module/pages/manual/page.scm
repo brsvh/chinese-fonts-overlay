@@ -111,8 +111,7 @@
               (title ,title " · Chinese Fonts Overlay")
               (link (@ (rel "icon") (type "image/svg+xml") (href "../favicon.svg")))))
            (site-presentation-head "../")
-           "<script defer src=\"../manual.js\"></script>"
-           "</head><body class=\"manual-page\">"
+           "</head><body class=\"manual-page\" data-view=\"manual\">"
            (site-loader)
            "<p id=\"manual-status\" class=\"sr-only\" role=\"status\"></p>"
            "<a class=\"skip-link\" href=\"#manual-main\">跳转到正文</a>"

@@ -1,5 +1,6 @@
 (define-module (chinese-fonts-overlay pages archive)
   #:use-module (chinese-fonts-overlay pages util)
+  #:use-module (chinese-fonts-overlay pages presentation assets)
   #:use-module (chinese-fonts-overlay pages presentation fonts)
   #:use-module (ice-9 ftw)
   #:use-module (ice-9 popen)
@@ -10,13 +11,10 @@
   #:export (pack-site unpack-site validate-release release-name))
 
 (define maximum-size 1000000000)
-(define root-files
-  '("index.html" "licenses.html" "style.css" "bridge.js" "catalog.json"
-    "fonts.css" "presentation.js" "manual.js"
-    "previews.json" "main.wasm" "reflect.js" "reflect.wasm" "wtf8.wasm"
-    "favicon.svg" "cc0.svg" "tsanger-license.pdf"
-    "yuyang-regular.ttf" "yuyang-medium.ttf"
-    "manual/index.html" "manual/chinese-fonts-overlay.info"))
+(define required-public-paths
+  (append browser-assets
+          '("index.html" "catalog.json" "previews.json"
+            "manual/index.html" "manual/chinese-fonts-overlay.info")))
 
 (define (require condition message . arguments)
   "Raise MESSAGE with ARGUMENTS when a validation CONDITION is false."
@@ -28,7 +26,7 @@
 
 (define (public-path? name)
   "Recognize a relative regular-file NAME permitted in the public archive."
-  (or (member name root-files)
+  (or (member name required-public-paths)
       (member name commercial-font-names)
       (matches? "^manual/[A-Za-z0-9_-]+\\.html$" name)
       (matches? "^assets/images/[0-9a-f]{64}\\.webp$" name)
@@ -58,7 +56,7 @@
        (require (and (exact-integer? value) (< 0 value maximum-size))
                 "Invalid release size" key)))
    '("files" "size" "unpackedSize"))
-  (require (<= (length root-files) (jref manifest "files") 100000)
+  (require (<= (length required-public-paths) (jref manifest "files") 100000)
            "Invalid release file count")
   manifest)
 
@@ -84,7 +82,7 @@
         (else
          (error "Public output contains a link or special file" relative)))))
   (let ((files (sort (walk "") string<?)))
-    (require (every (lambda (name) (member name files)) root-files)
+    (require (every (lambda (name) (member name files)) required-public-paths)
              "Missing required public files")
     (let ((fonts (filter (lambda (name) (member name files))
                          commercial-font-names)))
@@ -190,7 +188,7 @@
               (require (and (= total (jref manifest "unpackedSize"))
                             (= count (jref manifest "files"))
                             (every (lambda (name) (hash-ref seen name))
-                                   root-files))
+                                   required-public-paths))
                        "Site archive contents differ from manifest")
               (require (zero-block? (read-exactly port 512))
                        "Invalid tar end marker")

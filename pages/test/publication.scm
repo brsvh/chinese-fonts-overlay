@@ -1,8 +1,10 @@
 (use-modules (chinese-fonts-overlay pages util)
              (chinese-fonts-overlay pages build)
+             (chinese-fonts-overlay pages presentation assets)
              (chinese-fonts-overlay pages presentation fonts)
              (chinese-fonts-overlay pages presentation layout)
              (chinese-fonts-overlay pages preview images)
+             (chinese-fonts-overlay pages preview inspect)
              (srfi srfi-1)
              (srfi srfi-64))
 
@@ -139,9 +141,9 @@
      (lambda ()
        (catch #t
               (lambda ()
-                (build-site catalog-file inputs-file
-                            (string-append temporary "/cache") output commit
-                            #:manual manual)
+                (build-site (getenv "FONT_SITE_SOURCE") temporary
+                            (string-append temporary "/cache")
+                            catalog-file inputs-file commit manual)
                 0)
               (lambda (key . args)
                 (print-exception (current-error-port) #f key args)
@@ -204,6 +206,17 @@
          (not (string-contains manual-page "href=\"javascript:"))
          (file-exists? (string-append output "/manual/chinese-fonts-overlay.info")))))
 
+(test-assert "Both entry points include the MB Type and Tsanger font licenses"
+  (let ((chapter (read-text (string-append output "/manual/Installation.html"))))
+    (and (every (lambda (html)
+                  (and (string-contains html "commandfor=\"site-notices\"")
+                       (string-contains html "<dialog")
+                       (string-contains html "href=\"https://mbtype.com/license/\"")
+                       (string-contains html "https://protesilaos.com/emacs/modus-themes-colors")))
+                (list page chapter))
+         (string-contains page "href=\"./tsanger-license.pdf\"")
+         (string-contains chapter "href=\"../tsanger-license.pdf\""))))
+
 (test-assert "Single and multiple upstream homepages are linked in source order"
   (let ((first (string-contains
                 page "href=\"https://example.test/font?lang=en&amp;view=family\""))
@@ -239,10 +252,9 @@
 (define snapshot (published-files))
 (test-assert "Static output includes only selected interface fonts and public assets"
   (and (every (lambda (name) (assoc name snapshot))
-              '("index.html" "catalog.json" "bridge.js" "main.wasm"
-                "reflect.js" "reflect.wasm" "wtf8.wasm" "style.css"
-                "fonts.css" "presentation.js" "manual.js"
-                "licenses.html" "tsanger-license.pdf" "favicon.svg" "cc0.svg"))
+              (append browser-assets '("index.html" "catalog.json" "previews.json")))
+       (not (assoc "notices-dialog.html" snapshot))
+       (not (assoc "startup-head.html" snapshot))
        (equal? (filter font-file? (map car snapshot))
                '("yuyang-medium.ttf" "yuyang-regular.ttf"))
        (equal? (filter (lambda (name) (string-suffix? ".woff2" name))
@@ -269,7 +281,6 @@
              root temporary (string-append temporary "/cache")
              (string-append temporary "/catalog.json")
              (string-append temporary "/inputs.json") revision manual))
-  (symlink (getenv "FONT_SITE_WEB") (string-append temporary "/web"))
   (test-assert "Incremental builds restore changed and missing output"
     (and (zero? (rebuild))
          (let ((image
@@ -281,6 +292,8 @@
                            (jref (cdar (published-samples "english")) "url"))
             "damaged published image")
            (write-text image "damaged prepared preview")
+           (write-text (in-vicinity temporary "previews/previews.json")
+                       "damaged preview dimensions")
            (and (zero? (rebuild))
                 (equal? snapshot (published-files))
                 (validate-image image))))))
