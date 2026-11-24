@@ -52,8 +52,8 @@ effects.mkEffect {
   ];
 
   secretsMap = {
-    pagesArtifacts = "pages-artifact-upload";
-    pagesDispatch = "pages-dispatch-app";
-    webfonts = "webfont-input-read";
+    pagesArtifacts = "chinese-fonts-overlay-pages-artifact-upload";
+    pagesDispatch = "chinese-fonts-overlay-pages-dispatch";
+    webfonts = "chinese-fonts-overlay-pages-webfont-input-read";
   };
 }

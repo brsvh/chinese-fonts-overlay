@@ -16,7 +16,7 @@ jobs:
       github.ref == 'refs/heads/main' &&
       (github.event_name == 'workflow_dispatch' ||
        (github.event.sender.type == 'Bot' &&
-        format('{0}', github.event.sender.id) == vars.PAGES_DISPATCH_BOT_ID))
+        format('{0}', github.event.sender.id) == vars.CHINESE_FONTS_OVERLAY_PAGES_DISPATCH_BOT_ID))
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
@@ -39,9 +39,9 @@ jobs:
         id: receive
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PAGES_DISPATCH_BOT_ID: ${{ vars.PAGES_DISPATCH_BOT_ID }}
-          PAGES_S3_ACCESS_KEY_ID: ${{ secrets.PAGES_S3_ACCESS_KEY_ID }}
-          PAGES_S3_SECRET_ACCESS_KEY: ${{ secrets.PAGES_S3_SECRET_ACCESS_KEY }}
+          PAGES_DISPATCH_BOT_ID: ${{ vars.CHINESE_FONTS_OVERLAY_PAGES_DISPATCH_BOT_ID }}
+          PAGES_S3_ACCESS_KEY_ID: ${{ secrets.CHINESE_FONTS_OVERLAY_PAGES_S3_ACCESS_KEY_ID }}
+          PAGES_S3_SECRET_ACCESS_KEY: ${{ secrets.CHINESE_FONTS_OVERLAY_PAGES_S3_SECRET_ACCESS_KEY }}
         run: >-
           nix develop --no-update-lock-file --no-write-lock-file .#ci
           -c node ci/pages.mjs receivePagesArtifact public

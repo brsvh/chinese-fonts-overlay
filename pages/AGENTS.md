@@ -180,8 +180,8 @@ Hercules `buildPages` uses Make on the agent advertising
 `chinese-fonts-overlay-pages`. Its private `/pages-state` mount holds rendering
 caches and staged archives. Disable remote builders and post-build hooks, and
 serialize build/upload with the mount lock. Only trusted main accesses the mount
-and `pages-artifact-upload` secret. Long builds use public GitHub reads rather
-than expiring GitTokens.
+and `chinese-fonts-overlay-pages-artifact-upload` secret. Long builds use public
+GitHub reads rather than expiring GitTokens.
 
 Upload validated archives only to the private `chinese-fonts-overlay-pages`
 Garage bucket at `https://s3.bingshan.org`, region `garage`, using path-style
@@ -190,12 +190,12 @@ read/write access without ownership; Actions has read-only access. Never reuse
 unrelated credentials or upload font closures.
 
 Read the production webfonts from the private `chinese-fonts-overlay-webfonts`
-bucket (512 MiB) with the separate `webfont-input-read` Effect secret. Download
-only the objects declared in `etc/webfonts.json`, verify their pinned SHA-256
-digests and keep the temporary library outside the checkout and the Nix store.
-Use the same foundry/family/filename under the versioned S3 prefix and the local
-`WEBFONTS_DIR`. Use the same inputs for building and packing. PR checks use the
-fixture fonts.
+bucket (512 MiB) with the `chinese-fonts-overlay-pages-webfont-input-read`
+Effect secret. Download only the objects declared in `etc/webfonts.json`, verify
+their pinned SHA-256 digests and keep the temporary library outside the checkout
+and the Nix store. Use the same foundry/family/filename under the versioned S3
+prefix and the local `WEBFONTS_DIR`. Use the same inputs for building and
+packing. PR checks use the fixture fonts.
 
 Store immutable archives under the source revision and write `manifest.json`
 last. Under the single-writer lock, keep at most two complete versions including
@@ -208,8 +208,9 @@ other complete version. Count outstanding deployments in the total.
 
 After verifying the uploaded archive, dispatch `pages-ready` for current main.
 Mint a repository-scoped installation token at notification time with the
-main-only `pages-dispatch-app` secret. Hold the build lock while locating or
-confirming the automatic workflow run. A retry reuses the complete archive.
+main-only `chinese-fonts-overlay-pages-dispatch` secret. Hold the build lock
+while locating or confirming the automatic workflow run. A retry reuses the
+complete archive.
 
 The `deploy` workflow accepts `pages-ready` from the configured App bot or
 manual retries for current main. Run trusted default-branch code; validate
