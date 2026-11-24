@@ -151,11 +151,13 @@ website changes and inspect UI changes in a browser. Check documentation links,
 commands and formatting without rebuilding the collection. State what was and
 was not verified.
 
-Maintain development configuration in `tools/dev-shells/default.nix`.
-`nix develop` creates ignored links for `.bake.toml`, `.clang-format`,
-`.editorconfig`, `prek.toml` and `treefmt.toml`; edit their Nix definitions, not
-these generated files. Use GNU clang-format when needed; do not add C formatting
-to treefmt, hooks or CI without a request, or format unrelated files.
+Maintain generated tool configurations in the `files` set in
+`tools/dev-shells/default.nix`. The default shell links `.bake.toml`,
+`.clang-format`, `.editorconfig`, `biome.json`, `prek.toml` and `treefmt.toml`
+into the checkout. Edit `files.biome.data` for Biome settings and
+`files.treefmt.data` for file selection. Use GNU clang-format when needed; do
+not add C formatting to treefmt, hooks or CI without a request, or format
+unrelated files.
 
 Handwritten Makefiles use real recipe tabs and at most 80 columns. From the
 root, run `mbake format --config .bake.toml FILE` (add `--check` to inspect

@@ -32,7 +32,7 @@ in
             fontconfig = languageFontconfig;
           };
 
-      fontPkgs = import packageNixpkgs {
+      overlayConfig = {
         inherit system;
 
         config = {
@@ -44,6 +44,8 @@ in
         ];
       };
 
+      fontPkgs = import packageNixpkgs overlayConfig;
+
       fontCatalog =
         import (projectRoot + /packages/font-catalog.nix)
           {
@@ -54,19 +56,7 @@ in
     {
       _module = {
         args = {
-          pkgs = import nixpkgs {
-            inherit
-              system
-              ;
-
-            config = {
-              allowUnfree = true;
-            };
-
-            overlays = [
-              self.overlays.default
-            ];
-          };
+          pkgs = import nixpkgs overlayConfig;
         };
       };
 
@@ -74,6 +64,7 @@ in
         update-font-languages = {
           type = "app";
           program = lib.getExe updateFontLanguages;
+
           meta = {
             description = "Scan and maintain font package languages";
           };
@@ -112,6 +103,7 @@ in
             nodejs
           ];
         };
+
         default =
           import
             (projectRoot + /tools/dev-shells/default.nix)
@@ -119,7 +111,6 @@ in
               inherit
                 lib
                 pkgs
-                projectRoot
                 updateFontLanguages
                 languageFontconfig
                 ;

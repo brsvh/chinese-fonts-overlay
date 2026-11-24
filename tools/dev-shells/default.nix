@@ -2,24 +2,21 @@
   languageFontconfig,
   lib,
   pkgs,
-  projectRoot,
   updateFontLanguages,
   ...
 }:
 let
   inherit (lib)
-    attrNames
-    baseNameOf
+    attrValues
     concatMap
     concatStringsSep
-    elem
     escapeShellArg
-    foldl'
     getExe
     map
     mapAttrs
-    optional
+    mapAttrsToList
     removeAttrs
+    unique
     ;
 
   inherit (lib.generators)
@@ -32,83 +29,59 @@ let
     writeText
     ;
 
-  mkFile = request: request.engine request;
-
-  install =
-    request:
-    let
-      source = escapeShellArg (
-        toString (mkFile request)
-      );
-      output = escapeShellArg request.output;
-    in
-    ''
-      target="$projectRoot"/${output}
-      mkdir -p "$(dirname -- "$target")"
-      ln -sfn ${source} "$target"
-    '';
-
-  hookExtra =
-    request:
-    if request ? hook && request.hook ? extra then
-      request.hook.extra request.data
-    else
-      "";
-
-  installWithHook =
-    request:
-    let
-      extra = hookExtra request;
-    in
-    concatStringsSep "\n" (
-      [
-        (install request)
-      ]
-      ++ optional (extra != "") extra
-    );
-
-  addFile =
-    names: name:
-    if elem name names then
-      names
-    else
-      (foldl' addFile names (
-        files.${name}.depends or [ ]
-      ))
-      ++ [
-        name
-      ];
-
-  toml =
-    request:
-    let
-      inherit (request)
-        data
-        output
-        ;
-    in
-    (pkgs.formats.toml { }).generate
-      (baseNameOf output)
-      data;
+  toml = (pkgs.formats.toml { }).generate;
 
   files = {
-    clang-format = {
+    biome = rec {
+      data = {
+        css = {
+          parser = {
+            tailwindDirectives = true;
+          };
+        };
+
+        formatter = {
+          enabled = true;
+          indentStyle = "space";
+          indentWidth = 2;
+          lineWidth = 80;
+        };
+
+        html = {
+          experimentalFullSupportEnabled = true;
+
+          formatter = {
+            enabled = true;
+            indentScriptAndStyle = true;
+            whitespaceSensitivity = "strict";
+          };
+        };
+
+        javascript = {
+          formatter = {
+            quoteStyle = "single";
+          };
+        };
+      };
+
+      file =
+        (pkgs.formats.json { }).generate output
+          data;
+      output = "biome.json";
+
+      packages = with pkgs; [
+        biome
+      ];
+    };
+
+    clang-format = rec {
       data = {
         BasedOnStyle = "GNU";
       };
 
-      engine =
-        request:
-        let
-          inherit (request)
-            data
-            output
-            ;
-        in
-        (pkgs.formats.yaml { }).generate
-          (baseNameOf output)
+      file =
+        (pkgs.formats.yaml { }).generate output
           data;
-
       output = ".clang-format";
 
       packages = with pkgs; [
@@ -116,7 +89,7 @@ let
       ];
     };
 
-    editorconfig = {
+    editorconfig = rec {
       data = {
         root = true;
 
@@ -158,27 +131,17 @@ let
           };
       };
 
-      engine =
-        request:
-        let
-          inherit (request)
-            data
-            output
-            ;
-
-          value = {
-            globalSection = {
-              root = data.root or true;
-            };
-
-            sections = removeAttrs data [
-              "root"
-            ];
+      file = writeText output (
+        toINIWithGlobalSection { } {
+          globalSection = {
+            root = data.root or true;
           };
-        in
-        writeText (baseNameOf output) (
-          toINIWithGlobalSection { } value
-        );
+
+          sections = removeAttrs data [
+            "root"
+          ];
+        }
+      );
 
       output = ".editorconfig";
 
@@ -187,7 +150,7 @@ let
       ];
     };
 
-    mbake = {
+    mbake = rec {
       data = {
         formatter = {
           auto_insert_phony_declarations = false;
@@ -199,7 +162,7 @@ let
         };
       };
 
-      engine = toml;
+      file = toml output data;
       output = ".bake.toml";
 
       packages = with pkgs; [
@@ -207,7 +170,7 @@ let
       ];
     };
 
-    prek = {
+    prek = rec {
       data = {
         default_install_hook_types = [
           "pre-commit"
@@ -233,83 +196,8 @@ let
         ];
       };
 
-      depends = [
-        "treefmt"
-      ];
-
-      engine = toml;
+      file = toml output data;
       output = "prek.toml";
-
-      hook = {
-        extra =
-          cfg:
-          let
-            inherit (pkgs)
-              prek
-              runtimeShell
-              writeScript
-              ;
-
-            mkInstall = stage: ''
-              if gitDir="$(
-                ${getExe git} -C "$projectRoot" rev-parse \
-                  --absolute-git-dir 2>/dev/null
-              )"; then
-                mkdir -p "$gitDir/hooks"
-                ln -sf "${mkScript stage}" "$gitDir/hooks/${stage}"
-              fi
-            '';
-
-            mkScript =
-              stage:
-              writeScript "prek-${stage}" ''
-                #!${runtimeShell}
-                if [ "''${PREK:-}" = "0" ]; then
-                  exit 0
-                fi
-
-                repoRoot="$(
-                  ${getExe git} rev-parse --show-toplevel \
-                    2>/dev/null \
-                    || true
-                )"
-
-                if [ -z "$repoRoot" ]; then
-                  repoRoot="$PWD"
-                fi
-
-                gitDir="$(
-                  ${getExe git} -C "$repoRoot" rev-parse \
-                    --absolute-git-dir 2>/dev/null \
-                    || true
-                )"
-
-                if [ -n "$gitDir" ]; then
-                  if [ -e "$gitDir/MERGE_HEAD" ] \
-                    || [ -d "$gitDir/rebase-apply" ] \
-                    || [ -d "$gitDir/rebase-merge" ]; then
-                    exit 0
-                  fi
-
-                  ref="$(
-                    ${getExe git} -C "$repoRoot" symbolic-ref \
-                      --quiet --short HEAD 2>/dev/null \
-                      || true
-                  )"
-
-                  if [ "$ref" = "update_flake_lock_action" ]; then
-                    exit 0
-                  fi
-                fi
-
-                exec ${getExe prek} -C "$repoRoot" run \
-                  --stage "${stage}" "$@"
-              '';
-          in
-          concatStringsSep "\n" (
-            map mkInstall cfg.default_install_hook_types
-          );
-      };
 
       packages = with pkgs; [
         git
@@ -317,132 +205,179 @@ let
       ];
     };
 
-    treefmt = {
+    treefmt = rec {
       data = {
-        formatter = {
-          css = {
-            command = "biome";
+        global = {
+          excludes = [
+            "pages/build/**"
+            "pages/.cache/**"
+          ];
+        };
 
-            includes = [
+        formatter =
+          let
+            formatWithBiome = includes: {
+              inherit includes;
+
+              # Biome scopes an absolute config path to its directory.
+              command = pkgs.writeShellScript "format-with-biome" ''
+                config="$(
+                  ${pkgs.coreutils}/bin/realpath \
+                    --relative-to="$PWD" ${files.biome.file}
+                )"
+                exec ${getExe pkgs.biome} format --write \
+                  --config-path="$config" "$@"
+              '';
+            };
+          in
+          {
+            css = formatWithBiome [
               "*.css"
             ];
 
-            options = [
-              "format"
-              "--write"
-              "--indent-style=space"
-              "--indent-width=2"
-              "--line-width=80"
-              "--css-parse-tailwind-directives=true"
+            html = formatWithBiome [
+              "pages/**/*.html"
             ];
-          };
 
-          javascript = {
-            command = "biome";
-
-            includes = [
+            javascript = formatWithBiome [
               "*.cjs"
               "*.js"
               "*.jsx"
               "*.mjs"
             ];
 
-            options = [
-              "format"
-              "--write"
-              "--indent-style=space"
-              "--indent-width=2"
-              "--line-width=80"
-              "--javascript-formatter-quote-style=single"
-            ];
+            markdown = {
+              command = "mdformat";
+
+              includes = [
+                "*.md"
+              ];
+
+              options = [
+                "--extensions=frontmatter"
+                "--extensions=gfm"
+                "--number"
+                "--wrap=80"
+              ];
+            };
+
+            nix = {
+              command = "nixfmt";
+
+              includes = [
+                "*.nix"
+              ];
+
+              options = [
+                "--width=50"
+              ];
+            };
           };
-
-          markdown = {
-            command = "mdformat";
-
-            includes = [
-              "*.md"
-            ];
-
-            options = [
-              "--extensions=frontmatter"
-              "--extensions=gfm"
-              "--number"
-              "--wrap=80"
-            ];
-          };
-
-          nix = {
-            command = "nixfmt";
-
-            includes = [
-              "*.nix"
-            ];
-
-            options = [
-              "--width=50"
-            ];
-          };
-        };
       };
 
-      engine = toml;
+      file = toml output data;
       output = "treefmt.toml";
 
       packages =
-        let
-          mdformatWithPlugins = pkgs.mdformat.withPlugins (
+        files.biome.packages
+        ++ (with pkgs; [
+          (mdformat.withPlugins (
             ps: with ps; [
               mdformat-frontmatter
               mdformat-gfm
             ]
-          );
-        in
-        with pkgs;
-        [
-          biome
-          mdformatWithPlugins
+          ))
           nixfmt
           treefmt
-        ];
+        ]);
     };
   };
-
-  names = foldl' addFile [ ] (attrNames files);
 in
 mkShell {
-  packages =
-    (concatMap (
-      name: files.${name}.packages or [ ]
-    ) names)
+  packages = unique (
+    concatMap (config: config.packages) (
+      attrValues files
+    )
     ++ [
-      git
       languageFontconfig
       pkgs.guile
       pkgs.guile-json
       updateFontLanguages
-    ];
+    ]
+  );
 
   shellHook = concatStringsSep "\n" (
     [
       ''projectRoot="$(${getExe git} rev-parse --show-toplevel)"''
     ]
-    ++ map (name: installWithHook files.${name}) names
+    ++ mapAttrsToList (_: config: ''
+      ln -sfn ${escapeShellArg (toString config.file)} \
+        "$projectRoot"/${escapeShellArg config.output}
+    '') files
+    ++ map (
+      stage:
+      let
+        hook = pkgs.writeScript "prek-${stage}" ''
+          #!${pkgs.runtimeShell}
+          if [ "''${PREK:-}" = "0" ]; then
+            exit 0
+          fi
+
+          repoRoot="$(
+            ${getExe git} rev-parse --show-toplevel \
+              2>/dev/null \
+              || true
+          )"
+
+          if [ -z "$repoRoot" ]; then
+            repoRoot="$PWD"
+          fi
+
+          gitDir="$(
+            ${getExe git} -C "$repoRoot" rev-parse \
+              --absolute-git-dir 2>/dev/null \
+              || true
+          )"
+
+          if [ -n "$gitDir" ]; then
+            if [ -e "$gitDir/MERGE_HEAD" ] \
+              || [ -d "$gitDir/rebase-apply" ] \
+              || [ -d "$gitDir/rebase-merge" ]; then
+              exit 0
+            fi
+
+            ref="$(
+              ${getExe git} -C "$repoRoot" symbolic-ref \
+                --quiet --short HEAD 2>/dev/null \
+                || true
+            )"
+
+            if [ "$ref" = "update_flake_lock_action" ]; then
+              exit 0
+            fi
+          fi
+
+          exec ${getExe pkgs.prek} -C "$repoRoot" run \
+            --stage "${stage}" "$@"
+        '';
+      in
+      ''
+        if gitDir="$(
+          ${getExe git} -C "$projectRoot" rev-parse \
+            --absolute-git-dir 2>/dev/null
+        )"; then
+          mkdir -p "$gitDir/hooks"
+          ln -sf "${hook}" "$gitDir/hooks"/${escapeShellArg stage}
+        fi
+      ''
+    ) files.prek.data.default_install_hook_types
   );
 
   passthru = {
-    dependencies = mapAttrs (_: request: {
-      packages = request.packages or [ ];
-    }) files;
+    inherit files;
 
-    files = mapAttrs (_: request: {
-      inherit (request)
-        data
-        output
-        ;
-
-      file = mkFile request;
-      packages = request.packages or [ ];
+    dependencies = mapAttrs (_: config: {
+      inherit (config) packages;
     }) files;
   };
 }
