@@ -2,15 +2,24 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { command, ensure, readJson, repository, sha } from './common.mjs';
+import {
+  command,
+  ensure,
+  positiveInteger,
+  readJson,
+  repository,
+  sha,
+} from './common.mjs';
 import { GitHub, output } from './github.mjs';
 import { GarageBucket } from './garage.mjs';
 import { PagesArtifactStore } from './pages-artifacts.mjs';
+import {
+  deployWorkflow,
+  notifyPages,
+  pagesRepositoryId,
+} from './pages-dispatch.mjs';
 
-const repositoryId = 772409384;
-const herculesId = 47349067;
 const stateDirectory = '/pages-state';
-const workflowPath = '.github/workflows/deploy.yml';
 const root = fileURLToPath(new URL('..', import.meta.url));
 
 function environment(name) {
@@ -66,7 +75,7 @@ function actionsApi() {
     environment('GITHUB_REPOSITORY') === repository &&
       environment('GITHUB_REF') === 'refs/heads/main' &&
       environment('GITHUB_WORKFLOW_REF') ===
-        repository + '/' + workflowPath + '@refs/heads/main',
+        repository + '/' + deployWorkflow + '@refs/heads/main',
     'Unexpected publication workflow context',
   );
   return new GitHub(environment('GITHUB_TOKEN'));
@@ -102,6 +111,10 @@ export async function buildPages(source) {
     );
   } finally {
     store.close();
+  }
+
+  if (source === remoteMain()) {
+    await notifyPages(source, secrets.pagesDispatch.data, remoteMain);
   }
 }
 
@@ -270,17 +283,18 @@ export async function receivePagesArtifact(destination) {
   const current = await mainRevision(api);
 
   let source;
-  if (environment('GITHUB_EVENT_NAME') === 'status') {
+  if (environment('GITHUB_EVENT_NAME') === 'repository_dispatch') {
+    source = event.client_payload?.source;
     ensure(
-      event.repository?.id === repositoryId &&
-        event.sender?.id === herculesId &&
-        event.sender?.login === 'hercules-ci[bot]' &&
-        event.context === 'ci/hercules/onPush/buildPages' &&
-        event.state === 'success' &&
-        sha.test(event.sha),
-      'Invalid Hercules build status',
+      event.repository?.id === pagesRepositoryId &&
+        event.action === 'pages-ready' &&
+        event.sender?.type === 'Bot' &&
+        positiveInteger(event.sender.id) &&
+        String(event.sender.id) === environment('PAGES_DISPATCH_BOT_ID') &&
+        typeof source === 'string' &&
+        sha.test(source),
+      'Invalid Pages dispatch',
     );
-    source = event.sha;
   } else {
     ensure(
       process.env.GITHUB_EVENT_NAME === 'workflow_dispatch',

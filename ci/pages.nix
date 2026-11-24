@@ -53,6 +53,7 @@ effects.mkEffect {
 
   secretsMap = {
     pagesArtifacts = "pages-artifact-upload";
+    pagesDispatch = "pages-dispatch-app";
     webfonts = "webfont-input-read";
   };
 }

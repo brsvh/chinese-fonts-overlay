@@ -206,12 +206,17 @@ GiB logical quota does not bound temporary physical usage during reclamation.
 The writer credential may set `maxVersions` to one when another bucket holds the
 other complete version. Count outstanding deployments in the total.
 
-The `deploy` workflow accepts verified Hercules `ci/hercules/onPush/buildPages`
-successes or manual retries for current main. Run trusted default-branch code;
-validate repository, sender, event source, manifest and archive. Check current
-main before download and immediately before deployment. Serialize deployments
-and restrict the Pages environment to main. Only the deploy job receives Pages
-and OIDC write permissions; S3 read credentials belong only to preparation.
+After verifying the uploaded archive, dispatch `pages-ready` for current main.
+Mint a repository-scoped installation token at notification time with the
+main-only `pages-dispatch-app` secret. Hold the build lock while locating or
+confirming the automatic workflow run. A retry reuses the complete archive.
+
+The `deploy` workflow accepts `pages-ready` from the configured App bot or
+manual retries for current main. Run trusted default-branch code; validate
+repository, sender, event source, manifest and archive. Check current main
+before download and immediately before deployment. Serialize deployments and
+restrict the Pages environment to main. Only the deploy job receives Pages and
+OIDC write permissions; S3 read credentials belong only to preparation.
 Preparation failures preserve the published site. Keep font-cache publication
 independent; website handoff uses no tags, Releases or deployment receipts.
 
