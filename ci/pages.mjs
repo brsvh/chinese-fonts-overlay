@@ -3,11 +3,11 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { command, ensure, readJson, repository, sha } from './common.mjs';
 import { GitHub, output } from './github.mjs';
-import { SiteStore } from './site-store.mjs';
+import { PagesArtifactStore } from './pages-artifacts.mjs';
 
 const repositoryId = 772409384;
 const herculesId = 47349067;
-const stateDirectory = '/site-state';
+const stateDirectory = '/pages-state';
 const workflowPath = '.github/workflows/deploy.yml';
 const root = fileURLToPath(new URL('..', import.meta.url));
 
@@ -26,10 +26,10 @@ function archiveCommand(...args) {
   ]);
 }
 
-function siteManifest(file) {
+function readArtifactManifest(file) {
   const base = archiveCommand('validate', file);
   ensure(
-    /^site-[0-9a-f]{40}-[0-9a-f]{64}$/.test(base),
+    /^pages-[0-9a-f]{40}-[0-9a-f]{64}$/.test(base),
     'Invalid archive validator output',
   );
   return { manifest: readJson(file), base };
@@ -70,7 +70,7 @@ function actionsApi() {
   return new GitHub(environment('GITHUB_TOKEN'));
 }
 
-export async function buildSite(source) {
+export async function buildPages(source) {
   ensure(sha.test(source), 'Invalid site source revision');
   ensure(
     environment('HERCULES_CI_PROJECT_PATH') === 'github/' + repository,
@@ -82,12 +82,12 @@ export async function buildSite(source) {
 
   const secrets = readJson(environment('HERCULES_CI_SECRETS_JSON'));
 
-  const store = new SiteStore(secrets.siteStore.data);
+  const store = new PagesArtifactStore(secrets.pagesArtifacts.data);
 
   try {
     const existing = store.manifest(source);
     if (existing) {
-      const { manifest, base } = siteManifest(existing.file);
+      const { manifest, base } = readArtifactManifest(existing.file);
       ensure(manifest.source === source, 'Stored source differs');
       const archive = store
         .objects()
@@ -106,7 +106,7 @@ export async function buildSite(source) {
     ensure(names.length === 1, 'Missing completed site archive');
 
     const file = path.join(directory, names[0]);
-    const { manifest, base } = siteManifest(file);
+    const { manifest, base } = readArtifactManifest(file);
     ensure(manifest.source === source, 'Staged source differs');
 
     const archive = path.join(directory, base + '.tar.gz');
@@ -218,7 +218,7 @@ function buildArchive(source) {
   }
 }
 
-export async function receiveSite(destination) {
+export async function receivePagesArtifact(destination) {
   const api = actionsApi();
   const event = readJson(environment('GITHUB_EVENT_PATH'));
   const current = await mainRevision(api);
@@ -229,7 +229,7 @@ export async function receiveSite(destination) {
       event.repository?.id === repositoryId &&
         event.sender?.id === herculesId &&
         event.sender?.login === 'hercules-ci[bot]' &&
-        event.context === 'ci/hercules/onPush/buildSite' &&
+        event.context === 'ci/hercules/onPush/buildPages' &&
         event.state === 'success' &&
         sha.test(event.sha),
       'Invalid Hercules build status',
@@ -245,22 +245,25 @@ export async function receiveSite(destination) {
 
   if (source !== current) return output({ ready: false });
 
-  const store = new SiteStore({
-    accessKeyId: environment('SITE_S3_ACCESS_KEY_ID'),
-    secretAccessKey: environment('SITE_S3_SECRET_ACCESS_KEY'),
+  const store = new PagesArtifactStore({
+    accessKeyId: environment('PAGES_S3_ACCESS_KEY_ID'),
+    secretAccessKey: environment('PAGES_S3_SECRET_ACCESS_KEY'),
   });
 
   try {
     const metadata = store.manifest(source);
-    ensure(metadata, 'No completed artifact for current main; retry buildSite');
-    const { manifest, base } = siteManifest(metadata.file);
+    ensure(
+      metadata,
+      'No completed artifact for current main; retry buildPages',
+    );
+    const { manifest, base } = readArtifactManifest(metadata.file);
     ensure(manifest.source === source, 'Manifest source differs');
 
     const key = source + '/' + base + '.tar.gz';
     const object = store.objects().find((item) => item.Key === key);
     ensure(object?.Size === manifest.size, 'Archive size differs');
 
-    const archive = path.join(store.directory, 'site.tar.gz');
+    const archive = path.join(store.directory, 'pages.tar.gz');
     store.download(key, archive, manifest.size);
     archiveCommand('unpack', archive, metadata.file, destination);
     output({ ready: true, source });
@@ -269,7 +272,7 @@ export async function receiveSite(destination) {
   }
 }
 
-export async function checkSite(source) {
+export async function checkDeploymentRevision(source) {
   ensure(sha.test(source), 'Invalid deployment source');
   output({ ready: source === (await mainRevision(actionsApi())) });
 }
@@ -282,10 +285,15 @@ if (
     const [action, ...args] = process.argv.slice(2);
     ensure(args.length === 1, 'Expected one argument');
 
-    if (action === 'buildSite') await buildSite(args[0]);
-    else if (action === 'receiveSite') await receiveSite(args[0]);
-    else if (action === 'checkSite') await checkSite(args[0]);
-    else throw new Error('Expected buildSite, receiveSite or checkSite');
+    if (action === 'buildPages') await buildPages(args[0]);
+    else if (action === 'receivePagesArtifact')
+      await receivePagesArtifact(args[0]);
+    else if (action === 'checkDeploymentRevision')
+      await checkDeploymentRevision(args[0]);
+    else
+      throw new Error(
+        'Expected buildPages, receivePagesArtifact or checkDeploymentRevision',
+      );
   } catch (error) {
     console.error(error.message, error.details ?? '');
     process.exitCode = 1;

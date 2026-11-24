@@ -5,15 +5,15 @@ import { createHash } from 'node:crypto';
 import { command, ensure, readJson, sha } from './common.mjs';
 
 const endpoint = 'https://s3.bingshan.org';
-const bucket = 'chinese-fonts-overlay-site';
+const bucket = 'chinese-fonts-overlay-pages';
 const objectKey =
-  /^[0-9a-f]{40}\/(manifest\.json|site-[0-9a-f]{40}-[0-9a-f]{64}\.tar\.gz)$/;
+  /^[0-9a-f]{40}\/(manifest\.json|pages-[0-9a-f]{40}-[0-9a-f]{64}\.tar\.gz)$/;
 
-export class SiteStore {
+export class PagesArtifactStore {
   constructor({ accessKeyId, secretAccessKey }) {
     ensure(accessKeyId && secretAccessKey, 'Missing site storage credentials');
 
-    this.directory = fs.mkdtempSync(path.join(os.tmpdir(), 'site-store-'));
+    this.directory = fs.mkdtempSync(path.join(os.tmpdir(), 'pages-artifacts-'));
     const config = path.join(this.directory, 'config');
     fs.writeFileSync(config, '[default]\ns3 =\n    addressing_style = path\n');
 

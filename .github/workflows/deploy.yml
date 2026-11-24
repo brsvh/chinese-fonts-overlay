@@ -13,7 +13,7 @@ jobs:
       github.repository == 'brsvh/chinese-fonts-overlay' &&
       github.ref == 'refs/heads/main' &&
       (github.event_name == 'workflow_dispatch' ||
-       (github.event.context == 'ci/hercules/onPush/buildSite' &&
+       (github.event.context == 'ci/hercules/onPush/buildPages' &&
         github.event.state == 'success' &&
         github.event.sender.id == 47349067))
     runs-on: ubuntu-24.04
@@ -38,11 +38,11 @@ jobs:
         id: receive
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SITE_S3_ACCESS_KEY_ID: ${{ secrets.SITE_S3_ACCESS_KEY_ID }}
-          SITE_S3_SECRET_ACCESS_KEY: ${{ secrets.SITE_S3_SECRET_ACCESS_KEY }}
+          PAGES_S3_ACCESS_KEY_ID: ${{ secrets.PAGES_S3_ACCESS_KEY_ID }}
+          PAGES_S3_SECRET_ACCESS_KEY: ${{ secrets.PAGES_S3_SECRET_ACCESS_KEY }}
         run: >-
           nix develop --no-update-lock-file --no-write-lock-file .#ci
-          -c node ci/site.mjs receiveSite public
+          -c node ci/pages.mjs receivePagesArtifact public
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5.0.0
         if: steps.receive.outputs.ready == 'true'
@@ -81,10 +81,10 @@ jobs:
         id: current
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SITE_SOURCE: ${{ needs.prepare.outputs.source }}
+          PAGES_SOURCE_REVISION: ${{ needs.prepare.outputs.source }}
         run: >-
           nix develop --no-update-lock-file --no-write-lock-file .#ci
-          -c node ci/site.mjs checkSite "$SITE_SOURCE"
+          -c node ci/pages.mjs checkDeploymentRevision "$PAGES_SOURCE_REVISION"
       - uses: actions/deploy-pages@v5.0.1
         id: pages
         if: steps.current.outputs.ready == 'true'

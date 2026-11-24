@@ -114,10 +114,10 @@ coordinate producer/consumer changes after prior runs finish. Do not upload
 restricted font files, source archives, private scans or unaudited closures.
 
 Use camelCase Hercules categories: `planFonts`, `buildFont/<package>`,
-`publishFont/<package>` and `buildSite`. Font builds are ordinary Nix outputs;
+`publishFont/<package>` and `buildPages`. Font builds are ordinary Nix outputs;
 credentialed publication uses Effects. The font workflows call `nix run .#ci`.
 Hercules invokes `ci/publication.mjs` for font publication, and the website
-workflow calls `ci/site.mjs`. Website generation and archive validation use
+workflow calls `ci/pages.mjs`. Website generation and archive validation use
 Guile in `pages/`. Keep workflow command names, output keys and record fields
 stable across their producers and consumers.
 

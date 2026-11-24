@@ -34,7 +34,7 @@
 
 (define (release-name manifest)
   "Return the immutable basename for a validated release MANIFEST."
-  (string-append "site-" (jref manifest "source") "-"
+  (string-append "pages-" (jref manifest "source") "-"
                  (jref manifest "sha256")))
 
 (define (validate-release manifest)
@@ -128,7 +128,7 @@
     (catch #t
       (lambda ()
         (let ((list-file (string-append destination "/files"))
-              (archive (string-append destination "/site.tar.gz")))
+              (archive (string-append destination "/pages.tar.gz")))
           (write-text list-file (string-append (string-join files "\n") "\n"))
           (run "tar" "--format=ustar" "--mtime=@0" "--owner=0" "--group=0"
                "--numeric-owner" "--mode=0644" "--no-recursion"

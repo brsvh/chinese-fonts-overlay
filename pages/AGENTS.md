@@ -176,14 +176,14 @@ interface fonts and license against declared inputs. Allow only regular public
 files, enforce the Pages size limit and produce a SHA-256 manifest. Validate
 both manifest and archive before making extracted output available to deploy.
 
-Hercules `buildSite` uses Make on the agent advertising
-`chinese-fonts-overlay-site`. Its private `/site-state` mount holds rendering
+Hercules `buildPages` uses Make on the agent advertising
+`chinese-fonts-overlay-pages`. Its private `/pages-state` mount holds rendering
 caches and staged archives. Disable remote builders and post-build hooks, and
 serialize build/upload with the mount lock. Only trusted main accesses the mount
-and `site-artifact-upload` secret. Long builds use public GitHub reads rather
+and `pages-artifact-upload` secret. Long builds use public GitHub reads rather
 than expiring GitTokens.
 
-Upload validated archives only to the private `chinese-fonts-overlay-site`
+Upload validated archives only to the private `chinese-fonts-overlay-pages`
 Garage bucket at `https://s3.bingshan.org`, region `garage`, using path-style
 requests. Fleet owns endpoint, quota and encrypted keys. Hercules has bucket
 read/write access without ownership; Actions has read-only access. Never reuse
@@ -196,7 +196,7 @@ newest complete version. Reuse matching objects on retry and reject differing
 replacements. Clean abandoned objects and abort stale multipart uploads. The 2
 GiB logical quota does not bound temporary physical usage during reclamation.
 
-The `deploy` workflow accepts verified Hercules `ci/hercules/onPush/buildSite`
+The `deploy` workflow accepts verified Hercules `ci/hercules/onPush/buildPages`
 successes or manual retries for current main. Run trusted default-branch code;
 validate repository, sender, event source, manifest and archive. Check current
 main before download and immediately before deployment. Serialize deployments

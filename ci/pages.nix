@@ -8,7 +8,7 @@ let
   effects = inputs.hercules-ci-effects.lib.withPkgs pkgs;
 in
 effects.mkEffect {
-  name = "chinese-fonts-overlay-ci-buildSite";
+  name = "chinese-fonts-overlay-ci-buildPages";
   dontUnpack = true;
 
   NIX_CONFIG = ''
@@ -19,14 +19,14 @@ effects.mkEffect {
   '';
 
   __hci_effect_mounts = builtins.toJSON {
-    "/site-state" = "chinese-fonts-overlay-site";
+    "/pages-state" = "chinese-fonts-overlay-pages";
   };
 
   effectScript = ''
     set -euo pipefail
     umask 077
-    flock /site-state/site.lock \
-      node ${root}/ci/site.mjs buildSite ${rev}
+    flock /pages-state/build.lock \
+      node ${root}/ci/pages.mjs buildPages ${rev}
   '';
 
   inputs = with pkgs; [
@@ -43,10 +43,10 @@ effects.mkEffect {
   ];
 
   requiredSystemFeatures = [
-    "chinese-fonts-overlay-site"
+    "chinese-fonts-overlay-pages"
   ];
 
   secretsMap = {
-    siteStore = "site-artifact-upload";
+    pagesArtifacts = "pages-artifact-upload";
   };
 }

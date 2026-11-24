@@ -146,9 +146,9 @@ let
       }
     );
 
-  makeSiteEffect =
+  makePagesEffect =
     rev:
-    import ./site.nix {
+    import ./pages.nix {
       inherit inputs rev;
       root = projectRoot;
     };
@@ -217,10 +217,10 @@ in
                 && tag == null
               )
               {
-                buildSite = {
+                buildPages = {
                   outputs = {
                     effects = {
-                      buildSite = makeSiteEffect rev;
+                      buildPages = makePagesEffect rev;
                     };
                   };
                 };

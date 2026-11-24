@@ -82,8 +82,8 @@ make -C pages -j4 check
 构建和缓存目录应与源码分开。用独立目录预览，可以保留另一份构建结果：
 
 #+begin_src sh
-make -C pages BUILD_DIR=/tmp/font-site PACKAGES=naverPackages.maru-buri
-make -C pages serve BUILD_DIR=/tmp/font-site
+make -C pages BUILD_DIR=/tmp/font-pages PACKAGES=naverPackages.maru-buri
+make -C pages serve BUILD_DIR=/tmp/font-pages
 #+end_src
 
 同一目录切换 =PACKAGES= 会重新准备输入。 =make clean= 删除构建结果，
@@ -177,21 +177,21 @@ make -C pages release SOURCE_REVISION="$(git rev-parse HEAD)"
 #+begin_src sh
 nix develop .#ci
 guile -L pages/module pages/build-aux/archive.scm unpack \
-  pages/build/release/site-*.tar.gz \
-  pages/build/release/site-*.json /path/to/new-public
+  pages/build/release/pages-*.tar.gz \
+  pages/build/release/pages-*.json /path/to/new-public
 #+end_src
 
 该命令检查大小、 SHA-256 、提交号和归档路径，拒绝重复文件及链接。
 校验和不能证明发布者身份，归档仍须来自可信流程。
 
-Hercules CI 的 =buildSite= 调用 Make 构建，将通过校验的公开归档上传到
+Hercules CI 的 =buildPages= 调用 Make 构建，将通过校验的公开归档上传到
 Garage 。 GitHub Actions 的 =deploy= 下载、校验并发布到 Pages 。
 调度与凭据处理位于 =ci/= ，字体构建和二进制缓存发布独立运行。
 
 Garage 使用私有 bucket ，最多保留两个完整版本，包括等待发布的版本。
 Hercules 持有读写凭据， Actions 仅持有只读凭据；端点、配额和加密密钥由
-fleet 管理。 Actions 使用 =SITE_S3_ACCESS_KEY_ID= 和
-=SITE_S3_SECRET_ACCESS_KEY= 两个仓库 secret 。
+fleet 管理。 Actions 使用 =PAGES_S3_ACCESS_KEY_ID= 和
+=PAGES_S3_SECRET_ACCESS_KEY= 两个仓库 secret 。
 
 构建失败时重试 Hercules 任务；下载或发布失败时重试 =deploy= 。
 手动运行 =deploy= 仅发布当前 main 对应的完整归档，准备失败时保留现有网站。
