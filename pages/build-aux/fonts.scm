@@ -2,5 +2,5 @@
              (ice-9 match))
 
 (match (cdr (command-line))
-  ((output) (prepare-interface (getenv "MB_TYPE_DIR") output))
+  ((output) (prepare-interface (getenv "WEBFONTS_DIR") output))
   (_ (error "Usage: fonts.scm OUTPUT")))

@@ -155,7 +155,7 @@ function downloadWebfonts(bucket, library) {
     const name = path.basename(face.path);
     const file = path.join(library, face.path);
     fs.mkdirSync(path.dirname(file), { recursive: true });
-    bucket.call('get-object', '--key', prefix + '/' + name, file);
+    bucket.call('get-object', '--key', prefix + '/' + face.path, file);
 
     const actual = createHash('sha256')
       .update(fs.readFileSync(file))
@@ -211,7 +211,7 @@ function buildArchive(source, library) {
   ];
 
   command('nix', [...args, 'check'], { stdio: 'inherit' });
-  args.push('MB_TYPE_DIR=' + library);
+  args.push('WEBFONTS_DIR=' + library);
   command('nix', [...args, 'all'], { stdio: 'inherit' });
 
   const releases = path.join(stateDirectory, 'releases');

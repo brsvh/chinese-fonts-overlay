@@ -19,8 +19,8 @@ MAKEINFO ?= makeinfo
 SYSTEM ?=
 export MAKEINFO
 REFERENCE ?=
-MB_TYPE_DIR ?=
-export PACKAGES MB_TYPE_DIR
+WEBFONTS_DIR ?=
+export PACKAGES WEBFONTS_DIR
 
 override BUILD_DIR := $(abspath $(BUILD_DIR))
 override CACHE_DIR := $(abspath $(CACHE_DIR))

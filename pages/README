@@ -33,10 +33,11 @@ make -C pages PACKAGES='naverPackages.maru-buri justfontPackages.huninn'
 =make= 并刷新页面。网站构建不会修改字体包。
 
 界面西文使用 Concourse OT ，代码使用 Triplicate A Code ，中文使用仓耳渔阳体。
-已购买 MB Type 字体库时，在构建前指定解压目录：
+将购买的 WOFF2 文件按 =etc/webfonts.json= 中的相对路径放入私有目录，
+例如 =MB Type/Concourse OT/concourse_ot_3_book.woff2= 。构建前指定该目录：
 
 #+begin_src sh
-export MB_TYPE_DIR='/path/to/MB Type Library'
+export WEBFONTS_DIR="$HOME/.local/share/chinese-fonts-overlay/webfonts"
 #+end_src
 
 构建只读取所需的九个原始 WOFF2 文件，不修改字体库。请将购买的字体和凭证
@@ -152,7 +153,7 @@ Fontconfig 语言字表]]，以及项目补充内容。
 
 公开输出包含 HTML 、 CSS 、 JSON 、 Hoot/Wasm 资源、 SVG 标识和 WebP 图片。
 目录字体的原始文件、私有渲染清单和缓存不进入输出；界面使用的仓耳渔阳体
-W02 、 W03 原始字体和授权声明随网站附带。有 =MB_TYPE_DIR= 时，还会附带
+W02 、 W03 原始字体和授权声明随网站附带。有 =WEBFONTS_DIR= 时，还会附带
 选定的 Concourse 和 Triplicate WOFF2 。这些字体遵循
 [[https://mbtype.com/license][MB Type 购买许可]]，不适用网站代码的 CC0 。
 网站代码使用 [[file:../COPYING][CC0]] ，字体各自遵循上游许可。

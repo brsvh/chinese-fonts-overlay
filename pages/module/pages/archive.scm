@@ -115,8 +115,8 @@
        ("yuyang-medium.ttf" . "UI_FONT_MEDIUM")
        ("tsanger-license.pdf" . "UI_FONT_LICENSE")))
     (when (any (lambda (name) (member name files)) commercial-font-names)
-      (let ((inputs (commercial-font-inputs (getenv "MB_TYPE_DIR"))))
-        (require (pair? inputs) "MB_TYPE_DIR is required to verify webfonts")
+      (let ((inputs (commercial-font-inputs (getenv "WEBFONTS_DIR"))))
+        (require (pair? inputs) "WEBFONTS_DIR is required to verify webfonts")
         (for-each
          (lambda (entry)
            (require (equal? (file-digest (cdr entry))

@@ -79,9 +79,9 @@
         ;; Byte fixtures exercise packaging without requiring purchased fonts.
         (let* ((library (string-append root "/library"))
                (inputs (commercial-font-inputs library))
-               (original (getenv "MB_TYPE_DIR")))
+               (original (getenv "WEBFONTS_DIR")))
           (dynamic-wind
-              (lambda () (setenv "MB_TYPE_DIR" library))
+              (lambda () (setenv "WEBFONTS_DIR" library))
               (lambda ()
                 (for-each (lambda (entry)
                             (mkdir-p (dirname (cdr entry)))
@@ -115,8 +115,8 @@
                                         (read-text (string-append public "/fonts.css"))
                                         "woff2")))))
               (lambda ()
-                (if original (setenv "MB_TYPE_DIR" original)
-                    (unsetenv "MB_TYPE_DIR")))))
+                (if original (setenv "WEBFONTS_DIR" original)
+                    (unsetenv "WEBFONTS_DIR")))))
         (delete-file (string-append public "/index.html"))
         (symlink "style.css" (string-append public "/index.html"))
         (test-assert "Reject symlink in publication output"

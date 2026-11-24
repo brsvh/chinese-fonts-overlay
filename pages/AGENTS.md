@@ -75,7 +75,7 @@ Use the standard Modus Operandi theme. Interface typography pairs Concourse OT
 with original TsangerYuYangT W02/W03; code uses Triplicate A Code. Use Concourse
 Book (400, upright and italic), Medium (500), Semibold (600) and Bold (700), and
 Triplicate regular/bold with their italics. Read the nine original WOFF2 files
-from an optional private `MB_TYPE_DIR` outside the source checkout. Without it,
+from an optional private `WEBFONTS_DIR` outside the source checkout. Without it,
 local builds use YuYang and system monospace. Never put purchased fonts or
 receipts in Git, Nix sources or font binary caches. Keep complete class names
 discoverable by CSS source scanning; continuous dimensions use CSS variables.
@@ -193,7 +193,9 @@ Read the production webfonts from the private `chinese-fonts-overlay-webfonts`
 bucket (512 MiB) with the separate `webfont-input-read` Effect secret. Download
 only the objects declared in `etc/webfonts.json`, verify their pinned SHA-256
 digests and keep the temporary library outside the checkout and the Nix store.
-Use the same inputs for building and packing. PR checks use the fixture fonts.
+Use the same foundry/family/filename under the versioned S3 prefix and the local
+`WEBFONTS_DIR`. Use the same inputs for building and packing. PR checks use the
+fixture fonts.
 
 Store immutable archives under the source revision and write `manifest.json`
 last. Under the single-writer lock, keep at most two complete versions including
