@@ -43,9 +43,10 @@ Keep authored guidance under `docs/`. Put all vendors under one font-reference
 chapter, with vendor sections and package subsections. Generate the complete
 reference by evaluating the pinned Nix sources. This project provides an overlay
 and packages, not a module-option interface. Do not invent options or maintain a
-parallel metadata list. Share catalog extraction through `lib/font-catalog.nix`;
-composition functions expose their actual `fontMembers`. Distinguish directly
-extracted source collections from composed collections.
+parallel metadata list. Share catalog extraction through
+`packages/font-catalog.nix`; composition functions expose their actual
+`fontMembers`. Distinguish directly extracted source collections from composed
+collections.
 
 Metadata evaluation must not realize fonts or rewrite package files. Escape all
 metadata inserted into Texinfo, preserve notices and every upstream link, and
@@ -58,10 +59,10 @@ Inspect integrated pages in a browser after changing the layout.
 
 Maintain catalog information only in `package.nix`, under
 `passthru.chinese-fonts-overlay-site`. The schema is
-[lib/font-info.nix](lib/font-info.nix); field meanings and review criteria are
-in the contribution guide. Reuse this validator for the catalog and
-whole-collection flake check. Exclude packages marked `isFontAggregate`; do not
-maintain a separate package index.
+[packages/font-metadata.nix](packages/font-metadata.nix); field meanings and
+review criteria are in the contribution guide. Reuse this validator for the
+catalog and whole-collection flake check. Exclude packages marked
+`isFontAggregate`; do not maintain a separate package index.
 
 Verify publisher names, homepages, styles, fees and permissions against upstream
 sources. Preserve distinctions between separately packaged families, regions and

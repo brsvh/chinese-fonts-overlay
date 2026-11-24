@@ -45,7 +45,7 @@ in
       };
 
       fontCatalog =
-        import (projectRoot + /site/catalog.nix)
+        import (projectRoot + /packages/font-catalog.nix)
           {
             inherit projectRoot;
             pkgs = fontPkgs;

@@ -25,10 +25,11 @@ modules in `../ci/`. Package definitions and language maintenance belong outside
 
 ## Inputs and builds
 
-Read package metadata through `catalog.nix` and the shared
-[validator](../lib/font-info.nix). Do not create a second package index. Exclude
-`isFontAggregate` packages, preserve notices and sources, and resolve embedding
-once in the public catalog. Missing license freedom is unknown.
+Read package metadata through `../packages/font-catalog.nix` and the shared
+[validator](../packages/font-metadata.nix). Do not create a second package
+index. Exclude `isFontAggregate` packages, preserve notices and sources, and
+resolve embedding once in the public catalog. Missing license freedom is
+unknown.
 
 By default, build the complete catalog into `BUILD_DIR/public`. `PACKAGES`
 selects complete overlay attributes for local previews. Validate every selector

@@ -18,7 +18,7 @@
                                  paths)
                          (map (lambda (name) (string-append root "/" name))
                               '("flake.nix" "flake.lock" "default.nix"
-                                "site/catalog.nix" "site/previews.nix"
+                                "site/previews.nix"
                                 "site/inputs.nix" "site/scripts/inputs.scm")))
                  string<?))
          (digest (text-digest

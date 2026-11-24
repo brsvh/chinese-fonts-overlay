@@ -79,12 +79,15 @@ let
 
   stringList =
     value: isList value && all isString value;
+
   ordered =
     values: values == sort lessThan (unique values);
+
   nonempty =
     value:
     isString value
     && match "[[:space:]]*" value == null;
+
   httpUrl =
     value:
     isString value
@@ -100,16 +103,8 @@ let
       ]
     && isString notice.level
     && noticeLevels ? ${notice.level}
-    && isString notice.text
-    && match "[[:space:]]*" notice.text == null
-    && (
-      !(notice ? url)
-      || (
-        isString notice.url
-        &&
-          match "https?://[^[:space:]]+" notice.url != null
-      )
-    );
+    && nonempty notice.text
+    && (!(notice ? url) || httpUrl notice.url);
 
   validate =
     id: info:
@@ -134,11 +129,7 @@ let
     assert assertMsg
       (!(info ? embedding) || isBool info.embedding)
       "${id}: chinese-fonts-overlay-site.embedding must be a boolean";
-    assert assertMsg
-      (
-        isString info.displayName
-        && match "[[:space:]]*" info.displayName == null
-      )
+    assert assertMsg (nonempty info.displayName)
       "${id}: chinese-fonts-overlay-site.displayName must be a nonempty string";
     assert assertMsg
       (

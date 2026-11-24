@@ -33,7 +33,6 @@ makeExtensible (
 
     derivations = import' ./derivations.nix;
     flake = import' ./flake.nix;
-    fontInfo = import' ./font-info.nix;
     licenses = import' ./licenses.nix;
   }
 )

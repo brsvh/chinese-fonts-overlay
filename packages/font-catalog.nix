@@ -10,23 +10,24 @@ let
     filterAttrs
     isString
     pathExists
+    pipe
     readDir
     toList
     ;
 
   directories =
     path:
-    attrNames (
-      filterAttrs (_: type: type == "directory") (
-        readDir path
-      )
-    );
+    pipe path [
+      readDir
+      (filterAttrs (_: type: type == "directory"))
+      attrNames
+    ];
 
-  fontInfo = import ./font-info.nix {
+  metadata = import ./font-metadata.nix {
     inherit (pkgs) lib;
   };
 
-  inherit (fontInfo) vendors;
+  inherit (metadata) vendors;
 
   normalizeLicense =
     license:
@@ -55,9 +56,9 @@ let
     vendor: name:
     let
       package = pkgs."${vendor}Packages".${name};
-      meta = package.meta;
+      inherit (package) meta;
       id = "${vendor}.${name}";
-      info = fontInfo.validatePackage "${vendor}Packages.${name}" package;
+      info = metadata.validatePackage "${vendor}Packages.${name}" package;
       redistributable =
         (meta.redistributable or false) == true;
     in
@@ -72,6 +73,8 @@ let
         vendor
         ;
 
+      inherit (package) pname;
+
       attribute = "${vendor}Packages.${name}";
       description = meta.description or "";
       embedding = info.embedding or redistributable;
@@ -83,7 +86,6 @@ let
 
       longDescription = meta.longDescription or "";
       notices = info.notices or [ ];
-      pname = package.pname;
 
       source = {
         path = "packages/${vendor}/${name}/package.nix";
@@ -92,33 +94,34 @@ let
       vendorName = vendors.${info.vendor};
       version = package.version or "";
     };
+
+  vendorEntries =
+    vendor:
+    let
+      directory = projectRoot + "/packages/${vendor}";
+      isFontPackage =
+        name:
+        pathExists (directory + "/${name}/package.nix")
+        && !(pkgs."${vendor}Packages".${name}.isFontAggregate
+          or false
+        );
+    in
+    pipe directory [
+      directories
+      (filter isFontPackage)
+      (map (packageEntry vendor))
+    ];
 in
 {
   inherit vendors;
 
-  licenseCostLabels = fontInfo.licenseCosts;
-  noticeLevelLabels = fontInfo.noticeLevels;
+  licenseCostLabels = metadata.licenseCosts;
+  noticeLevelLabels = metadata.noticeLevels;
 
-  packages = concatMap (
-    vendor:
-    map (packageEntry vendor) (
-      filter
-        (
-          name:
-          pathExists (
-            projectRoot
-            + "/packages/${vendor}/${name}/package.nix"
-          )
-          && !(pkgs."${vendor}Packages".${name}.isFontAggregate
-            or false
-          )
-        )
-        (
-          directories (projectRoot + "/packages/${vendor}")
-        )
-    )
-  ) (directories (projectRoot + /packages));
+  packages = concatMap vendorEntries (
+    directories (projectRoot + /packages)
+  );
 
   schema = 2;
-  styleLabels = fontInfo.styles;
+  styleLabels = metadata.styles;
 }

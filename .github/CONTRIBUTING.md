@@ -17,8 +17,8 @@
 4. 构建目标包，检查安装结果；扫描语言覆盖，再生成该包的网站预览。最后运行格式和元数据检查。
 5. 提交 PR，说明来源、许可依据、实际验证及未确认的部分。不要提交字体文件、扫描报告或生成的网站。
 
-已有字库会自动发现新包。新增字库还需接入 `overlays/default.nix`、`flake.nix`，并在 `lib/font-info.nix`
-中登记字库。聚合包由组合函数标记 `isFontAggregate`，不进入字体目录。
+已有字库会自动发现新包。新增字库还需接入 `overlays/default.nix`、`flake.nix`，并在
+`packages/font-metadata.nix` 中登记字库。聚合包由组合函数标记 `isFontAggregate`，不进入字体目录。
 
 ### 元数据
 
@@ -27,7 +27,7 @@
 表示是否允许再分发字体文件。免费下载或免费商用不足以确认再分发权限；无法确认时不要标为允许。
 
 网站信息只维护在 `passthru.chinese-fonts-overlay-site` 中。字段和合法取值由
-[lib/font-info.nix](../lib/font-info.nix) 定义：
+[packages/font-metadata.nix](../packages/font-metadata.nix) 定义：
 
 | 字段          | 要求                                                                               |
 | ------------- | ---------------------------------------------------------------------------------- |

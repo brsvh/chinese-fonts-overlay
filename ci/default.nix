@@ -112,7 +112,7 @@ if mode == "inventory" then
 else if mode == "languages" then
   let
     catalog =
-      import (projectRoot + /site/catalog.nix)
+      import (projectRoot + /packages/font-catalog.nix)
         {
           inherit projectRoot;
           pkgs = fontPkgs;

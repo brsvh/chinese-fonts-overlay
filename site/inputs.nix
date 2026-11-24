@@ -22,7 +22,7 @@ let
   );
 
   fullCatalog =
-    import (root + "/site/catalog.nix")
+    import (root + "/packages/font-catalog.nix")
       {
         inherit pkgs;
         projectRoot = /. + root;
