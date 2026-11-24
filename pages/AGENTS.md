@@ -201,6 +201,8 @@ pending deployments: remove the oldest before the next upload, retaining the
 newest complete version. Reuse matching objects on retry and reject differing
 replacements. Clean abandoned objects and abort stale multipart uploads. The 2
 GiB logical quota does not bound temporary physical usage during reclamation.
+The writer credential may set `maxVersions` to one when another bucket holds the
+other complete version. Count outstanding deployments in the total.
 
 The `deploy` workflow accepts verified Hercules `ci/hercules/onPush/buildPages`
 successes or manual retries for current main. Run trusted default-branch code;

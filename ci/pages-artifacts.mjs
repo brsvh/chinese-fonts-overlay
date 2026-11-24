@@ -51,15 +51,16 @@ export class PagesArtifactStore extends GarageBucket {
     this.call('delete-object', '--key', key);
   }
 
-  reserve(source, base) {
+  reserve(source, base, limit) {
     // The Hercules mount lock serializes every writer, including retries.
+    ensure(limit === 1 || limit === 2, 'Invalid Pages retention limit');
     const objects = this.objects();
     const complete = objects
       .filter((item) => item.Key.endsWith('/manifest.json'))
       .sort((a, b) => b.LastModified.localeCompare(a.LastModified));
     const keep = complete
       .filter((item) => !item.Key.startsWith(source + '/'))
-      .slice(0, 1)
+      .slice(0, limit - 1)
       .map((item) => item.Key.split('/')[0]);
 
     // Remove completion markers first; a failed deletion never invites upload.

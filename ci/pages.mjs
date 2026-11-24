@@ -131,14 +131,15 @@ export async function buildPages(source) {
       fs.rmSync(verified, { recursive: true, force: true });
     }
 
-    store.reserve(source, base);
+    const limit = secrets.pagesArtifacts.data.maxVersions ?? 2;
+    store.reserve(source, base, limit);
     await store.upload(source + '/' + base + '.tar.gz', archive);
 
     // This atomic marker is written only after the validated archive arrives.
     await store.upload(source + '/manifest.json', file);
     ensure(
       store.objects().filter((item) => item.Key.endsWith('/manifest.json'))
-        .length <= 2,
+        .length <= limit,
       'Site retention limit exceeded',
     );
   } finally {
