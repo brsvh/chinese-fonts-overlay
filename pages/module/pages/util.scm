@@ -18,10 +18,12 @@
             delete-tree
             files-under
             file-digest
+            fingerprint
             text-digest
             run
             capture
             temporary-directory
+            replace-directory!
             atomic-write))
 
 (define* (jref object key #:optional (fallback #f))
@@ -125,6 +127,29 @@
   (mkdir-p parent)
   (mkdtemp (string-append parent "/.font-site-XXXXXX")))
 
+(define (replace-directory! output populate!)
+  "Populate a new directory and install it at OUTPUT, retaining a recoverable
+backup if restoring the previous directory fails."
+  (let* ((temporary (temporary-directory (dirname output)))
+         (staging (string-append temporary "/new"))
+         (backup (string-append temporary "/previous"))
+         (installed? #f))
+    (dynamic-wind
+      (lambda () #t)
+      (lambda ()
+        (mkdir staging)
+        (populate! staging)
+        (when (file-exists? output) (rename-file output backup))
+        (catch 'system-error
+          (lambda () (rename-file staging output) (set! installed? #t))
+          (lambda args
+            (when (file-exists? backup) (rename-file backup output))
+            (apply throw args))))
+      (lambda ()
+        (if (and (not installed?) (file-exists? backup))
+            (format (current-error-port) "Previous output retained at ~a~%" backup)
+            (delete-tree temporary))))))
+
 (define (atomic-write file writer)
   "Replace FILE on success, preserving its permissions when it already exists."
   (mkdir-p (dirname file))
@@ -140,3 +165,10 @@
         (rename-file temporary file))
       (lambda () (when (file-exists? temporary)
                    (delete-file temporary))))))
+
+(define (fingerprint files values)
+  "Hash the named FILES in stable order alongside the ordered configuration VALUES."
+  (text-digest
+   (object->string
+    (cons values (map (lambda (file) (cons file (file-digest file)))
+                      (sort files string<?))))))

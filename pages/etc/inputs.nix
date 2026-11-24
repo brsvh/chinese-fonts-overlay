@@ -1,9 +1,11 @@
 let
   inherit (pkgs.lib)
+    concatStringsSep
     elem
     filter
     getAttrFromPath
     listToAttrs
+    nameValuePair
     splitString
     unique
     ;
@@ -12,6 +14,7 @@ let
   flake = builtins.getFlake (
     builtins.getEnv "FONT_SITE_SOURCE_FLAKE"
   );
+
   pkgs = import flake.inputs.nixpkgs {
     config = {
       allowUnfree = true;
@@ -38,12 +41,14 @@ let
   attributes = map (
     entry: entry.attribute
   ) fullCatalog.packages;
+
   unknown = filter (
     attribute: !(elem attribute attributes)
   ) selection;
+
   catalog =
     if unknown != [ ] then
-      throw "Unknown font package attributes: ${builtins.concatStringsSep ", " unknown}"
+      throw "Unknown font package attributes: ${concatStringsSep ", " unknown}"
     else
       fullCatalog
       // {
@@ -53,25 +58,22 @@ let
         ) fullCatalog.packages;
       };
 
-  previews = listToAttrs (
-    map (
-      entry:
-      let
-        package = getAttrFromPath (splitString "." entry.attribute) pkgs;
-      in
-      {
-        name = entry.id;
+  fontInput =
+    entry:
+    let
+      package = getAttrFromPath (splitString "." entry.attribute) pkgs;
+    in
+    nameValuePair entry.id {
+      # Font files are inputs to the local image renderer only.
+      renderPath = toString package;
+    };
 
-        value = {
-          # Font files are inputs to the local image renderer only.
-          renderPath = toString package;
-        };
-      }
-    ) catalog.packages
+  fontInputs = listToAttrs (
+    map fontInput catalog.packages
   );
 in
 pkgs.writeText "font-site-inputs.json" (
   builtins.toJSON {
-    inherit catalog previews;
+    inherit catalog fontInputs;
   }
 )

@@ -4,6 +4,7 @@ let
     builtins.getEnv "FONT_MANUAL_SOURCE_FLAKE"
   );
   system = builtins.getEnv "FONT_MANUAL_SYSTEM";
+
   pkgs = import flake.inputs.nixpkgs {
     inherit system;
     config = {
@@ -11,33 +12,55 @@ let
     };
     overlays = [ (import (root + "/default.nix")) ];
   };
+
   inherit (pkgs.lib)
     attrNames
     concatMap
     filter
+    getAttrFromPath
+    groupBy
+    head
     isAttrs
+    length
     map
     optional
+    pipe
+    splitString
     toList
     unique
     ;
+
   catalog =
     import (root + "/packages/font-catalog.nix")
       {
         inherit pkgs;
         projectRoot = /. + root;
       };
+
+  derivationKey =
+    package:
+    builtins.unsafeDiscardStringContext package.drvPath;
+
+  entriesByDerivation = groupBy (
+    entry:
+    let
+      package = getAttrFromPath (splitString "." entry.attribute) pkgs;
+    in
+    derivationKey package
+  ) catalog.packages;
+
   memberEntry =
     package:
     let
-      entries = filter (
-        item: item.pname == package.pname
-      ) catalog.packages;
+      entries =
+        entriesByDerivation.${derivationKey package}
+        or [ ];
     in
-    if builtins.length entries != 1 then
+    if length entries != 1 then
       throw "Manual aggregate member must have one catalog entry: ${package.pname}"
     else
-      builtins.head entries;
+      head entries;
+
   aggregateEntry =
     attribute:
     let
@@ -51,7 +74,9 @@ let
       inherit attribute;
       composed = package ? fontMembers;
       description = package.meta.description or "";
+      members = map (entry: entry.attribute) members;
       notices = info.notices or [ ];
+
       upstreamUrls = unique (
         toList (package.meta.homepage or [ ])
         ++ concatMap (
@@ -61,7 +86,7 @@ let
           ) license.url
         ) (toList (package.meta.license or [ ]))
       );
-      members = map (entry: entry.attribute) members;
+
       vendors =
         if package ? fontMembers then
           unique (map (entry: entry.vendor) members)
@@ -71,10 +96,12 @@ let
 in
 catalog
 // {
-  aggregates = map aggregateEntry (
-    filter (
+  aggregates = pipe flake.packages.${system} [
+    attrNames
+    (filter (
       attribute:
       pkgs.${attribute}.isFontAggregate or false
-    ) (attrNames flake.packages.${system})
-  );
+    ))
+    (map aggregateEntry)
+  ];
 }
