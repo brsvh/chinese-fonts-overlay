@@ -28,7 +28,6 @@
 let
   inherit (builtins)
     fetchTree
-    getFlake
     ;
 
   inherit (lib)
@@ -48,6 +47,7 @@ let
     mkOption
     mkOptionDefault
     mkOptionType
+    optionalAttrs
     optionalString
     readFile
     removeAttrs
@@ -174,60 +174,6 @@ let
       `private.modules.flake.${attrName}` is not defined.
     '';
 
-  lockedInputRef =
-    locked:
-    if locked.type == "git" then
-      "git+${locked.url}?rev=${locked.rev}"
-      + optionalString (
-        locked ? ref
-      ) "&ref=${locked.ref}"
-      + optionalString (
-        locked ? dir
-      ) "&dir=${locked.dir}"
-    else if locked.type == "github" then
-      "github:${locked.owner}/${locked.repo}/${locked.rev}"
-      + optionalString (
-        locked ? dir
-      ) "?dir=${locked.dir}"
-    else
-      throw ''
-        private.directory contains an unsupported locked input type
-        `${locked.type}`.
-      '';
-
-  lockedInputMatches =
-    input: locked:
-    let
-      inputOutPath = input.outPath or null;
-
-      inputRootPath =
-        input.sourceInfo.outPath or inputOutPath;
-
-      inputDirMatches =
-        if
-          inputOutPath == null || inputRootPath == null
-        then
-          !(locked ? dir)
-        else if locked ? dir then
-          toString inputOutPath
-          == "${toString inputRootPath}/${locked.dir}"
-        else
-          toString inputOutPath == toString inputRootPath;
-    in
-    inputDirMatches
-    && (
-      (
-        locked ? rev
-        && input ? rev
-        && input.rev == locked.rev
-      )
-      || (
-        locked ? narHash
-        && input ? narHash
-        && input.narHash == locked.narHash
-      )
-    );
-
   lockInputNodeName =
     lock: input:
     if isList input then
@@ -251,35 +197,63 @@ let
       );
 
   privateInputs =
-    inputs: directory:
+    directory:
     let
       lock = fromJSON (
         readFile (directory + /flake.lock)
       );
 
-      rootInputs =
-        lock.nodes.${lock.root}.inputs or { };
-
-      inputFromLock =
-        inputName: input:
+      # Evaluate every edge from this lock, including nested follows.
+      nodes = mapAttrs (
+        nodeName: node:
         let
-          nodeName = lockInputNodeName lock input;
+          sourceInfo =
+            if nodeName == lock.root then
+              { outPath = directory; }
+            else
+              fetchTree (
+                # Match flake Git fetching unless the lock requests shallow history.
+                optionalAttrs (node.locked.type == "git") {
+                  shallow = false;
+                }
+                // removeAttrs node.locked [ "dir" ]
+              );
 
-          node = lock.nodes.${nodeName};
+          subdirectory = node.locked.dir or "";
+          outPath =
+            sourceInfo.outPath
+            + optionalString (
+              subdirectory != ""
+            ) "/${subdirectory}";
 
-          publicInput = inputs.${inputName} or null;
+          flake = import (outPath + "/flake.nix");
+
+          inputs = mapAttrs (
+            _: input: nodes.${lockInputNodeName lock input}
+          ) (node.inputs or { });
+
+          outputs = flake.outputs (
+            inputs // { self = result; }
+          );
+
+          result =
+            outputs
+            // sourceInfo
+            // {
+              inherit
+                inputs
+                outPath
+                outputs
+                sourceInfo
+                ;
+
+              _type = "flake";
+            };
         in
-        if
-          publicInput != null
-          && lockedInputMatches publicInput node.locked
-        then
-          publicInput
-        else if !(node.flake or true) then
-          fetchTree node.locked
-        else
-          getFlake (lockedInputRef node.locked);
+        if node.flake or true then result else sourceInfo
+      ) lock.nodes;
     in
-    mapAttrs inputFromLock rootInputs;
+    nodes.${lock.root}.inputs;
 
   flakeOutputModule =
     {
@@ -516,7 +490,7 @@ let
                     if config.directory == null then
                       { }
                     else
-                      privateInputs inputs config.directory;
+                      privateInputs config.directory;
 
                   inputs' =
                     inputs
