@@ -25,9 +25,7 @@ writeShellApplication {
 
   text = ''
     exec ${getExe guile} --no-auto-compile \
-      -L '${./module}' \
       -L '${guile-json}/share/guile/site/3.0' \
-      -c '(use-modules (chinese-fonts-overlay-update-font-languages command))
-          (exit (main (cdr (command-line))))' "$@"
+      -e main -s '${./main.scm}' "$@"
   '';
 }

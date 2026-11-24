@@ -1,13 +1,106 @@
-(define-module (chinese-fonts-overlay-update-font-languages coverage)
-  #:use-module (chinese-fonts-overlay-update-font-languages util)
-  #:use-module (ice-9 getopt-long)
-  #:use-module (ice-9 regex)
-  #:use-module (ice-9 match)
-  #:use-module (json)
-  #:use-module (ice-9 format)
-  #:use-module (srfi srfi-1)
-  #:use-module (web uri)
-  #:export (scan-fonts replace-languages resolve-packages update-font-languages))
+(use-modules (ice-9 format)
+             (ice-9 ftw)
+             (ice-9 getopt-long)
+             (ice-9 match)
+             (ice-9 popen)
+             (ice-9 regex)
+             (ice-9 textual-ports)
+             (json)
+             (srfi srfi-1)
+             (web uri))
+
+(define* (jref object key #:optional (fallback #f))
+  "Read KEY from a JSON object alist, or return FALLBACK."
+  (let ((entry (assoc key object)))
+    (if entry (cdr entry) fallback)))
+
+(define (jarray value)
+  "Return a list view of a JSON array."
+  (if (vector? value) (vector->list value) value))
+
+(define (write-json file value)
+  "Write VALUE as UTF-8 JSON followed by a newline."
+  (write-text file (string-append (scm->json-string value) "\n")))
+
+(define (read-text file)
+  "Read FILE as UTF-8 text."
+  (call-with-input-file
+      file
+    (lambda (port) (set-port-encoding! port "UTF-8") (get-string-all port))))
+
+(define (write-text file text)
+  "Replace FILE with UTF-8 TEXT."
+  (call-with-output-file
+      file
+    (lambda (port) (set-port-encoding! port "UTF-8") (display text port))))
+
+(define (mkdir-p path)
+  "Create PATH and any missing parent directories."
+  (unless (file-exists? path)
+    (let ((parent (dirname path)))
+      (unless (equal? parent path)
+        (mkdir-p parent)))
+    (mkdir path)))
+
+(define (delete-tree path)
+  "Remove the owned tree at PATH without following directory symlinks."
+  (when (or (file-exists? path)
+            (false-if-exception (eq? 'symlink (stat:type (lstat path)))))
+    (if (eq? 'directory (stat:type (lstat path)))
+        (begin
+          (for-each
+           (lambda (name) (delete-tree (string-append path "/" name)))
+           (scandir path (lambda (name) (not (member name '("." ".."))))))
+          (rmdir path))
+        (delete-file path))))
+
+(define (files-under path)
+  "List files recursively, following font-directory symlinks."
+  (if (not (file-exists? path))
+      '()
+      (append-map
+       (lambda (name)
+         (let ((file (string-append path "/" name)))
+           (if (eq? 'directory (stat:type (stat file)))
+               (files-under file)
+               (list file))))
+       (scandir path (lambda (name) (not (member name '("." ".."))))))))
+
+(define (run . args)
+  "Execute the argument vector ARGS and fail on a nonzero exit status."
+  (let ((status (apply system* args)))
+    (unless (zero? status)
+      (error "Command failed" args status))))
+
+(define (capture . args)
+  "Capture UTF-8 stdout from ARGS; propagate a nonzero exit status."
+  (let* ((port (apply open-pipe* OPEN_READ args))
+         (text (begin (set-port-encoding! port "UTF-8") (get-string-all port)))
+         (status (close-pipe port)))
+    (unless (zero? status)
+      (error "Command failed" args status))
+    text))
+
+(define (temporary-directory parent)
+  "Create and return a private temporary directory under PARENT."
+  (mkdir-p parent)
+  (mkdtemp (string-append parent "/.font-languages-XXXXXX")))
+
+(define (atomic-write file writer)
+  "Replace FILE on success, preserving its permissions when it already exists."
+  (mkdir-p (dirname file))
+  (let* ((mode (and (file-exists? file) (stat:perms (stat file))))
+         (port (mkstemp (string-append file ".XXXXXX")))
+         (temporary (port-filename port)))
+    (close-port port)
+    (dynamic-wind
+        (lambda () #t)
+        (lambda ()
+          (writer temporary)
+          (when mode (chmod temporary mode))
+          (rename-file temporary file))
+        (lambda () (when (file-exists? temporary)
+                     (delete-file temporary))))))
 
 (define (font-file? path)
   "Recognize supported original font file suffixes without case sensitivity."
@@ -304,18 +397,9 @@ in "
          selectors))
    string<?))
 
-(define (update-font-languages root arguments)
-  "Scan selected packages and optionally check or replace their language lists."
-  (let* ((options
-          (getopt-long
-           (cons "update-font-languages" arguments)
-           '((package (value #t))
-             (all (value #f))
-             (write (value #f))
-             (check (value #f))
-             (output (value #t))
-             (source-root (value #t)))))
-         (selected (append (option-ref options '() '())
+(define (update-font-languages options)
+  "Scan packages selected by OPTIONS and optionally check or update coverage."
+  (let* ((selected (append (option-ref options '() '())
                            (filter-map
                             (lambda (entry)
                               (and (eq? (car entry) 'package) (cdr entry)))
@@ -324,7 +408,7 @@ in "
          (write? (option-ref options 'write #f))
          (check? (option-ref options 'check #f))
          (source-root
-          (canonicalize-path (option-ref options 'source-root root))))
+          (canonicalize-path (or (option-ref options 'source-root #f) (checkout)))))
     (when (or (and all? (pair? selected)) (and (not all?) (null? selected)))
       (error "Specify package attributes, package.nix paths, or --all"))
     (when (and write? check?)
@@ -357,3 +441,43 @@ in "
                     (map (lambda (package) (jref package "id")) changed))
             1)
           0))))
+
+(define (checkout)
+  "Locate the repository above the current directory."
+  (let loop ((directory (getcwd)))
+    (cond ((file-exists? (string-append directory "/.git")) directory)
+          ((string=? directory (dirname directory))
+           (error "Use --source-root to select the font repository"))
+          (else (loop (dirname directory))))))
+
+(define (scan-command arguments)
+  "Parse ARGUMENTS once and return the scanner's exit status."
+  (catch #t
+    (lambda ()
+      (let ((options
+             (getopt-long (cons "update-font-languages" arguments)
+                         '((help) (package (value #t)) (all) (write) (check)
+                           (output (value #t)) (source-root (value #t))))))
+        (if (or (null? arguments) (option-ref options 'help #f))
+            (begin
+              (display "Usage: chinese-fonts-overlay-update-font-languages [OPTIONS] PACKAGE...
+
+PACKAGE is a full attribute (naverPackages.maru-buri) or a package.nix path.
+  --package PACKAGE   Select another package (repeatable).
+  --all               Select every package in the repository.
+  --check             Fail if recorded language coverage is stale.
+  --write             Update language lists after all scans succeed.
+  --output FILE       Write the coverage report to FILE instead of stdout.
+  --source-root DIR   Select the repository explicitly.
+  --help              Show this help.
+
+Without --check or --write, only report detected coverage.
+")
+              0)
+            (update-font-languages options))))
+    (lambda (key . arguments)
+      (print-exception (current-error-port) #f key arguments)
+      1)))
+
+(define (main argv)
+  (exit (scan-command (cdr argv))))
