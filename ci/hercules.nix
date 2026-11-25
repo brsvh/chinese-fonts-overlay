@@ -55,8 +55,8 @@ let
   ) packages;
 
   cache = {
-    publicKey = "cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=";
-    url = "https://cache.bingshan.org";
+    publicKey = "cache.brsvh.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=";
+    url = "https://cache.brsvh.org";
   };
 
   makeEffect =

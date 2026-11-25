@@ -39,8 +39,8 @@ jobs:
             allow-import-from-derivation = false
             builders =
             experimental-features = nix-command flakes ca-derivations
-            extra-substituters = https://cache.bingshan.org
-            extra-trusted-public-keys = cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
+            extra-substituters = https://cache.brsvh.org
+            extra-trusted-public-keys = cache.brsvh.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
       - id: plan
         name: Compare derivations and reuse verified successes
         env:
@@ -81,8 +81,8 @@ jobs:
             allow-import-from-derivation = false
             builders =
             experimental-features = nix-command flakes ca-derivations
-            extra-substituters = https://cache.bingshan.org
-            extra-trusted-public-keys = cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
+            extra-substituters = https://cache.brsvh.org
+            extra-trusted-public-keys = cache.brsvh.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
       - name: Restore audited binary cache; save only redistributable shards
         uses: nix-community/cache-nix-action@v7
         with:
@@ -125,8 +125,8 @@ jobs:
             allow-import-from-derivation = false
             builders =
             experimental-features = nix-command flakes ca-derivations
-            extra-substituters = https://cache.bingshan.org
-            extra-trusted-public-keys = cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
+            extra-substituters = https://cache.brsvh.org
+            extra-trusted-public-keys = cache.brsvh.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
       - name: Check affected language coverage
         run: nix run --no-update-lock-file --no-write-lock-file .#ci -- pr-check-languages
 

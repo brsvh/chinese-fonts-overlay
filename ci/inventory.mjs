@@ -44,7 +44,7 @@ export function evaluate(root, mode, selection = [], build = false) {
 
   if (process.env.FONT_CI_CACHE_PATH) {
     const cache = path.resolve(process.env.FONT_CI_CACHE_PATH);
-    const substituters = ['https://cache.bingshan.org'];
+    const substituters = ['https://cache.brsvh.org'];
 
     // Opening a missing file cache lets the daemon create root-owned paths
     // that the runner cannot remove when exporting the audited closure.

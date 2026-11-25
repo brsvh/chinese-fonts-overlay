@@ -60,9 +60,9 @@ NixOS 用户可在系统配置中加入：
 
 #+begin_src nix
 nix.settings = {
-  extra-substituters = [ "https://cache.bingshan.org" ];
+  extra-substituters = [ "https://cache.brsvh.org" ];
   extra-trusted-public-keys = [
-    "cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk="
+    "cache.brsvh.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk="
   ];
 };
 #+end_src

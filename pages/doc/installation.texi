@@ -116,7 +116,7 @@ NIXPKGS_ALLOW_UNFREE=1 nix build --impure --expr \
 @cindex 二进制缓存
 @cindex substituter
 
-  项目通过 @url{https://cache.bingshan.org} 提供部分字体包的二进制缓存。
+  项目通过 @url{https://cache.brsvh.org} 提供部分字体包的二进制缓存。
 如果缓存中存在与你当前配置一致的构建产物， Nix 会直接下载，无需在本地重复
 构建。中国大陆地区访问该缓存服务的速度可能较慢。
 
@@ -124,9 +124,9 @@ NIXPKGS_ALLOW_UNFREE=1 nix build --impure --expr \
 
 @example
 nix.settings = @{
-  extra-substituters = [ "https://cache.bingshan.org" ];
+  extra-substituters = [ "https://cache.brsvh.org" ];
   extra-trusted-public-keys = [
-    "cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk="
+    "cache.brsvh.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk="
   ];
 @};
 @end example
@@ -138,8 +138,8 @@ nix.settings = @{
 @file{/etc/nix/nix.conf} 中添加：
 
 @example
-extra-substituters = https://cache.bingshan.org
-extra-trusted-public-keys = cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
+extra-substituters = https://cache.brsvh.org
+extra-trusted-public-keys = cache.brsvh.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
 @end example
 
   使用多用户 Nix daemon 时，修改后需要重启 @code{nix-daemon} 服务；
