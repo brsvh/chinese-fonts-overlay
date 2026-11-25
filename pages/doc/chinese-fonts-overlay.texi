@@ -2,6 +2,7 @@
 @setfilename chinese-fonts-overlay.info
 @settitle Chinese Fonts Overlay 使用手册
 @set project-url https://github.com/brsvh/chinese-fonts-overlay
+@set site-url https://brsvh.github.io/chinese-fonts-overlay/
 @documentlanguage zh_CN
 @documentencoding UTF-8
 @paragraphindent 0
@@ -29,14 +30,16 @@
 @node Top
 @top Chinese Fonts Overlay 使用手册
 
-  Chinese Fonts Overlay 将不同发行方的字体打包为 Nix 包。
-你可以安装一款字体、选择同一字库的几款字体，或安装整个合集。
-本手册先介绍安装与日常使用，再按字库列出所有字体包。
+  Chinese Fonts Overlay 将多家发行方的中文字体打包为 Nix 包，
+同时也收录部分日文与韩文字体。你可以只安装单款字体、按需挑选同一
+字库的几款字体，或直接安装整个字库合集。本手册先介绍安装、选字与
+常见问题排查，再按字库列出全部字体包。
 
-  第一次使用时，请从 @ref{Installation, 安装} 开始。
-查找某款字体时，可以浏览 @ref{Fonts, 字体包参考} ，
-或使用 @ref{Package-Index, 包属性索引} 。
-网页中的字体预览展示固定样文；安装后可以在自己的应用中使用这些字体。
+  第一次使用时，请从 @ref{Installation, 安装} 开始。想先查看字形与
+字重效果，可以访问 @url{@value{site-url}, 字体预览网站} ；需要按字库
+或安装属性检索时，可以浏览 @ref{Fonts, 字体包参考} 或查阅
+@ref{Package-Index, 包属性索引} 。网站预览展示固定样文，将字体安装到
+系统或用户环境后，即可在自己的应用中使用。
 
 @insertcopying
 
