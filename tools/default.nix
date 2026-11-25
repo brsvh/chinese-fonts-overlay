@@ -26,15 +26,18 @@ in
         toJSON
         ;
 
-      languageFontconfig =
-        (import packageNixpkgs { inherit system; })
-        .fontconfig;
+      languagePkgs = import packageNixpkgs {
+        inherit system;
+      };
+
+      languageFontconfig = languagePkgs.fontconfig;
 
       updateFontLanguages =
         pkgs.callPackage
           ./update-font-languages/package.nix
           {
             fontconfig = languageFontconfig;
+            freetype = languagePkgs.freetype;
           };
 
       overlayConfig = {
