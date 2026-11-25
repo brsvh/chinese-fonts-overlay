@@ -4,6 +4,11 @@ title: "[其他] "
 labels:
   - needs-triage
 body:
+  - type: markdown
+    attributes:
+      value: |
+        如果是安装、配置或使用问题，可以先查阅[在线使用手册](https://brsvh.github.io/chinese-fonts-overlay/manual/)；查看或核对字体条目请访问[字体预览网站](https://brsvh.github.io/chinese-fonts-overlay/)。
+
   - type: textarea
     id: issue
     attributes:
