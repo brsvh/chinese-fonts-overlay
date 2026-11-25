@@ -211,6 +211,16 @@ Hercules 使用 =chinese-fonts-overlay-pages-webfont-input-read= 读取字体，
 仓库变量 =CHINESE_FONTS_OVERLAY_PAGES_DISPATCH_BOT_ID= 。
 Hercules 在通知前签发短期令牌。
 
+验收自动部署时，核对 =buildPages= 和 =deploy= 对应的完整提交号。
+在 Actions 中确认事件为 =repository_dispatch= ，发起者为
+=brsvh-chinese-fonts-overlay-pages[bot]= ，且发布到 Pages 的步骤已成功。
+随后读取公开目录，将输出的提交号与本次部署的提交号比较。
+
+#+begin_src sh
+site=https://brsvh.github.io/chinese-fonts-overlay
+curl -fsS "$site/catalog.json" | jq -er .sourceRevision
+#+end_src
+
 构建或通知失败时重试 =buildPages= 。重试会核实现有归档和自动部署记录，
 复用完整归档并补发缺失的通知。下载或发布失败时重试 =deploy= 。
 手动运行 =deploy= 仅发布当前 main 对应的完整归档，准备失败时保留现有网站。
