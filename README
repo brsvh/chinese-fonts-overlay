@@ -9,10 +9,10 @@ Chinese Fonts Overlay 将多家发行方的中文字体打包为 Nix 包，同�
 也可以直接引入整个字库合集。
 
 准备安装字体时，可以先打开
-[[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]]，按语言、
+[[https://brsvh.org/chinese-fonts-overlay/][字体预览网站]]，按语言、
 风格和许可筛选字体，查看各字重的实际样文并复制完整包属性。关于 NixOS 、
 Home Manager 配置、字库合集、许可说明以及常见问题排查，请阅读
-[[https://brsvh.github.io/chinese-fonts-overlay/manual/][在线使用手册]]
+[[https://brsvh.org/chinese-fonts-overlay/manual/][在线使用手册]]
 （页面侧栏同时提供 Info 格式下载）。
 
 如果你打算为仓库新增字体、修复打包问题，或参与网站与手册开发，请查阅
@@ -45,13 +45,13 @@ chinese-fonts-overlay = {
 }
 #+end_src
 
-在 [[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]] 查找
+在 [[https://brsvh.org/chinese-fonts-overlay/][字体预览网站]] 查找
 所需字体，将示例中的 =justfontPackages.huninn= 替换为对应包属性即可安装；
 也可以直接选用 =lxgw-fonts= 这样的字库合集。构建非自由字体时，需要在
 Nixpkgs 配置中允许对应的非自由包。
 
 Home Manager 配置、字库组合函数和更多安装细节，见
-[[https://brsvh.github.io/chinese-fonts-overlay/manual/][在线使用手册]]。
+[[https://brsvh.org/chinese-fonts-overlay/manual/][在线使用手册]]。
 
 ** 二进制缓存
 
@@ -95,6 +95,6 @@ nix.settings = {
 本仓库代码与使用手册采用 [[file:COPYING][CC0 1.0]] ，各款字体各自遵循
 上游许可证。能够下载、构建或免费使用某款字体，并不代表允许再分发或嵌入
 字体文件；使用前请在
-[[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]] 或
-[[https://brsvh.github.io/chinese-fonts-overlay/manual/][在线使用手册]]
+[[https://brsvh.org/chinese-fonts-overlay/][字体预览网站]] 或
+[[https://brsvh.org/chinese-fonts-overlay/manual/][在线使用手册]]
 核对对应条目的许可与限制。

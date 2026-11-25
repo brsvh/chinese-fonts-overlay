@@ -5,8 +5,8 @@
 * 字体预览网站与使用手册
 
 本目录存放
-[[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]] 与
-[[https://brsvh.github.io/chinese-fonts-overlay/manual/][在线使用手册]]
+[[https://brsvh.org/chinese-fonts-overlay/][字体预览网站]] 与
+[[https://brsvh.org/chinese-fonts-overlay/manual/][在线使用手册]]
 的源码与构建脚本。网站用于集中展示各款字体的字重、款式、完整包属性及
 许可信息，手册则面向最终用户提供安装、配置与全量字体包参考。
 

@@ -1,10 +1,10 @@
 # 贡献指南
 
-欢迎为本项目补充新字体、更新已有字体包、修复打包问题，或改进使用手册与预览网站。如果你只是打算安装和使用字体，请先浏览[字体预览网站](https://brsvh.github.io/chinese-fonts-overlay/)并查阅[在线使用手册](https://brsvh.github.io/chinese-fonts-overlay/manual/)。
+欢迎为本项目补充新字体、更新已有字体包、修复打包问题，或改进使用手册与预览网站。如果你只是打算安装和使用字体，请先浏览[字体预览网站](https://brsvh.org/chinese-fonts-overlay/)并查阅[在线使用手册](https://brsvh.org/chinese-fonts-overlay/manual/)。
 
 ## 报告问题与提交字体请求
 
-提交反馈前，建议先在[字体预览网站](https://brsvh.github.io/chinese-fonts-overlay/)确认目标字体是否已经收录，并在[在线使用手册](https://brsvh.github.io/chinese-fonts-overlay/manual/)查看是否已有对应的配置或排查说明。
+提交反馈前，建议先在[字体预览网站](https://brsvh.org/chinese-fonts-overlay/)确认目标字体是否已经收录，并在[在线使用手册](https://brsvh.org/chinese-fonts-overlay/manual/)查看是否已有对应的配置或排查说明。
 
 请通过仓库的[问题模板](https://github.com/brsvh/chinese-fonts-overlay/issues/new/choose)提交反馈：
 
@@ -20,7 +20,7 @@
 - `packages/`：按字库存放字体包定义，以及共享的元数据校验与目录提取规则（[packages/font-metadata.nix](../packages/font-metadata.nix)）。
 - `overlays/`：默认 overlay 与各字库合集的定义。
 - `lib/`：供 overlay 与 flake 使用的辅助函数及自定义许可证定义。
-- `pages/`：[字体预览网站](https://brsvh.github.io/chinese-fonts-overlay/)与使用手册源码，手册章节位于
+- `pages/`：[字体预览网站](https://brsvh.org/chinese-fonts-overlay/)与使用手册源码，手册章节位于
   `pages/doc/`，本地开发说明见[网站与手册开发说明](../pages/README)。
 - `tools/`：语言覆盖扫描工具、开发环境与代码格式化配置。
 
@@ -84,7 +84,7 @@
   表示需付费购买。归入某一免费级别并不承诺所有使用场景都免费——例如个人屏显免费但印刷收费，仍可标为
   `gratisPersonalUse`，并把适用范围和另行收费的场景写进 `notices`。
 - **嵌入式使用**：`embedding`
-  对应[字体预览网站](https://brsvh.github.io/chinese-fonts-overlay/)中的“嵌入式使用”筛选条件，指上游明确允许将字体文件附带在软件、网页或硬件设备中分发。将文字栅格化为图片、仅在
+  对应[字体预览网站](https://brsvh.org/chinese-fonts-overlay/)中的“嵌入式使用”筛选条件，指上游明确允许将字体文件附带在软件、网页或硬件设备中分发。将文字栅格化为图片、仅在
   PDF 等文档中嵌入子集，或允许免费商业设计，都不足以证明具备该权限。当默认规则（沿用 `meta.redistributable`，缺失时为
   `false`）已经符合上游条款时，直接省略该字段；需要显式覆盖或存在附加条件时，请把依据和原文链接一并写入 `notices`。
 - **注意事项**：`notices.level` 支持 `note`、`tip`、`important`、`warning` 和

@@ -2,7 +2,7 @@
 @setfilename chinese-fonts-overlay.info
 @settitle Chinese Fonts Overlay 使用手册
 @set project-url https://github.com/brsvh/chinese-fonts-overlay
-@set site-url https://brsvh.github.io/chinese-fonts-overlay/
+@set site-url https://brsvh.org/chinese-fonts-overlay/
 @documentlanguage zh_CN
 @documentencoding UTF-8
 @paragraphindent 0

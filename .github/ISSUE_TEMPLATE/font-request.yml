@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        提交请求前，请先在[字体预览网站](https://brsvh.github.io/chinese-fonts-overlay/)确认目标字体是否已经收录。
+        提交请求前，请先在[字体预览网站](https://brsvh.org/chinese-fonts-overlay/)确认目标字体是否已经收录。
 
   - type: input
     id: font-name

@@ -98,7 +98,7 @@
       (format #t "@ifhtml\n~a\n@end ifhtml\n@ifnothtml\n~a\n@end ifnothtml\n\n"
               (link (string-append "../" query) "查看字体预览")
               (link (string-append
-                     "https://brsvh.github.io/chinese-fonts-overlay/" query)
+                     "https://brsvh.org/chinese-fonts-overlay/" query)
                     "查看字体预览")))))
 
 (define (write-notices notices catalog)
