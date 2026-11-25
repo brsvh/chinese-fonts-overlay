@@ -4,19 +4,24 @@
 
 * Chinese Fonts Overlay
 
-Chinese Fonts Overlay 提供中文字体的 Nix 包，也收录日文、韩文等字体。
-通过 overlay ，可以安装单款字体或整个字库。
+Chinese Fonts Overlay 将多家发行方的中文字体打包为 Nix 包，同时也收录
+部分日文与韩文字体。启用仓库提供的 overlay 后，你可以按需安装单款字体，
+也可以直接引入整个字库合集。
 
-在 [[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]]
-查看字体效果、包名和许可信息，按语言、字库或风格查找字体。
-包定义位于 [[file:packages/][packages/]] 。
+准备安装字体时，可以先打开
+[[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]]，按语言、
+风格和许可筛选字体，查看各字重的实际样文并复制完整包属性。关于 NixOS 、
+Home Manager 配置、字库合集、许可说明以及常见问题排查，请阅读
+[[https://brsvh.github.io/chinese-fonts-overlay/manual/][在线使用手册]]
+（页面侧栏同时提供 Info 格式下载）。
 
-安装、使用与各字库的包参考见 [[file:pages/doc/][使用手册源码]]；
-本地阅读与构建方法见 [[file:pages/README][手册构建说明]]。
+如果你打算为仓库新增字体、修复打包问题，或参与网站与手册开发，请查阅
+[[file:.github/CONTRIBUTING.md][贡献指南]]；网站与手册的本地开发见
+[[file:pages/README][网站与手册开发说明]]。
 
-** 安装
+** 快速开始
 
-在现有 flake 的 =inputs= 中添加：
+在现有 flake 的 =inputs= 中加入本仓库：
 
 #+begin_src nix
 chinese-fonts-overlay = {
@@ -24,8 +29,8 @@ chinese-fonts-overlay = {
 };
 #+end_src
 
-将 overlay 加入 NixOS 配置，再选择字体。例如，通过 =specialArgs=
-将 =inputs= 传给模块后：
+通过 =specialArgs= 将 =inputs= 传入 NixOS 模块后，启用默认 overlay 并选择
+需要的字体：
 
 #+begin_src nix
 { inputs, pkgs, ... }:
@@ -40,15 +45,18 @@ chinese-fonts-overlay = {
 }
 #+end_src
 
-将 =justfontPackages.huninn= 换成所需字体，也可以选用 =lxgw-fonts=
-这样的字库合集。构建非自由字体时，需要允许对应的非自由包。
+在 [[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]] 查找
+所需字体，将示例中的 =justfontPackages.huninn= 替换为对应包属性即可安装；
+也可以直接选用 =lxgw-fonts= 这样的字库合集。构建非自由字体时，需要在
+Nixpkgs 配置中允许对应的非自由包。
 
-使用独立的 Home Manager 时，为其 =pkgs= 启用相同的 overlay ，
-通过 =home.packages= 安装字体，并设置 =fonts.fontconfig.enable = true;= 。
+Home Manager 配置、字库组合函数和更多安装细节，见
+[[https://brsvh.github.io/chinese-fonts-overlay/manual/][在线使用手册]]。
 
 ** 二进制缓存
 
-缓存提供允许再分发的部分字体。 NixOS 用户可加入：
+项目维护了公开二进制缓存，用于复用经审核且允许再分发的字体构建产物。
+NixOS 用户可在系统配置中加入：
 
 #+begin_src nix
 nix.settings = {
@@ -59,19 +67,27 @@ nix.settings = {
 };
 #+end_src
 
-其他系统在 =nix.conf= 中配置相同地址和公钥；使用 Nix daemon 时，
-修改后需重启服务。缓存不包含 Windows 字体及不可再分发的字体。
-没有匹配的缓存时， Nix 会在本地构建。
+其他系统在 =nix.conf= 中写入相同的地址与公钥；使用 Nix daemon 时，修改
+配置后需重启服务。缓存不提供 Windows 字体及不可再分发的字体，未命中缓存
+时， Nix 会在本地构建。
 
-** 贡献与开发
+** 仓库结构与开发
 
-新增字体、更新包或报告问题，请阅读
-[[file:.github/CONTRIBUTING.md][贡献指南]]。
-网站的本地预览、测试和构建方法见 [[file:pages/README][网站说明]]。
-维护约定见 [[file:AGENTS.md][AGENTS.md]] ，适用于人工和自动化修改。
+- [[file:packages/][packages/]] ：按字库存放的字体包定义与元数据校验规则。
+- [[file:overlays/][overlays/]] ：默认 overlay 与各字库合集的定义。
+- [[file:pages/][pages/]] ：字体预览网站与使用手册源码，手册正文位于
+  [[file:pages/doc/][pages/doc/]] 。
+- [[file:tools/][tools/]] ：语言覆盖扫描工具、开发环境与格式化配置。
+
+新增或更新字体包、核对元数据及提交 PR 的完整流程，见
+[[file:.github/CONTRIBUTING.md][贡献指南]]。如需在本地构建预览网站或编辑
+使用手册，见 [[file:pages/README][网站与手册开发说明]]。
 
 ** 许可
 
-仓库代码使用 [[file:COPYING][CC0]] ，字体各自遵循上游许可证。
-下载、构建或免费使用字体，不代表可以再分发字体文件。
-使用前请核对字体条目中的许可和限制。
+本仓库代码与使用手册采用 [[file:COPYING][CC0 1.0]] ，各款字体各自遵循
+上游许可证。能够下载、构建或免费使用某款字体，并不代表允许再分发或嵌入
+字体文件；使用前请在
+[[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]] 或
+[[https://brsvh.github.io/chinese-fonts-overlay/manual/][在线使用手册]]
+核对对应条目的许可与限制。
