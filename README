@@ -83,6 +83,13 @@ nix.settings = {
 [[file:.github/CONTRIBUTING.md][贡献指南]]。如需在本地构建预览网站或编辑
 使用手册，见 [[file:pages/README][网站与手册开发说明]]。
 
+** AI 使用说明
+
+本项目的代码与文档完全由大语言模型（ LLM ）开发和编写。如发现打包错误、
+许可信息疏漏或文档表述不准确之处，欢迎通过
+[[https://github.com/brsvh/chinese-fonts-overlay/issues/new/choose][问题页面]]
+反馈，或直接提交 PR 修正。
+
 ** 许可
 
 本仓库代码与使用手册采用 [[file:COPYING][CC0 1.0]] ，各款字体各自遵循
