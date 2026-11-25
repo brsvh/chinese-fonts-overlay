@@ -31,6 +31,16 @@
     border-radius: 50%;
     animation: startup-spin 0.8s linear infinite;
   }
+  @media (prefers-color-scheme: dark) {
+    html[data-starting] #page-loader {
+      background: #000;
+      color: #989898;
+    }
+    .startup-spinner {
+      border-color: #303030;
+      border-top-color: #2fafff;
+    }
+  }
   @keyframes startup-spin {
     to {
       transform: rotate(360deg);

@@ -47,6 +47,41 @@
   --noise: 0;
 }
 
+@plugin "@DAISYUI_THEME@" {
+  name: "modus-vivendi";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+  --color-base-100: #000000;
+  --color-base-200: #1e1e1e;
+  --color-base-300: #303030;
+  --color-base-content: #ffffff;
+  --color-primary: #2fafff;
+  --color-primary-content: #000000;
+  --color-secondary: #feacd0;
+  --color-secondary-content: #000000;
+  --color-accent: #00d3d0;
+  --color-accent-content: #000000;
+  --color-neutral: #989898;
+  --color-neutral-content: #000000;
+  --color-info: #2fafff;
+  --color-info-content: #000000;
+  --color-success: #00c06f;
+  --color-success-content: #000000;
+  --color-warning: #fec43f;
+  --color-warning-content: #000000;
+  --color-error: #ff5f59;
+  --color-error-content: #000000;
+  --radius-selector: 3px;
+  --radius-field: 4px;
+  --radius-box: 4px;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
 :root {
   --header-height: 60px;
   --sample: 66px;
@@ -55,6 +90,9 @@
   --selected-bg: #ecedff;
   --success-bg: #e0f6e0;
   --warning-bg: #f8f0d0;
+  --backdrop-bg: rgb(0 0 0 / 44%);
+  --dropdown-shadow: 0 4px 12px #0002;
+  --notice-tint: 4%;
   --site-sans: system-ui, sans-serif;
   --site-mono: ui-monospace, monospace;
   font-family: var(--site-sans);
@@ -62,6 +100,23 @@
   background: var(--color-base-100);
   scrollbar-color: var(--border-color) var(--color-base-200);
   scrollbar-width: thin;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --muted: #989898;
+    --border-color: #646464;
+    --selected-bg: #0f0e39;
+    --success-bg: #001904;
+    --warning-bg: #221000;
+    --backdrop-bg: rgb(0 0 0 / 72%);
+    --dropdown-shadow: 0 6px 18px #000a;
+    --notice-tint: 10%;
+  }
+
+  .sample img {
+    filter: invert(1) hue-rotate(180deg);
+  }
 }
 
 /* Apply downloaded fonts only while the initial loading curtain is closed. */
@@ -639,7 +694,7 @@ h1 {
   background: var(--color-base-100);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-box);
-  box-shadow: 0 4px 12px #0002;
+  box-shadow: var(--dropdown-shadow);
 }
 
 .upstream-links > li > a {
@@ -1052,7 +1107,7 @@ html:has(.notices-dialog[open]) {
 }
 
 .notices-dialog::backdrop {
-  background: color-mix(in srgb, var(--color-base-content) 44%, transparent);
+  background: var(--backdrop-bg);
 }
 
 .notices-heading {
@@ -1592,7 +1647,7 @@ html:has(.notices-dialog[open]) {
   border-left: 3px solid var(--manual-notice-color);
   background: color-mix(
     in srgb,
-    var(--manual-notice-color) 4%,
+    var(--manual-notice-color) var(--notice-tint),
     var(--color-base-100)
   );
 }
