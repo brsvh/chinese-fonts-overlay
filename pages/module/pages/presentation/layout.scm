@@ -120,11 +120,9 @@
      (site-markup
       `(footer
         (@ (class "site-footer") (data-revision ,revision) (aria-label "网站信息"))
-        (a (@ (href ,(string-append source-repository "/commit/" revision)))
-           "字体数据 " (code ,(substring revision 0 10)))
-        ,separator
-        (a (@ (href ,(string-append source-repository "/tree/" revision "/pages")))
-           "网站源代码")
+        (a (@ (href ,(string-append source-repository "/tree/" revision))
+              (aria-label ,(string-append "源码树 " (substring revision 0 10))))
+           (code ,(substring revision 0 10)))
         ,separator
         (span "由 " (a (@ (href "https://spritely.institute/hoot/")) "Hoot") " 驱动")
         ,separator

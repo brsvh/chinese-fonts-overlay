@@ -477,6 +477,9 @@ svg {
 }
 
 .main {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--header-height));
   padding: 26px 40px 0;
   min-width: 0;
   container-type: inline-size;
@@ -1058,6 +1061,7 @@ h1 {
 }
 
 .site-footer {
+  margin-top: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1214,7 +1218,9 @@ html:has(.notices-dialog[open]) {
   }
 
   .shell {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100dvh - var(--header-height));
   }
 
   .sidebar {
@@ -1230,6 +1236,8 @@ html:has(.notices-dialog[open]) {
   }
 
   .main {
+    flex: 1 0 auto;
+    min-height: 0;
     padding: 20px 16px 0;
   }
 
@@ -1407,6 +1415,7 @@ html:has(.notices-dialog[open]) {
 
 .manual-content,
 .manual-pager {
+  width: 100%;
   max-width: 48rem;
   margin-inline: auto;
 }

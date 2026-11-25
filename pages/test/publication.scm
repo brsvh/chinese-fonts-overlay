@@ -192,9 +192,11 @@
        (not (string-contains page "javascript:"))))
 
 (test-assert "Package and site links use the source revision"
-  (every (lambda (path)
-           (string-contains page (string-append revision path)))
-         '("/packages/test/english/package.nix" "/COPYING" "/pages")))
+  (and (every (lambda (fragment) (string-contains page fragment))
+              (list (string-append "/tree/" revision)
+                    (string-append revision "/packages/test/english/package.nix")
+                    (string-append revision "/COPYING")))
+       (not (string-contains page "网站源代码"))))
 
 (test-assert "Manual shares the site shell and preserves literal metadata"
   (let ((manual-page
