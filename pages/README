@@ -4,16 +4,38 @@
 
 * 字体预览网站与使用手册
 
-网站展示字体、字重和款式，以及包名与许可信息。
-预览使用固定样文的透明无损 WebP 图片，不提供在线输入文字试用。
-首次打开字体预览或手册章节时，页面等待界面字体就绪，再显示正文。
-在两者之间切换会保留已加载的字体。手册内切换章节时，目录保留已展开
-的条目。页脚的“第三方声明”在当前页上方打开，按 Escape 或浏览器的
-后退按钮即可回到原处。关闭 JavaScript 后，仍可通过普通链接阅读各页。
+本目录存放
+[[https://brsvh.github.io/chinese-fonts-overlay/][字体预览网站]] 与
+[[https://brsvh.github.io/chinese-fonts-overlay/manual/][在线使用手册]]
+的源码与构建脚本。网站用于集中展示各款字体的字重、款式、完整包属性及
+许可信息，手册则面向最终用户提供安装、配置与全量字体包参考。
 
-** 本地预览
+为了避免分发受限字体文件，字体预览全部使用固定样文的透明无损 WebP 图片，
+不提供在线输入试用。页面在首次打开时会等待界面字体就绪再显示正文；在
+预览页与手册之间切换时，保留已加载的字体与控件状态；手册内切换章节时，
+侧栏目录保持已展开的分支。页脚的“第三方声明”以对话框叠层打开，按 Escape
+或浏览器后退即可回到原位置。关闭 JavaScript 后，仍可通过普通链接阅读
+全部页面。
 
-在仓库根目录进入网站开发环境，选择要查看的字体：
+** 目录结构
+
+- =Makefile= ：统一调度原生工具编译、前端资源构建、样文渲染、手册生成、
+  测试与本地预览服务。
+- =module/pages/= ：页面生成、手册编译、资源校验与本地 HTTP 服务所需的
+  Guile 模块。
+- =build-aux/= ：供 =Makefile= 调用的命令行入口脚本。
+- =src/= ：读取字体信息与渲染 WebP 样文的原生 C 工具。
+- =web/= ：基于 Hoot 的目录筛选交互、页面导航脚本、 HTML 模板与样式表。
+- =doc/= ：使用手册的 Texinfo 源码，以及提取全量包信息的 =reference.nix= 。
+- =etc/= ：语言中文名称、样文表、浏览器资源清单与界面字体校验清单。
+- =test/= ：基于 CC0 字体素材的构建、服务与输出校验测试。
+
+字体包定义与元数据维护不在本目录进行，请参阅
+[[file:../.github/CONTRIBUTING.md][贡献指南]]。
+
+** 本地构建与预览
+
+在仓库根目录进入网站开发环境，按需选择要预览的字体包再启动本地服务：
 
 #+begin_src sh
 nix develop .#pages
@@ -21,95 +43,60 @@ make -C pages PACKAGES=naverPackages.maru-buri
 make -C pages serve
 #+end_src
 
-打开 [[http://127.0.0.1:8000/][本地页面]]。
-=PACKAGES= 接受完整的 overlay 属性名，多个包用空格分隔并加引号：
+服务启动后，访问 [[http://127.0.0.1:8000/][本地预览页面]]，或打开
+[[http://127.0.0.1:8000/manual/][本地手册页面]] 查看集成后的手册效果。
+
+=PACKAGES= 接受完整的 overlay 属性名（不是 =pname= 或网站标识）。同时
+预览多个包时，用空格分隔并加引号：
 
 #+begin_src sh
 make -C pages PACKAGES='naverPackages.maru-buri justfontPackages.huninn'
 #+end_src
 
-省略 =PACKAGES= 时构建全部字体。首次构建需要下载字体并绘制预览；
-部分受限字体需要按包定义准备本地来源。修改代码或包信息后，重新运行
-=make= 并刷新页面。网站构建不会修改字体包。
+省略 =PACKAGES= 时会构建全部字体。首次全量构建需要下载字体并绘制所有
+样文； Windows 等受限字体需按包定义预先准备本地来源。修改代码或字体包
+信息后，重新运行 =make= 并刷新浏览器即可。网站构建不会改动任何字体包。
 
-界面西文使用 Concourse OT ，代码使用 Triplicate A Code ，中文使用仓耳渔阳体。
-将购买的 WOFF2 文件按 =etc/webfonts.json= 中的相对路径放入私有目录，
-例如 =MB Type/Concourse OT/concourse_ot_3_book.woff2= 。构建前指定该目录：
+预览页默认筛选简体中文、无衬线体和开源许可，字库与费用默认全选。如果在
+单包预览中看不到目标字体，请先调整左侧筛选条件。同一类别内的选项取并集，
+不同类别的条件需要同时满足，当前筛选状态会同步保存在 URL 中。
+
+默认情况下，网站成品写入 =pages/build/public/= ，样文缓存位于
+=pages/.cache/= 。增量构建会复用有效缓存，构建失败时保留上一份完整输出。
+=make serve= 只读取现有目录，不会触发构建。如需同时保留多份构建结果或
+更换监听端口，可以指定独立的构建目录与参数：
+
+#+begin_src sh
+make -C pages BUILD_DIR=/tmp/font-pages PACKAGES=naverPackages.maru-buri
+make -C pages serve BUILD_DIR=/tmp/font-pages PORT=8080
+make -C pages serve DIRECTORY=/path/to/public
+#+end_src
+
+在同一构建目录中更改或清空 =PACKAGES= 时，构建系统会自动重新准备输入。
+=make -C pages clean= 删除构建产物并保留样文缓存；
+=make -C pages clean-cache= 清理样文缓存。
+
+*** 可选：本地加载自购界面字体
+
+线上网站的界面中文使用仓耳渔阳体 W02 与 W03 ，西文正文使用 Concourse OT ，
+代码使用 Triplicate A Code 。本地构建未额外配置时，默认使用渔阳体搭配
+系统等宽字体。
+
+如果你持有对应的 MB Type 字体授权，可将所需九个原始 WOFF2 文件按
+=etc/webfonts.json= 中的相对路径存放在源码目录之外的私有目录（例如
+=MB Type/Concourse OT/concourse_ot_3_book.woff2= ），并在构建前指定：
 
 #+begin_src sh
 export WEBFONTS_DIR="$HOME/.local/share/chinese-fonts-overlay/webfonts"
 #+end_src
 
-构建只读取所需的九个原始 WOFF2 文件，不修改字体库。请将购买的字体和凭证
-保存在源码目录之外；省略此变量时，使用渔阳体和系统等宽字体。
-打包归档时保留相同设置，以便核对字体来源。
+构建只会读取这九个原始文件，不会修改字体库。请勿将自购字体或购买凭证
+放入源码目录。界面字体加载失败或超时时，当次浏览保持系统字体，避免阅读
+中途发生字体闪烁。
 
-界面字体加载失败或超时时，本次浏览使用系统字体，避免阅读中途换字。
+** 编写与检查使用手册
 
-手册按字库收录全部字体包，不受 =PACKAGES= 预览选择影响。
-构建手册只求值包信息。独立构建和写作方法见 [[*使用手册][使用手册]]。
-
-默认筛选简体中文、无衬线体和开源许可，字库与费用全选。
-单包预览看不到结果时，请调整语言、风格和许可筛选。
-同一类别的选项取并集，不同类别的条件同时满足；筛选状态保存在 URL 中。
-
-网站生成在 =pages/build/public/= ，预览缓存位于 =pages/.cache/= 。
-构建会复用有效缓存，失败时保留上一份完整网站。服务器只读取已有输出，
-不会触发构建。端口和输出目录可以单独指定：
-
-#+begin_src sh
-make -C pages serve PORT=8080
-make -C pages serve DIRECTORY=/path/to/public
-#+end_src
-
-** 开发与检查
-
-网站使用一个 Makefile ： =make= 构建， =make check= 测试，
-=make serve= 启动本地服务。以上命令从仓库根目录运行时需加 =-C pages= 。
-
-#+begin_src sh
-make -C pages -j4 check
-#+end_src
-
-测试使用 =test/fixtures/fonts/= 中的 CC0 素材，不下载整个字体集合。
-素材的自制三角形字形用于验证字体处理，不用于比较字形外观。
-界面改动还应在浏览器中检查筛选、展开内容和窄屏布局。
-
-生成和服务代码在 =module/pages/= ，入口位于 =build-aux/= 。
-=src/= 保存原生字体工具，
-=web/= 是 Hoot 交互与样式， =etc/= 保存语言名称和样文。
-字体包与元数据维护见 [[file:../.github/CONTRIBUTING.md][贡献指南]]。
-
-构建和缓存目录应与源码分开。用独立目录预览，可以保留另一份构建结果：
-
-#+begin_src sh
-make -C pages BUILD_DIR=/tmp/font-pages PACKAGES=naverPackages.maru-buri
-make -C pages serve BUILD_DIR=/tmp/font-pages
-#+end_src
-
-同一目录切换 =PACKAGES= 会重新准备输入。 =make clean= 删除构建结果，
-保留预览缓存； =make clean-cache= 清理预览缓存。
-
-*** 不使用 Nix 准备输入
-
-需要 GNU Make 4.3 或更新版本、 Guile 3 、 guile-json 、 guile-gcrypt 、 Hoot 、
-C 编译器、 pkg-config 、 FreeType 、 Fontconfig 、 GLib 2.66 或更新版本、
-Pango 、 Cairo 、 libwebp 和 Texinfo 。样式使用 Tailwind CSS 4.3.4 与
-daisyUI 5.7.39 。
-
-=DAISYUI= 和 =DAISYUI_THEME= 指定插件及主题； =UI_FONT_REGULAR= 、
-=UI_FONT_MEDIUM= 指定仓耳渔阳体 W02 、 W03 原始 TTF ，
-=UI_FONT_LICENSE= 指定授权声明 PDF 。以上资源路径均使用绝对路径。
-
-可用两个 JSON 文件提供预览输入。 =CATALOG= 是包目录， =FONT_INPUTS=
-为每个包标识指定本地字体路径 =renderPath= 。同时指定两者即可跳过 Nix
-输入准备，此时请省略 =PACKAGES= 。手册还需 =REFERENCE= 指定完整元数据，
-或 =MANUAL= 指向已编译的手册目录。源码不在 Git 仓库中时，用 =SOURCE_REVISION=
-指定完整提交号。 =CC= 、 =CFLAGS= 、 =GUILE= 、 =HOOT= 和 =TAILWINDCSS=
-可覆盖对应工具或参数。
-
-** 使用手册
-
+编辑或校验使用手册只需轻量的手册开发环境，无需下载或构建任何字体包。
 在仓库根目录运行：
 
 #+begin_src sh
@@ -118,110 +105,80 @@ make -C pages check-manual
 info -f pages/build/manual/chinese-fonts-overlay.info
 #+end_src
 
-=make -C pages manual= 生成 HTML 和 Info 。本地 HTML 入口为
-=pages/build/manual/html/index.html= 。启动预览服务后，也可以打开
-[[http://127.0.0.1:8000/manual/][带章节导航的手册]]。
+=make -C pages manual= 生成独立的 HTML 与 Info 手册，本地 HTML 入口位于
+=pages/build/manual/html/index.html= 。如需检查带网站导航栏和侧栏目录的
+完整样式，在 =.#pages= 环境中构建并启动 =make -C pages serve= 后访问
+[[http://127.0.0.1:8000/manual/][本地手册页面]]。
 
-入口是 =doc/chinese-fonts-overlay.texi= ，各章保存在同目录。
-正文先解释读者要解决的问题，再给出必要的命令和示例。
-用 Texinfo 的节点、菜单和索引组织内容；调整标题时保留已有节点名称。
+手册主入口为 =doc/chinese-fonts-overlay.texi= ，各手写章节位于 =doc/= 。
+正文面向最终用户，先说明要解决的问题，再给出常见用法、示例和必要限制；
+使用 Texinfo 节点、菜单、交叉引用与索引组织结构，修改标题时请保持已有
+节点标识不变。
 
-“字体包参考”一章按字库分节，单款字体是字库下面的小节。
-这些内容由 =doc/reference.nix= 求值生成，与网站共用包元数据和校验规则。
-名称、版本、语言、风格和许可应在包定义中维护，勿编辑生成的章节。
-组合合集的成员来自组合函数，直接提取的上游集合另作说明。
-本项目没有 Nix 模块选项，接口参考介绍的是 overlay 、包属性和组合函数。
+“字体包参考”一章由 =doc/reference.nix= 求值生成，与预览网站共用同一套
+包目录和校验规则，始终覆盖全部字体包，不受 =PACKAGES= 影响。字体名称、
+版本、语言、风格与许可应在 =packages/= 中维护，不要直接修改生成内容。
+合集条目会列出组合函数求值得到的实际成员，直接从上游提取的集合另作说明。
+本项目通过 overlay 、包属性和组合函数提供接口，不提供 NixOS 模块选项。
 
-=make check-manual= 检查 HTML 链接、全部包的节点覆盖和 Info 输出。
-修改布局后还需在浏览器中检查宽屏、窄屏、键盘导航与字体预览之间的跳转。
-没有 Nix 时，可用 =REFERENCE= 指定先前求值的完整 JSON ，同时提供
-=SOURCE_REVISION= ；这也是小型本地测试使用的入口。
+=make -C pages check-manual= 会校验全部包的节点覆盖、 HTML 内部链接及
+Info 输出。改动手册布局或样式后，还应在浏览器中检查宽屏与窄屏排版、
+键盘导航，以及手册与预览页之间的往返跳转。
 
-** 样文与许可
+** 运行测试与脱离 Nix 构建
 
-=etc/language-names.json= 使用 Babel/CLDR 的简体中文名称，
-并补充历史语言与中文地区名称。 CLDR 数据遵循
+在 =.#pages= 环境中运行完整测试套件：
+
+#+begin_src sh
+make -C pages -j4 check
+#+end_src
+
+测试使用 =test/fixtures/fonts/= 中的 CC0 字体素材，不依赖完整字体集合。
+素材中的自制三角形字形仅用于验证字体解析、渲染与输出校验，不用于比较
+字形外观。涉及页面交互或样式的改动，仍应在浏览器中人工检查筛选、展开项
+与窄屏显示。
+
+*** 不使用 Nix 准备输入
+
+如果需要在 Nix 之外调试构建流程，环境需具备 GNU Make 4.3 或更新版本、
+Guile 3 、 =guile-json= 、 =guile-gcrypt= 、 Hoot 、 C 编译器、
+=pkg-config= 、 FreeType 、 Fontconfig 、 GLib 2.66 或更新版本、
+Pango 、 Cairo 、 =libwebp= 与 Texinfo ，界面样式依赖 Tailwind CSS
+4.3.4 与 daisyUI 5.7.39 。
+
+构建前需通过以下环境变量提供绝对路径资源：
+
+- =DAISYUI= 与 =DAISYUI_THEME= ： daisyUI 插件及主题文件路径。
+- =UI_FONT_REGULAR= 与 =UI_FONT_MEDIUM= ：仓耳渔阳体 W02 与 W03 原始 TTF 。
+- =UI_FONT_LICENSE= ：仓耳字库授权声明 PDF 。
+
+预览输入可由两个 JSON 文件提供： =CATALOG= 指定包目录， =FONT_INPUTS=
+为每个包标识提供本地字体目录 =renderPath= 。同时指定两者即可跳过 Nix
+输入准备，此时请省略 =PACKAGES= 。手册构建则需通过 =REFERENCE= 提供预先
+求值的完整元数据 JSON ，或用 =MANUAL= 指向已编译的手册目录。
+
+源码不在 Git 仓库中时，需通过 =SOURCE_REVISION= 传入完整的 40 位提交号。
+需要替换默认工具链时，可覆盖 =CC= 、 =CFLAGS= 、 =GUILE= 、 =HOOT= 、
+=TAILWINDCSS= 与 =MAKEINFO= 。
+
+** 样文数据与许可
+
+=etc/language-names.json= 保存基于 Babel/CLDR 整理的简体中文语言名称，
+并补充历史语言与中文地区变体名称。 CLDR 数据遵循
 [[https://www.unicode.org/license.txt][Unicode 数据许可]]。
 
-=etc/language-samples.json= 保存样文及来源，包括
+=etc/language-samples.json= 记录各语言的样文与来源，涵盖
 [[https://docs.gtk.org/Pango/method.Language.get_sample_string.html][Pango
 样文]]、
 [[https://gitlab.freedesktop.org/fontconfig/fontconfig/-/tree/main/fc-lang][
-Fontconfig 语言字表]]，以及项目补充内容。
-修改时核对名称、实际语言、字符覆盖和来源，备选样文必须属于同一语言。
-构建直接读取这些数据，不依赖 Babel 或在线翻译。
+Fontconfig 语言字表]]，以及项目补充内容。修改样文时需核对语言归属、字符
+覆盖与来源说明，备选样文必须属于同一语言。构建直接读取这些 JSON 文件，
+不依赖 Babel 或在线翻译。
 
-公开输出包含 HTML 、 CSS 、 JSON 、 Hoot/Wasm 资源、 SVG 标识和 WebP 图片。
-目录字体的原始文件、私有渲染清单和缓存不进入输出；界面使用的仓耳渔阳体
-W02 、 W03 原始字体和授权声明随网站附带。有 =WEBFONTS_DIR= 时，还会附带
-选定的 Concourse 和 Triplicate WOFF2 。这些字体遵循
-[[https://mbtype.com/license][MB Type 购买许可]]，不适用网站代码的 CC0 。
-网站代码使用 [[file:../COPYING][CC0]] ，字体各自遵循上游许可。
-
-** 归档与发布
-
-对外发布前先提交并推送源码，再构建完整目录，不设置 =PACKAGES= 。
-源码和许可链接使用构建时的提交号；本地未提交的修改不会出现在链接中。
-
-在网站开发环境中打包现有输出：
-
-#+begin_src sh
-make -C pages release SOURCE_REVISION="$(git rev-parse HEAD)"
-#+end_src
-
-归档和校验清单写入 =pages/build/release/= ，不会重建网站。
-提交号必须与目录一致；再次打包时用 =RELEASE_DIR= 指定新目录。
-归档仅包含公开文件，并核对界面字体及授权声明的来源。
-
-接收归档时，在新目录解包并校验：
-
-#+begin_src sh
-nix develop .#ci
-guile -L pages/module pages/build-aux/archive.scm unpack \
-  pages/build/release/pages-*.tar.gz \
-  pages/build/release/pages-*.json /path/to/new-public
-#+end_src
-
-该命令检查大小、 SHA-256 、提交号和归档路径，拒绝重复文件及链接。
-校验和不能证明发布者身份，归档仍须来自可信流程。
-
-Hercules CI 的 =buildPages= 调用 Make 构建，将通过校验的公开归档上传到
-Garage 。确认归档和清单完整后， Hercules 为当前 main 提交发送
-=pages-ready= 事件。 GitHub Actions 的 =deploy= 下载、校验并发布到 Pages 。
-调度与凭据处理位于 =ci/= ，字体构建和二进制缓存发布独立运行。
-
-正式构建从私有桶 =chinese-fonts-overlay-webfonts= 读取界面字体。
-该桶的配额为 512 MiB 。文件名和 SHA-256 摘要见 =etc/webfonts.json= 。
-Hercules 使用 =chinese-fonts-overlay-pages-webfont-input-read= 读取字体，
-核对摘要后，使用同一份字体构建网站并打包。
-
-成品桶 =chinese-fonts-overlay-pages= 的配额为 2 GiB ，最多保留两个
-完整版本，包括等待发布的版本。 Hercules 使用
-=chinese-fonts-overlay-pages-artifact-upload= 读写成品。 Actions 通过
-=CHINESE_FONTS_OVERLAY_PAGES_S3_ACCESS_KEY_ID= 和
-=CHINESE_FONTS_OVERLAY_PAGES_S3_SECRET_ACCESS_KEY= 只读访问成品。
-端点、配额和加密密钥由 fleet 管理。
-
-将 GitHub App =brsvh-chinese-fonts-overlay-pages= 安装到本仓库，
-授予 Contents 写权限和 Actions 读权限。部署凭据存放在 Hercules 的
-=chinese-fonts-overlay-pages-dispatch= secret 中。配置 =data.clientId= 、
-=data.installationId= 、 =data.privateKey= 和 =data.botId= 。
-安装 ID 和机器人用户 ID 使用 JSON 整数，私钥使用 PEM 格式。
-将此 secret 限于本仓库 main ，并将相同的机器人用户 ID 填入 GitHub
-仓库变量 =CHINESE_FONTS_OVERLAY_PAGES_DISPATCH_BOT_ID= 。
-Hercules 在通知前签发短期令牌。
-
-验收自动部署时，核对 =buildPages= 和 =deploy= 对应的完整提交号。
-在 Actions 中确认事件为 =repository_dispatch= ，发起者为
-=brsvh-chinese-fonts-overlay-pages[bot]= ，且发布到 Pages 的步骤已成功。
-随后读取公开目录，将输出的提交号与本次部署的提交号比较。
-
-#+begin_src sh
-site=https://brsvh.github.io/chinese-fonts-overlay
-curl -fsS "$site/catalog.json" | jq -er .sourceRevision
-#+end_src
-
-构建或通知失败时重试 =buildPages= 。重试会核实现有归档和自动部署记录，
-复用完整归档并补发缺失的通知。下载或发布失败时重试 =deploy= 。
-手动运行 =deploy= 仅发布当前 main 对应的完整归档，准备失败时保留现有网站。
-需要回退源码时，在 main 撤销相应改动，再重新构建发布。
+公开输出只包含静态 HTML 、 CSS 、 JSON 、 Hoot/Wasm 资源、 SVG 标识和
+WebP 图片；目录字体的原始文件、私有渲染清单与本地缓存不会进入公开输出。
+界面字体属于例外：构建产物会附带仓耳渔阳体 W02 、 W03 原始字体及授权
+声明；设置 =WEBFONTS_DIR= 时，还会附带指定的九个 Concourse 与 Triplicate
+WOFF2 文件。这些界面字体遵循 [[https://mbtype.com/license][MB Type 许可]]
+或上游授权，不适用网站代码的 CC0 。网站代码与手册正文遵循
+[[file:../COPYING][CC0 1.0]] ，各收录字体遵循各自上游许可。
