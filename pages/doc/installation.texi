@@ -11,7 +11,9 @@ overlay 后，使用完整包属性选择字体，例如
 @menu
 * NixOS: NixOS. 在系统配置中安装。
 * Home Manager: Home-Manager. 在用户配置中安装。
+* 本地试构建: Local-Build. 不修改系统配置直接构建单款字体。
 * 二进制缓存: Binary-Cache. 复用已经构建的字体。
+* 版本与历史标签: Version-Tags. 选择 main 、 v0.2.0 或 v0.1.0 。
 @end menu
 
 @node NixOS
@@ -70,12 +72,55 @@ chinese-fonts-overlay = @{
 如果 Home Manager 作为 NixOS 模块运行并复用系统的 @code{pkgs} ，
 请在 NixOS 的 Nixpkgs 配置中统一启用 overlay ，避免另外维护一份包集合。
 
+@node Local-Build
+@section 本地试构建字体
+@cindex 本地构建
+@cindex NIXPKGS_ALLOW_UNFREE
+
+  如果只想先测试某款字体的构建结果，而不想修改系统或用户配置，可以直接用
+@command{nix build} 注入 overlay 并构建目标包：
+
+@example
+nix build --impure --expr '
+  let
+    flake = builtins.getFlake "github:brsvh/chinese-fonts-overlay";
+  in
+  (import flake.inputs.nixpkgs @{
+    overlays = [ flake.overlays.default ];
+  @}).justfontPackages.huninn
+'
+@end example
+
+  如果你已经在本地克隆了本仓库并配置了 @code{<nixpkgs>} 通道，也可以
+从仓库根目录通过 @file{default.nix} 注入 overlay ：
+
+@example
+nix build --impure --expr \
+  'with import <nixpkgs> @{ overlays = [ (import ./default.nix) ]; @}; justfontPackages.huninn'
+@end example
+
+  构建非自由字体时，需要显式放行非自由包。可以在命令前设置环境变量
+@env{NIXPKGS_ALLOW_UNFREE}=1 ，或在表达式中传入
+@code{config.allowUnfree = true} ：
+
+@example
+NIXPKGS_ALLOW_UNFREE=1 nix build --impure --expr \
+  'with import <nixpkgs> @{ overlays = [ (import ./default.nix) ]; @}; tsangertypePackages.tsangerjinkai'
+@end example
+
+  构建完成后，字体文件和随附的许可说明位于当前目录的
+@file{result/share/fonts/} 与 @file{result/share/doc/} 下。
+
 @node Binary-Cache
 @section 使用二进制缓存
 @cindex 二进制缓存
+@cindex substituter
 
-  启用项目维护的二进制缓存，可以直接复用已构建的字体产物，减少本地
-下载与打包耗时。 NixOS 用户可将以下配置加入系统配置：
+  项目通过 @url{https://cache.bingshan.org} 提供部分字体包的二进制缓存。
+如果缓存中存在与你当前配置一致的构建产物， Nix 会直接下载，无需在本地重复
+构建。中国大陆地区访问该缓存服务的速度可能较慢。
+
+  NixOS 用户可将以下设置加入系统配置：
 
 @example
 nix.settings = @{
@@ -86,7 +131,79 @@ nix.settings = @{
 @};
 @end example
 
-  其他系统在 @file{nix.conf} 中填写相同的地址与公钥；使用 Nix daemon
-时，修改配置后需要重启服务。缓存只提供经审核且允许再分发的产物，未命中
-缓存时 Nix 会在本地构建。启用缓存不会改变字体的使用许可，也不能替代需要
-自行提供的字体来源。
+  应用系统配置后即可继续安装字体。在 NixOS 上使用 Home Manager 时，
+也请将缓存设置写入系统配置。
+
+  在其他系统上使用 Nix 或独立 Home Manager 时，可在
+@file{/etc/nix/nix.conf} 中添加：
+
+@example
+extra-substituters = https://cache.bingshan.org
+extra-trusted-public-keys = cache.bingshan.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
+@end example
+
+  使用多用户 Nix daemon 时，修改后需要重启 @code{nix-daemon} 服务；
+单用户安装可将相同内容写入 @file{~/.config/nix/nix.conf} 。
+@code{extra-} 前缀会向现有配置追加地址与公钥，不会覆盖你已经配置的其他
+缓存源。
+
+  目前缓存提供 @code{main} 分支在 @code{x86_64-linux} 平台上构建并发布的
+字体包，覆盖范围如下：
+
+@itemize @bullet
+@item
+仅提供明确允许再分发的字体包（即 @code{meta.redistributable = true} ），
+包含符合条件的自由字体和非自由字体。
+
+@item
+不提供不可再分发、未明确标注允许再分发，或依赖这些字体及其来源文件的包。
+
+@item
+不提供 @code{microsoftPackages} 中的 Windows 字体及 @code{windows-fonts} ，
+也不缓存对应的 Windows 安装镜像。
+@end itemize
+
+  缓存中的字体仍适用其原有许可证；安装非自由字体时，仍需在 Nixpkgs 中
+允许对应的非自由包。此外，如果使用的 overlay 版本、 Nixpkgs 版本、系统
+架构或包配置与缓存记录不同，可能无法命中缓存，此时 Nix 会在本地构建。
+
+@node Version-Tags
+@section 选择版本与历史标签
+@cindex 历史版本
+@cindex v0.2.0
+@cindex v0.1.0
+
+  日常使用推荐跟踪仓库的 @code{main} 分支，并通过自己配置中的
+@file{flake.lock} 锁定具体提交。除了 @code{main} 之外，仓库保留了两个
+历史版本标签，分别对应不同阶段的结构快照：
+
+@table @code
+@item v0.2.0
+引入独立字体预览网站与本使用手册之前的完整历史归档。它与当前 @code{main}
+使用相同的 @code{@var{vendor}Packages} 包属性命名体系，包含全部字库与
+组合合集，但彼时的字体目录与预览图存放在旧版 @file{docs/README.md} 中。
+如果你希望将配置固定在预览网站上线前的纯字体包快照，或需要查阅旧版文档
+布局，可以指向该标签：
+
+@example
+inputs.chinese-fonts-overlay.url = "github:brsvh/chinese-fonts-overlay/v0.2.0";
+@end example
+
+@item v0.1.0
+早期旧版 overlay 归档，仅收录 Alibaba 、 FounderType 、 TH 、 TrionesType 、
+TsangerType 和 Microsoft 六组字库，采用旧的字库属性名（如
+@code{alibabaFonts} 、 @code{foundertypeFonts} 、 @code{THFonts} 、
+@code{TH-fonts} 、 @code{trionestypeFonts} 、 @code{tsangertypeFonts} ）
+与旧版 @code{windows-fonts} 镜像。如果你有尚未迁移旧属性名的配置，或希望
+暂时避免 @code{windows-fonts} 升级后触发大型 Windows ISO 镜像重新下载与
+重建，可以临时固定到该标签：
+
+@example
+inputs.chinese-fonts-overlay.url = "github:brsvh/chinese-fonts-overlay/v0.1.0";
+@end example
+@end table
+
+  @code{v0.2.0} 与 @code{v0.1.0} 均作为历史里程碑保留，不再接收新字体、
+上游版本更新或持续的二进制缓存维护。从 @code{v0.1.0} 迁移到 @code{main}
+时，旧属性名会触发明确的重命名提示，按提示替换为新的包属性即可，详见
+@ref{Missing-Package, 找不到包属性} 。

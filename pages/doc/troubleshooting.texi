@@ -4,7 +4,7 @@
 @menu
 * 找不到包: Missing-Package. 核对 overlay 和属性名称。
 * 应用看不到字体: Missing-Font. 核对安装结果与应用发现机制。
-* 构建失败: Build-Failure. 区分许可设置、来源和下载问题。
+* 构建失败: Build-Failure. 区分许可设置、下载与镜像构建问题。
 @end menu
 
 @node Missing-Package
@@ -16,26 +16,58 @@
 安装属性。如果配置锁定在较早的提交上，也可能尚未收录新添加的字体，请检查
 并按需更新自己的锁文件。
 
+  如果从早期的 @code{v0.1.0} 升级到 @code{main} 时遇到类似
+@code{has been renamed to} 的求值错误，说明配置中仍在使用旧字库属性名
+（如 @code{alibabaFonts} 、 @code{foundertypeFonts} 、 @code{THFonts} 、
+@code{TH-fonts} 、 @code{trionestypeFonts} 或 @code{tsangertypeFonts} ）。
+按错误消息中的新名称替换即可；若暂时无法迁移，也可以先固定到历史标签，
+详见 @ref{Version-Tags, 选择版本与历史标签} 。
+
 @node Missing-Font
-@section 应用中看不到字体
+@section 应用中看不到字体或显示乱码
+@cindex fc-cache
+@cindex Fontconfig
 
   先确认系统或用户配置已经成功应用，再重新启动目标应用。在使用 Fontconfig
 的环境中，可以运行 @command{fc-list} 检查字体是否已进入字体列表。应用菜单
 通常显示字体内部的家族名称，它可能与包属性不同。
 
-  如果部分字符仍回退到其他字体，请检查目标字体是否覆盖这些字符，以及应用
-自身的字体选择与回退配置。网页内容可能指定了自带字体，部分应用也可能只显示
-可变字体的部分字重。手册中的语言覆盖信息可以帮助缩小排查范围，但不能替代
-实际字形核对。
+  在更新系统或迁移配置后，如果原本正常的文字突然显示为方框、乱码或回退
+异常，通常是因为字体文件在新的 generation 中移动到了不同的存储路径，而
+Fontconfig 仍保留了过期的旧路径缓存。可以运行以下命令强制重建缓存：
+
+@example
+fc-cache -r
+@end example
+
+  重建缓存后，重新启动受影响的应用；如仍未生效，注销并重新登录即可。
+
+  如果仅有部分字符回退到其他字体，请检查目标字体是否覆盖这些字符，以及
+应用自身的字体选择与回退配置。网页内容可能指定了自带字体，部分应用也可能
+只显示可变字体的部分字重。手册中的语言覆盖信息可以帮助缩小排查范围，但
+不能替代实际字形核对。
 
 @node Build-Failure
 @section 构建失败
 
-  遇到构建失败时，可以先结合错误信息区分原因：非自由软件检查未通过时，
-请核对 Nixpkgs 的允许设置与该字体的许可条款；提示缺少本地来源时，说明
-该字体需要自行准备文件（例如 Windows 字体），请按对应字库条目说明操作；
-出现下载失败或校验和不匹配时，通常是网络异常或上游替换了发布文件，可以先
-更新仓库锁定版本后重试。
+  遇到构建失败时，可以先结合错误信息区分原因：
+
+@itemize @bullet
+@item
+@strong{非自由软件检查未通过}：核对 Nixpkgs 的允许设置（例如
+@code{allowUnfree} 、 @code{allowUnfreePredicate} 或本地试构建时的
+@env{NIXPKGS_ALLOW_UNFREE}=1 ）以及目标字体的许可条款。
+
+@item
+@strong{下载失败或校验和不匹配}：查看报错中的实际 URL 与错误消息，判断
+是临时网络故障还是上游替换了发布文件；可先更新自己配置的锁文件后重试。
+
+@item
+@strong{Windows 字体构建缓慢或磁盘不足}： @code{windows-fonts} 及依赖它的
+@code{microsoftPackages} 单包需要在本地下载并解压完整的 Windows 11 安装
+镜像，对网络稳定性和临时磁盘空间要求较高。如果希望暂时避免因镜像版本更新
+而重新构建，可参阅 @ref{Version-Tags, 选择版本与历史标签} 。
+@end itemize
 
   如果问题依然存在，可以通过
 @url{@value{project-url}/issues/new/choose, 仓库问题页面} 反馈，附上完整
