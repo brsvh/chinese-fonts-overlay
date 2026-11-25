@@ -204,6 +204,8 @@ stdenvNoCC.mkDerivation {
         "yap"
         "yuw"
         "za"
+        "zh-cn"
+        "zh-sg"
         "zu"
       ];
 

@@ -77,7 +77,9 @@ stdenvNoCC.mkDerivation {
     chinese-fonts-overlay-pages = {
       displayName = "齊伋體";
 
-      languages = [ ];
+      languages = [
+        "zh-sg"
+      ];
 
       licenseCost = "free";
 

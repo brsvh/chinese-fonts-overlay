@@ -115,6 +115,8 @@ stdenvNoCC.mkDerivation {
         "uz"
         "xh"
         "za"
+        "zh-cn"
+        "zh-sg"
         "zu"
       ];
 
