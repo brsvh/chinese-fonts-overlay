@@ -92,10 +92,23 @@ export function evaluate(root, mode, selection = [], build = false) {
 
   args.push('--expr', expression, ...nixFlags);
 
+  const env = { ...process.env };
+
+  for (const key of [
+    'GITHUB_TOKEN',
+    'GH_TOKEN',
+    'AWS_ACCESS_KEY_ID',
+    'AWS_SECRET_ACCESS_KEY',
+    'AWS_SESSION_TOKEN',
+    'HERCULES_CI_SECRETS_JSON',
+  ]) {
+    delete env[key];
+  }
+
   return parseJson(
     command('nix', args, {
       env: {
-        ...process.env,
+        ...env,
         // A language report uses the catalog layout of the revision it describes.
         FONT_CI_EVALUATOR:
           mode === 'languages'

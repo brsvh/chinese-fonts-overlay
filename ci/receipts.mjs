@@ -36,7 +36,36 @@ function isControllerPath(file) {
   );
 }
 
-async function verifyController(api, root, pull, merge) {
+const allowedBlobModes = new Set(['100644', '100755']);
+
+async function readControllerTree(api, treeSha) {
+  ensure(matches(sha, treeSha), 'Invalid Git tree SHA');
+  const tree = await api.request('/git/trees/' + treeSha + '?recursive=1');
+
+  if (tree.truncated || !Array.isArray(tree.tree)) {
+    throw new Superseded('Git tree is truncated');
+  }
+
+  const entries = Object.create(null);
+
+  for (const entry of tree.tree) {
+    if (entry.type === 'tree' || !isControllerPath(entry.path)) {
+      continue;
+    }
+
+    if (entry.type !== 'blob' || !allowedBlobModes.has(entry.mode)) {
+      throw new Superseded(
+        'Unexpected controller entry type or mode: ' + entry.path,
+      );
+    }
+
+    entries[entry.path] = { mode: entry.mode, sha: entry.sha };
+  }
+
+  return entries;
+}
+
+async function verifyController(api, root, run, merge) {
   const baseSha = merge.parents[0].sha;
   ensure(matches(sha, baseSha), 'Invalid merge base SHA');
   ensure(matches(sha, merge.tree?.sha), 'Invalid merge tree SHA');
@@ -46,53 +75,43 @@ async function verifyController(api, root, pull, merge) {
     throw new Superseded('Build merge base is not on the default branch');
   }
 
-  const changed = await api.pages('/pulls/' + pull.number + '/files');
-  if (
-    !Number.isSafeInteger(pull.changed_files) ||
-    changed.length !== pull.changed_files
-  ) {
-    throw new Superseded('Cannot verify PR controller diff completeness');
-  }
-
-  for (const entry of changed) {
-    if (
-      isControllerPath(entry.filename) ||
-      isControllerPath(entry.previous_filename)
-    ) {
-      throw new Superseded('PR modifies build controller files');
-    }
-  }
-
-  const tree = await api.request(
-    '/git/trees/' + merge.tree.sha + '?recursive=1',
+  const prCompare = await api.request(
+    '/compare/' + baseSha + '...' + run.head_sha,
   );
-  if (tree.truncated || !Array.isArray(tree.tree)) {
-    throw new Superseded('Build merge tree is truncated');
-  }
+  const mergeBaseTreeSha = prCompare.merge_base_commit?.commit?.tree?.sha;
+  const headCommit = await api.request('/git/commits/' + run.head_sha);
 
-  const blobs = Object.create(null);
-  const remoteCiFiles = [];
+  const [mergeBaseEntries, headEntries, mergeEntries] = await Promise.all([
+    readControllerTree(api, mergeBaseTreeSha),
+    readControllerTree(api, headCommit.tree?.sha),
+    readControllerTree(api, merge.tree.sha),
+  ]);
 
-  for (const entry of tree.tree) {
-    if (entry.type !== 'blob') continue;
-    blobs[entry.path] = entry.sha;
+  const mergeBaseKeys = Object.keys(mergeBaseEntries).sort();
+  const headKeys = Object.keys(headEntries).sort();
 
-    if (/^ci\/[^/]+\.(mjs|nix)$/.test(entry.path)) {
-      remoteCiFiles.push(entry.path);
-    }
+  if (
+    !same(headKeys, mergeBaseKeys) ||
+    headKeys.some(
+      (file) =>
+        headEntries[file].sha !== mergeBaseEntries[file].sha ||
+        headEntries[file].mode !== mergeBaseEntries[file].mode,
+    )
+  ) {
+    throw new Superseded('PR modifies build controller files');
   }
 
   const expectedPaths = controllerPaths(root);
-  const expectedCiFiles = expectedPaths.filter((file) =>
-    file.startsWith('ci/'),
-  );
+  const mergeKeys = Object.keys(mergeEntries).sort();
 
-  if (!same(remoteCiFiles.sort(), expectedCiFiles)) {
-    throw new Superseded('Build merge tree ci/ files differ from main');
+  if (!same(mergeKeys, expectedPaths)) {
+    throw new Superseded('Build merge tree controller paths differ from main');
   }
 
   for (const file of expectedPaths) {
-    if (blobs[file] !== blobSha(fs.readFileSync(path.join(root, file)))) {
+    if (
+      mergeEntries[file].sha !== blobSha(fs.readFileSync(path.join(root, file)))
+    ) {
       throw new Superseded('Build merge tree controller differs from main');
     }
   }
@@ -223,7 +242,7 @@ async function readBuildReceipts(api, root, run, pull, expectedController) {
     merge.parents.length === 2 && merge.parents[1].sha === run.head_sha,
     'Build merge commit does not contain the PR head',
   );
-  await verifyController(api, root, pull, merge);
+  await verifyController(api, root, run, merge);
 
   const jobs = await api.pages(
     '/actions/runs/' + run.id + '/attempts/' + attempt + '/jobs',

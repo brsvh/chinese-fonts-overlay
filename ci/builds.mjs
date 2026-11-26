@@ -39,11 +39,24 @@ export const controllerFiles = [
 ];
 
 export function controllerPaths(root) {
-  const files = fs
-    .readdirSync(path.join(root, 'ci'))
-    .filter((file) => /\.(mjs|nix)$/.test(file))
-    .map((file) => 'ci/' + file);
-  files.push(...controllerFiles);
+  const files = [...controllerFiles];
+
+  function collectCi(relative) {
+    for (const entry of fs.readdirSync(path.join(root, relative), {
+      withFileTypes: true,
+    })) {
+      const child = relative + '/' + entry.name;
+
+      if (entry.isDirectory()) {
+        collectCi(child);
+      } else {
+        ensure(entry.isFile(), 'Unexpected non-file in ci/: ' + child);
+        files.push(child);
+      }
+    }
+  }
+
+  collectCi('ci');
   return files.sort();
 }
 
@@ -207,8 +220,6 @@ export async function preparePlan(root, directory, event, api) {
       value.shards.map((shard) => ({
         id: shard.id,
         label: shard.tasks.length === 1 ? shard.tasks[0] : String(shard.id),
-        cacheable: shard.cacheable,
-        cacheKey: digest(shard.tasks.map((name) => packages[name].buildKey)),
       })),
     ),
     count: tasks.length,
