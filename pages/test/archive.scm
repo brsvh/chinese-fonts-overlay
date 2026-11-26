@@ -180,7 +180,7 @@
          "link or special file"))
       ;; Write a valid file before the unsafe entry to test partial cleanup.
       (run "tar" "--format=ustar" "--mtime=@0" "--owner=0" "--group=0"
-           "--numeric-owner" "--mode=0644" "-czf"
+           "--numeric-owner" "--mode=0644" "--force-local" "-czf"
            (string-append root "/links.tar.gz")
            "-C" public "style.css" "index.html")
       (let* ((bad (string-append root "/links.tar.gz"))
