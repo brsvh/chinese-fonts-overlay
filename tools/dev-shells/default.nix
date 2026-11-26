@@ -12,6 +12,7 @@ let
     concatStringsSep
     escapeShellArg
     getExe
+    makeBinPath
     map
     mapAttrsToList
     removeAttrs
@@ -353,6 +354,12 @@ mkShell {
               exit 0
             fi
           fi
+
+          export PATH=${
+            escapeShellArg (
+              makeBinPath (files.treefmt.packages ++ [ git ])
+            )
+          }''${PATH:+:$PATH}
 
           exec ${getExe pkgs.prek} -C "$repoRoot" run \
             --stage ${escapeShellArg stage} "$@"

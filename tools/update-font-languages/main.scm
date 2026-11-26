@@ -442,6 +442,8 @@ in "
 
 (define (scan-command arguments)
   "Parse ARGUMENTS once and return the scanner's exit status."
+  (set-port-encoding! (current-output-port) "UTF-8")
+  (set-port-encoding! (current-error-port) "UTF-8")
   (catch #t
     (lambda ()
       (let ((options
