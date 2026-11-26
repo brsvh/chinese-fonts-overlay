@@ -1,5 +1,6 @@
 (define-module (chinese-fonts-overlay pages server http)
   #:use-module (ice-9 binary-ports)
+  #:use-module (rnrs bytevectors)
   #:use-module (web server)
   #:use-module (web request)
   #:use-module (web response)
@@ -82,20 +83,25 @@
                      (info (stat path)))
                 (if (and (string-prefix? (string-append base "/") path)
                          (eq? 'regular (stat:type info)))
-                    (values
-                     (build-response
-                      #:headers
-                      `((content-type . ,(content-type path))
-                        (content-length . ,(stat:size info))
-                        (cache-control no-cache)))
-                     (if (eq? (request-method request) 'HEAD)
-                         #f
-                         (let ((bytes (call-with-input-file
-                                          path
-                                        get-bytevector-all
-                                        #:binary
-                                        #t)))
-                           (if (eof-object? bytes) #vu8() bytes))))
+                    (let* ((head? (eq? (request-method request) 'HEAD))
+                           (bytes
+                            (and (not head?)
+                                 (let ((data (call-with-input-file
+                                                 path
+                                               get-bytevector-all
+                                               #:binary
+                                               #t)))
+                                   (if (eof-object? data) #vu8() data))))
+                           (length (if head?
+                                       (stat:size info)
+                                       (bytevector-length bytes))))
+                      (values
+                       (build-response
+                        #:headers
+                        `((content-type . ,(content-type path))
+                          (content-length . ,length)
+                          (cache-control no-cache)))
+                       bytes))
                     (failure 404 "Not found\n"))))
             (lambda args
               (if (memv (system-error-errno args)
