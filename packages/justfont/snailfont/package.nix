@@ -57,6 +57,11 @@ stdenvNoCC.mkDerivation {
 
   pname = "justfont-snailfont";
 
+  srcs = [
+    pomaceaSrc
+    sinotaiaSrc
+  ];
+
   dontUnpack = true;
 
   installPhase = ''

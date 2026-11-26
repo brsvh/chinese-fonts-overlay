@@ -58,6 +58,11 @@ stdenvNoCC.mkDerivation {
 
   pname = "justfont-elffont";
 
+  srcs = [
+    fernSrc
+    rockSrc
+  ];
+
   dontUnpack = true;
 
   installPhase = ''
