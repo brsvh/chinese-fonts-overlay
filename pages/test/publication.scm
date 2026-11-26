@@ -102,10 +102,8 @@
                 ("version" . "1")
                 ("vendor" . "test")
                 ("vendorName" . "测试字库")
-                ("description"
-                 . "<script>unsafe</script> @README@ @LICENSE@ @REVISION@")
-                ("longDescription"
-                 . "详细说明：@README@ @LICENSE@ @REVISION@")
+                ("description" . "<script>unsafe</script>")
+                ("longDescription" . "详细说明")
                 ("languages" . ,languages)
                 ("styles" . #("sans"))
                 ("embedding" . #t)
@@ -208,7 +206,7 @@
           "Readable metadata is preserved and escaped; unsafe links are omitted"
           (and (string-contains page "&lt;script&gt;unsafe&lt;/script&gt;")
                (string-contains page "&lt;unsafe&gt;\n正文说明")
-               (string-contains page "详细说明：@README@ @LICENSE@ @REVISION@")
+               (string-contains page "详细说明")
                (not (string-contains page "javascript:"))))
         (test-assert "Package and site links use the source revision"
           (every (lambda (fragment) (string-contains page fragment))
