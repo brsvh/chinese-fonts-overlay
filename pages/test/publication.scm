@@ -54,7 +54,7 @@
                          "--no-auto-compile" "-L"
                          (string-append source-root "/module")
                          cli args)))))
-          (and (not (zero? (car result)))
+          (and (eqv? 1 (status:exit-val (car result)))
                (string-contains (cdr result)
                                 "Output directory overlaps the source tree"))))
       (mkdir-p (dirname handwritten))
@@ -438,7 +438,7 @@
                      (lambda ()
                        (system* (getenv "FONT_PAGES_RENDERER") (car case))))))
                (test-assert (cdr case)
-                 (and (not (zero? (car result)))
+                 (and (eqv? 1 (status:exit-val (car result)))
                       (string-contains (cdr result) (cdr case))))))
            `((,invalid-job . "Invalid font face index")
              (,unwritable-job . "Cannot write")
@@ -451,7 +451,7 @@
                      (system* (getenv "FONT_PAGES_INSPECTOR") "image-info"
                               (string-append temporary "/" (car case)))))))
              (test-assert (cdr case)
-               (and (not (zero? (car result)))
+               (and (eqv? 1 (status:exit-val (car result)))
                     (string-contains (cdr result) (cdr case))))))
          '(("blank.webp" . "Expected nonblank WebP")
            ("opaque.webp" . "Expected transparent WebP")
