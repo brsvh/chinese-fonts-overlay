@@ -24,8 +24,8 @@ let
 
   inherit (lib)
     all
-    concatStringsSep
     elem
+    escapeShellArgs
     makeScope
     packagesFromDirectoryRecursive
     removeAttrs
@@ -48,7 +48,7 @@ let
 
         mkdir -p "$out"
 
-        for drv in ${concatStringsSep " " members}; do
+        for drv in ${escapeShellArgs members}; do
           ${lndir}/bin/lndir -silent "$drv" "$out"
         done
 
