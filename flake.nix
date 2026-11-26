@@ -44,7 +44,6 @@
 
         specialArgs = {
           inherit
-            chinese-fonts-overlay-lib
             projectRoot
             ;
 
