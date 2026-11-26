@@ -270,6 +270,7 @@ function scheduleMove(next, url, position) {
     if (active === next && active.href === url.href) {
       moveToPage(url, position);
       savePosition();
+      syncNotices();
     }
   };
 
@@ -444,12 +445,19 @@ const initialPosition = history.state?.position;
 
 updateLinks();
 selectChapter(initialUrl);
-syncNotices();
 
 if (active.kind === 'preview') {
   if (initialPosition || initialUrl.hash)
     scheduleMove(active, initialUrl, initialPosition);
-  else window.siteRevealed.then(savePosition).catch(console.error);
+  else
+    window.siteRevealed
+      .then(() => {
+        if (active.href === initialUrl.href) {
+          savePosition();
+          syncNotices();
+        }
+      })
+      .catch(console.error);
 
   activatePreview(active).catch(console.error);
 } else {
@@ -459,6 +467,7 @@ if (active.kind === 'preview') {
         if (initialPosition || initialUrl.hash)
           moveToPage(initialUrl, initialPosition);
         savePosition();
+        syncNotices();
       }
     })
     .catch(console.error);
