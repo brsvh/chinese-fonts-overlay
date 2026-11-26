@@ -12,17 +12,34 @@
     (lambda (key procedure message arguments . rest)
       (apply format #f message arguments))))
 
+(define ui-assets
+  '(("yuyang-regular.ttf" . "UI_FONT_REGULAR")
+    ("yuyang-medium.ttf" . "UI_FONT_MEDIUM")
+    ("tsanger-license.pdf" . "UI_FONT_LICENSE")))
+
+(define (restore-env! entries)
+  "Restore each (NAME . VALUE-OR-FALSE) environment binding in ENTRIES."
+  (for-each (lambda (entry)
+              (if (cdr entry)
+                  (setenv (car entry) (cdr entry))
+                  (unsetenv (car entry))))
+            entries))
+
 (test-begin "site-archive")
 (define runner (test-runner-current))
 (define root (temporary-directory (nonempty-env "TMPDIR" "/tmp")))
 (define source (make-string 40 #\a))
 (define public (string-append root "/public"))
+(define ui-inputs (string-append root "/ui-inputs"))
+(define original-ui-env
+  (map (lambda (asset) (cons (cdr asset) (getenv (cdr asset)))) ui-assets))
 
 (dynamic-wind
   (lambda () #t)
   (lambda ()
     (mkdir public)
     (mkdir (string-append public "/manual"))
+    (mkdir ui-inputs)
     (for-each
      (lambda (name) (write-text (string-append public "/" name) name))
      (append (browser-assets)
@@ -37,10 +54,11 @@
                                (make-string 64 #\b) ".json")
                 '(("samples" . #())))
     (for-each (lambda (asset)
-                (setenv (cdr asset) (string-append public "/" (car asset))))
-              '(("yuyang-regular.ttf" . "UI_FONT_REGULAR")
-                ("yuyang-medium.ttf" . "UI_FONT_MEDIUM")
-                ("tsanger-license.pdf" . "UI_FONT_LICENSE")))
+                (let ((declared (string-append ui-inputs "/" (car asset))))
+                  (write-text declared (car asset))
+                  (copy-file declared (string-append public "/" (car asset)))
+                  (setenv (cdr asset) declared)))
+              ui-assets)
     (let* ((release (string-append root "/release"))
            (manifest (pack-site public source release))
            (archive (string-append release "/" (release-name manifest)
@@ -86,6 +104,19 @@
                              (string-append root "/unpublished"))))
                "Unexpected public file")))
           (lambda () (delete-file template))))
+      (let* ((name (caar ui-assets))
+             (declared (string-append ui-inputs "/" name))
+             (published (string-append public "/" name)))
+        (dynamic-wind
+          (lambda () (write-text published "tampered"))
+          (lambda ()
+            (test-assert "Reject modified interface assets in an archive"
+              (string-contains
+               (failure-message
+                (lambda ()
+                  (pack-site public source (string-append root "/bad-ui"))))
+               "Interface asset differs from its declared input")))
+          (lambda () (copy-file declared published))))
       ;; Byte fixtures exercise packaging without requiring purchased fonts.
       (let* ((library (string-append root "/library"))
              (inputs (commercial-font-inputs library))
@@ -137,9 +168,10 @@
          (failure-message
           (lambda () (pack-site public source (string-append root "/links"))))
          "link or special file"))
-      ;; Use an unsafe entry with otherwise valid tar and gzip metadata.
-      (run "tar" "--format=ustar" "-czf" (string-append root "/links.tar.gz")
-           "-C" public "index.html")
+      ;; Write a valid file before the unsafe entry to test partial cleanup.
+      (run "tar" "--format=ustar" "--mode=0644" "-czf"
+           (string-append root "/links.tar.gz")
+           "-C" public "style.css" "index.html")
       (let* ((bad (string-append root "/links.tar.gz"))
              (metadata (jset (jset manifest "sha256" (file-digest bad))
                              "size" (stat:size (stat bad)))))
@@ -150,7 +182,9 @@
                    (unpack-site bad metadata (string-append root "/unsafe"))))
                 "Unsafe site archive entry")
                (not (file-exists? (string-append root "/unsafe"))))))))
-  (lambda () (delete-tree root)))
+  (lambda ()
+    (restore-env! original-ui-env)
+    (delete-tree root)))
 
 (test-end "site-archive")
 (exit (and (zero? (test-runner-fail-count runner))
