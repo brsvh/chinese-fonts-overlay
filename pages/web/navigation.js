@@ -260,7 +260,7 @@ function scheduleMove(next, url, position) {
     'catalog-settled',
     () => {
       if (document.documentElement.hasAttribute('data-starting'))
-        window.siteRevealed.then(finish);
+        window.siteRevealed.then(finish).catch(console.error);
       else finish();
     },
     { once: true, signal: controller.signal },
@@ -435,13 +435,15 @@ if (active.kind === 'preview') {
   else savePosition();
 
   activatePreview(active).catch(console.error);
-} else if (initialPosition) {
-  window.siteRevealed.then(() => {
-    if (active.href === initialUrl.href) {
-      scrollTo(...initialPosition);
-      savePosition();
-    }
-  });
+} else if (initialPosition || initialUrl.hash) {
+  window.siteRevealed
+    .then(() => {
+      if (active.href === initialUrl.href) {
+        moveToPage(initialUrl, initialPosition);
+        savePosition();
+      }
+    })
+    .catch(console.error);
 } else {
   savePosition();
 }
