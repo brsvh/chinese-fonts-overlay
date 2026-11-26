@@ -26,6 +26,10 @@ in
         toJSON
         ;
 
+      baseFontPkgs = import packageNixpkgs {
+        inherit system;
+      };
+
       fontPkgs = import packageNixpkgs {
         inherit system;
 
@@ -38,16 +42,18 @@ in
         ];
       };
 
-      languageFontconfig = fontPkgs.fontconfig;
+      languageFontconfig = baseFontPkgs.fontconfig;
 
       updateFontLanguages =
         pkgs.callPackage
           ./update-font-languages/package.nix
           {
-            fontconfig = languageFontconfig;
-            freetype = fontPkgs.freetype;
-            pkg-config = fontPkgs.pkg-config;
-            stdenv = fontPkgs.stdenv;
+            inherit (baseFontPkgs)
+              fontconfig
+              freetype
+              pkg-config
+              stdenv
+              ;
           };
 
       fontCatalog =
