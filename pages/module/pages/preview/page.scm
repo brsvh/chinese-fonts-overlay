@@ -162,10 +162,13 @@
             (div (@ (class "licenses"))
                  (span (@ (class "badge badge-ghost package-version"))
                        ,version)
-                 (span (@ (class ,(if (member (p "licenseCost")
-                                              '("free" "gratisCommercialUse"))
-                                      "badge badge-soft badge-success cost"
-                                      "badge badge-soft badge-warning cost cost-restricted")))
+                 (span (@ (class
+                           ,(if (member (p "licenseCost")
+                                        '("free" "gratisCommercialUse"))
+                                "badge badge-soft badge-success cost"
+                                (string-append
+                                 "badge badge-soft badge-warning "
+                                 "cost cost-restricted"))))
                        ,(p "licenseCostName"))
                  ,@(map (lambda (license)
                           `(span (@ (class "license"))
@@ -232,14 +235,15 @@
         (append
          (if (zero? (car group))
              '()
-             `((span (@ (class "facet-phrase")) ,(substring text 0 (car group)))))
+             `((span (@ (class "facet-phrase"))
+                     ,(substring text 0 (car group)))))
          `((span (@ (class "facet-phrase"))
                  ,(substring text (car group) (cdr group))))
          (facet-label-content (substring text (cdr group))))
         (list text))))
 
 (define (facet-html key title labels defaults limit chips?)
-  "Render a multiselect facet with select-all and collapsible additional choices."
+  "Render a multiselect facet with select-all and collapsible extra choices."
   (define (choice entry)
     (let ((id (string-append key "-" (car entry))))
       `(label (@ (class ,(if chips? "facet-chip" "check-option")) (for ,id))
@@ -334,20 +338,21 @@
             ("<!-- site-loader -->" . ,(site-loader))
             ("<!-- site-header -->" . ,(site-header "./" 'preview))
             ("<!-- site-footer -->" . ,(site-footer "./" revision))
-            ("<!-- facets -->" . ,(string-append
-                                   (facet-html "language" "语言" languages '("zh-cn") 6 #t)
-                                   (facet-html
-                                    "style"
-                                    "风格"
-                                    (prioritize-entries
-                                     '("sans" "serif" "hei" "song" "kai" "fangsong")
-                                     (jref catalog "styleLabels"))
-                                    '("sans")
-                                    6
-                                    #t)
-                                   (facet-html "vendor" "字库" vendors (map car vendors) 4 #t)
-                                   (facet-html "cost" "费用" costs (map car costs) 4 #f)
-                                   (facet-html "license" "许可类别" licenses '("open") 3 #f)))
+            ("<!-- facets -->"
+             . ,(string-append
+                 (facet-html "language" "语言" languages '("zh-cn") 6 #t)
+                 (facet-html
+                  "style"
+                  "风格"
+                  (prioritize-entries
+                   '("sans" "serif" "hei" "song" "kai" "fangsong")
+                   (jref catalog "styleLabels"))
+                  '("sans")
+                  6
+                  #t)
+                 (facet-html "vendor" "字库" vendors (map car vendors) 4 #t)
+                 (facet-html "cost" "费用" costs (map car costs) 4 #f)
+                 (facet-html "license" "许可类别" licenses '("open") 3 #f)))
             ("<!-- count -->" . ,(number->string (length packages)))
             ("<!-- language-labels -->"
              . ,(string-append
@@ -358,7 +363,8 @@
             ("<!-- packages -->"
              . ,(string-join
                  (map (lambda (package)
-                        (package-html package (jref catalog "noticeLevelLabels")))
+                        (package-html package
+                                      (jref catalog "noticeLevelLabels")))
                       packages)
                  "\n"))))
          (page (substitute-template (read-text (web-file "index.html"))

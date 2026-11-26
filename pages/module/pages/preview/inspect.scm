@@ -11,13 +11,15 @@
   "Identify the native inspector, Scheme record logic and sample definitions."
   (let* ((modules '("preview/inspect.scm" "preview/samples.scm" "util.scm"))
          (sources (map (lambda (name)
-                         (search-path %load-path
-                                      (in-vicinity "chinese-fonts-overlay/pages" name)))
+                         (search-path
+                          %load-path
+                          (in-vicinity "chinese-fonts-overlay/pages" name)))
                        modules))
          (inspector (native-tool "FONT_PAGES_INSPECTOR" "font-info")))
     (text-digest
      (object->string
-      (cons (force sample-revision) (map file-digest (cons inspector sources)))))))
+      (cons (force sample-revision)
+            (map file-digest (cons inspector sources)))))))
 
 (define (font-file? path)
   "Recognize supported original font file suffixes without case sensitivity."
@@ -103,7 +105,8 @@
            (lambda (file)
              (write-json file
                          (list->vector
-                          (map (lambda (record) (alist-delete "file" record equal?))
+                          (map (lambda (record)
+                                 (alist-delete "file" record equal?))
                                records)))))
           records))))
 

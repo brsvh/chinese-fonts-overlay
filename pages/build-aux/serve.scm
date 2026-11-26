@@ -11,7 +11,8 @@
               (unless (and port (< 0 port 65536))
                 (error "PORT must be an integer between 1 and 65535"))
               (unless (file-exists? (string-append directory "/index.html"))
-                (error "Website not found; run make first or set DIRECTORY" directory))
+                (error "Website not found; run make first or set DIRECTORY"
+                       directory))
               (serve-site directory port)))
            (_ (error "Usage: serve.scm DIRECTORY PORT"))))
        (lambda (key . args)

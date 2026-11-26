@@ -14,7 +14,8 @@
   "Assemble the prepared previews, manual and browser assets in OUTPUT."
   (for-each
    (lambda (file)
-     (let ((target (string-append output (substring file (string-length prepared)))))
+     (let ((target
+            (string-append output (substring file (string-length prepared)))))
        (mkdir-p (dirname target))
        (copy-file file target)))
    (files-under prepared))
@@ -68,8 +69,9 @@
                  (map file-state (filter font-file? (files-under path)))))))
    inputs))
 
-(define (build-site root directory cache catalog-file fonts-file revision manual)
-  "Build DIRECTORY/public from declared inputs, reusing unchanged stage outputs."
+(define (build-site root directory cache catalog-file fonts-file
+                    revision manual)
+  "Build DIRECTORY/public from declared inputs, reusing unchanged stages."
   (unless (valid-revision? revision)
     (error "Expected a full source commit SHA" revision))
   (let* ((catalog (read-json catalog-file))
@@ -96,7 +98,8 @@
     (unless (current? preview-stamp preview-digest preview-output)
       (replace-directory! preview-output
         (lambda (staging)
-          (prepare-previews catalog fonts cache staging preview-output inspection)))
+          (prepare-previews catalog fonts cache staging preview-output
+                            inspection)))
       (record! preview-stamp preview-digest preview-output))
     (let ((digest
            (fingerprint
@@ -118,6 +121,7 @@
           (begin
             (replace-directory! output
               (lambda (staging)
-                (assemble-site! catalog preview-output manual staging revision)))
+                (assemble-site! catalog preview-output manual staging
+                                revision)))
             (record! stamp digest output)
             (format #t "Built website: ~a~%" output))))))

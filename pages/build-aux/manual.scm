@@ -20,7 +20,9 @@
                        system)))
               (build-manual (canonicalize-path source) directory
                             reference revision system)))
-           (_ (error "Usage: manual.scm SOURCE BUILD REFERENCE REVISION SYSTEM"))))
+           (_ (error
+               (string-append "Usage: manual.scm SOURCE BUILD REFERENCE "
+                              "REVISION SYSTEM")))))
        (lambda (key . arguments)
          (print-exception (current-error-port) #f key arguments)
          (exit 1)))

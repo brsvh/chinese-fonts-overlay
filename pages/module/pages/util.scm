@@ -98,7 +98,8 @@
     (when info
       (if (eq? 'directory (stat:type info))
           (let ((entries
-                 (scandir path (lambda (name) (not (member name '("." "..")))))))
+                 (scandir path
+                          (lambda (name) (not (member name '("." "..")))))))
             (when entries
               (for-each
                (lambda (name) (delete-tree (string-append path "/" name)))
@@ -193,7 +194,8 @@ backup if restoring the previous directory fails."
             (apply throw args))))
       (lambda ()
         (if (and (not installed?) (file-exists? backup))
-            (format (current-error-port) "Previous output retained at ~a~%" backup)
+            (format (current-error-port)
+                    "Previous output retained at ~a~%" backup)
             (delete-tree temporary))))))
 
 (define (atomic-write file writer)
@@ -215,7 +217,7 @@ backup if restoring the previous directory fails."
                    (delete-file temporary))))))
 
 (define (fingerprint files values)
-  "Hash the named FILES in stable order alongside the ordered configuration VALUES."
+  "Hash the named FILES in stable order alongside ordered config VALUES."
   (text-digest
    (object->string
     (cons values (map (lambda (file) (cons file (file-digest file)))

@@ -21,7 +21,8 @@
         (let ((entry (car rest)))
           (unless (= (car entry) depth)
             (error "Skipped a manual heading level" entry))
-          (let-values (((children remaining) (section-tree (cdr rest) (+ depth 1))))
+          (let-values (((children remaining)
+                        (section-tree (cdr rest) (+ depth 1))))
             (loop remaining
                   (cons `(("href" . ,(cadr entry))
                           ("label" . ,(caddr entry))
@@ -48,5 +49,6 @@
                               (car row) (match:substring match 3))))))
           (internal-links file))))
     (let-values (((tree remaining) (section-tree sections 0)))
-      (unless (null? remaining) (error "Incomplete manual navigation" remaining))
+      (unless (null? remaining)
+        (error "Incomplete manual navigation" remaining))
       (list->vector tree))))

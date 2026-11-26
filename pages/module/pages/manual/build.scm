@@ -32,13 +32,15 @@
                            "nix" "eval" "--impure" "--json"
                            "--no-update-lock-file" "--no-write-lock-file"
                            "--option" "allow-import-from-derivation" "false"
-                           "--file" (string-append root "/pages/doc/reference.nix"))
+                           "--file"
+                           (string-append root "/pages/doc/reference.nix"))
                   #:ordered #t)))
             (atomic-write file (lambda (path) (write-json path result)))
             (atomic-write stamp
                           (lambda (path)
-                            (write-text path (string-append digest
-                                                            (file-digest file)))))))
+                            (write-text path
+                                        (string-append digest
+                                                       (file-digest file)))))))
         (read-json file))))
 
 (define (build-manual source directory reference revision system)
@@ -71,9 +73,12 @@
         (let ((main (string-append doc "/chinese-fonts-overlay.texi")))
           (replace-directory! output
             (lambda (staging)
-              (generate-reference catalog (read-json languages) staging revision)
-              (run makeinfo "--no-split" "--error-limit=100" "-I" doc "-I" staging
-                   "-o" (string-append staging "/chinese-fonts-overlay.info") main)
+              (generate-reference catalog (read-json languages)
+                                  staging revision)
+              (run makeinfo "--no-split" "--error-limit=100"
+                   "-I" doc "-I" staging
+                   "-o" (string-append staging "/chinese-fonts-overlay.info")
+                   main)
               (run makeinfo "--html" "--split=section" "--no-headers"
                    "-c" "FORMAT_MENU=menu"
                    "-c" "USE_NODES=0"
@@ -82,9 +87,11 @@
                    "-c" "AFTER_BODY_OPEN=<!-- manual-start -->"
                    "-c" "PRE_BODY_CLOSE=<!-- manual-end -->"
                    (string-append "--internal-links=" staging "/links.tsv")
-                   "-I" doc "-I" staging "-o" (string-append staging "/html") main)
+                   "-I" doc "-I" staging
+                   "-o" (string-append staging "/html") main)
               (write-json (string-append staging "/navigation.json")
-                          (manual-navigation (string-append staging "/links.tsv")))
+                          (manual-navigation
+                           (string-append staging "/links.tsv")))
               (validate-manual staging)))
           (atomic-write stamp (lambda (path) (write-text path (output-state))))
           (format #t "Built manual: ~a (~a packages)~%" output

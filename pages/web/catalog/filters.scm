@@ -141,7 +141,8 @@
                           #\space)))
                     (let any ((values (cdar rest)))
                       (and (pair? values)
-                           (or (member (car values) actual) (any (cdr values))))))
+                           (or (member (car values) actual)
+                               (any (cdr values))))))
                   (loop (cdr rest)))))))
 
 (define (order-packages! order)
@@ -149,10 +150,11 @@
   (unless (string=? order displayed-order)
     (let ((container (element-by-id "packages"))
           (rows (if (string=? order "name")
-                    (stable-sort packages
-                                 (lambda (a b)
-                                   (string<? (element-attribute a "data-name")
-                                             (element-attribute b "data-name"))))
+                    (stable-sort
+                     packages
+                     (lambda (a b)
+                       (string<? (element-attribute a "data-name")
+                                 (element-attribute b "data-name"))))
                     packages)))
       (for-each (lambda (row) (append-child! container row)) rows)
       (set! displayed-order order))))
@@ -163,7 +165,7 @@
   (when save? (save-filters!)))
 
 (define (apply-filters! language-labels)
-  "Update the result list and language badge; return the selected language tags."
+  "Update results and the language badge; return selected language tags."
   (let* ((selections
           (map (lambda (facet) (cons (facet-key facet) (facet-selection facet)))
                facets))
@@ -190,10 +192,12 @@
     (set-text!
      (element-by-id "current-language")
      (cond ((null? languages) "未选择语言")
-           ((= (length languages) (length (facet-options language-facet))) "全部语言")
-           (else (string-join (map (lambda (tag) (json-text language-labels tag))
-                                   languages)
-                              "、"))))
+           ((= (length languages) (length (facet-options language-facet)))
+            "全部语言")
+           (else (string-join
+                  (map (lambda (tag) (json-text language-labels tag))
+                       languages)
+                  "、"))))
     languages))
 
 (define (initialize-filters! on-change)

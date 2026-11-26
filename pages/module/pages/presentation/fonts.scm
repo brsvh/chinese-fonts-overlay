@@ -62,8 +62,10 @@
                 (commercial-font-names)))
     (let ((css
            (string-append
-            (face-css "YuYang" "400" "normal" "yuyang-regular.ttf" "truetype")
-            (face-css "YuYang" "500 900" "normal" "yuyang-medium.ttf" "truetype")
+            (face-css "YuYang" "400" "normal"
+                      "yuyang-regular.ttf" "truetype")
+            (face-css "YuYang" "500 900" "normal"
+                      "yuyang-medium.ttf" "truetype")
             (if (null? inputs) ""
                 (string-append
                  ":root { --site-code-font: Triplicate; }\n"

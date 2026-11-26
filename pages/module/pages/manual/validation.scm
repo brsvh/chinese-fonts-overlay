@@ -56,7 +56,8 @@
     (for-each
      (lambda (package)
        (let ((node (jref package "node")))
-         (unless (= 1 (count (lambda (entry) (equal? (caddr entry) node)) nodes))
+         (unless (= 1 (count (lambda (entry) (equal? (caddr entry) node))
+                             nodes))
            (error "Package must have exactly one HTML node" node))
          (unless (member node info-nodes)
            (error "Package missing from Info" node)))) packages)

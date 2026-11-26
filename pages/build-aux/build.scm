@@ -13,7 +13,9 @@
                                  "HEAD^{commit}"))
                        revision)))
               (build-site root directory cache catalog fonts revision manual)))
-           (_ (error "Usage: build.scm ROOT BUILD CACHE CATALOG FONTS REVISION MANUAL"))))
+           (_ (error
+               (string-append "Usage: build.scm ROOT BUILD CACHE CATALOG "
+                              "FONTS REVISION MANUAL")))))
        (lambda (key . args)
          (print-exception (current-error-port) #f key args)
          (exit 1)))

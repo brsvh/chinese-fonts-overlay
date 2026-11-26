@@ -45,7 +45,7 @@
          (lambda _ #f))))
 
 (define (decode-path raw)
-  "Decode RAW per path segment, preserving plus signs; return false if malformed."
+  "Decode RAW per path segment, keeping plus signs; return #f if malformed."
   (and (string-prefix? "/" raw)
        (let loop ((segments (string-split raw #\/)) (decoded '()))
          (if (null? segments)

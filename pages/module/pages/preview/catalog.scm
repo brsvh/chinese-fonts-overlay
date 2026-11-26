@@ -28,7 +28,8 @@
 (define (write-face-manifest! face destination)
   "Write one public face manifest and attach its content-addressed URL."
   (let* ((content (scm->json-string `(("samples" . ,(jref face "samples")))))
-         (name (string-append "assets/previews/" (text-digest content) ".json")))
+         (name
+          (string-append "assets/previews/" (text-digest content) ".json")))
     (let ((path (string-append destination "/" name)))
       (unless (file-exists? path) (write-text path content)))
     (jset face "manifest" name)))
@@ -93,12 +94,13 @@
          `(("cover" . ,(without-samples (jref package "cover")))
            ("preview"
             ("kind" . "image")
-            ("faces" . ,(list->vector
-                         (map
-                          without-samples
-                          (jarray (jref (jref package "preview") "faces")))))))))
+            ("faces"
+             . ,(list->vector
+                 (map without-samples
+                      (jarray (jref (jref package "preview") "faces")))))))))
 
-(define (index-preview-manifests! catalog rendered-previews destination revision)
+(define (index-preview-manifests! catalog rendered-previews
+                                  destination revision)
   "Write face manifests and return the catalog with samples for page rendering."
   (let ((raw (jarray (jref catalog "packages"))))
     (unless (equal? (sort (map car rendered-previews) string<?)
@@ -109,13 +111,15 @@
             (map (lambda (package)
                    (let* ((preview (jref rendered-previews (jref package "id")))
                           (faces (jarray (jref preview "faces")))
-                          (cover (cover-face (jref package "displayName") faces)))
-                     (catalog-entry package catalog
-                                    (map (lambda (face)
-                                           (write-face-manifest! face destination))
-                                         faces)
-                                    (write-face-manifest! cover destination)
-                                    revision)))
+                          (cover
+                           (cover-face (jref package "displayName") faces)))
+                     (catalog-entry
+                      package catalog
+                      (map (lambda (face)
+                             (write-face-manifest! face destination))
+                           faces)
+                      (write-face-manifest! cover destination)
+                      revision)))
                  raw))
            (languages
             (prioritize-entries

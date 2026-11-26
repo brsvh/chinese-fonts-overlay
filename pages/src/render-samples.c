@@ -18,7 +18,7 @@
 #include "webp-image.h"
 
 /* Owned rendering objects for the selected face.  Each worker processes its
-   manifest sequentially and releases these objects before selecting a face. */
+   manifest sequentially and releases these objects before selecting a face.  */
 static PangoFontMap *map;
 static PangoContext *context;
 static PangoLayout *layout;

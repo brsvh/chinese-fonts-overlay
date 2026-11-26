@@ -3,7 +3,7 @@
              (srfi srfi-1))
 
 (define (output-path path)
-  "Resolve PATH through existing parents, normalizing symlinks and dot segments."
+  "Resolve PATH through existing parents, normalizing symlinks and dots."
   (when (string-null? path)
     (error "Invalid output path" path))
   (let* ((trimmed (string-trim-right path #\/))
@@ -29,16 +29,20 @@
          (pages (canonicalize-path source))
          (root (dirname pages)))
     (when (or (string=? output "/") (within? pages output)
-              (any (lambda (name) (within? output (string-append pages "/" name)))
+              (any (lambda (name)
+                     (within? output (string-append pages "/" name)))
                    '("build-aux" "doc" "etc" "module" "src" "test" "web"))
-              (any (lambda (name) (within? output (string-append root "/" name)))
-                   '(".agents" ".git" ".github" "ci" "lib" "overlays" "packages" "tools")))
+              (any (lambda (name)
+                     (within? output (string-append root "/" name)))
+                   '(".agents" ".git" ".github" "ci" "lib" "overlays"
+                     "packages" "tools")))
       (error "Output directory overlaps the source tree" output))))
 
 (define (clean source directory names)
   "Remove the named products from a checked output directory."
   (check-output source directory)
-  (for-each (lambda (name) (delete-tree (string-append directory "/" name))) names))
+  (for-each (lambda (name) (delete-tree (string-append directory "/" name)))
+            names))
 
 (match (cdr (command-line))
   (("check" source directories ...)
@@ -46,8 +50,9 @@
   (("clean-build" source directory)
    (clean source directory
           '("bin" "web" "inputs" "test" "previews" "public" "manual"
-            "manual.sha256" "reference.json" "reference.sha256" "native.settings"
-            "web.settings" "previews.sha256" "public.sha256")))
+            "manual.sha256" "reference.json" "reference.sha256"
+            "native.settings" "web.settings" "previews.sha256"
+            "public.sha256")))
   (("clean-cache" source directory)
    (clean source directory '("font-records" "language-images")))
   (_ (error "Expected check|clean-build|clean-cache SOURCE DIRECTORY ...")))

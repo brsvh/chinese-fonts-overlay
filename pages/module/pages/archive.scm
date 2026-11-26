@@ -122,8 +122,9 @@
         (require (pair? inputs) "WEBFONTS_DIR is required to verify webfonts")
         (for-each
          (lambda (entry)
-           (require (equal? (file-digest (cdr entry))
-                            (file-digest (string-append directory "/" (car entry))))
+           (require (equal?
+                     (file-digest (cdr entry))
+                     (file-digest (string-append directory "/" (car entry))))
                     "Interface asset differs from its declared input"
                     (car entry)))
          inputs)))

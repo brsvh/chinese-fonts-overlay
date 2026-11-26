@@ -8,7 +8,8 @@
   "Return the source files shared by preview and manual metadata evaluation."
   (append (map (lambda (name) (in-vicinity root name))
                '("flake.nix" "flake.lock" "default.nix"
-                 "pages/module/pages/build/inputs.scm" "pages/module/pages/util.scm"))
+                 "pages/module/pages/build/inputs.scm"
+                 "pages/module/pages/util.scm"))
           (append-map
            (lambda (directory)
              (filter (lambda (file) (string-suffix? ".nix" file))

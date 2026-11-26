@@ -2,8 +2,9 @@
   #:use-module (chinese-fonts-overlay pages util)
   #:use-module (sxml simple)
   #:use-module (srfi srfi-1)
-  #:export (web-file substitute-template source-repository site-header site-footer
-                     site-markup site-presentation-head site-loader))
+  #:export (web-file substitute-template source-repository site-header
+                     site-footer site-markup site-presentation-head
+                     site-loader))
 
 (define (web-file name)
   "Resolve NAME relative to the matching compiled browser assets."
@@ -13,13 +14,14 @@
    name))
 
 (define (substitute-template template substitutions)
-  "Replace literal template markers once without locale-sensitive match offsets."
+  "Replace literal template markers once without locale-sensitive offsets."
   (call-with-output-string
    (lambda (port)
      (let loop ((start 0))
        (let ((next
               (fold (lambda (entry found)
-                      (let ((position (string-contains template (car entry) start)))
+                      (let ((position
+                             (string-contains template (car entry) start)))
                         (if (and position
                                  (or (not found) (< position (car found))))
                             (cons position entry)
@@ -50,7 +52,8 @@
                    `(link (@ (rel "preload") (as "font") (type "font/woff2")
                              (crossorigin "anonymous")
                              (href ,(string-append prefix name)))))
-                 '("concourse_ot_3_book.woff2" "triplicate_a_code_regular.woff2"))
+                 '("concourse_ot_3_book.woff2"
+                   "triplicate_a_code_regular.woff2"))
             '())
       (link (@ (rel "stylesheet") (href ,(string-append prefix "fonts.css"))))
       (link (@ (rel "stylesheet") (href ,(string-append prefix "style.css"))))))
@@ -84,7 +87,8 @@
               (span (@ (class "brand-sub")) "chinese-fonts-overlay")))
      (nav (@ (class "nav") (aria-label "主导航"))
           ,(navigation prefix "字体预览" 'preview)
-          ,(navigation (string-append prefix "manual/index.html") "使用手册" 'manual)
+          ,(navigation (string-append prefix "manual/index.html")
+                       "使用手册" 'manual)
           (a (@ (href ,source-repository)) "源码仓库 ↗"))
      (a (@ (class "mobile-page-link")
            (data-section ,(if (eq? current 'manual) "preview" "manual"))
@@ -114,7 +118,8 @@
   (unless (valid-revision? revision)
     (error "Expected a source revision for the site footer" revision))
   (let ((base (string-append source-repository "/blob/" revision))
-        (separator '(span (@ (class "footer-separator") (aria-hidden "true")) "")))
+        (separator
+         '(span (@ (class "footer-separator") (aria-hidden "true")) "")))
     (string-append
      (site-markup
       `(footer
@@ -123,7 +128,8 @@
               (aria-label ,(string-append "源码树 " (substring revision 0 10))))
            (code ,(substring revision 0 10)))
         ,separator
-        (span "由 " (a (@ (href "https://spritely.institute/hoot/")) "Hoot") " 驱动")
+        (span "由 " (a (@ (href "https://spritely.institute/hoot/")) "Hoot")
+              " 驱动")
         ,separator
         (a (@ (class "site-license") (href ,(string-append base "/COPYING")))
            "网站许可 "

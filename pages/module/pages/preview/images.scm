@@ -228,7 +228,8 @@
       ("samples" . ,available)
       ("defaultLanguage" . ,(default-language available)))))
 
-(define (prepare-previews catalog selected cache staging previous-output inspection)
+(define (prepare-previews catalog selected cache staging
+                          previous-output inspection)
   "Write previews into owned STAGING, reusing CACHE and PREVIOUS-OUTPUT.
 The caller publishes or discards STAGING as part of the complete site build."
   (let* ((packages (jarray (jref catalog "packages")))
@@ -270,10 +271,12 @@ The caller publishes or discards STAGING as part of the complete site build."
           faces)))
      packages)
     (render-batches jobs images)
-    (let* ((public (publish-images images
-                                   (verified-images previous-output validation-stamp)
-                                   previous-output
-                                   (string-append staging "/assets")))
+    (let* ((public
+            (publish-images
+             images
+             (verified-images previous-output validation-stamp)
+             previous-output
+             (string-append staging "/assets")))
            (result
             (map (lambda (package)
                    (let ((id (jref package "id")))

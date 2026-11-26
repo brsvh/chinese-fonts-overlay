@@ -34,7 +34,9 @@
                        (char-numeric? character)
                        (char=? character #\-)))
               (string character)
-              (string-append "_" (number->string (char->integer character) 16) "_")))
+              (string-append "_"
+                             (number->string (char->integer character) 16)
+                             "_")))
         (string->list value))))
 
 (define (package-node package)
@@ -64,7 +66,8 @@
     (field "版本" (texinfo (jref package "version")))
     (field "风格"
            (string-join (map (lambda (key)
-                               (texinfo (jref (jref catalog "styleLabels") key)))
+                               (texinfo
+                                (jref (jref catalog "styleLabels") key)))
                              (jarray (jref package "styles"))) "、"))
     (field "支持语言"
            (if (null? (jarray (jref package "languages"))) "未检测到语言覆盖。"
@@ -73,7 +76,8 @@
                 (string-concatenate
                  (map (lambda (code)
                         (format #f "@item ~a（@code{~a}）\n"
-                                (texinfo (jref languages code code)) (texinfo code)))
+                                (texinfo (jref languages code code))
+                                (texinfo code)))
                       (jarray (jref package "languages"))))
                 "@end itemize")))
     (field "许可费用" (texinfo (jref (jref catalog "licenseCostLabels")
@@ -97,13 +101,15 @@
                   source-repository "/blob/" revision "/"
                   (string-join
                    (map uri-encode
-                        (string-split (jref (jref package "source") "path") #\/))
+                        (string-split
+                         (jref (jref package "source") "path") #\/))
                    "/"))
                  attribute))
     (display "@end table\n\n")
     (write-notices (jref package "notices") catalog)
     (let ((query (string-append "?language=*&style=*&license=*&query="
-                                (uri-encode attribute) "#" (jref package "id"))))
+                                (uri-encode attribute)
+                                "#" (jref package "id"))))
       (format #t "@ifhtml\n~a\n@end ifhtml\n@ifnothtml\n~a\n@end ifnothtml\n\n"
               (link (string-append "../" query) "查看字体预览")
               (link (string-append
@@ -119,7 +125,10 @@
               (label (jref level-labels level)))
          (unless (and (string? level) label)
            (error "Unknown notice level" level))
-         (format #t "@html\n<aside class=\"manual-notice manual-notice-~a\">\n@end html\n"
+         (format #t
+                 (string-append
+                  "@html\n<aside class=\"manual-notice "
+                  "manual-notice-~a\">\n@end html\n")
                  (encode-node-id level))
          (format #t "@quotation ~a\n~a\n\n"
                  (texinfo label)
@@ -146,8 +155,9 @@
       (display "@itemize @bullet\n")
       (for-each
        (lambda (attribute)
-         (let ((package (find (lambda (p) (equal? attribute (jref p "attribute")))
-                              packages)))
+         (let ((package
+                (find (lambda (p) (equal? attribute (jref p "attribute")))
+                      packages)))
            (unless package (error "Unknown aggregate member" attribute))
            (format #t "@item\n@ref{~a, , ~a}（@code{~a}）\n"
                    (package-node package) (texinfo (jref package "displayName"))
@@ -195,7 +205,8 @@
                                  packages))
                           (jref catalog "vendors"))))
     (unless (and (pair? packages)
-                 (= (length attributes) (length (delete-duplicates attributes))))
+                 (= (length attributes)
+                    (length (delete-duplicates attributes))))
       (error "Manual requires a nonempty, unique package catalog"))
     (write-text (string-append directory "/revision.texi")
                 (format #f "@set source-revision ~a\n" revision))
@@ -204,7 +215,8 @@
      (string-concatenate
       (map (lambda (vendor)
              (format #f "* ~a: ~a. 字体包与合集。\n"
-                     (texinfo (cdr vendor)) (vendor-node (car vendor)))) vendors)))
+                     (texinfo (cdr vendor)) (vendor-node (car vendor))))
+           vendors)))
     (write-text
      (string-append directory "/vocabulary.texi")
      (call-with-output-string
@@ -227,12 +239,14 @@
         (with-output-to-port port
           (lambda ()
             (for-each (lambda (vendor)
-                        (vendor-section vendor packages catalog languages revision))
+                        (vendor-section vendor packages catalog
+                                        languages revision))
                       vendors))))))
     (write-json (string-append directory "/reference.json")
                 `(("sourceRevision" . ,revision)
-                  ("packages" . ,(list->vector
-                                  (map (lambda (p)
-                                         `(("node" . ,(package-node p))
-                                           ("attribute" . ,(jref p "attribute"))))
-                                       packages)))))))
+                  ("packages"
+                   . ,(list->vector
+                       (map (lambda (p)
+                              `(("node" . ,(package-node p))
+                                ("attribute" . ,(jref p "attribute"))))
+                            packages)))))))

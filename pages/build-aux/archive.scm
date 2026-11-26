@@ -11,4 +11,5 @@
   (("unpack" archive manifest destination)
    (unpack-site archive (read-json manifest) destination))
   (_ (error (string-append "Expected pack DIRECTORY REVISION DESTINATION "
-                            "or unpack ARCHIVE MANIFEST DESTINATION or validate MANIFEST"))))
+                           "or unpack ARCHIVE MANIFEST DESTINATION "
+                           "or validate MANIFEST"))))
