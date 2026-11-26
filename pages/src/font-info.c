@@ -53,7 +53,7 @@ write_scheme_string (const char *text)
 
         default:
           if (*c < 32)
-            printf ("\\x%x;", *c);
+            printf ("\\x%02x", *c);
           else
             putchar (*c);
         }
