@@ -53,13 +53,14 @@
              (= #o644
                 (stat:perms (stat (string-append output "/index.html"))))))
       (test-assert "Reject corrupt archive before extraction"
-        (string-contains
-         (failure-message
-          (lambda ()
-            (unpack-site archive
-                         (jset manifest "sha256" (make-string 64 #\0))
-                         (string-append root "/bad"))))
-         "digest or size mismatch"))
+        (and (string-contains
+              (failure-message
+               (lambda ()
+                 (unpack-site archive
+                              (jset manifest "sha256" (make-string 64 #\0))
+                              (string-append root "/bad"))))
+              "digest or size mismatch")
+             (not (file-exists? (string-append root "/bad")))))
       (let ((script (string-append public "/navigation.js"))
             (saved (string-append root "/navigation.js")))
         (dynamic-wind

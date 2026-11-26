@@ -26,6 +26,7 @@
           #:method method)))
       (mkdir-p root)
       (write-text (string-append root "/index.html") "中文预览")
+      (write-text (string-append root "/empty.txt") "")
       (write-text (string-append root "/a+b.json") "{}")
       (call-with-output-file (string-append root "/sample.webp")
         (lambda (port) (put-bytevector port image-bytes))
@@ -51,6 +52,7 @@
                           (equal? body expected))))))
            '(GET HEAD))))
        `(("/" text/html ,(string->utf8 "中文预览"))
+         ("/empty.txt" application/octet-stream #vu8())
          ("/sample.webp" image/webp ,image-bytes)))
       (for-each
        (lambda (entry)

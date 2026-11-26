@@ -8,7 +8,7 @@
              (srfi srfi-1)
              (srfi srfi-64))
 
-;; Static publication must preserve Unicode labels in minimal build environments.
+;; Static publication must preserve Unicode labels in minimal environments.
 (setlocale LC_ALL "C")
 
 (test-begin "publication")
@@ -18,7 +18,7 @@
 (define temporary (temporary-directory (or (getenv "TMPDIR") "/tmp")))
 
 (define (with-env name value thunk)
-  "Run THUNK with environment variable NAME set to VALUE, restoring prior state."
+  "Run THUNK with NAME set to VALUE, restoring its prior environment state."
   (let ((previous (getenv name)))
     (dynamic-wind
       (lambda () (setenv name value))
@@ -33,7 +33,9 @@
   (let* ((file (string-append temporary "/diagnostic"))
          (status (call-with-output-file
                      file
-                   (lambda (port) (with-error-to-port port thunk)))))
+                   (lambda (port)
+                     (set-port-encoding! port "UTF-8")
+                     (with-error-to-port port thunk)))))
     (cons status (read-text file))))
 
 (dynamic-wind
@@ -122,7 +124,8 @@
                       #("https://example.test/variable"))
                      (else #("javascript:alert(1)"))))
                 ("source"
-                 ("path" . ,(string-append "packages/test/" name "/package.nix")))
+                 ("path" . ,(string-append "packages/test/"
+                                           name "/package.nix")))
                 ("notices"
                  . #((("level" . "warning") ("text" . "<unsafe>\n正文说明")))))))
            (packages
@@ -171,7 +174,8 @@
                      (file-digest file)))
              (sort (files-under output) string<?)))
       (write-json manual-reference catalog)
-      (run "env" "-u" "MAKEFLAGS" "make" "-C" source-root "check-manual"
+      (run "env" "-u" "MAKEFLAGS" "-u" "MANUAL" "make" "-C" source-root
+           "check-manual"
            (string-append "BUILD_DIR=" manual-build)
            (string-append "REFERENCE=" manual-reference)
            (string-append "SOURCE_REVISION=" revision))
@@ -211,7 +215,8 @@
                        (string-append revision
                                       "/packages/test/english/package.nix")
                        (string-append revision "/COPYING"))))
-        (test-assert "Manual shares the site shell and preserves literal metadata"
+        (test-assert
+          "Manual shares the site shell and preserves literal metadata"
           (let ((manual-page
                  (read-text
                   (string-append output "/manual/Vendor_002dtest.html"))))
@@ -233,7 +238,8 @@
                   (lambda (html)
                     (and (string-contains html "commandfor=\"site-notices\"")
                          (string-contains html "<dialog")
-                         (string-contains html "href=\"https://mbtype.com/license/\"")
+                         (string-contains
+                          html "href=\"https://mbtype.com/license/\"")
                          (string-contains
                           html
                           "https://protesilaos.com/emacs/modus-themes-colors")))
@@ -250,7 +256,8 @@
                  (string-contains
                   page "href=\"https://example.test/font/source\"")))
             (and first second (< first second)
-                 (string-contains page "href=\"https://example.test/variable\""))))
+                 (string-contains
+                  page "href=\"https://example.test/variable\""))))
         (test-equal "Previews respect covered, missing and unknown languages"
           '(("en") () ("unknown"))
           (map (lambda (name) (map car (published-samples name)))
@@ -274,7 +281,7 @@
                   (jref face "weight")
                   (jref face "style"))))
         (test-assert
-          "Static output includes only selected interface fonts and public assets"
+          "Static output includes only selected interface fonts and assets"
           (and (every (lambda (name) (assoc name snapshot))
                       (append (browser-assets)
                               '("index.html" "catalog.json" "previews.json")))
@@ -315,7 +322,8 @@
                    (delete-file style)
                    (write-text
                     (string-append
-                     output "/" (jref (cdar (published-samples "english")) "url"))
+                     output "/"
+                     (jref (cdar (published-samples "english")) "url"))
                     "damaged published image")
                    (write-text image "damaged prepared preview")
                    (write-text (in-vicinity temporary "previews/previews.json")
