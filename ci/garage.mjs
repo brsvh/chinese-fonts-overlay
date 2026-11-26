@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { command, ensure, parseJson } from './common.mjs';
+import { command, ensure, parseJson, sanitizedEnv } from './common.mjs';
 
 const endpoint = 'https://s3.bingshan.org';
 
@@ -14,8 +14,7 @@ export class GarageBucket {
     const config = path.join(this.directory, 'config');
     fs.writeFileSync(config, '[default]\ns3 =\n    addressing_style = path\n');
 
-    this.env = {
-      ...process.env,
+    this.env = sanitizedEnv({
       AWS_ACCESS_KEY_ID: accessKeyId,
       AWS_SECRET_ACCESS_KEY: secretAccessKey,
       AWS_CONFIG_FILE: config,
@@ -25,10 +24,7 @@ export class GarageBucket {
       AWS_RETRY_MODE: 'standard',
       AWS_REQUEST_CHECKSUM_CALCULATION: 'WHEN_REQUIRED',
       AWS_RESPONSE_CHECKSUM_VALIDATION: 'WHEN_REQUIRED',
-    };
-
-    delete this.env.AWS_SESSION_TOKEN;
-    delete this.env.AWS_PROFILE;
+    });
   }
 
   close() {

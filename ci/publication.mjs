@@ -11,6 +11,7 @@ import {
   policy,
   readJson,
   repository,
+  sanitizedEnv,
   schema,
   sha,
   storePattern,
@@ -20,7 +21,6 @@ import {
   auditClosure,
   derivationGraph,
   pathInfo,
-  sanitizedEnv,
 } from './inventory.mjs';
 import { ApiError, fetchResponse, request } from './http.mjs';
 import { GitHub, Superseded } from './github.mjs';

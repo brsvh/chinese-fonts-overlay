@@ -9,6 +9,7 @@ import {
   matches,
   parseJson,
   policy,
+  sanitizedEnv,
   schema,
   storePattern,
 } from './common.mjs';
@@ -79,23 +80,6 @@ export function withBaseWorktree(root, directory, baseSha, callback) {
       throw cleanupError;
     }
   }
-}
-
-export function sanitizedEnv(extra = {}) {
-  const env = { ...process.env };
-
-  for (const key of [
-    'GITHUB_TOKEN',
-    'GH_TOKEN',
-    'AWS_ACCESS_KEY_ID',
-    'AWS_SECRET_ACCESS_KEY',
-    'AWS_SESSION_TOKEN',
-    'HERCULES_CI_SECRETS_JSON',
-  ]) {
-    delete env[key];
-  }
-
-  return { ...env, ...extra };
 }
 
 export function evaluate(root, mode, selection = [], build = false) {
@@ -341,10 +325,6 @@ export function pathInfo(outputs, store) {
 }
 
 export function auditClosure(outputs, denied) {
-  ensure(
-    outputs.length > 0 && outputs.every((value) => storePattern.test(value)),
-    'Invalid cache roots',
-  );
   const source = pathInfo(outputs);
   const forbiddenPaths = new Set(denied);
   ensure(

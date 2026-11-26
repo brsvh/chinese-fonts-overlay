@@ -8,6 +8,7 @@ import {
   positiveInteger,
   readJson,
   repository,
+  sanitizedEnv,
   sha,
 } from './common.mjs';
 import { GitHub, output } from './github.mjs';
@@ -28,13 +29,17 @@ function environment(name) {
 }
 
 function archiveCommand(...args) {
-  return command('guile', [
-    '--no-auto-compile',
-    '-L',
-    path.join(root, 'pages/module'),
-    path.join(root, 'pages/build-aux/archive.scm'),
-    ...args,
-  ]);
+  return command(
+    'guile',
+    [
+      '--no-auto-compile',
+      '-L',
+      path.join(root, 'pages/module'),
+      path.join(root, 'pages/build-aux/archive.scm'),
+      ...args,
+    ],
+    { env: sanitizedEnv() },
+  );
 }
 
 function readArtifactManifest(file) {
@@ -56,12 +61,16 @@ async function mainRevision(api) {
 }
 
 function remoteMain() {
-  const ref = command('git', [
-    'ls-remote',
-    '--exit-code',
-    'https://github.com/' + repository + '.git',
-    'refs/heads/main',
-  ]);
+  const ref = command(
+    'git',
+    [
+      'ls-remote',
+      '--exit-code',
+      'https://github.com/' + repository + '.git',
+      'refs/heads/main',
+    ],
+    { env: sanitizedEnv() },
+  );
   const parts = ref.split(/\s+/);
   ensure(
     parts.length === 2 && sha.test(parts[0]) && parts[1] === 'refs/heads/main',
@@ -195,6 +204,8 @@ function downloadWebfonts(bucket, library) {
 }
 
 function buildArchive(source, library) {
+  const env = sanitizedEnv();
+
   command(
     'git',
     [
@@ -209,13 +220,14 @@ function buildArchive(source, library) {
       'https://github.com/' + repository + '.git',
       'source',
     ],
-    { stdio: 'inherit' },
+    { env, stdio: 'inherit' },
   );
   command('git', ['-C', 'source', 'checkout', '--detach', source], {
+    env,
     stdio: 'inherit',
   });
   ensure(
-    command('git', ['-C', 'source', 'rev-parse', 'HEAD']) === source,
+    command('git', ['-C', 'source', 'rev-parse', 'HEAD'], { env }) === source,
     'Unexpected source checkout',
   );
 
@@ -240,9 +252,9 @@ function buildArchive(source, library) {
     'SOURCE_REVISION=' + source,
   ];
 
-  command('nix', [...args, 'check'], { stdio: 'inherit' });
+  command('nix', [...args, 'check'], { env, stdio: 'inherit' });
   args.push('WEBFONTS_DIR=' + library);
-  command('nix', [...args, 'all'], { stdio: 'inherit' });
+  command('nix', [...args, 'all'], { env, stdio: 'inherit' });
 
   const releases = path.join(stateDirectory, 'releases');
   fs.mkdirSync(releases, { recursive: true });
@@ -271,6 +283,7 @@ function buildArchive(source, library) {
   try {
     const packed = path.join(temporary, 'release');
     command('nix', [...args, 'release', 'RELEASE_DIR=' + packed], {
+      env,
       stdio: 'inherit',
     });
 

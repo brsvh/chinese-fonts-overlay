@@ -121,6 +121,26 @@ export function writeJson(file, value) {
   }
 }
 
+export function sanitizedEnv(extra = {}) {
+  const env = { ...process.env };
+
+  for (const key of [
+    'GITHUB_TOKEN',
+    'GH_TOKEN',
+    'AWS_ACCESS_KEY_ID',
+    'AWS_SECRET_ACCESS_KEY',
+    'AWS_SESSION_TOKEN',
+    'AWS_PROFILE',
+    'HERCULES_CI_SECRETS_JSON',
+    'PAGES_S3_ACCESS_KEY_ID',
+    'PAGES_S3_SECRET_ACCESS_KEY',
+  ]) {
+    delete env[key];
+  }
+
+  return { ...env, ...extra };
+}
+
 export function command(program, args, options = {}) {
   const result = spawnSync(program, args, {
     encoding: 'utf8',

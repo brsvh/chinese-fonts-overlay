@@ -20,6 +20,7 @@ effects.mkEffect {
   NIX_CONFIG = ''
     experimental-features = nix-command flakes ca-derivations
     accept-flake-config = false
+    allow-import-from-derivation = false
     builders =
     post-build-hook =
   '';
