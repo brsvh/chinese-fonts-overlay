@@ -3,7 +3,6 @@
   #:use-module (ice-9 regex)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-11)
-  #:use-module (srfi srfi-13)
   #:export (manual-navigation internal-links))
 
 (define (internal-links file)

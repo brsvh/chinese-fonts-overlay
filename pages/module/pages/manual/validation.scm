@@ -3,7 +3,6 @@
   #:use-module (chinese-fonts-overlay pages util)
   #:use-module (ice-9 regex)
   #:use-module (srfi srfi-1)
-  #:use-module (srfi srfi-13)
   #:use-module (web uri)
   #:export (validate-manual))
 
@@ -13,18 +12,31 @@
     (append-map (lambda (line) (list-matches regexp line))
                 (string-split text #\newline))))
 
+(define (safe-external-href? href)
+  "Accept only explicit HTTP(S) or mailto external links in manual HTML."
+  (any (lambda (prefix) (string-prefix? prefix href))
+       '("https://" "http://" "mailto:")))
+
+(define (decode-anchor fragment)
+  "Decode an HTML anchor FRAGMENT without turning plus signs into spaces."
+  (catch 'decoding-error
+    (lambda () (uri-decode fragment #:decode-plus-to-space? #f))
+    (lambda _ #f)))
+
 (define (validate-manual directory)
   "Check package coverage, local HTML links and Info output in DIRECTORY."
   (let* ((links (internal-links (string-append directory "/links.tsv")))
          (reference (read-json (string-append directory "/reference.json")))
          (packages (jarray (jref reference "packages")))
          (nodes (filter (lambda (entry) (equal? (cadr entry) "node")) links))
-         (html (string-append directory "/html"))
+         (html (canonicalize-path (string-append directory "/html")))
+         (html-prefix (string-append html "/"))
          (pages (filter (lambda (file) (string-suffix? ".html" file))
                         (files-under html)))
          (page-text (map (lambda (file) (cons file (read-text file))) pages))
          (anchors (make-hash-table))
-         (info (read-text (string-append directory "/chinese-fonts-overlay.info")))
+         (info-file (string-append directory "/chinese-fonts-overlay.info"))
+         (info (read-text info-file))
          (info-nodes
           (map (lambda (match) (match:substring match 1))
                (filter-map
@@ -32,6 +44,9 @@
                   (and (string-prefix? "File:" line)
                        (string-match "Node: ([^,]+)," line)))
                 (string-split info #\newline)))))
+    (when (or (string-contains info "/nix/store/")
+              (string-contains info "file:///"))
+      (error "Private path in manual output" info-file))
     (for-each
      (lambda (page)
        (let ((ids (make-hash-table)))
@@ -57,18 +72,27 @@
          (for-each
           (lambda (match)
             (let ((href (match:substring match 1)))
-              (unless (or (string-contains href ":") (string-prefix? "../?" href))
+              (cond
+               ((string-prefix? "../?" href) #t)
+               ((string-contains href ":")
+                (unless (safe-external-href? href)
+                  (error "Unsafe manual link scheme" file href)))
+               (else
                 (let* ((parts (string-split href #\#))
-                       (target (if (string-null? (car parts)) file
-                                   (string-append html "/" (car parts)))))
-                  (unless (file-exists? target)
+                       (raw-target (if (string-null? (car parts)) file
+                                       (string-append html "/" (car parts))))
+                       (target (and (file-exists? raw-target)
+                                    (canonicalize-path raw-target))))
+                  (unless (and target (string-prefix? html-prefix target))
                     (error "Broken manual link" file href))
                   (when (pair? (cdr parts))
-                    (unless (hash-ref
-                             (or (hash-ref anchors target)
-                                 (error "Non-HTML manual link" target))
-                             (uri-decode (cadr parts)))
-                      (error "Broken manual anchor" file href)))))))
+                    (let ((anchor (decode-anchor (cadr parts))))
+                      (unless (and anchor
+                                   (hash-ref
+                                    (or (hash-ref anchors target)
+                                        (error "Non-HTML manual link" target))
+                                    anchor))
+                        (error "Broken manual anchor" file href)))))))))
           (text-matches "href=\"([^\"]+)\"" text)))) pages)
     (format #t "Checked ~a packages, ~a HTML pages and Info nodes.~%"
             (length packages) (length pages))))

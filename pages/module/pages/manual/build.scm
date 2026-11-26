@@ -4,10 +4,7 @@
   #:use-module (chinese-fonts-overlay pages manual navigation)
   #:use-module (chinese-fonts-overlay pages manual validation)
   #:use-module (chinese-fonts-overlay pages util)
-  #:use-module (ice-9 regex)
   #:use-module (json)
-  #:use-module (srfi srfi-1)
-  #:use-module (srfi srfi-13)
   #:export (build-manual))
 
 (define (reference-input root directory explicit system)
@@ -27,7 +24,8 @@
                              (string-append digest (file-digest file))))
           (let ((result
                  (json-string->scm
-                  (capture "env" (string-append "FONT_MANUAL_SOURCE_ROOT=" root)
+                  (capture "env" "--"
+                           (string-append "FONT_MANUAL_SOURCE_ROOT=" root)
                            (string-append "FONT_MANUAL_SYSTEM=" system)
                            (string-append "FONT_MANUAL_SOURCE_FLAKE="
                                           (checkout-flake-url root))
@@ -45,7 +43,7 @@
 
 (define (build-manual source directory reference revision system)
   "Build complete Info and HTML manuals in DIRECTORY without realizing fonts."
-  (unless (string-match "^[0-9a-f]{40}$" revision)
+  (unless (valid-revision? revision)
     (error "Expected a full source commit SHA" revision))
   (mkdir-p directory)
   (let* ((root (canonicalize-path (string-append source "/..")))

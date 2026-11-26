@@ -5,11 +5,10 @@
   #:use-module (chinese-fonts-overlay pages preview catalog)
   #:use-module (chinese-fonts-overlay pages preview page)
   #:use-module (chinese-fonts-overlay pages manual page)
+  #:use-module (chinese-fonts-overlay pages presentation assets)
   #:use-module (chinese-fonts-overlay pages presentation fonts)
   #:use-module (chinese-fonts-overlay pages presentation layout)
-  #:use-module (ice-9 regex)
   #:use-module (srfi srfi-1)
-  #:use-module (chinese-fonts-overlay pages presentation assets)
   #:export (build-site))
 
 (define (assemble-site! catalog prepared manual output revision)
@@ -26,10 +25,14 @@
     (write-preview-page! indexed output))
   (install-manual manual output revision)
   (for-each
-   (lambda (name) (copy-file (web-file name) (string-append output "/" name)))
-   (append browser-assets
+   (lambda (name)
+     (let ((source (web-file name)))
+       (unless (file-exists? source)
+         (error "Missing required browser asset" name))
+       (copy-file source (string-append output "/" name))))
+   (append (browser-assets)
            (filter (lambda (name) (file-exists? (web-file name)))
-                   commercial-font-names))))
+                   (commercial-font-names)))))
 
 (define (file-state file)
   "Describe FILE's identity, size and modification state without reading it."
@@ -68,7 +71,7 @@
 
 (define (build-site root directory cache catalog-file fonts-file revision manual)
   "Build DIRECTORY/public from declared inputs, reusing unchanged stage outputs."
-  (unless (and (string? revision) (string-match "^[0-9a-f]{40}$" revision))
+  (unless (valid-revision? revision)
     (error "Expected a full source commit SHA" revision))
   (let* ((catalog (read-json catalog-file))
          (fonts (read-json fonts-file))

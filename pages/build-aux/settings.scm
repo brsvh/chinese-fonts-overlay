@@ -5,4 +5,5 @@
   ((output . settings)
    (let ((text (string-append (object->string settings) "\n")))
      (unless (and (file-exists? output) (string=? text (read-text output)))
-       (atomic-write output (lambda (file) (write-text file text)))))))
+       (atomic-write output (lambda (file) (write-text file text))))))
+  (_ (error "Usage: settings.scm OUTPUT [SETTING ...]")))

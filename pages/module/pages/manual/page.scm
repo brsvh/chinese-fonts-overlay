@@ -3,7 +3,6 @@
   #:use-module (chinese-fonts-overlay pages presentation layout)
   #:use-module (chinese-fonts-overlay pages util)
   #:use-module (srfi srfi-1)
-  #:use-module (srfi srfi-13)
   #:export (install-manual))
 
 (define (entry-file entry)

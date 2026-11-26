@@ -1,16 +1,22 @@
 (define-module (chinese-fonts-overlay pages presentation fonts)
   #:use-module (chinese-fonts-overlay pages util)
-  #:use-module (srfi srfi-1)
   #:export (commercial-font-names commercial-font-inputs prepare-interface))
 
 (define commercial-faces
-  (jarray (jref (read-json (search-path %load-path "../etc/webfonts.json"))
-                "faces")))
+  (delay
+    (jarray (jref (read-json (search-path %load-path "../etc/webfonts.json"))
+                  "faces"))))
 
 (define (face-name face)
+  "Return the public basename for a commercial webfont FACE record."
   (basename (jref face "path")))
 
-(define commercial-font-names (map face-name commercial-faces))
+(define cached-commercial-font-names
+  (delay (map face-name (force commercial-faces))))
+
+(define (commercial-font-names)
+  "Return the public filenames of configured commercial interface webfonts."
+  (force cached-commercial-font-names))
 
 (define (commercial-font-inputs directory)
   "Map public filenames to original WOFF2 paths under purchased DIRECTORY."
@@ -18,7 +24,7 @@
       '()
       (map (lambda (face)
              (cons (face-name face) (in-vicinity directory (jref face "path"))))
-           commercial-faces)))
+           (force commercial-faces))))
 
 (define (face-css family weight style name format-name)
   "Describe an original font file, activated only after the loading gate."
@@ -53,7 +59,7 @@
       (for-each (lambda (name)
                   (let ((file (string-append output "/" name)))
                     (when (file-exists? file) (delete-file file))))
-                commercial-font-names))
+                (commercial-font-names)))
     (let ((css
            (string-append
             (face-css "YuYang" "400" "normal" "yuyang-regular.ttf" "truetype")
@@ -63,7 +69,7 @@
                  (map (lambda (face)
                         (face-css (jref face "family") (jref face "weight")
                                   (jref face "style") (face-name face) "woff2"))
-                      commercial-faces)))))
+                      (force commercial-faces))))))
           (target (string-append output "/fonts.css")))
       (unless (and (file-exists? target) (equal? css (read-text target)))
         (atomic-write target (lambda (file) (write-text file css)))))))

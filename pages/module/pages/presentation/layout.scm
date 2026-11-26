@@ -2,7 +2,6 @@
   #:use-module (chinese-fonts-overlay pages util)
   #:use-module (sxml simple)
   #:use-module (srfi srfi-1)
-  #:use-module (ice-9 regex)
   #:export (web-file substitute-template source-repository site-header site-footer
                      site-markup site-presentation-head site-loader))
 
@@ -112,7 +111,7 @@
 
 (define (site-footer prefix revision)
   "Render the common footer using PREFIX and the full source REVISION."
-  (unless (string-match "^[0-9a-f]{40}$" revision)
+  (unless (valid-revision? revision)
     (error "Expected a source revision for the site footer" revision))
   (let ((base (string-append source-repository "/blob/" revision))
         (separator '(span (@ (class "footer-separator") (aria-hidden "true")) "")))

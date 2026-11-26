@@ -12,15 +12,16 @@
 (define (render-jobs jobs)
   "Render tab-separated JOBS and record unsupported samples; raise on failure."
   (unless (null? jobs)
-    (let* ((port (mkstemp
+    (let* ((outputs (map last jobs))
+           (port (mkstemp
                   (string-append
                    (or (getenv "TMPDIR") "/tmp")
                    "/font-site-jobs-XXXXXX")))
-           (file (port-filename port))
-           (outputs (map last jobs)))
+           (file (port-filename port)))
       (dynamic-wind
-        (lambda () (set-port-encoding! port "UTF-8"))
+        (lambda () #t)
         (lambda ()
+          (set-port-encoding! port "UTF-8")
           (for-each
            (lambda (fields)
              (when (any (lambda (field)

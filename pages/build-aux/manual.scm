@@ -8,7 +8,9 @@
            ((source directory reference revision system)
             (let ((revision
                    (if (string-null? revision)
-                       (string-trim-both (capture "git" "-C" source "rev-parse" "HEAD"))
+                       (string-trim-both
+                        (capture "git" "-C" source "rev-parse" "--verify"
+                                 "HEAD^{commit}"))
                        revision))
                   (system
                    (if (and (string-null? system) (string-null? reference))

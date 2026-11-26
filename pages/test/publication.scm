@@ -254,7 +254,7 @@
 (define snapshot (published-files))
 (test-assert "Static output includes only selected interface fonts and public assets"
   (and (every (lambda (name) (assoc name snapshot))
-              (append browser-assets '("index.html" "catalog.json" "previews.json")))
+              (append (browser-assets) '("index.html" "catalog.json" "previews.json")))
        (not (assoc "notices-dialog.html" snapshot))
        (not (assoc "startup-head.html" snapshot))
        (equal? (filter font-file? (map car snapshot))
@@ -262,7 +262,7 @@
        (equal? (filter (lambda (name) (string-suffix? ".woff2" name))
                        (map car snapshot))
                (sort (filter (lambda (name) (file-exists? (web-file name)))
-                             commercial-font-names)
+                             (commercial-font-names))
                      string<?))
        (not (string-contains (read-text (string-append output "/catalog.json"))
                              temporary))
@@ -356,7 +356,7 @@
       (let ((result (build-result catalog inputs)))
         (test-assert "Missing browser assets abort publication"
           (and (= 1 (car result))
-               (string-contains (cdr result) "copy-file")))))
+               (string-contains (cdr result) "Missing required browser asset")))))
     (lambda () (setenv "FONT_PAGES_WEB" web))))
 
 (let ((renderer (getenv "FONT_PAGES_RENDERER"))

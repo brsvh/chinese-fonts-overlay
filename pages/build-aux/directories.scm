@@ -3,10 +3,17 @@
              (srfi srfi-1))
 
 (define (output-path path)
-  "Resolve PATH through existing parents, including directory symlinks."
-  (cond ((file-exists? path) (canonicalize-path path))
-        ((false-if-exception (lstat path)) (error "Invalid output path" path))
-        (else (in-vicinity (output-path (dirname path)) (basename path)))))
+  "Resolve PATH through existing parents, normalizing symlinks and dot segments."
+  (let ((trimmed (if (string=? path "/") "/" (string-trim-right path #\/))))
+    (cond ((file-exists? trimmed) (canonicalize-path trimmed))
+          ((false-if-exception (lstat trimmed))
+           (error "Invalid output path" trimmed))
+          (else
+           (let ((parent (dirname trimmed))
+                 (name (basename trimmed)))
+             (cond ((string=? name ".") (output-path parent))
+                   ((string=? name "..") (dirname (output-path parent)))
+                   (else (in-vicinity (output-path parent) name))))))))
 
 (define (within? path directory)
   "Whether PATH is DIRECTORY or one of its descendants."

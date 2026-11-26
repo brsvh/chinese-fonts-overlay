@@ -21,8 +21,8 @@
    ((string-suffix? ".svg" path) '(image/svg+xml))
    (else '(application/octet-stream))))
 
-(define (decode-path raw)
-  "Decode RAW exactly once, preserving plus signs; return false if malformed."
+(define (decode-segment raw)
+  "Decode one URI path segment RAW once; reject malformed escapes, NUL, or '/'."
   (and (let loop ((index 0))
          (or (= index (string-length raw))
              (if (char=? (string-ref raw index) #\%)
@@ -38,8 +38,19 @@
        (catch 'decoding-error
          (lambda ()
            (let ((name (uri-decode raw #:decode-plus-to-space? #f)))
-             (and (not (string-index name #\nul)) name)))
+             (and (not (string-index name #\nul))
+                  (not (string-index name #\/))
+                  name)))
          (lambda _ #f))))
+
+(define (decode-path raw)
+  "Decode RAW per path segment, preserving plus signs; return false if malformed."
+  (and (string-prefix? "/" raw)
+       (let loop ((segments (string-split raw #\/)) (decoded '()))
+         (if (null? segments)
+             (string-join (reverse decoded) "/")
+             (let ((part (decode-segment (car segments))))
+               (and part (loop (cdr segments) (cons part decoded))))))))
 
 (define (file-response root request)
   "Serve GET or HEAD beneath ROOT, enforcing canonical path containment."
@@ -60,12 +71,13 @@
             (failure 400 "Malformed path\n")
             (catch 'system-error
               (lambda ()
-                (let ((path (canonicalize-path
-                             (string-append
-                              root
-                              name
-                              (if (string-suffix? "/" name) "index.html" "")))))
-                  (if (and (string-prefix? (string-append root "/") path)
+                (let* ((base (canonicalize-path root))
+                       (path (canonicalize-path
+                              (string-append
+                               base
+                               name
+                               (if (string-suffix? "/" name) "index.html" "")))))
+                  (if (and (string-prefix? (string-append base "/") path)
                            (eq? 'regular (stat:type (stat path))))
                       (values
                        (build-response

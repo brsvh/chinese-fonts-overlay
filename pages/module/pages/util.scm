@@ -4,6 +4,7 @@
   #:use-module (gcrypt base16)
   #:use-module (ice-9 ftw)
   #:use-module (ice-9 popen)
+  #:use-module (ice-9 regex)
   #:use-module (ice-9 textual-ports)
   #:use-module (rnrs bytevectors)
   #:use-module (srfi srfi-1)
@@ -22,6 +23,7 @@
             fingerprint
             native-tool
             text-digest
+            valid-revision?
             run
             capture
             temporary-directory
@@ -76,12 +78,18 @@
     (lambda (port) (set-port-encoding! port "UTF-8") (display text port))))
 
 (define (mkdir-p path)
-  "Create PATH and any missing parent directories."
+  "Create PATH and any missing parent directories safely under concurrency."
   (unless (file-exists? path)
     (let ((parent (dirname path)))
       (unless (equal? parent path)
         (mkdir-p parent)))
-    (mkdir path)))
+    (catch 'system-error
+      (lambda () (mkdir path))
+      (lambda args
+        (unless (and (= (system-error-errno args) EEXIST)
+                     (let ((info (false-if-exception (stat path))))
+                       (and info (eq? 'directory (stat:type info)))))
+          (apply throw args))))))
 
 (define (delete-tree path)
   "Remove the owned tree at PATH without following directory symlinks."
@@ -96,16 +104,30 @@
         (delete-file path))))
 
 (define (files-under path)
-  "List files recursively, following font-directory symlinks."
-  (if (not (file-exists? path))
-      '()
-      (append-map
-       (lambda (name)
-         (let ((file (string-append path "/" name)))
-           (if (eq? 'directory (stat:type (stat file)))
-               (files-under file)
-               (list file))))
-       (scandir path (lambda (name) (not (member name '("." ".."))))))))
+  "List regular files beneath PATH in sorted order, following symlinks safely."
+  (let walk ((directory path) (visited '()))
+    (let ((info (false-if-exception (stat directory))))
+      (if (or (not info) (not (eq? 'directory (stat:type info))))
+          '()
+          (let ((key (cons (stat:dev info) (stat:ino info))))
+            (if (member key visited)
+                '()
+                (let ((entries (scandir directory
+                                        (lambda (name)
+                                          (not (member name '("." ".."))))
+                                        string<?)))
+                  (if (not entries)
+                      '()
+                      (append-map
+                       (lambda (name)
+                         (let* ((file (string-append directory "/" name))
+                                (entry (false-if-exception (stat file))))
+                           (cond
+                            ((not entry) '())
+                            ((eq? 'directory (stat:type entry))
+                             (walk file (cons key visited)))
+                            (else (list file)))))
+                       entries)))))))))
 
 (define (file-digest file)
   "Return the lowercase SHA256 digest of the bytes in FILE."
@@ -115,6 +137,11 @@
   "Return the lowercase SHA256 digest of UTF-8 TEXT."
   (bytevector->base16-string (sha256 (string->utf8 text))))
 
+(define (valid-revision? value)
+  "Check whether VALUE is a full lowercase 40-character Git commit SHA."
+  (and (string? value)
+       (if (string-match "^[0-9a-f]{40}$" value) #t #f)))
+
 (define (run . args)
   "Execute the argument vector ARGS and fail on a nonzero exit status."
   (let ((status (apply system* args)))
@@ -123,12 +150,21 @@
 
 (define (capture . args)
   "Capture UTF-8 stdout from ARGS; propagate a nonzero exit status."
-  (let* ((port (apply open-pipe* OPEN_READ args))
-         (text (begin (set-port-encoding! port "UTF-8") (get-string-all port)))
-         (status (close-pipe port)))
-    (unless (zero? status)
-      (error "Command failed" args status))
-    text))
+  (let ((port (apply open-pipe* OPEN_READ args))
+        (status #f))
+    (dynamic-wind
+      (lambda () #t)
+      (lambda ()
+        (set-port-encoding! port "UTF-8")
+        (let ((text (get-string-all port)))
+          (set! status (close-pipe port))
+          (set! port #f)
+          (unless (zero? status)
+            (error "Command failed" args status))
+          text))
+      (lambda ()
+        (when port
+          (close-pipe port))))))
 
 (define (temporary-directory parent)
   "Create and return a private temporary directory under PARENT."
@@ -159,9 +195,11 @@ backup if restoring the previous directory fails."
             (delete-tree temporary))))))
 
 (define (atomic-write file writer)
-  "Replace FILE on success, preserving its permissions when it already exists."
+  "Replace FILE on success, preserving existing permissions or default umask."
   (mkdir-p (dirname file))
-  (let* ((mode (and (file-exists? file) (stat:perms (stat file))))
+  (let* ((mode (if (file-exists? file)
+                   (stat:perms (stat file))
+                   (logand #o666 (lognot (umask)))))
          (port (mkstemp (string-append file ".XXXXXX")))
          (temporary (port-filename port)))
     (close-port port)
@@ -169,7 +207,7 @@ backup if restoring the previous directory fails."
       (lambda () #t)
       (lambda ()
         (writer temporary)
-        (when mode (chmod temporary mode))
+        (chmod temporary mode)
         (rename-file temporary file))
       (lambda () (when (file-exists? temporary)
                    (delete-file temporary))))))

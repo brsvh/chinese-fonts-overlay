@@ -3,7 +3,6 @@
   #:use-module (chinese-fonts-overlay pages util)
   #:use-module (json)
   #:use-module (srfi srfi-1)
-  #:use-module (srfi srfi-13)
   #:export (prepare-inputs))
 
 (define (prepare-inputs root destination)
@@ -29,7 +28,7 @@
       (let* ((path
               (string-trim-both
                (capture
-                "env" (string-append "FONT_PAGES_SOURCE_ROOT=" root)
+                "env" "--" (string-append "FONT_PAGES_SOURCE_ROOT=" root)
                 (string-append "FONT_PAGES_PACKAGES="
                                (scm->json-string (list->vector selection)))
                 (string-append "FONT_PAGES_SOURCE_FLAKE=" (checkout-flake-url root))

@@ -11,8 +11,10 @@
   #:export (pack-site unpack-site validate-release release-name))
 
 (define maximum-size 1000000000)
-(define required-public-paths
-  (append browser-assets
+
+(define (required-public-paths)
+  "Return the required relative filenames for a complete public site."
+  (append (browser-assets)
           '("index.html" "catalog.json" "previews.json"
             "manual/index.html" "manual/chinese-fonts-overlay.info")))
 
@@ -26,8 +28,8 @@
 
 (define (public-path? name)
   "Recognize a relative regular-file NAME permitted in the public archive."
-  (or (member name required-public-paths)
-      (member name commercial-font-names)
+  (or (member name (required-public-paths))
+      (member name (commercial-font-names))
       (matches? "^manual/[A-Za-z0-9_-]+\\.html$" name)
       (matches? "^assets/images/[0-9a-f]{64}\\.webp$" name)
       (matches? "^assets/previews/[0-9a-f]{64}\\.json$" name)))
@@ -47,7 +49,7 @@
                           "unpackedSize")))
            "Invalid release manifest fields")
   (require (and (equal? (jref manifest "schema") 1)
-                (matches? "^[0-9a-f]{40}$" (jref manifest "source"))
+                (valid-revision? (jref manifest "source"))
                 (matches? "^[0-9a-f]{64}$" (jref manifest "sha256")))
            "Invalid release identity")
   (for-each
@@ -56,7 +58,7 @@
        (require (and (exact-integer? value) (< 0 value maximum-size))
                 "Invalid release size" key)))
    '("files" "size" "unpackedSize"))
-  (require (<= (length required-public-paths) (jref manifest "files") 100000)
+  (require (<= (length (required-public-paths)) (jref manifest "files") 100000)
            "Invalid release file count")
   manifest)
 
@@ -81,18 +83,18 @@
           (scandir path (lambda (name) (not (member name '("." "..")))))))
         (else
          (error "Public output contains a link or special file" relative)))))
-  (let ((files (sort (walk "") string<?)))
-    (require (every (lambda (name) (member name files)) required-public-paths)
+  (let ((files (sort (walk "") string<?))
+        (commercial (commercial-font-names)))
+    (require (every (lambda (name) (member name files)) (required-public-paths))
              "Missing required public files")
-    (let ((fonts (filter (lambda (name) (member name files))
-                         commercial-font-names)))
-      (require (or (null? fonts) (equal? fonts commercial-font-names))
+    (let ((fonts (filter (lambda (name) (member name files)) commercial)))
+      (require (or (null? fonts) (equal? fonts commercial))
                "Incomplete commercial interface fonts"))
     files))
 
 (define (pack-site directory source destination)
   "Pack validated public output. DESTINATION must be a new owned directory."
-  (require (matches? "^[0-9a-f]{40}$" source) "Invalid source revision")
+  (require (valid-revision? source) "Invalid source revision")
   (let* ((files (public-files directory))
          (size (fold (lambda (file total)
                        (+ total (stat:size (stat (string-append directory
@@ -114,7 +116,7 @@
      '(("yuyang-regular.ttf" . "UI_FONT_REGULAR")
        ("yuyang-medium.ttf" . "UI_FONT_MEDIUM")
        ("tsanger-license.pdf" . "UI_FONT_LICENSE")))
-    (when (any (lambda (name) (member name files)) commercial-font-names)
+    (when (any (lambda (name) (member name files)) (commercial-font-names))
       (let ((inputs (commercial-font-inputs (getenv "WEBFONTS_DIR"))))
         (require (pair? inputs) "WEBFONTS_DIR is required to verify webfonts")
         (for-each
@@ -188,7 +190,7 @@
               (require (and (= total (jref manifest "unpackedSize"))
                             (= count (jref manifest "files"))
                             (every (lambda (name) (hash-ref seen name))
-                                   required-public-paths))
+                                   (required-public-paths)))
                        "Site archive contents differ from manifest")
               (require (zero-block? (read-exactly port 512))
                        "Invalid tar end marker")
@@ -225,7 +227,8 @@
                         (let* ((count (min remaining 65536))
                                (bytes (read-exactly port count)))
                           (put-bytevector output bytes)
-                          (copy (- remaining count)))))))
+                          (copy (- remaining count))))))
+                  #:binary #t)
                 (chmod path #o644))
               (let ((padding (modulo (- size) 512)))
                 (unless (zero? padding) (read-exactly port padding)))
@@ -238,14 +241,20 @@
   (require (and (= (stat:size (lstat archive)) (jref manifest "size"))
                 (equal? (file-digest archive) (jref manifest "sha256")))
            "Site archive digest or size mismatch")
-  (mkdir destination)
-  (let ((port (open-pipe* OPEN_READ "gzip" "--decompress" "--stdout" archive))
+  (let ((port #f)
+        (created? #f)
         (success? #f))
     (dynamic-wind
         (lambda () #t)
         (lambda ()
+          (mkdir destination)
+          (set! created? #t)
+          (set! port (open-pipe* OPEN_READ "gzip" "--decompress" "--stdout"
+                                 "--" archive))
           (extract-files port destination manifest)
-          (require (zero? (close-pipe port)) "Invalid gzip archive")
+          (let ((status (close-pipe port)))
+            (set! port #f)
+            (require (zero? status) "Invalid gzip archive"))
           (public-files destination)
           (require (equal? (jref manifest "source")
                            (jref (read-json
@@ -254,5 +263,6 @@
                    "Catalog source revision differs from release")
           (set! success? #t))
         (lambda ()
-          (unless (port-closed? port) (close-pipe port))
-          (unless success? (delete-tree destination))))))
+          (when port (close-pipe port))
+          (when (and created? (not success?))
+            (delete-tree destination))))))

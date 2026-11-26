@@ -57,7 +57,7 @@ all: $(NATIVE) $(ASSETS) inputs manual interface
 	  "$(CATALOG)" "$(FONT_INPUTS)" "$(SOURCE_REVISION)" \
 	  "$(abspath $(MANUAL))"
 
-manual: | check-dirs
+manual: | $(BUILD_DIR)
 ifeq ($(origin MANUAL),file)
 	$(SCHEME) "$(SOURCE_DIR)/build-aux/manual.scm" \
 	  "$(SOURCE_DIR)" "$(BUILD_DIR)" "$(REFERENCE)" \
@@ -72,7 +72,7 @@ check-manual: manual
 interface: | $(WEB)
 	$(SCHEME) "$(SOURCE_DIR)/build-aux/fonts.scm" "$(WEB)"
 
-inputs: | check-dirs
+inputs: | $(INPUTS)
 ifeq ($(origin CATALOG)$(origin FONT_INPUTS),filefile)
 	$(SCHEME) "$(SOURCE_DIR)/build-aux/inputs.scm" \
 	  "$(SOURCE_DIR)/.." "$(INPUTS)"
@@ -87,15 +87,15 @@ endif
 	test -r "$(CATALOG)" && test -r "$(FONT_INPUTS)"
 endif
 
-$(BUILD_DIR) $(BIN) $(WEB) $(BUILD_DIR)/test: | check-dirs
+$(BUILD_DIR) $(BIN) $(WEB) $(INPUTS) $(BUILD_DIR)/test: | check-dirs
 	mkdir -p "$@"
 
 $(BUILD_DIR)/native.settings: FORCE | $(BUILD_DIR)
 	$(PKG_CONFIG) --atleast-version=2.66 glib-2.0
 	$(SCHEME) "$(SOURCE_DIR)/build-aux/settings.scm" "$@" \
 	  "$(CC)" "$(CPPFLAGS)" "$(CFLAGS)" "$(LDFLAGS)" \
-	  "$(shell command -v $(CC))" \
-	  "$(shell $(PKG_CONFIG) --cflags --libs $(FONT_LIBS))"
+	  "$$(command -v $(CC))" \
+	  "$$($(PKG_CONFIG) --cflags --libs $(FONT_LIBS))"
 
 $(BIN)/font-info: $(SOURCE_DIR)/src/font-info.c \
 	$(BUILD_DIR)/native.settings | $(BIN)
@@ -122,7 +122,7 @@ $(BIN)/image-fixtures: $(SOURCE_DIR)/test/image-fixtures.c \
 $(BUILD_DIR)/web.settings: FORCE | $(BUILD_DIR)
 	$(SCHEME) "$(SOURCE_DIR)/build-aux/settings.scm" "$@" \
 	  "$(HOOT)" "$(TAILWINDCSS)" "$(DAISYUI)" "$(DAISYUI_THEME)" \
-	  "$(shell command -v $(HOOT))" "$(shell command -v $(TAILWINDCSS))" \
+	  "$$(command -v $(HOOT))" "$$(command -v $(TAILWINDCSS))" \
 	  "$(UI_FONT_REGULAR)" "$(UI_FONT_MEDIUM)" "$(UI_FONT_LICENSE)"
 
 $(HOOT_ASSETS) &: $(SOURCE_DIR)/web/main.scm \
@@ -166,14 +166,15 @@ $(WEB)/tsanger-license.pdf: $(UI_FONT_LICENSE) \
 	cp -f "$(UI_FONT_LICENSE)" "$@"
 
 check: $(NATIVE) $(ASSETS) $(BIN)/image-fixtures interface | $(BUILD_DIR)/test
-	cd "$(BUILD_DIR)/test" && GUILE="$(GUILE)" $(SCHEME_ENV) \
+	cd "$(BUILD_DIR)/test" && TMPDIR="$(BUILD_DIR)/test" \
+	  GUILE="$(GUILE)" $(SCHEME_ENV) \
 	  FONT_PAGES_IMAGE_FIXTURES="$(BIN)/image-fixtures" \
 	  FONT_PAGES_FIXTURES="$(SOURCE_DIR)/test/fixtures/fonts" \
 	  FONT_PAGES_SOURCE="$(SOURCE_DIR)" \
 	  $(SCHEME) "$(SOURCE_DIR)/test/publication.scm"
-	cd "$(BUILD_DIR)/test" && \
+	cd "$(BUILD_DIR)/test" && TMPDIR="$(BUILD_DIR)/test" \
 	  $(SCHEME) "$(SOURCE_DIR)/test/server.scm"
-	cd "$(BUILD_DIR)/test" && \
+	cd "$(BUILD_DIR)/test" && TMPDIR="$(BUILD_DIR)/test" \
 	  $(SCHEME) "$(SOURCE_DIR)/test/archive.scm"
 
 release:

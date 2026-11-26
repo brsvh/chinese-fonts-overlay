@@ -1,8 +1,9 @@
 (define-module (chinese-fonts-overlay pages manual reference)
+  #:use-module ((chinese-fonts-overlay pages presentation layout)
+                #:select (source-repository))
   #:use-module (chinese-fonts-overlay pages util)
   #:use-module (ice-9 format)
   #:use-module (srfi srfi-1)
-  #:use-module (srfi srfi-13)
   #:use-module (web uri)
   #:export (generate-reference))
 
@@ -24,21 +25,23 @@
       (format #f "@url{~a, ~a}" (texinfo url) (texinfo label))
       (texinfo label)))
 
+(define (encode-node-id value)
+  "Encode VALUE into a stable ASCII Texinfo node identifier suffix."
+  (string-concatenate
+   (map (lambda (character)
+          (if (or (char-alphabetic? character) (char-numeric? character)
+                  (char=? character #\-))
+              (string character)
+              (string-append "_" (number->string (char->integer character) 16) "_")))
+        (string->list value))))
+
 (define (package-node package)
   "Give PACKAGE a stable Info node independent of its display name."
-  (string-append
-   "Package-"
-   (string-concatenate
-    (map (lambda (character)
-           (if (or (char-alphabetic? character) (char-numeric? character)
-                   (char=? character #\-))
-               (string character)
-               (string-append "_" (number->string (char->integer character) 16) "_")))
-         (string->list (jref package "id"))))))
+  (string-append "Package-" (encode-node-id (jref package "id"))))
 
 (define (vendor-node vendor)
   "Give VENDOR a stable section node."
-  (string-append "Vendor-" vendor))
+  (string-append "Vendor-" (encode-node-id vendor)))
 
 (define (field label value)
   "Write an ordinary table field LABEL containing prepared Texinfo VALUE."
@@ -89,8 +92,12 @@
                              (jarray (jref package "homepages"))) "\n\n"))
     (field "包定义"
            (link (string-append
-                  "https://github.com/brsvh/chinese-fonts-overlay/blob/" revision
-                  "/" (jref (jref package "source") "path")) attribute))
+                  source-repository "/blob/" revision "/"
+                  (string-join
+                   (map uri-encode
+                        (string-split (jref (jref package "source") "path") #\/))
+                   "/"))
+                 attribute))
     (display "@end table\n\n")
     (write-notices (jref package "notices") catalog)
     (let ((query (string-append "?language=*&style=*&license=*&query="
@@ -103,18 +110,22 @@
 
 (define (write-notices notices catalog)
   "Write reviewed NOTICES and their source links using CATALOG labels."
-  (for-each
-   (lambda (notice)
-     (format #t "@html\n<aside class=\"manual-notice manual-notice-~a\">\n@end html\n"
-             (jref notice "level"))
-     (format #t "@quotation ~a\n~a\n\n"
-             (texinfo (jref (jref catalog "noticeLevelLabels")
-                            (jref notice "level")))
-             (texinfo (string-trim-both (jref notice "text"))))
-     (when (string? (jref notice "url"))
-       (format #t "~a\n\n" (link (jref notice "url") "查看原文")))
-     (display "@end quotation\n@html\n</aside>\n@end html\n\n"))
-   (jarray notices)))
+  (let ((level-labels (jref catalog "noticeLevelLabels")))
+    (for-each
+     (lambda (notice)
+       (let* ((level (jref notice "level"))
+              (label (jref level-labels level)))
+         (unless (and (string? level) label)
+           (error "Unknown notice level" level))
+         (format #t "@html\n<aside class=\"manual-notice manual-notice-~a\">\n@end html\n"
+                 (encode-node-id level))
+         (format #t "@quotation ~a\n~a\n\n"
+                 (texinfo label)
+                 (texinfo (string-trim-both (jref notice "text"))))
+         (when (string? (jref notice "url"))
+           (format #t "~a\n\n" (link (jref notice "url") "查看原文")))
+         (display "@end quotation\n@html\n</aside>\n@end html\n\n")))
+     (jarray notices))))
 
 (define (aggregate-section aggregate packages catalog)
   "Write an AGGREGATE entry and link its actual members in PACKAGES."
@@ -201,7 +212,8 @@
             (for-each
              (lambda (entry)
                (format #t "@subheading ~a\n@table @code\n" (cdr entry))
-               (for-each (lambda (item) (field (car item) (texinfo (cdr item))))
+               (for-each (lambda (item)
+                           (field (texinfo (car item)) (texinfo (cdr item))))
                          (jref catalog (car entry)))
                (display "@end table\n\n"))
              '(("styleLabels" . "风格标识")

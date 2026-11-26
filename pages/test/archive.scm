@@ -12,7 +12,7 @@
 (mkdir public)
 (mkdir (string-append public "/manual"))
 (for-each (lambda (name) (write-text (string-append public "/" name) name))
-          (append browser-assets
+          (append (browser-assets)
                   '("index.html" "catalog.json" "previews.json" "manual/index.html"
                     "manual/chinese-fonts-overlay.info" "manual/Installation.html")))
 (write-json (string-append public "/catalog.json")
@@ -110,7 +110,7 @@
                 (test-assert "Removing private input removes fonts and declarations"
                              (and (not (any (lambda (name)
                                               (file-exists? (string-append public "/" name)))
-                                            commercial-font-names))
+                                            (commercial-font-names)))
                                   (not (string-contains
                                         (read-text (string-append public "/fonts.css"))
                                         "woff2")))))
