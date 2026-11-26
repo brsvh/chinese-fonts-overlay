@@ -26,20 +26,6 @@ in
         toJSON
         ;
 
-      languagePkgs = import packageNixpkgs {
-        inherit system;
-      };
-
-      languageFontconfig = languagePkgs.fontconfig;
-
-      updateFontLanguages =
-        pkgs.callPackage
-          ./update-font-languages/package.nix
-          {
-            fontconfig = languageFontconfig;
-            freetype = languagePkgs.freetype;
-          };
-
       overlayConfig = {
         inherit system;
 
@@ -53,6 +39,16 @@ in
       };
 
       fontPkgs = import packageNixpkgs overlayConfig;
+
+      languageFontconfig = fontPkgs.fontconfig;
+
+      updateFontLanguages =
+        pkgs.callPackage
+          ./update-font-languages/package.nix
+          {
+            fontconfig = languageFontconfig;
+            freetype = fontPkgs.freetype;
+          };
 
       fontCatalog =
         import (projectRoot + /packages/font-catalog.nix)
@@ -116,10 +112,10 @@ in
             (projectRoot + /tools/dev-shells/default.nix)
             {
               inherit
+                languageFontconfig
                 lib
                 pkgs
                 updateFontLanguages
-                languageFontconfig
                 ;
             };
       };

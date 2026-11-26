@@ -108,10 +108,10 @@ destroy_orth_sets (struct orth_sets *orth)
   *orth = (struct orth_sets){ 0 };
 }
 
-/* Build the zh-cn and ko supplement charsets from Fontconfig's built-in
-   orthographies.  Fontconfig's zh-cn.orth (shared by zh-sg.orth) includes
-   U+02C7 and U+02C9 alongside GB 2312-80 Hanzi, and ko.orth includes archaic
-   compatibility jamo U+3165-U+318E.  Return true on success.  */
+/* Populate ORTH with zh-cn and ko supplement charsets from Fontconfig's
+   built-in orthographies.  Fontconfig's zh-cn.orth (shared by zh-sg.orth)
+   includes U+02C7 and U+02C9 alongside GB 2312-80 Hanzi, and ko.orth includes
+   archaic compatibility jamo U+3165-U+318E.  Return true on success.  */
 static bool
 build_orth_sets (struct orth_sets *orth)
 {

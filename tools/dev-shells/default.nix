@@ -112,12 +112,6 @@ let
           trim_trailing_whitespace = false;
         };
 
-        "*.nix" = {
-          indent_style = "space";
-          max_line_length = 80;
-          tab_width = 2;
-        };
-
         "COPYING" = {
           indent_size = "unset";
           indent_style = "unset";
@@ -134,7 +128,7 @@ let
       file = writeText output (
         toINIWithGlobalSection { } {
           globalSection = {
-            root = data.root or true;
+            inherit (data) root;
           };
 
           sections = removeAttrs data [
@@ -216,18 +210,21 @@ let
 
         formatter =
           let
+            # Biome scopes an absolute config path to its directory.
+            biomeScript = pkgs.writeShellScript "format-with-biome" ''
+              set -euo pipefail
+              config="$(
+                ${pkgs.coreutils}/bin/realpath \
+                  --relative-to="$PWD" ${files.biome.file}
+              )"
+              exec ${getExe pkgs.biome} format --write \
+                --config-path="$config" "$@"
+            '';
+
             formatWithBiome = includes: {
               inherit includes;
 
-              # Biome scopes an absolute config path to its directory.
-              command = pkgs.writeShellScript "format-with-biome" ''
-                config="$(
-                  ${pkgs.coreutils}/bin/realpath \
-                    --relative-to="$PWD" ${files.biome.file}
-                )"
-                exec ${getExe pkgs.biome} format --write \
-                  --config-path="$config" "$@"
-              '';
+              command = biomeScript;
             };
           in
           {
@@ -308,7 +305,8 @@ mkShell {
 
   shellHook = concatStringsSep "\n" (
     [
-      ''projectRoot="$(${getExe git} rev-parse --show-toplevel)"''
+      ''projectRoot="$(${getExe git} rev-parse --show-toplevel 2>/dev/null || true)"''
+      ''if [ -n "$projectRoot" ]; then''
     ]
     ++ mapAttrsToList (_: config: ''
       ln -sfn ${escapeShellArg (toString config.file)} \
@@ -358,7 +356,7 @@ mkShell {
           fi
 
           exec ${getExe pkgs.prek} -C "$repoRoot" run \
-            --stage "${stage}" "$@"
+            --stage ${escapeShellArg stage} "$@"
         '';
       in
       ''
@@ -371,13 +369,12 @@ mkShell {
         fi
       ''
     ) files.prek.data.default_install_hook_types
+    ++ [
+      "fi"
+    ]
   );
 
   passthru = {
     inherit files;
-
-    dependencies = mapAttrs (_: config: {
-      inherit (config) packages;
-    }) files;
   };
 }

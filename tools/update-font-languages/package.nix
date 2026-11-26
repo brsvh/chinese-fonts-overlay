@@ -28,10 +28,10 @@ let
 
       # shellcheck disable=SC2046,SC2086
       "$CC" $CPPFLAGS $CFLAGS -O2 -Wall -Wextra \
-        $(pkg-config --cflags fontconfig freetype2) \
+        $("$PKG_CONFIG" --cflags fontconfig freetype2) \
         ${./scan-font.c} \
         $LDFLAGS \
-        $(pkg-config --libs fontconfig freetype2) \
+        $("$PKG_CONFIG" --libs fontconfig freetype2) \
         -o chinese-fonts-overlay-scan-font
 
       runHook postBuild
@@ -73,6 +73,7 @@ writeShellApplication {
   text = ''
     exec ${getExe guile} --no-auto-compile \
       -L '${guile-json}/share/guile/site/3.0' \
+      -C '${guile-json}/lib/guile/3.0/site-ccache' \
       -e main -s '${./main.scm}' "$@"
   '';
 }

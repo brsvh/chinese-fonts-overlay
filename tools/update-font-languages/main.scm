@@ -19,8 +19,12 @@
   (if (vector? value) (vector->list value) value))
 
 (define (write-json file value)
-  "Write VALUE as UTF-8 JSON followed by a newline."
-  (write-text file (string-append (scm->json-string value) "\n")))
+  "Write VALUE atomically as private UTF-8 JSON followed by a newline."
+  (atomic-write
+   file
+   (lambda (temporary)
+     (write-text temporary (string-append (scm->json-string value) "\n")))
+   #o600))
 
 (define (read-text file)
   "Read FILE as UTF-8 text."
@@ -55,16 +59,30 @@
         (delete-file path))))
 
 (define (files-under path)
-  "List files recursively, following font-directory symlinks."
-  (if (not (file-exists? path))
-      '()
-      (append-map
-       (lambda (name)
-         (let ((file (string-append path "/" name)))
-           (if (eq? 'directory (stat:type (stat file)))
-               (files-under file)
-               (list file))))
-       (scandir path (lambda (name) (not (member name '("." ".."))))))))
+  "List regular files beneath PATH in sorted order, following directory symlinks safely."
+  (let walk ((directory path) (visited '()))
+    (let ((info (false-if-exception (stat directory))))
+      (if (or (not info) (not (eq? 'directory (stat:type info))))
+          '()
+          (let ((key (cons (stat:dev info) (stat:ino info))))
+            (if (member key visited)
+                '()
+                (let ((entries (scandir directory
+                                        (lambda (name)
+                                          (not (member name '("." ".."))))
+                                        string<?)))
+                  (if (not entries)
+                      '()
+                      (append-map
+                       (lambda (name)
+                         (let* ((file (string-append directory "/" name))
+                                (entry (false-if-exception (stat file))))
+                           (cond
+                            ((not entry) '())
+                            ((eq? 'directory (stat:type entry))
+                             (walk file (cons key visited)))
+                            (else (list file)))))
+                       entries)))))))))
 
 (define (run . args)
   "Execute the argument vector ARGS and fail on a nonzero exit status."
@@ -74,22 +92,32 @@
 
 (define (capture . args)
   "Capture UTF-8 stdout from ARGS; propagate a nonzero exit status."
-  (let* ((port (apply open-pipe* OPEN_READ args))
-         (text (begin (set-port-encoding! port "UTF-8") (get-string-all port)))
-         (status (close-pipe port)))
-    (unless (zero? status)
-      (error "Command failed" args status))
-    text))
+  (let ((port (apply open-pipe* OPEN_READ args))
+        (status #f))
+    (dynamic-wind
+        (lambda () #t)
+        (lambda ()
+          (set-port-encoding! port "UTF-8")
+          (let ((text (get-string-all port)))
+            (set! status (close-pipe port))
+            (set! port #f)
+            (unless (zero? status)
+              (error "Command failed" args status))
+            text))
+        (lambda ()
+          (when port
+            (close-pipe port))))))
 
 (define (temporary-directory parent)
   "Create and return a private temporary directory under PARENT."
   (mkdir-p parent)
   (mkdtemp (string-append parent "/.font-languages-XXXXXX")))
 
-(define (atomic-write file writer)
-  "Replace FILE on success, preserving its permissions when it already exists."
+(define* (atomic-write file writer #:optional explicit-mode)
+  "Replace FILE on success, using EXPLICIT-MODE or preserving existing permissions."
   (mkdir-p (dirname file))
-  (let* ((mode (and (file-exists? file) (stat:perms (stat file))))
+  (let* ((mode (or explicit-mode
+                   (and (file-exists? file) (stat:perms (stat file)))))
          (port (mkstemp (string-append file ".XXXXXX")))
          (temporary (port-filename port)))
     (close-port port)
@@ -149,13 +177,12 @@
             (list "-u" key)
             '())))
     (environ))
-   (list (string-append "FONTCONFIG_FILE=" configuration) "LC_ALL=C")))
+   (list "--" (string-append "FONTCONFIG_FILE=" configuration) "LC_ALL=C")))
 
 (define (scan-font-file directory file environment)
   "Read every face in FILE using isolated ENVIRONMENT arguments."
   (let* ((text (apply capture "env"
-                      (append environment
-                              (list (scanner-program) file))))
+                      (append environment (list (scanner-program) file))))
          (parsed (json-string->scm text))
          (entries (and (or (vector? parsed) (list? parsed))
                        (jarray parsed))))
@@ -248,6 +275,7 @@
   "Build a Nix command for RESULT, passing input paths and names as data."
   (append
    (list "env"
+         "--"
          (string-append "FONT_LANGUAGES_SOURCE_ROOT=" root)
          (string-append "FONT_LANGUAGES_SOURCE_FLAKE=git+file://"
                         (string-join (map uri-encode (string-split root #\/))
@@ -438,4 +466,5 @@ Without --check or --write, only report detected coverage.
       1)))
 
 (define (main argv)
+  "Run the command-line entry point with ARGV and exit with its status."
   (exit (scan-command (cdr argv))))

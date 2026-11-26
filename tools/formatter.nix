@@ -17,12 +17,11 @@ let
 
   inherit
     (config.devShells.default.passthru.files.treefmt)
-    data
     file
     packages
     ;
 in
-(writeShellScriptBin "treefmt" ''
+writeShellScriptBin "treefmt" ''
   set -euo pipefail
   export PATH=${makeBinPath (packages ++ [ git ])}
   exec ${treefmt}/bin/treefmt \
@@ -30,13 +29,4 @@ in
     --tree-root-file=flake.nix \
     --walk=git \
     "$@"
-'').overrideAttrs
-  (_: {
-    passthru = {
-      inherit
-        data
-        file
-        packages
-        ;
-    };
-  })
+''
