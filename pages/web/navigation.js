@@ -385,7 +385,7 @@ document.addEventListener('click', (event) => {
   if (!section(url)) return;
 
   event.preventDefault();
-  navigate(url);
+  navigate(url).catch(console.error);
 });
 
 // The overlay owns one history entry at exactly the underlying view's URL.
@@ -440,7 +440,7 @@ addEventListener('popstate', () => {
       cancelNavigation();
       syncNotices();
     }
-  } else navigate(new URL(location.href), true);
+  } else navigate(new URL(location.href), true).catch(console.error);
 });
 
 addEventListener(
