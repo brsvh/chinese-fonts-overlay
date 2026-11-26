@@ -153,21 +153,20 @@
 
 (define (capture . args)
   "Capture UTF-8 stdout from ARGS; propagate a nonzero exit status."
-  (let ((port (apply open-pipe* OPEN_READ args))
-        (status #f))
+  (let ((port (apply open-pipe* OPEN_READ args)))
     (dynamic-wind
       (lambda () #t)
       (lambda ()
         (set-port-encoding! port "UTF-8")
-        (let ((text (get-string-all port)))
-          (set! status (close-pipe port))
-          (set! port #f)
+        (let* ((text (get-string-all port))
+               (pipe port)
+               (status (begin (set! port #f) (close-pipe pipe))))
           (unless (zero? status)
             (error "Command failed" args status))
           text))
       (lambda ()
         (when port
-          (close-pipe port))))))
+          (false-if-exception (close-pipe port)))))))
 
 (define (temporary-directory parent)
   "Create and return a private temporary directory under PARENT."
