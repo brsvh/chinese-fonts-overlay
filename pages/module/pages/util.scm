@@ -22,6 +22,7 @@
             file-digest
             fingerprint
             native-tool
+            nonempty-env
             text-digest
             valid-revision?
             run
@@ -219,8 +220,13 @@ backup if restoring the previous directory fails."
     (cons values (map (lambda (file) (cons file (file-digest file)))
                       (sort files string<?))))))
 
+(define* (nonempty-env name #:optional (fallback #f))
+  "Return environment variable NAME when nonempty, otherwise FALLBACK."
+  (let ((value (getenv name)))
+    (if (and value (not (string-null? value))) value fallback)))
+
 (define (native-tool variable name)
   "Resolve the configured native tool or locate NAME on PATH."
-  (or (getenv variable)
+  (or (nonempty-env variable)
       (search-path (string-split (or (getenv "PATH") "") #\:) name)
       (error "Native font tool not found" name)))

@@ -15,7 +15,7 @@
     (let* ((outputs (map last jobs))
            (port (mkstemp
                   (string-append
-                   (or (getenv "TMPDIR") "/tmp")
+                   (nonempty-env "TMPDIR" "/tmp")
                    "/font-site-jobs-XXXXXX")))
            (file (port-filename port)))
       (dynamic-wind

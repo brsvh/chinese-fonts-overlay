@@ -107,9 +107,10 @@
              "Catalog source revision differs from release")
     (for-each
      (lambda (asset)
-       (let ((expected (getenv (cdr asset)))
+       (let ((expected (nonempty-env (cdr asset)))
              (actual (string-append directory "/" (car asset))))
          (require (and expected
+                       (file-exists? expected)
                        (equal? (file-digest expected) (file-digest actual)))
                   "Interface asset differs from its declared input"
                   (car asset))))

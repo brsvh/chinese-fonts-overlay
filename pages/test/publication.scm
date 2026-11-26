@@ -15,7 +15,7 @@
 (define runner (test-runner-current))
 (define fixtures (getenv "FONT_PAGES_FIXTURES"))
 (define source-root (getenv "FONT_PAGES_SOURCE"))
-(define temporary (temporary-directory (or (getenv "TMPDIR") "/tmp")))
+(define temporary (temporary-directory (nonempty-env "TMPDIR" "/tmp")))
 
 (define (with-env name value thunk)
   "Run THUNK with NAME set to VALUE, restoring its prior environment state."
@@ -50,7 +50,7 @@
         (let ((result
                (command-result
                 (lambda ()
-                  (apply system* (or (getenv "GUILE") "guile")
+                  (apply system* (nonempty-env "GUILE" "guile")
                          "--no-auto-compile" "-L"
                          (string-append source-root "/module")
                          cli args)))))
@@ -307,7 +307,7 @@
                              images)))))
         (let ((style (string-append output "/style.css")))
           (define (rebuild)
-            (system* (or (getenv "GUILE") "guile") "--no-auto-compile"
+            (system* (nonempty-env "GUILE" "guile") "--no-auto-compile"
                      "-L" (string-append source-root "/module")
                      (string-append source-root "/build-aux/build.scm")
                      source-root temporary (string-append temporary "/cache")

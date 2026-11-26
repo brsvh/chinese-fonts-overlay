@@ -11,7 +11,7 @@
 
 (test-begin "server")
 (define runner (test-runner-current))
-(define temporary (temporary-directory (or (getenv "TMPDIR") "/tmp")))
+(define temporary (temporary-directory (nonempty-env "TMPDIR" "/tmp")))
 
 (dynamic-wind
   (lambda () #t)

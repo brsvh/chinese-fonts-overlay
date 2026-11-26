@@ -14,7 +14,7 @@
 
 (test-begin "site-archive")
 (define runner (test-runner-current))
-(define root (temporary-directory (or (getenv "TMPDIR") "/tmp")))
+(define root (temporary-directory (nonempty-env "TMPDIR" "/tmp")))
 (define source (make-string 40 #\a))
 (define public (string-append root "/public"))
 

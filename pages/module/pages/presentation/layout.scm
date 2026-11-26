@@ -8,7 +8,7 @@
 (define (web-file name)
   "Resolve NAME relative to the matching compiled browser assets."
   (string-append
-   (or (getenv "FONT_PAGES_WEB") (error "FONT_PAGES_WEB is not set"))
+   (or (nonempty-env "FONT_PAGES_WEB") (error "FONT_PAGES_WEB is not set"))
    "/"
    name))
 

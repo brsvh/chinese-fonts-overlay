@@ -75,7 +75,7 @@
     (error "Expected a full source commit SHA" revision))
   (let* ((catalog (read-json catalog-file))
          (fonts (read-json fonts-file))
-         (web (or (getenv "FONT_PAGES_WEB")
+         (web (or (nonempty-env "FONT_PAGES_WEB")
                   (error "FONT_PAGES_WEB is not set")))
          (renderer (native-tool "FONT_PAGES_RENDERER" "render-font-samples"))
          (preview-output (string-append directory "/previews"))
