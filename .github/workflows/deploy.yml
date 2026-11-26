@@ -34,6 +34,8 @@ jobs:
           install_url: https://releases.nixos.org/nix/nix-2.34.8/install
           extra_nix_config: |
             accept-flake-config = false
+            allow-import-from-derivation = false
+            builders =
             experimental-features = nix-command flakes ca-derivations
       - name: Download and verify artifact
         id: receive
@@ -78,6 +80,8 @@ jobs:
           install_url: https://releases.nixos.org/nix/nix-2.34.8/install
           extra_nix_config: |
             accept-flake-config = false
+            allow-import-from-derivation = false
+            builders =
             experimental-features = nix-command flakes ca-derivations
       - name: Check source revision
         id: current
