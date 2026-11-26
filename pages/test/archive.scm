@@ -157,10 +157,7 @@
                    (not (string-contains
                          (read-text (string-append public "/fonts.css"))
                          "woff2")))))
-          (lambda ()
-            (if original
-                (setenv "WEBFONTS_DIR" original)
-                (unsetenv "WEBFONTS_DIR")))))
+          (lambda () (restore-env! (list (cons "WEBFONTS_DIR" original))))))
       (delete-file (string-append public "/index.html"))
       (symlink "style.css" (string-append public "/index.html"))
       (test-assert "Reject symlink in publication output"
@@ -169,7 +166,8 @@
           (lambda () (pack-site public source (string-append root "/links"))))
          "link or special file"))
       ;; Write a valid file before the unsafe entry to test partial cleanup.
-      (run "tar" "--format=ustar" "--mode=0644" "-czf"
+      (run "tar" "--format=ustar" "--mtime=@0" "--owner=0" "--group=0"
+           "--numeric-owner" "--mode=0644" "-czf"
            (string-append root "/links.tar.gz")
            "-C" public "style.css" "index.html")
       (let* ((bad (string-append root "/links.tar.gz"))
