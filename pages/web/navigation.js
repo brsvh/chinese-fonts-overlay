@@ -148,6 +148,7 @@ async function activatePreview(view) {
     content.inert = false;
     view.body.querySelector('#preview-loading').hidden = true;
 
+    view.catalogFailed = true;
     window.finishSiteStartup();
     view.body.dispatchEvent(new Event('catalog-settled'));
     console.error('Unable to start the font catalog:', error);
@@ -251,8 +252,12 @@ async function navigate(url, fromHistory = false) {
     }
 
     const filterChange =
-      next.kind === 'preview' && new URL(next.href).search !== url.search;
-    const deferMove = filterChange || (!previous && next.kind === 'preview');
+      next.kind === 'preview' &&
+      !next.catalogFailed &&
+      new URL(next.href).search !== url.search;
+    const deferMove =
+      filterChange ||
+      (!previous && next.kind === 'preview' && !next.catalogFailed);
     next.href = url.href;
     showView(next);
 

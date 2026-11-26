@@ -481,6 +481,7 @@ svg {
   padding: 26px 40px 0;
   min-width: 0;
   container-type: inline-size;
+  scroll-margin-top: var(--header-height);
 }
 
 .heading {
@@ -624,6 +625,7 @@ h1 {
   position: relative;
   padding: 26px 0 24px;
   border-bottom: 1px solid var(--color-base-300);
+  scroll-margin-top: calc(var(--header-height) + 12px);
 }
 
 .row-top {
@@ -1311,11 +1313,7 @@ html:has(.notices-dialog[open]) {
 }
 
 .manual-menu-toggle {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
+  display: none;
 }
 
 .manual-page:has(.manual-menu-toggle:focus-visible)
@@ -1808,6 +1806,15 @@ html:has(.notices-dialog[open]) {
     margin-left: auto;
     white-space: nowrap;
     font-size: 13px;
+  }
+
+  .manual-menu-toggle {
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
   }
 
   .manual-menu-toggle:checked + .shell .manual-sidebar {
