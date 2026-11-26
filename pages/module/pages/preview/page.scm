@@ -203,7 +203,10 @@
             (dt "风格：")
             (dd ,(string-join (jarray (p "styleNames")) "、"))
             (dt "支持语言：")
-            (dd ,(string-join (jarray (p "languageNames")) "、"))))))))
+            (dd ,(let ((names (jarray (p "languageNames"))))
+                   (if (null? names)
+                       "未检测到语言覆盖。"
+                       (string-join names "、"))))))))))
 
 (define (facet-label-content text)
   "Prefer wrapping between names and qualifiers when each fits the option."

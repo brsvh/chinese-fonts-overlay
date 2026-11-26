@@ -119,6 +119,14 @@ function moveToPage(url, position) {
 }
 
 async function activatePreview(view) {
+  view.body.addEventListener(
+    'catalog-settled',
+    () => {
+      view.catalogReady = true;
+    },
+    { once: true },
+  );
+
   try {
     const { startCatalogRuntime } = await import('./bridge.js');
 
@@ -191,10 +199,13 @@ function showView(next) {
     next.body = previous.body;
   }
 
-  if (active.body !== next.body) {
-    const outgoingDialog = active.body.querySelector('#site-notices[open]');
-    if (outgoingDialog) outgoingDialog.close();
+  const openDialog = active.body.querySelector('#site-notices[open]');
+  if (openDialog && (active.body !== next.body || !history.state?.notices)) {
+    openDialog.dataset.navigating = 'true';
+    openDialog.close();
+  }
 
+  if (active.body !== next.body) {
     document.body.replaceWith(next.body);
   }
   active = next;
@@ -227,6 +238,33 @@ function cancelNavigation() {
 
   const status = document.getElementById('manual-status');
   if (status) status.textContent = '';
+}
+
+function scheduleMove(next, url, position) {
+  if (settleController) settleController.abort();
+
+  const controller = new AbortController();
+  settleController = controller;
+
+  const finish = () => {
+    if (controller.signal.aborted) return;
+    if (settleController === controller) settleController = undefined;
+
+    if (active === next && active.href === url.href) {
+      moveToPage(url, position);
+      savePosition();
+    }
+  };
+
+  next.body.addEventListener(
+    'catalog-settled',
+    () => {
+      if (document.documentElement.hasAttribute('data-starting'))
+        window.siteRevealed.then(finish);
+      else finish();
+    },
+    { once: true, signal: controller.signal },
+  );
 }
 
 async function navigate(url, fromHistory = false) {
@@ -262,28 +300,13 @@ async function navigate(url, fromHistory = false) {
       !next.catalogFailed &&
       new URL(next.href).search !== url.search;
     const deferMove =
-      filterChange ||
-      (!previous && next.kind === 'preview' && !next.catalogFailed);
+      next.kind === 'preview' &&
+      !next.catalogFailed &&
+      (filterChange || !next.catalogReady);
     next.href = url.href;
     showView(next);
 
-    if (deferMove) {
-      const controller = new AbortController();
-      settleController = controller;
-
-      next.body.addEventListener(
-        'catalog-settled',
-        () => {
-          if (settleController === controller) settleController = undefined;
-
-          if (active === next && active.href === url.href) {
-            moveToPage(url, position);
-            savePosition();
-          }
-        },
-        { once: true, signal: controller.signal },
-      );
-    }
+    if (deferMove) scheduleMove(next, url, position);
 
     if (filterChange) next.body.dispatchEvent(new Event('catalog-location'));
     updateLinks();
@@ -354,6 +377,7 @@ document.addEventListener('click', (event) => {
 function syncNotices() {
   const dialog = document.getElementById('site-notices');
   if (history.state?.notices && !dialog.open) {
+    delete dialog.dataset.navigating;
     dialog.showModal();
     dialog.querySelector('article').scrollTop = 0;
   } else if (!history.state?.notices && dialog.open) {
@@ -366,10 +390,15 @@ document.addEventListener(
   (event) => {
     const dialog = document.getElementById('site-notices');
     if (event.target === dialog && !dialog.open) {
-      document
-        .querySelector('button[commandfor="site-notices"]')
-        ?.focus({ preventScroll: true });
-      if (history.state?.notices) history.back();
+      const fromNavigation = dialog.dataset.navigating === 'true';
+      delete dialog.dataset.navigating;
+
+      if (!fromNavigation) {
+        document
+          .querySelector('button[commandfor="site-notices"]')
+          ?.focus({ preventScroll: true });
+        if (history.state?.notices) history.back();
+      }
     }
   },
   true,
@@ -393,9 +422,26 @@ addEventListener(
   { passive: true },
 );
 
-updateLinks();
-selectChapter(new URL(location.href));
-syncNotices();
-savePosition();
+const initialUrl = new URL(location.href);
+const initialPosition = history.state?.position;
 
-if (active.kind === 'preview') activatePreview(active).catch(console.error);
+updateLinks();
+selectChapter(initialUrl);
+syncNotices();
+
+if (active.kind === 'preview') {
+  if (initialPosition || initialUrl.hash)
+    scheduleMove(active, initialUrl, initialPosition);
+  else savePosition();
+
+  activatePreview(active).catch(console.error);
+} else if (initialPosition) {
+  window.siteRevealed.then(() => {
+    if (active.href === initialUrl.href) {
+      scrollTo(...initialPosition);
+      savePosition();
+    }
+  });
+} else {
+  savePosition();
+}

@@ -11,38 +11,14 @@ const sizeObserver = new ResizeObserver((entries) => {
   }
 });
 
-const visibilityObserver = globalThis.IntersectionObserver
-  ? new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          visibilityCallbacks.get(entry.target)?.(entry.isIntersecting ? 1 : 0);
-        }
-      },
-      { rootMargin: '500px' },
-    )
-  : null;
-
-const fallbackVisibility = [];
-let fallbackFrame;
-
-function notifyFallbackVisibility() {
-  fallbackFrame = undefined;
-
-  for (const callback of fallbackVisibility) {
-    callback(1);
-  }
-}
-
-if (!visibilityObserver) {
-  const scheduleFallback = () => {
-    if (!fallbackFrame) {
-      fallbackFrame = requestAnimationFrame(notifyFallbackVisibility);
+const visibilityObserver = new IntersectionObserver(
+  (entries) => {
+    for (const entry of entries) {
+      visibilityCallbacks.get(entry.target)?.(entry.isIntersecting ? 1 : 0);
     }
-  };
-
-  addEventListener('scroll', scheduleFallback, { passive: true });
-  addEventListener('resize', scheduleFallback, { passive: true });
-}
+  },
+  { rootMargin: '500px' },
+);
 
 async function fetchJSON(url, signal) {
   const response = await fetch(new URL(url, import.meta.url), { signal });
@@ -138,12 +114,8 @@ function catalogImports(view, pushURL) {
       append: (element, child) => element.append(child),
 
       observe: (element, callback) => {
-        if (visibilityObserver) {
-          visibilityCallbacks.set(element, callback);
-          visibilityObserver.observe(element);
-        } else {
-          fallbackVisibility.push(callback);
-        }
+        visibilityCallbacks.set(element, callback);
+        visibilityObserver.observe(element);
       },
     },
 

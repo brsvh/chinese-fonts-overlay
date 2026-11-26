@@ -221,7 +221,7 @@ svg {
   top: 4px;
 }
 
-.btn {
+@utility btn {
   font-weight: 400;
   box-shadow: none;
 }

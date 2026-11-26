@@ -78,10 +78,18 @@
       window.finishSiteStartup = resolve;
     });
 
+    let resolveReveal;
+    window.siteRevealed = new Promise((resolve) => {
+      resolveReveal = resolve;
+    });
+
     Promise.all([window.sitePresentationReady, contentReady]).then(() => {
       clearTimeout(timeout);
 
-      const reveal = () => root.removeAttribute('data-starting');
+      const reveal = () => {
+        root.removeAttribute('data-starting');
+        resolveReveal();
+      };
       if (document.hidden) reveal();
       else requestAnimationFrame(() => requestAnimationFrame(reveal));
     });
