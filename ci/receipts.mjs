@@ -22,6 +22,7 @@ import {
 } from './records.mjs';
 import {
   controllerDigest,
+  controllerDirectories,
   controllerFiles,
   controllerPaths,
 } from './builds.mjs';
@@ -33,7 +34,10 @@ const sealedControllerFiles = new Set(controllerFiles);
 function isControllerPath(file) {
   return (
     typeof file === 'string' &&
-    (sealedControllerFiles.has(file) || file.startsWith('ci/'))
+    (sealedControllerFiles.has(file) ||
+      controllerDirectories.some((directory) =>
+        file.startsWith(directory + '/'),
+      ))
   );
 }
 
@@ -337,6 +341,16 @@ async function readBuildReceipts(api, root, run, pull, expectedController) {
         plan,
         shard,
       );
+
+      if (shard.tasks.length === 1) {
+        const name = shard.tasks[0];
+        ensure(
+          !value.packages[name].buildSucceeded ||
+            matching[0].conclusion === 'success',
+          'Single-package shard did not succeed',
+        );
+      }
+
       Object.assign(records, value.packages);
     } catch (error) {
       errors.push('Shard ' + shard.id + ': ' + error.message);

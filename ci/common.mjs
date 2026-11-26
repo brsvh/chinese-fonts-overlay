@@ -121,21 +121,54 @@ export function writeJson(file, value) {
   }
 }
 
-export function sanitizedEnv(extra = {}) {
-  const env = { ...process.env };
+const allowedEnv = [
+  'CURL_CA_BUNDLE',
+  'GIT_SSL_CAINFO',
+  'GUILE_EXTENSIONS_PATH',
+  'GUILE_LOAD_COMPILED_PATH',
+  'GUILE_LOAD_PATH',
+  'HOME',
+  'HTTP_PROXY',
+  'HTTPS_PROXY',
+  'LANG',
+  'LC_ALL',
+  'LC_CTYPE',
+  'LOCALE_ARCHIVE',
+  'LOGNAME',
+  'NIX_CONFIG',
+  'NIX_CONF_DIR',
+  'NIX_DAEMON_SOCKET_PATH',
+  'NIX_LOG_DIR',
+  'NIX_PATH',
+  'NIX_PROFILES',
+  'NIX_REMOTE',
+  'NIX_SSL_CERT_FILE',
+  'NIX_STATE_DIR',
+  'NIX_STORE',
+  'NIX_USER_CONF_FILES',
+  'NO_PROXY',
+  'PATH',
+  'SSL_CERT_FILE',
+  'TERM',
+  'TMPDIR',
+  'TZ',
+  'USER',
+  'XDG_CACHE_HOME',
+  'XDG_CONFIG_HOME',
+  'XDG_DATA_HOME',
+  'XDG_RUNTIME_DIR',
+  'http_proxy',
+  'https_proxy',
+  'no_proxy',
+];
 
-  for (const key of [
-    'GITHUB_TOKEN',
-    'GH_TOKEN',
-    'AWS_ACCESS_KEY_ID',
-    'AWS_SECRET_ACCESS_KEY',
-    'AWS_SESSION_TOKEN',
-    'AWS_PROFILE',
-    'HERCULES_CI_SECRETS_JSON',
-    'PAGES_S3_ACCESS_KEY_ID',
-    'PAGES_S3_SECRET_ACCESS_KEY',
-  ]) {
-    delete env[key];
+export function sanitizedEnv(extra = {}) {
+  const env = {};
+
+  for (const key of allowedEnv) {
+    if (Object.hasOwn(process.env, key)) {
+      env[key] = process.env[key];
+    }
   }
 
   return { ...env, ...extra };

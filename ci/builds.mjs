@@ -38,25 +38,30 @@ export const controllerFiles = [
   'tools/flake.lock',
 ];
 
+export const controllerDirectories = ['ci', 'tools/update-font-languages'];
+
 export function controllerPaths(root) {
   const files = [...controllerFiles];
 
-  function collectCi(relative) {
+  function collect(relative) {
     for (const entry of fs.readdirSync(path.join(root, relative), {
       withFileTypes: true,
     })) {
       const child = relative + '/' + entry.name;
 
       if (entry.isDirectory()) {
-        collectCi(child);
+        collect(child);
       } else {
-        ensure(entry.isFile(), 'Unexpected non-file in ci/: ' + child);
+        ensure(entry.isFile(), 'Unexpected non-file in controller: ' + child);
         files.push(child);
       }
     }
   }
 
-  collectCi('ci');
+  for (const directory of controllerDirectories) {
+    collect(directory);
+  }
+
   return files.sort();
 }
 
