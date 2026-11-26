@@ -3,7 +3,7 @@ const root = new URL('.', import.meta.url);
 const views = new Map();
 let pending;
 let settleController;
-let scrollFrame;
+let scrollTimer;
 
 function pagePath(url) {
   return url.pathname.endsWith('/')
@@ -63,15 +63,23 @@ function filterKey(url) {
 }
 
 function savePosition() {
+  clearTimeout(scrollTimer);
+  scrollTimer = undefined;
+
   if (
     !settleController &&
     !document.documentElement.hasAttribute('data-starting') &&
     active.href === location.href
-  )
-    history.replaceState(
-      { ...history.state, position: [scrollX, scrollY] },
-      '',
-    );
+  ) {
+    try {
+      history.replaceState(
+        { ...history.state, position: [scrollX, scrollY] },
+        '',
+      );
+    } catch {
+      // Scroll restoration is best-effort when browsers rate-limit history.
+    }
+  }
 }
 
 function selectChapter(url) {
@@ -153,8 +161,13 @@ async function activatePreview(view) {
 
       cancelNavigation();
       savePosition();
-      history.pushState({ position: [scrollX, scrollY] }, '', url);
-      view.href = url.href;
+
+      try {
+        history.pushState({ position: [scrollX, scrollY] }, '', url);
+        view.href = url.href;
+      } catch {
+        // Keep filtering interactive if the browser rate-limits history.
+      }
     });
   } catch (error) {
     for (const row of view.body.querySelectorAll('#packages > article')) {
@@ -249,7 +262,8 @@ function afterReveal(callback) {
 }
 
 function cancelNavigation() {
-  cancelAnimationFrame(scrollFrame);
+  clearTimeout(scrollTimer);
+  scrollTimer = undefined;
 
   if (settleController) {
     settleController.abort();
@@ -267,7 +281,8 @@ function cancelNavigation() {
 }
 
 function scheduleMove(next, url, position, waitForCatalog = true, move = true) {
-  cancelAnimationFrame(scrollFrame);
+  clearTimeout(scrollTimer);
+  scrollTimer = undefined;
   if (settleController) settleController.abort();
 
   const controller = new AbortController();
@@ -364,8 +379,15 @@ document.addEventListener('click', (event) => {
     event.preventDefault();
     cancelNavigation();
     savePosition();
-    history.pushState({ ...history.state, notices: true }, '');
-    syncNotices();
+
+    try {
+      history.pushState({ ...history.state, notices: true }, '');
+      syncNotices();
+    } catch {
+      const dialog = document.getElementById('site-notices');
+      if (!dialog.open) openNotices(dialog);
+    }
+
     return;
   }
 
@@ -392,16 +414,17 @@ document.addEventListener('click', (event) => {
   navigate(url).catch(console.error);
 });
 
+function openNotices(dialog) {
+  delete dialog.dataset.navigating;
+  dialog.showModal();
+  dialog.querySelector('article').scrollTop = 0;
+}
+
 // The overlay owns one history entry at exactly the underlying view's URL.
 function syncNotices() {
   const dialog = document.getElementById('site-notices');
-  if (history.state?.notices && !dialog.open) {
-    delete dialog.dataset.navigating;
-    dialog.showModal();
-    dialog.querySelector('article').scrollTop = 0;
-  } else if (!history.state?.notices && dialog.open) {
-    dialog.close();
-  }
+  if (history.state?.notices && !dialog.open) openNotices(dialog);
+  else if (!history.state?.notices && dialog.open) dialog.close();
 }
 
 document.addEventListener(
@@ -453,11 +476,13 @@ addEventListener('popstate', () => {
 addEventListener(
   'scroll',
   () => {
-    cancelAnimationFrame(scrollFrame);
-    scrollFrame = requestAnimationFrame(savePosition);
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(savePosition, 150);
   },
   { passive: true },
 );
+
+addEventListener('pagehide', savePosition);
 
 const initialUrl = new URL(location.href);
 const initialPosition = history.state?.position;
