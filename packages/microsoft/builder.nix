@@ -14,6 +14,7 @@
 let
   inherit (lib)
     concatStringsSep
+    escapeShellArg
     licenses
     maintainers
     platforms
@@ -22,22 +23,22 @@ let
 
   installFont = file: ''
     install -Dm444 \
-      ${windows-fonts}/share/fonts/truetype/microsoft/${file} \
-      $fontDir/${file}
+      ${windows-fonts}/share/fonts/truetype/microsoft/${escapeShellArg file} \
+      "$fontDir"/${escapeShellArg file}
   '';
 
   defaultInstallPhase = ''
       runHook preInstall
 
-      fontDir=$out/share/fonts/truetype/microsoft
-      docDir=$out/share/doc/${pname}
+      fontDir="$out/share/fonts/truetype/microsoft"
+      docDir="$out/share/doc"/${escapeShellArg pname}
 
-      mkdir -p $fontDir $docDir
+      mkdir -p "$fontDir" "$docDir"
 
     ${concatStringsSep "" (map installFont files)}
       install -Dm444 \
         ${windows-fonts}/share/doc/windows-fonts/license.rtf \
-        $docDir/license.rtf
+        "$docDir/license.rtf"
 
       runHook postInstall
   '';

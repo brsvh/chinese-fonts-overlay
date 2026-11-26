@@ -23,6 +23,7 @@ let
   );
 
   inherit (lib)
+    all
     concatStringsSep
     elem
     makeScope
@@ -45,18 +46,27 @@ let
       installPhase = ''
         runHook preInstall
 
-        mkdir -p $out
+        mkdir -p "$out"
 
         for drv in ${concatStringsSep " " members}; do
-          ${lndir}/bin/lndir -silent $drv $out
+          ${lndir}/bin/lndir -silent "$drv" "$out"
         done
 
         runHook postInstall
       '';
 
+      meta = {
+        description = "Composed font collection (${pname})";
+
+        redistributable = all (
+          member:
+          (member.meta.redistributable or false) == true
+        ) members;
+      };
+
       passthru = {
-        isFontAggregate = true;
         fontMembers = members;
+        isFontAggregate = true;
       };
 
       version = "0";
@@ -86,6 +96,8 @@ let
 
   dingtalkPackages = mkVendorPackages "dingtalk";
 
+  foundertypePackages = mkVendorPackages "foundertype";
+
   foundertypeCtexPackages =
     with foundertypePackages; [
       fzfangsong
@@ -99,21 +111,13 @@ let
       fzzhunyuan
     ];
 
-  foundertypePackages = mkVendorPackages "foundertype";
-
-  foundertypePaidPackages =
-    with foundertypePackages; [
-      fzcuyuan
-      fzlishu
-      fzxiaobiaosong
-      fzxiheiyi
-      fzxiyuan
-      fzzhunyuan
-    ];
+  isPaidFont =
+    drv:
+    (drv.chinese-fonts-overlay-pages.licenseCost
+      or null
+    ) == "paid";
 
   hanwangPackages = mkVendorPackages "hanwang";
-
-  huaweiPackages = mkVendorPackages "huawei";
 
   harmonyosSansPackages = with huaweiPackages; [
     harmonyos-sans
@@ -130,6 +134,8 @@ let
     harmonyos-sans-tc-vf
     harmonyos-sans-vf
   ];
+
+  huaweiPackages = mkVendorPackages "huawei";
 
   ichitenfontPackages = mkVendorPackages "ichitenfont";
 
@@ -231,34 +237,28 @@ in
     windows-fonts
     ;
 
-  alibaba-fonts =
-    alibabaPackages.combine' "alibaba-fonts"
-      (_: true);
+  alibaba-fonts = alibabaPackages.combine (_: true);
 
-  alimama-fonts =
-    alimamaPackages.combine' "alimama-fonts"
-      (_: true);
+  alimama-fonts = alimamaPackages.combine (_: true);
 
-  buttaiwan-fonts =
-    buttaiwanPackages.combine' "buttaiwan-fonts"
-      (_: true);
+  buttaiwan-fonts = buttaiwanPackages.combine (
+    _: true
+  );
 
-  cwtex-fonts =
-    cwtexPackages.combine' "cwtex-fonts"
-      (_: true);
+  cwtex-fonts = cwtexPackages.combine (_: true);
 
-  dingtalk-fonts =
-    dingtalkPackages.combine' "dingtalk-fonts"
-      (_: true);
+  dingtalk-fonts = dingtalkPackages.combine (
+    _: true
+  );
 
   foundertype-ctex-fonts =
     foundertypePackages.combine'
       "foundertype-ctex-fonts"
       (drv: elem drv foundertypeCtexPackages);
 
-  foundertype-fonts =
-    foundertypePackages.combine' "foundertype-fonts"
-      (_: true);
+  foundertype-fonts = foundertypePackages.combine (
+    _: true
+  );
 
   foundertype-gcu-fonts =
     foundertypePackages.combine'
@@ -270,7 +270,7 @@ in
           license = drv.meta.license or null;
         in
         (license == foundertype-commercial-license)
-        && (!(elem drv foundertypePaidPackages))
+        && !(isPaidFont drv)
       );
 
   foundertype-gpu-fonts =
@@ -286,21 +286,12 @@ in
           (license == foundertype-commercial-license)
           || (license == foundertype-family-license)
         )
-        && (!(elem drv foundertypePaidPackages))
+        && !(isPaidFont drv)
       );
 
-  foundertype-paid-fonts =
-    foundertypePackages.combine'
-      "foundertype-paid-fonts"
-      (drv: elem drv foundertypePaidPackages);
+  foundertype-paid-fonts = foundertypePackages.combine' "foundertype-paid-fonts" isPaidFont;
 
-  hanwang-fonts =
-    hanwangPackages.combine' "hanwang-fonts"
-      (_: true);
-
-  huawei-fonts =
-    huaweiPackages.combine' "huawei-fonts"
-      (_: true);
+  hanwang-fonts = hanwangPackages.combine (_: true);
 
   harmonyos-sans-fonts =
     huaweiPackages.combine' "harmonyos-sans-fonts"
@@ -310,57 +301,45 @@ in
     huaweiPackages.combine' "harmonyos-sans-vf-fonts"
       (drv: elem drv harmonyosSansVfPackages);
 
-  ichitenfont-fonts =
-    ichitenfontPackages.combine' "ichitenfont-fonts"
-      (_: true);
+  huawei-fonts = huaweiPackages.combine (_: true);
 
-  ito-fonts = itoPackages.combine' "ito-fonts" (
+  ichitenfont-fonts = ichitenfontPackages.combine (
     _: true
   );
 
-  jikasei-fonts =
-    jikaseiPackages.combine' "jikasei-fonts"
-      (_: true);
+  ito-fonts = itoPackages.combine (_: true);
 
-  justfont-fonts =
-    justfontPackages.combine' "justfont-fonts"
-      (_: true);
+  jikasei-fonts = jikaseiPackages.combine (_: true);
 
-  lingdong-fonts =
-    lingdongPackages.combine' "lingdong-fonts"
-      (_: true);
-
-  lxgw-fonts = lxgwPackages.combine' "lxgw-fonts" (
+  justfont-fonts = justfontPackages.combine (
     _: true
   );
 
-  naver-fonts =
-    naverPackages.combine' "naver-fonts"
-      (_: true);
-
-  oppo-fonts = oppoPackages.combine' "oppo-fonts" (
+  lingdong-fonts = lingdongPackages.combine (
     _: true
   );
 
-  tanuki-fonts =
-    tanukiPackages.combine' "tanuki-fonts"
-      (_: true);
+  lxgw-fonts = lxgwPackages.combine (_: true);
 
-  taobao-fonts =
-    taobaoPackages.combine' "taobao-fonts"
-      (_: true);
+  naver-fonts = naverPackages.combine (_: true);
 
-  tianheng-fonts =
-    tianhengPackages.combine' "tianheng-fonts"
-      (_: true);
+  oppo-fonts = oppoPackages.combine (_: true);
 
-  trionestype-fonts =
-    trionestypePackages.combine' "trionestype-fonts"
-      (_: true);
+  tanuki-fonts = tanukiPackages.combine (_: true);
 
-  tsangertype-fonts =
-    tsangertypePackages.combine' "tsangertype-fonts"
-      (_: true);
+  taobao-fonts = taobaoPackages.combine (_: true);
+
+  tianheng-fonts = tianhengPackages.combine (
+    _: true
+  );
+
+  trionestype-fonts = trionestypePackages.combine (
+    _: true
+  );
+
+  tsangertype-fonts = tsangertypePackages.combine (
+    _: true
+  );
 
   tsangertype-gcu-fonts =
     tsangertypePackages.combine'
@@ -387,9 +366,7 @@ in
         || (license == tsangertype-font-license)
       );
 
-  xiaomi-fonts =
-    xiaomiPackages.combine' "xiaomi-fonts"
-      (_: true);
+  xiaomi-fonts = xiaomiPackages.combine (_: true);
 
 }
 // import ./renamed.nix { inherit lib; }

@@ -4,6 +4,7 @@
 }:
 let
   inherit (pkgs.lib)
+    assertMsg
     attrNames
     concatMap
     filter
@@ -56,14 +57,17 @@ let
     vendor: name:
     let
       package = pkgs."${vendor}Packages".${name};
-      inherit (package) meta;
+      meta = package.meta or { };
       id = "${vendor}.${name}";
-      info = metadata.validatePackage "${vendor}Packages.${name}" package;
+      attribute = "${vendor}Packages.${name}";
+      info = metadata.validatePackage attribute package;
       redistributable =
         (meta.redistributable or false) == true;
     in
+    assert assertMsg (info.vendor == vendor)
+      "${attribute}: chinese-fonts-overlay-pages.vendor (${info.vendor}) must match directory (${vendor})";
     {
-      inherit id redistributable;
+      inherit attribute id redistributable;
 
       inherit (info)
         displayName
@@ -75,7 +79,6 @@ let
 
       inherit (package) pname;
 
-      attribute = "${vendor}Packages.${name}";
       description = meta.description or "";
       embedding = info.embedding or redistributable;
       homepages = toList (meta.homepage or [ ]);
