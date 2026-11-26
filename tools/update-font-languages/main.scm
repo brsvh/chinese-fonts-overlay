@@ -139,10 +139,14 @@
   "Recognize the Fontconfig language-tag syntax accepted by package metadata."
   (and (string? value) (string-match "^[a-z]{2,3}(-[a-z0-9]{2,8})*$" value)))
 
+(define (nonempty-env name fallback)
+  "Return the value of environment variable NAME when nonempty, else FALLBACK."
+  (let ((value (getenv name)))
+    (if (and value (not (string-null? value))) value fallback)))
+
 (define (scanner-program)
   "Return the native font scanner executable name or override path."
-  (or (getenv "FONT_LANGUAGES_SCANNER")
-      "chinese-fonts-overlay-scan-font"))
+  (nonempty-env "FONT_LANGUAGES_SCANNER" "chinese-fonts-overlay-scan-font"))
 
 (define (parse-face-record directory file entry)
   "Validate one scanner face object ENTRY and attach its relative FILE path."
@@ -196,7 +200,7 @@
   (let ((files (filter font-file? (files-under directory))))
     (when (null? files)
       (error "No OTF/TTF/OTC/TTC fonts" directory))
-    (let* ((temporary (temporary-directory (or (getenv "TMPDIR") "/tmp")))
+    (let* ((temporary (temporary-directory (nonempty-env "TMPDIR" "/tmp")))
            (configuration (string-append temporary "/fonts.conf")))
       (dynamic-wind
           (lambda () #t)

@@ -359,12 +359,13 @@ mkShell {
         '';
       in
       ''
-        if gitDir="$(
+        if gitCommonDir="$(
           ${getExe git} -C "$projectRoot" rev-parse \
-            --absolute-git-dir 2>/dev/null
+            --path-format=absolute \
+            --git-common-dir 2>/dev/null
         )"; then
-          mkdir -p "$gitDir/hooks"
-          ln -sf "${hook}" "$gitDir/hooks"/${escapeShellArg stage}
+          mkdir -p "$gitCommonDir/hooks"
+          ln -sf "${hook}" "$gitCommonDir/hooks"/${escapeShellArg stage}
         fi
       ''
     ) files.prek.data.default_install_hook_types
