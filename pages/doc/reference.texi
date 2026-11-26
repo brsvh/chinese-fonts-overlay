@@ -14,10 +14,10 @@
 
   @code{overlays.default} 是引入本项目字体的主要入口。启用 overlay 后，
 各字库的单款字体通过 @code{pkgs.@var{vendor}Packages.@var{font}} 访问。
-以 Maru Buri 为例， @code{naverPackages.maru-buri} 是安装时使用的完整
-包属性， @code{naver-maru-buri} 是该包的 @code{pname} ，而 Maru Buri
-是字体的显示名称。在 NixOS 或 Home Manager 配置中选择字体时，请始终使用
-完整包属性。
+以 마루 부리（Maru Buri）为例， @code{naverPackages.maru-buri} 是安装时
+使用的完整包属性， @code{naver-maru-buri} 是该包的 @code{pname} ，而
+마루 부리 是字体的显示名称。在 NixOS 或 Home Manager 配置中选择字体时，
+请始终使用完整包属性。
 
   Flake 的 @code{packages.@var{system}} 导出各字库合集，单款字体则通过
 overlay 获取。项目同时在 @code{lib} 中提供少量辅助函数；日常安装字体
