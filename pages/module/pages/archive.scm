@@ -253,8 +253,8 @@
           (set! port (open-pipe* OPEN_READ "gzip" "--decompress" "--stdout"
                                  "--" archive))
           (extract-files port destination manifest)
-          (let ((status (close-pipe port)))
-            (set! port #f)
+          (let* ((pipe port)
+                 (status (begin (set! port #f) (close-pipe pipe))))
             (require (zero? status) "Invalid gzip archive"))
           (public-files destination)
           (require (equal? (jref manifest "source")
@@ -264,6 +264,7 @@
                    "Catalog source revision differs from release")
           (set! success? #t))
         (lambda ()
-          (when port (close-pipe port))
+          (when port
+            (false-if-exception (close-pipe port)))
           (when (and created? (not success?))
             (delete-tree destination))))))
