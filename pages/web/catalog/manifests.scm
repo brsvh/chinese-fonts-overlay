@@ -25,11 +25,14 @@
         (let ((callbacks (cdr (assoc url pending))))
           (set! pending (remove-key url pending))
           (when data (set! manifests (cons (cons url data) manifests)))
-          (for-each
-           (lambda (callback)
-             (if data ((car callback) data) ((cdr callback))))
-           callbacks))
-        (pump-requests!))
+          (dynamic-wind
+            (lambda () #t)
+            (lambda ()
+              (for-each
+               (lambda (callback)
+                 (if data ((car callback) data) ((cdr callback))))
+               callbacks))
+            (lambda () (pump-requests!)))))
       (set! request-queue (cdr request-queue))
       (set! active-requests (+ active-requests 1))
       (let ((request

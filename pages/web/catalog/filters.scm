@@ -87,7 +87,7 @@
          "default"))
     (let* ((size (and (not defaults?)
                       (string->number (url-parameter url "size" "66"))))
-           (valid? (and (integer? size) (<= 36 size 96) (even? size))))
+           (valid? (and (exact-integer? size) (<= 36 size 96) (even? size))))
       (set-value!
        (element-by-id "size")
        (if valid? (number->string size) "66")))))
@@ -202,13 +202,14 @@
   (set! facets
         (map (lambda (group)
                (let* ((key (element-attribute group "data-facet"))
+                      (default-raw (element-attribute group "data-default"))
                       (facet (make-facet
                               key
                               (nodes (string-append "[data-choice='" key "']"))
                               (element-query group "[data-select-all]")
-                              (string-split
-                               (element-attribute group "data-default")
-                               #\,))))
+                              (if (string-null? default-raw)
+                                  '()
+                                  (string-split default-raw #\,)))))
                  (when (string=? key "language") (set! language-facet facet))
                  (listen!
                   (facet-all facet)

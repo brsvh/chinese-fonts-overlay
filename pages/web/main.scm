@@ -60,15 +60,15 @@
 (define (preview-status! state message retry? loading?)
   "Expose a face's loading, missing or failure state and its retry action."
   (let ((status (element-query (preview-row state) "[data-preview-status]")))
-    (set-text! status message)
-    (when loading?
-      (let ((spinner (create-element "span")) (label (create-element "span")))
-        (clear-children! status)
-        (set-attribute! spinner "class" "loading loading-spinner loading-sm")
-        (set-attribute! spinner "aria-hidden" "true")
-        (set-text! label message)
-        (append-child! status spinner)
-        (append-child! status label)))
+    (if loading?
+        (let ((spinner (create-element "span")) (label (create-element "span")))
+          (clear-children! status)
+          (set-attribute! spinner "class" "loading loading-spinner loading-sm")
+          (set-attribute! spinner "aria-hidden" "true")
+          (set-text! label message)
+          (append-child! status spinner)
+          (append-child! status label))
+        (set-text! status message))
     (set-hidden! status (if (string-null? message) 1 0))
     (set-hidden! (preview-retry state) (if retry? 0 1))
     (set-preview-ready! state (not loading?))
@@ -89,15 +89,18 @@
     (let loop ((tags languages) (groups '()))
       (if (or (null? tags) (and cover? (pair? groups)))
           groups
-          (let* ((tag (car tags))
-                 (sample (json-object samples tag))
-                 (url (json-text sample "url"))
-                 (found (assoc url groups)))
-            (cond
-             ((= 0 (json-has samples tag)) (loop (cdr tags) groups))
-             (found (set-cdr! found (append (cdr found) (list tag)))
-                    (loop (cdr tags) groups))
-             (else (loop (cdr tags) (append groups (list (list url tag)))))))))))
+          (let ((tag (car tags)))
+            (if (= 0 (json-has samples tag))
+                (loop (cdr tags) groups)
+                (let* ((sample (json-object samples tag))
+                       (url (json-text sample "url"))
+                       (found (assoc url groups)))
+                  (if found
+                      (begin
+                        (set-cdr! found (append (cdr found) (list tag)))
+                        (loop (cdr tags) groups))
+                      (loop (cdr tags)
+                            (append groups (list (list url tag))))))))))))
 
 (define (show-images! state data groups generation retry?)
   "Load selected images, keeping successes and reporting partial failures."
@@ -116,6 +119,7 @@
                (string-join
                 (map (lambda (tag) (json-text language-labels tag)) tags)
                 "、"))
+              (caption #f)
               (box (create-element "div"))
               (image (create-element "img"))
               (timer 0)
@@ -127,6 +131,7 @@
              (when (current?)
                (set! remaining (- remaining 1))
                (unless success? (set! failed? #t))
+               (when caption (set-hidden! caption (if success? 0 1)))
                (set-hidden! box (if success? 0 1))
                (when (= remaining 0)
                  (preview-status!
@@ -134,8 +139,8 @@
                   (if failed? "部分预览图片加载失败或超时。" "")
                   failed? #f)))))
          (unless cover?
-           (let* ((many? (> (length tags) 3))
-                  (caption (create-element (if many? "details" "p"))))
+           (let ((many? (> (length tags) 3)))
+             (set! caption (create-element (if many? "details" "p")))
              (set-attribute! caption "class" "sample-language")
              (if many?
                  (let ((summary (create-element "summary"))
@@ -151,6 +156,7 @@
                    (set-text! text labels)
                    (append-child! caption text))
                  (set-text! caption labels))
+             (set-hidden! caption 1)
              (append-child! (preview-slot state) caption)))
          (set-attribute! box "class" "sample")
          (set-attribute! box "tabindex" "0")
@@ -255,7 +261,8 @@
 
 (define (copy-package! button)
   "Copy the exact package attribute and expose success or actionable failure."
-  (let ((name (element-attribute button "data-copy")))
+  (let ((name (element-attribute button "data-copy"))
+        (status (element-by-id "status")))
     (set-disabled! button 1)
     (copy-text!
      name
@@ -264,13 +271,17 @@
         (set-disabled! button 0)
         (set-attribute! button "data-copied" "true")
         (set-attribute! button "title" "已复制")
+        (set-text! status "")
+        (set-hidden! status 1)
         (set-text! (element-by-id "copy-status") (string-append "已复制 " name))))
      (procedure->external
       (lambda ()
         (set-disabled! button 0)
+        (set-attribute! button "data-copied" "false")
+        (set-attribute! button "title" "复制完整包名")
         (set-text! (element-by-id "copy-status") "复制失败，请选择包名后手动复制。")
-        (set-text! (element-by-id "status") "复制失败，请选择包名后手动复制。")
-        (set-hidden! (element-by-id "status") 0))))))
+        (set-text! status "复制失败，请选择包名后手动复制。")
+        (set-hidden! status 0))))))
 
 (define (main)
   "Initialize once, preserving native links and disclosures on failure."

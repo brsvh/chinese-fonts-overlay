@@ -24,7 +24,13 @@ function readView(page, url) {
   const body = page.body;
   const kind = body.dataset.view;
 
-  if (kind !== section(url) || !body.querySelector('main'))
+  if (
+    kind !== section(url) ||
+    !body.querySelector('main') ||
+    (kind === 'manual' &&
+      (!body.querySelector('.manual-content') ||
+        !body.querySelector('.manual-pager')))
+  )
     throw new Error('Unexpected site view');
 
   return {
@@ -143,13 +149,20 @@ async function activatePreview(view) {
     view.body.querySelector('#preview-loading').hidden = true;
 
     window.finishSiteStartup();
+    view.body.dispatchEvent(new Event('catalog-settled'));
     console.error('Unable to start the font catalog:', error);
   }
 }
 
 async function fetchView(url, signal) {
   const response = await fetch(url, { signal });
-  if (!response.ok || pagePath(new URL(response.url)) !== pagePath(url)) {
+  const finalUrl = new URL(response.url);
+
+  if (
+    !response.ok ||
+    finalUrl.origin !== url.origin ||
+    pagePath(finalUrl) !== pagePath(url)
+  ) {
     await response.body?.cancel();
     throw new Error('Site page unavailable');
   }
@@ -176,7 +189,12 @@ function showView(next) {
     next.body = previous.body;
   }
 
-  if (active.body !== next.body) document.body.replaceWith(next.body);
+  if (active.body !== next.body) {
+    const outgoingDialog = active.body.querySelector('#site-notices[open]');
+    if (outgoingDialog) outgoingDialog.close();
+
+    document.body.replaceWith(next.body);
+  }
   active = next;
   views.set(next.kind, next);
 
@@ -234,17 +252,31 @@ async function navigate(url, fromHistory = false) {
 
     const filterChange =
       next.kind === 'preview' && new URL(next.href).search !== url.search;
+    const deferMove = filterChange || (!previous && next.kind === 'preview');
     next.href = url.href;
     showView(next);
 
+    if (deferMove) {
+      next.body.addEventListener(
+        'catalog-settled',
+        () => {
+          if (active === next && active.href === url.href) {
+            moveToPage(url, position);
+            savePosition();
+          }
+        },
+        { once: true },
+      );
+    }
+
     if (filterChange) next.body.dispatchEvent(new Event('catalog-location'));
     updateLinks();
-    moveToPage(url, position);
+    if (!deferMove) moveToPage(url, position);
 
     const status = document.getElementById('manual-status');
     if (status) status.textContent = `已打开：${next.title}`;
 
-    savePosition();
+    if (!deferMove) savePosition();
     syncNotices();
   } catch {
     if (pending === request) {
@@ -289,7 +321,13 @@ document.addEventListener('click', (event) => {
   )
     return;
 
-  const url = new URL(link.href);
+  let url;
+  try {
+    url = new URL(link.href);
+  } catch {
+    return;
+  }
+
   if (!section(url)) return;
 
   event.preventDefault();
@@ -314,7 +352,7 @@ document.addEventListener(
     if (event.target === dialog && !dialog.open) {
       document
         .querySelector('button[commandfor="site-notices"]')
-        .focus({ preventScroll: true });
+        ?.focus({ preventScroll: true });
       if (history.state?.notices) history.back();
     }
   },

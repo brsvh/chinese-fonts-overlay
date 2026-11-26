@@ -22,6 +22,28 @@ const visibilityObserver = globalThis.IntersectionObserver
     )
   : null;
 
+const fallbackVisibility = [];
+let fallbackFrame;
+
+function notifyFallbackVisibility() {
+  fallbackFrame = undefined;
+
+  for (const callback of fallbackVisibility) {
+    callback(1);
+  }
+}
+
+if (!visibilityObserver) {
+  const scheduleFallback = () => {
+    if (!fallbackFrame) {
+      fallbackFrame = requestAnimationFrame(notifyFallbackVisibility);
+    }
+  };
+
+  addEventListener('scroll', scheduleFallback, { passive: true });
+  addEventListener('resize', scheduleFallback, { passive: true });
+}
+
 async function fetchJSON(url, signal) {
   const response = await fetch(new URL(url, import.meta.url), { signal });
 
@@ -120,16 +142,25 @@ function catalogImports(view, pushURL) {
           visibilityCallbacks.set(element, callback);
           visibilityObserver.observe(element);
         } else {
-          queueMicrotask(() => callback(1));
+          fallbackVisibility.push(callback);
         }
       },
     },
 
     json: {
       parse: (text) => JSON.parse(text),
-      object: (value, key) => value[key] ?? {},
-      text: (value, key) => String(value[key] ?? ''),
-      has: (value, key) => (Object.hasOwn(value, key) ? 1 : 0),
+      object: (value, key) =>
+        value !== null && typeof value === 'object' && Object.hasOwn(value, key)
+          ? (value[key] ?? {})
+          : {},
+      text: (value, key) =>
+        value !== null && typeof value === 'object' && Object.hasOwn(value, key)
+          ? String(value[key] ?? '')
+          : '',
+      has: (value, key) =>
+        value !== null && typeof value === 'object' && Object.hasOwn(value, key)
+          ? 1
+          : 0,
     },
 
     browser: {
@@ -139,7 +170,10 @@ function catalogImports(view, pushURL) {
         window.sitePresentationReady
           .then(() => callback())
           .catch(console.error),
-      finishStartup: () => window.finishSiteStartup(),
+      finishStartup: () => {
+        window.finishSiteStartup();
+        body.dispatchEvent(new Event('catalog-settled'));
+      },
 
       url: () => new URL(view.href),
       parameter: (url, key, fallback) => url.searchParams.get(key) ?? fallback,
@@ -148,13 +182,16 @@ function catalogImports(view, pushURL) {
       pushURL,
 
       copyText: (text, success, failure) => {
-        Promise.resolve()
-          .then(() => navigator.clipboard.writeText(text))
-          .then(
-            () => success(),
-            () => failure(),
-          )
-          .catch(console.error);
+        try {
+          Promise.resolve(navigator.clipboard.writeText(text))
+            .then(
+              () => success(),
+              () => failure(),
+            )
+            .catch(console.error);
+        } catch {
+          queueMicrotask(() => failure());
+        }
       },
 
       onHistory: (callback) =>

@@ -69,7 +69,7 @@
       `((section
          (@ (class "package-notices") (aria-label "注意事项"))
          ,@(map (lambda (notice)
-                  `(div (@ (class "alert package-notice")
+                  `(div (@ (class "package-notice")
                            (data-notice-level ,(jref notice "level")))
                         (h3 (@ (class "notice-heading"))
                             ,(icon "notice")

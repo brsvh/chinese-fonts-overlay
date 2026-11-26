@@ -98,8 +98,6 @@
   font-family: var(--site-sans);
   color: var(--color-base-content);
   background: var(--color-base-100);
-  scrollbar-color: var(--border-color) var(--color-base-200);
-  scrollbar-width: thin;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -180,7 +178,7 @@ summary {
 }
 
 button:disabled {
-  cursor: wait;
+  cursor: not-allowed;
 }
 
 [hidden] {
@@ -671,7 +669,6 @@ h1 {
   gap: 3px;
   color: var(--color-primary);
   font-size: 12px;
-  cursor: pointer;
   list-style: none;
 }
 
@@ -911,10 +908,10 @@ h1 {
   height: 14px;
 }
 
-.package-notices,
 .package-info {
   margin-top: 12px;
   font-size: 12px;
+  color: var(--muted);
 }
 
 .package-notices {
@@ -925,16 +922,10 @@ h1 {
 
 .package-notice {
   --notice-color: var(--color-info);
-  display: block;
   min-width: 0;
   padding: 6px 16px;
-  border: 0;
   border-left: 3px solid var(--notice-color);
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
   color: var(--color-base-content);
-  text-align: left;
   font-size: 13px;
   line-height: 1.7;
 }
@@ -973,10 +964,6 @@ h1 {
 .notice-source {
   margin-top: 8px;
   font-size: 12px;
-}
-
-.package-info {
-  color: var(--muted);
 }
 
 .info-toggle {
@@ -1079,10 +1066,6 @@ h1 {
 .site-footer a,
 .site-footer button {
   color: inherit;
-}
-
-.site-footer button {
-  cursor: pointer;
 }
 
 .site-footer button:hover {
@@ -1214,7 +1197,6 @@ html:has(.notices-dialog[open]) {
 
   .mobile-filter {
     display: inline-flex;
-    margin-left: auto;
   }
 
   .shell {
@@ -1291,16 +1273,13 @@ html:has(.notices-dialog[open]) {
     font-size: 12px;
   }
 
-  .face-list > summary {
-    font-size: 12px;
-  }
-
   .font-row {
     padding: 22px 0;
   }
 
   .face-list > summary {
     top: 26px;
+    font-size: 12px;
   }
 
   .source {
@@ -1373,7 +1352,6 @@ html:has(.notices-dialog[open]) {
 .manual-chapters summary {
   display: flex;
   align-items: baseline;
-  cursor: pointer;
 }
 
 .manual-chapters summary::before {
@@ -1661,9 +1639,12 @@ html:has(.notices-dialog[open]) {
   );
 }
 
-.manual-content .manual-notice-warning blockquote,
-.manual-content .manual-notice-caution blockquote {
+.manual-content .manual-notice-warning blockquote {
   --manual-notice-color: var(--color-warning);
+}
+
+.manual-content .manual-notice-caution blockquote {
+  --manual-notice-color: var(--color-error);
 }
 
 .manual-content .manual-notice-important blockquote {
@@ -1789,13 +1770,6 @@ html:has(.notices-dialog[open]) {
   scroll-margin-top: calc(var(--header-height) + 24px);
 }
 
-.manual-page
-  :is(.manual-content, .manual-chapters, .manual-pager)
-  a:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
-}
-
 .manual-pager {
   display: flex;
   justify-content: space-between;
@@ -1834,10 +1808,6 @@ html:has(.notices-dialog[open]) {
     margin-left: auto;
     white-space: nowrap;
     font-size: 13px;
-  }
-
-  .mobile-filter {
-    margin-left: 0;
   }
 
   .manual-menu-toggle:checked + .shell .manual-sidebar {
