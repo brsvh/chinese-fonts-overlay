@@ -136,7 +136,7 @@
           (write-text list-file (string-append (string-join files "\n") "\n"))
           (run "tar" "--format=ustar" "--mtime=@0" "--owner=0" "--group=0"
                "--numeric-owner" "--mode=0644" "--no-recursion"
-               "--hard-dereference"
+               "--hard-dereference" "--force-local"
                "--directory" directory
                "--create" "--gzip" "--file" archive "--files-from" list-file)
           (delete-file list-file)

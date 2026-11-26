@@ -130,7 +130,9 @@
                             ((not entry) '())
                             ((eq? 'directory (stat:type entry))
                              (walk file (cons key visited)))
-                            (else (list file)))))
+                            ((eq? 'regular (stat:type entry))
+                             (list file))
+                            (else '()))))
                        entries)))))))))
 
 (define (file-digest file)

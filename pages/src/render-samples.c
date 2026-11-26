@@ -8,7 +8,6 @@
 #include <fontconfig/fcfreetype.h>
 #include <math.h>
 #include <pango/pangocairo.h>
-#include <pango/pangofc-font.h>
 #include <pango/pangofc-fontmap.h>
 #include <stdio.h>
 #include <stdlib.h>
