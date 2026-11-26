@@ -17,6 +17,13 @@
     ("yuyang-medium.ttf" . "UI_FONT_MEDIUM")
     ("tsanger-license.pdf" . "UI_FONT_LICENSE")))
 
+(define (tree-digests directory)
+  "Pair each relative path beneath DIRECTORY with its SHA256 digest."
+  (map (lambda (file)
+         (cons (substring file (+ 1 (string-length directory)))
+               (file-digest file)))
+       (files-under directory)))
+
 (define (restore-env! entries)
   "Restore each (NAME . VALUE-OR-FALSE) environment binding in ENTRIES."
   (for-each (lambda (entry)
@@ -66,8 +73,8 @@
            (output (string-append root "/extracted")))
       (unpack-site archive manifest output)
       (test-assert "Round-trip public files with normalized permissions"
-        (and (equal? (map file-digest (files-under public))
-                     (map file-digest (files-under output)))
+        (and (equal? (tree-digests public)
+                     (tree-digests output))
              (= #o644
                 (stat:perms (stat (string-append output "/index.html"))))))
       (test-assert "Reject corrupt archive before extraction"
