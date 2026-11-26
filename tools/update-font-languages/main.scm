@@ -22,8 +22,9 @@
   "Write VALUE atomically as private UTF-8 JSON followed by a newline."
   (atomic-write
    file
-   (lambda (temporary)
-     (write-text temporary (string-append (scm->json-string value) "\n")))
+   (lambda (port)
+     (display (scm->json-string value) port)
+     (newline port))
    #o600))
 
 (define (read-text file)
@@ -120,15 +121,20 @@
                    (and (file-exists? file) (stat:perms (stat file)))))
          (port (mkstemp (string-append file ".XXXXXX")))
          (temporary (port-filename port)))
-    (close-port port)
     (dynamic-wind
         (lambda () #t)
         (lambda ()
-          (writer temporary)
-          (when mode (chmod temporary mode))
+          (set-port-encoding! port "UTF-8")
+          (writer port)
+          (when mode (chmod port mode))
+          (close-port port)
+          (set! port #f)
           (rename-file temporary file))
-        (lambda () (when (file-exists? temporary)
-                     (delete-file temporary))))))
+        (lambda ()
+          (when (and port (not (port-closed? port)))
+            (close-port port))
+          (when (file-exists? temporary)
+            (delete-file temporary))))))
 
 (define (font-file? path)
   "Recognize supported original font file suffixes without case sensitivity."
@@ -366,7 +372,7 @@ in "
     (for-each
      (lambda (entry)
        (atomic-write (car entry)
-                     (lambda (file) (write-text file (cdr entry)))))
+                     (lambda (port) (display (cdr entry) port))))
      replacements)))
 
 (define (resolve-packages selectors sources)
