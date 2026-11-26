@@ -48,6 +48,7 @@ function readView(page, url) {
 }
 
 let active = readView(document, new URL(location.href));
+const initialView = active;
 views.set(active.kind, active);
 const revision = active.body.querySelector('.site-footer').dataset.revision;
 
@@ -423,21 +424,24 @@ history.scrollRestoration = 'manual';
 
 addEventListener('popstate', () => {
   if (location.href === active.href) {
+    cancelNavigation();
+
     if (document.documentElement.hasAttribute('data-starting')) {
-      if (pending) cancelNavigation();
-      if (!settleController) {
-        const current = new URL(location.href);
-        const position = history.state?.position;
-        scheduleMove(
-          active,
-          current,
-          position,
-          false,
-          Boolean(position || current.hash),
-        );
-      }
+      const current = new URL(location.href);
+      const position = history.state?.position;
+      const waitForCatalog =
+        active.kind === 'preview' &&
+        !active.catalogFailed &&
+        !active.catalogReady &&
+        active !== initialView;
+      scheduleMove(
+        active,
+        current,
+        position,
+        waitForCatalog,
+        Boolean(position || current.hash),
+      );
     } else {
-      cancelNavigation();
       syncNotices();
     }
   } else navigate(new URL(location.href), true).catch(console.error);
