@@ -33,6 +33,8 @@ export const nixFlags = [
 export function withBaseWorktree(root, directory, baseSha, callback) {
   const base = fs.mkdtempSync(path.join(path.resolve(directory), 'base-'));
   let added = false;
+  let failed = false;
+  let callbackError;
 
   try {
     command('git', [
@@ -46,20 +48,12 @@ export function withBaseWorktree(root, directory, baseSha, callback) {
     ]);
     added = true;
 
-    const result = callback(base);
-
-    command('git', [
-      '-C',
-      path.resolve(root),
-      'worktree',
-      'remove',
-      '--force',
-      base,
-    ]);
-    added = false;
-
-    return result;
+    return callback(base);
   } catch (error) {
+    failed = true;
+    callbackError = error;
+    throw error;
+  } finally {
     try {
       if (added) {
         command('git', [
@@ -74,10 +68,15 @@ export function withBaseWorktree(root, directory, baseSha, callback) {
         fs.rmSync(base, { recursive: true, force: true });
       }
     } catch (cleanupError) {
-      throw new AggregateError([error, cleanupError], error.message);
-    }
+      if (failed) {
+        throw new AggregateError(
+          [callbackError, cleanupError],
+          callbackError.message,
+        );
+      }
 
-    throw error;
+      throw cleanupError;
+    }
   }
 }
 

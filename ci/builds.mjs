@@ -33,6 +33,7 @@ const controllerFiles = [
   'flake.lock',
   'lib/default.nix',
   'lib/flake.nix',
+  'pages/default.nix',
   'tools/default.nix',
   'tools/flake.nix',
   'tools/flake.lock',
