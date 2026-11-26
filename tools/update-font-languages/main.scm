@@ -120,7 +120,8 @@
   (let* ((mode (or explicit-mode
                    (and (file-exists? file) (stat:perms (stat file)))))
          (port (mkstemp (string-append file ".XXXXXX")))
-         (temporary (port-filename port)))
+         (temporary (port-filename port))
+         (renamed? #f))
     (dynamic-wind
         (lambda () #t)
         (lambda ()
@@ -129,12 +130,13 @@
           (when mode (chmod port mode))
           (close-port port)
           (set! port #f)
-          (rename-file temporary file))
+          (rename-file temporary file)
+          (set! renamed? #t))
         (lambda ()
           (when (and port (not (port-closed? port)))
-            (close-port port))
-          (when (file-exists? temporary)
-            (delete-file temporary))))))
+            (false-if-exception (close-port port)))
+          (when (and (not renamed?) (file-exists? temporary))
+            (false-if-exception (delete-file temporary)))))))
 
 (define (font-file? path)
   "Recognize supported original font file suffixes without case sensitivity."
