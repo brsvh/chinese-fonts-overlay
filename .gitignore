@@ -4,6 +4,7 @@
 /.bake.toml
 /.clang-format
 /.editorconfig
+/.perltidyrc
 /biome.json
 /prek.toml
 /treefmt.toml

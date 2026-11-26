@@ -163,6 +163,27 @@ let
       ];
     };
 
+    perltidy = rec {
+      data = [
+        "--gnu-style"
+        "--indent-columns=2"
+        "--maximum-line-length=80"
+        "--no-tabs"
+        "--output-line-ending=unix"
+        "--standard-error-output"
+        "--utf8"
+      ];
+
+      file = writeText output (
+        concatStringsSep "\n" data + "\n"
+      );
+      output = ".perltidyrc";
+
+      packages = with pkgs.perlPackages; [
+        PerlTidy
+      ];
+    };
+
     prek = rec {
       data = {
         default_install_hook_types = [
@@ -261,6 +282,21 @@ let
                 "--width=50"
               ];
             };
+
+            perl = {
+              command = "perltidy";
+
+              includes = [
+                "*.pl"
+                "*.pm"
+              ];
+
+              options = [
+                "--backup-and-modify-in-place"
+                "--backup-file-extension=/"
+                "--profile=${files.perltidy.file}"
+              ];
+            };
           };
 
         global = {
@@ -276,6 +312,7 @@ let
 
       packages =
         files.biome.packages
+        ++ files.perltidy.packages
         ++ (with pkgs; [
           (mdformat.withPlugins (
             ps: with ps; [
