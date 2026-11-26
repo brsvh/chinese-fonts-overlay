@@ -26,7 +26,7 @@ in
         toJSON
         ;
 
-      overlayConfig = {
+      fontPkgs = import packageNixpkgs {
         inherit system;
 
         config = {
@@ -38,8 +38,6 @@ in
         ];
       };
 
-      fontPkgs = import packageNixpkgs overlayConfig;
-
       languageFontconfig = fontPkgs.fontconfig;
 
       updateFontLanguages =
@@ -48,6 +46,8 @@ in
           {
             fontconfig = languageFontconfig;
             freetype = fontPkgs.freetype;
+            pkg-config = fontPkgs.pkg-config;
+            stdenv = fontPkgs.stdenv;
           };
 
       fontCatalog =
@@ -60,7 +60,13 @@ in
     {
       _module = {
         args = {
-          pkgs = import nixpkgs overlayConfig;
+          pkgs = import nixpkgs {
+            inherit system;
+
+            config = {
+              allowUnfree = true;
+            };
+          };
         };
       };
 

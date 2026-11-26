@@ -13,7 +13,6 @@ let
     escapeShellArg
     getExe
     map
-    mapAttrs
     mapAttrsToList
     removeAttrs
     unique
