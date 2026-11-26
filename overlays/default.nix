@@ -165,21 +165,21 @@ let
         in
         packages
         // {
-          mkMicrosoftFontDerivation = self.callPackage (
-            projectRoot + /packages/microsoft/builder.nix
-          ) { };
+          mkMicrosoftFontDerivation = packages.builder;
         }
       );
 
-      fontPackages = removeAttrs packageScope [
-        "builder"
-        "mkMicrosoftFontDerivation"
-        "windows-fonts"
-      ];
-
       allPackages = removeAttrs packageScope [
         "builder"
+        "callPackage"
         "mkMicrosoftFontDerivation"
+        "newScope"
+        "overrideScope"
+        "packages"
+      ];
+
+      fontPackages = removeAttrs allPackages [
+        "windows-fonts"
       ];
     in
     allPackages
