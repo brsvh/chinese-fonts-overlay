@@ -77,6 +77,7 @@ let
     let
       packages = packagesFromDirectoryRecursive {
         inherit (final) callPackage newScope;
+
         directory = projectRoot + "/packages/${vendor}";
       };
     in
