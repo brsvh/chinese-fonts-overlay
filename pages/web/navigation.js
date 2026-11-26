@@ -2,6 +2,7 @@
 const root = new URL('.', import.meta.url);
 const views = new Map();
 let pending;
+let settleController;
 let scrollFrame;
 
 function pagePath(url) {
@@ -50,8 +51,8 @@ let active = readView(document, new URL(location.href));
 views.set(active.kind, active);
 const revision = active.body.querySelector('.site-footer').dataset.revision;
 
-// The document and its styles survive URL changes, including the move to manual/.
-for (const link of document.head.querySelectorAll('link[href]'))
+// Keep the favicon valid across URL changes, including the move to manual/.
+for (const link of document.head.querySelectorAll('link[rel="icon"][href]'))
   link.setAttribute('href', link.href);
 
 function savePosition() {
@@ -213,6 +214,11 @@ function showView(next) {
 }
 
 function cancelNavigation() {
+  if (settleController) {
+    settleController.abort();
+    settleController = undefined;
+  }
+
   if (!pending) return;
 
   pending.abort();
@@ -262,15 +268,20 @@ async function navigate(url, fromHistory = false) {
     showView(next);
 
     if (deferMove) {
+      const controller = new AbortController();
+      settleController = controller;
+
       next.body.addEventListener(
         'catalog-settled',
         () => {
+          if (settleController === controller) settleController = undefined;
+
           if (active === next && active.href === url.href) {
             moveToPage(url, position);
             savePosition();
           }
         },
-        { once: true },
+        { once: true, signal: controller.signal },
       );
     }
 
