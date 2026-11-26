@@ -63,7 +63,8 @@
       (test-assert
         "Building and cleaning reject source directories through symlinks"
         (and (every rejected?
-                    (list (list "clean-build" source modules)
+                    (list (list "clean-build" source
+                                (in-vicinity modules "pages"))
                           (list "clean-cache" source alias)
                           (list "check" source (string-append alias "/new"))))
              (equal? (read-text handwritten) "source"))))
