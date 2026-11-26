@@ -65,11 +65,16 @@
             (face-css "YuYang" "400" "normal" "yuyang-regular.ttf" "truetype")
             (face-css "YuYang" "500 900" "normal" "yuyang-medium.ttf" "truetype")
             (if (null? inputs) ""
-                (string-concatenate
-                 (map (lambda (face)
-                        (face-css (jref face "family") (jref face "weight")
-                                  (jref face "style") (face-name face) "woff2"))
-                      (force commercial-faces))))))
+                (string-append
+                 ":root { --site-code-font: Triplicate; }\n"
+                 (string-concatenate
+                  (map (lambda (face)
+                         (face-css (jref face "family")
+                                   (jref face "weight")
+                                   (jref face "style")
+                                   (face-name face)
+                                   "woff2"))
+                       (force commercial-faces)))))))
           (target (string-append output "/fonts.css")))
       (unless (and (file-exists? target) (equal? css (read-text target)))
         (atomic-write target (lambda (file) (write-text file css)))))))

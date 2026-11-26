@@ -55,8 +55,18 @@ const revision = active.body.querySelector('.site-footer').dataset.revision;
 for (const link of document.head.querySelectorAll('link[rel="icon"][href]'))
   link.setAttribute('href', link.href);
 
+function filterKey(url) {
+  const params = new URLSearchParams(url.search);
+  params.delete('size');
+  return params.toString();
+}
+
 function savePosition() {
-  if (active.href === location.href)
+  if (
+    !settleController &&
+    !document.documentElement.hasAttribute('data-starting') &&
+    active.href === location.href
+  )
     history.replaceState(
       { ...history.state, position: [scrollX, scrollY] },
       '',
@@ -105,6 +115,8 @@ function moveToPage(url, position) {
     // A malformed fragment still has a readable page destination.
   }
 
+  if (target?.closest('[hidden]')) target = undefined;
+
   // Texinfo node anchors and notice headings are also keyboard destinations.
   if (target && target.tabIndex < 0 && !target.hasAttribute('tabindex'))
     target.tabIndex = -1;
@@ -131,6 +143,8 @@ async function activatePreview(view) {
     const { startCatalogRuntime } = await import('./bridge.js');
 
     await startCatalogRuntime(view, (url) => {
+      if (url.hash && filterKey(url) !== filterKey(new URL(view.href)))
+        url.hash = '';
       if (active !== view || url.href === location.href) return;
 
       cancelNavigation();
@@ -225,6 +239,8 @@ function showView(next) {
 }
 
 function cancelNavigation() {
+  cancelAnimationFrame(scrollFrame);
+
   if (settleController) {
     settleController.abort();
     settleController = undefined;
@@ -241,6 +257,7 @@ function cancelNavigation() {
 }
 
 function scheduleMove(next, url, position) {
+  cancelAnimationFrame(scrollFrame);
   if (settleController) settleController.abort();
 
   const controller = new AbortController();
@@ -432,18 +449,17 @@ syncNotices();
 if (active.kind === 'preview') {
   if (initialPosition || initialUrl.hash)
     scheduleMove(active, initialUrl, initialPosition);
-  else savePosition();
+  else window.siteRevealed.then(savePosition).catch(console.error);
 
   activatePreview(active).catch(console.error);
-} else if (initialPosition || initialUrl.hash) {
+} else {
   window.siteRevealed
     .then(() => {
       if (active.href === initialUrl.href) {
-        moveToPage(initialUrl, initialPosition);
+        if (initialPosition || initialUrl.hash)
+          moveToPage(initialUrl, initialPosition);
         savePosition();
       }
     })
     .catch(console.error);
-} else {
-  savePosition();
 }

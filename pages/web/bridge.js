@@ -136,8 +136,11 @@ function catalogImports(view, pushURL) {
     },
 
     browser: {
-      afterPaint: (callback) =>
-        requestAnimationFrame(() => requestAnimationFrame(() => callback())),
+      afterPaint: (callback) => {
+        if (document.hidden) queueMicrotask(() => callback());
+        else
+          requestAnimationFrame(() => requestAnimationFrame(() => callback()));
+      },
       onPresentationReady: (callback) =>
         window.sitePresentationReady
           .then(() => callback())

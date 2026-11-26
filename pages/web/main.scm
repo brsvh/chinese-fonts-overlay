@@ -203,7 +203,6 @@
        (element-attribute (preview-row state) "data-samples-url")
        (lambda (data)
          (when (= generation (preview-generation state))
-           (set-preview-selection! state selection)
            (let ((groups
                   (sample-groups
                    data selection

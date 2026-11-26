@@ -120,7 +120,8 @@
 /* Apply downloaded fonts only while the initial loading curtain is closed. */
 :root[data-fonts="ready"] {
   --site-sans: Concourse, YuYang, sans-serif;
-  --site-mono: Triplicate, YuYang, ui-monospace, monospace;
+  --site-mono:
+    var(--site-code-font, ui-monospace), YuYang, ui-monospace, monospace;
 }
 
 code,
