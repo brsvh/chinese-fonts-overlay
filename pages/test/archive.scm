@@ -142,12 +142,17 @@
               (unpack-site
                (string-append release "/" (release-name manifest) ".tar.gz")
                manifest output)
-              (test-assert "Selected webfonts round-trip as original bytes"
-                (every (lambda (entry)
-                         (equal? (file-digest (cdr entry))
-                                 (file-digest (string-append output "/"
-                                                             (car entry)))))
-                       inputs)))
+              (let ((css (read-text (string-append output "/fonts.css"))))
+                (test-assert "Selected webfonts round-trip as original bytes"
+                  (and (every
+                        (lambda (entry)
+                          (equal?
+                           (file-digest (cdr entry))
+                           (file-digest
+                            (string-append output "/" (car entry)))))
+                        inputs)
+                       (string-contains css "woff2")
+                       (string-contains css "--site-code-font: Triplicate")))))
             (write-text (string-append public "/" (caar inputs)) "modified")
             (test-assert "Reject modified commercial webfonts in an archive"
               (string-contains
@@ -156,14 +161,15 @@
                   (pack-site public source (string-append root "/modified"))))
                "Interface asset differs from its declared input"))
             (prepare-interface #f public)
-            (test-assert
-              "Removing private input removes fonts and declarations"
-              (and (not (any (lambda (name)
-                               (file-exists? (string-append public "/" name)))
-                             (commercial-font-names)))
-                   (not (string-contains
-                         (read-text (string-append public "/fonts.css"))
-                         "woff2")))))
+            (let ((css (read-text (string-append public "/fonts.css"))))
+              (test-assert
+                "Removing private input removes fonts and declarations"
+                (and (not (any (lambda (name)
+                                 (file-exists? (string-append public "/" name)))
+                               (commercial-font-names)))
+                     (not (string-contains css "woff2"))
+                     (not (string-contains css "--site-code-font"))
+                     (string-contains css "yuyang-regular.ttf")))))
           (lambda () (restore-env! (list (cons "WEBFONTS_DIR" original))))))
       (delete-file (string-append public "/index.html"))
       (symlink "style.css" (string-append public "/index.html"))
