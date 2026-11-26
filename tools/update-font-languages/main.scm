@@ -49,15 +49,15 @@
 
 (define (delete-tree path)
   "Remove the owned tree at PATH without following directory symlinks."
-  (when (or (file-exists? path)
-            (false-if-exception (eq? 'symlink (stat:type (lstat path)))))
-    (if (eq? 'directory (stat:type (lstat path)))
-        (begin
-          (for-each
-           (lambda (name) (delete-tree (string-append path "/" name)))
-           (scandir path (lambda (name) (not (member name '("." ".."))))))
-          (rmdir path))
-        (delete-file path))))
+  (let ((info (false-if-exception (lstat path))))
+    (when info
+      (if (eq? 'directory (stat:type info))
+          (begin
+            (for-each
+             (lambda (name) (delete-tree (string-append path "/" name)))
+             (scandir path (lambda (name) (not (member name '("." ".."))))))
+            (rmdir path))
+          (delete-file path)))))
 
 (define (files-under path)
   "List regular files beneath PATH in sorted order, following directory symlinks safely."
