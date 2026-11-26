@@ -316,11 +316,11 @@ async function verifyRequest(api, state, metadata, inventory) {
     throw new Superseded('This request was replaced or never scheduled');
   }
 
-  return { item, selected };
+  return item;
 }
 
 async function publishFont(api, state, metadata, inventory, secrets) {
-  const { item } = await verifyRequest(api, state, metadata, inventory);
+  const item = await verifyRequest(api, state, metadata, inventory);
   const guard = () => verifyRequest(api, state, metadata, inventory);
   await state.put(triggerKey(metadata.tag), {
     tag: metadata.tag,

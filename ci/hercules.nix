@@ -102,8 +102,6 @@ let
     in
     effects.mkEffect (
       {
-        inherit action;
-
         DERIVATION_ROOTS = derivations;
 
         NIX_CONFIG = ''
