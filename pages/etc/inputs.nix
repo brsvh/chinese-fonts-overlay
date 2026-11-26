@@ -35,6 +35,7 @@ let
     import (root + "/packages/font-catalog.nix")
       {
         inherit pkgs;
+
         projectRoot = /. + root;
       };
 

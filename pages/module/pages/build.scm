@@ -8,7 +8,6 @@
   #:use-module (chinese-fonts-overlay pages presentation assets)
   #:use-module (chinese-fonts-overlay pages presentation fonts)
   #:use-module (chinese-fonts-overlay pages presentation layout)
-  #:use-module (srfi srfi-1)
   #:export (build-site))
 
 (define (assemble-site! catalog prepared manual output revision)

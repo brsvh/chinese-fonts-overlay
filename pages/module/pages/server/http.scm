@@ -76,14 +76,15 @@
                               (string-append
                                base
                                name
-                               (if (string-suffix? "/" name) "index.html" "")))))
+                               (if (string-suffix? "/" name) "index.html" ""))))
+                       (info (stat path)))
                   (if (and (string-prefix? (string-append base "/") path)
-                           (eq? 'regular (stat:type (stat path))))
+                           (eq? 'regular (stat:type info)))
                       (values
                        (build-response
                         #:headers
                         `((content-type . ,(content-type path))
-                          (content-length . ,(stat:size (stat path)))
+                          (content-length . ,(stat:size info))
                           (cache-control no-cache)))
                        (if (eq? (request-method request) 'HEAD)
                            #f
