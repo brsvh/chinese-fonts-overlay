@@ -14,12 +14,27 @@ write_webp_surface (cairo_surface_t *surface, const char *path, GError **error)
   WebPMemoryWriter writer;
   gboolean success = FALSE;
 
-  if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS
+  if (!surface || cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS
       || cairo_surface_get_type (surface) != CAIRO_SURFACE_TYPE_IMAGE
       || cairo_image_surface_get_format (surface) != CAIRO_FORMAT_ARGB32)
     {
       g_set_error_literal (error, G_FILE_ERROR, G_FILE_ERROR_FAILED,
                            "Expected a valid ARGB32 image surface");
+      return FALSE;
+    }
+
+  int width = cairo_image_surface_get_width (surface);
+  int height = cairo_image_surface_get_height (surface);
+
+  cairo_surface_flush (surface);
+  const unsigned char *data = cairo_image_surface_get_data (surface);
+  int stride = cairo_image_surface_get_stride (surface);
+
+  if (!data || width <= 0 || height <= 0 || stride < 0
+      || (size_t)stride < (size_t)width * 4)
+    {
+      g_set_error_literal (error, G_FILE_ERROR, G_FILE_ERROR_FAILED,
+                           "Invalid ARGB32 image buffer");
       return FALSE;
     }
 
@@ -36,18 +51,14 @@ write_webp_surface (cairo_surface_t *surface, const char *path, GError **error)
   config.method = 6;
   config.exact = 1;
   picture.use_argb = 1;
-  picture.width = cairo_image_surface_get_width (surface);
-  picture.height = cairo_image_surface_get_height (surface);
+  picture.width = width;
+  picture.height = height;
   WebPMemoryWriterInit (&writer);
   picture.writer = WebPMemoryWrite;
   picture.custom_ptr = &writer;
 
   if (!WebPValidateConfig (&config) || !WebPPictureAlloc (&picture))
     goto encoding_failed;
-
-  cairo_surface_flush (surface);
-  const unsigned char *data = cairo_image_surface_get_data (surface);
-  int stride = cairo_image_surface_get_stride (surface);
 
   for (int y = 0; y < picture.height; y++)
     for (int x = 0; x < picture.width; x++)

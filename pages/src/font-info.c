@@ -6,18 +6,19 @@
 #include FT_SFNT_NAMES_H
 #include FT_TRUETYPE_TABLES_H
 #include <glib.h>
+#include <limits.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <webp/decode.h>
 
-/* Report MESSAGE and PATH on stderr and terminate the inspector.  */
-static void
-fail (const char *message, const char *path)
+/* Report MESSAGE and PATH on stderr and return EXIT_FAILURE.  */
+static int
+report_error (const char *message, const char *path)
 {
   fprintf (stderr, "%s: %s\n", message, path);
-  exit (EXIT_FAILURE);
+  return EXIT_FAILURE;
 }
 
 /* Write borrowed UTF-8 TEXT as an escaped Scheme string on stdout.  */
@@ -106,11 +107,13 @@ read_sfnt_name (FT_Face face, unsigned id)
             }
         }
 
-      if (!encoding)
+      if (!encoding || !entry.string || entry.string_len == 0
+          || entry.string_len > (FT_UInt)INT_MAX)
         continue;
 
-      char *decoded = g_convert ((const char *)entry.string, entry.string_len,
-                                 "UTF-8", encoding, NULL, NULL, NULL);
+      char *decoded
+          = g_convert ((const char *)entry.string, (gssize)entry.string_len,
+                       "UTF-8", encoding, NULL, NULL, NULL);
 
       if (!decoded || !*decoded)
         {
@@ -233,40 +236,62 @@ write_character_coverage (FT_Face face)
 }
 
 /* Inspect all faces and named instances in PATH and write Scheme data.
-   Resources belong to this operation; invalid fonts terminate the inspector.
- */
-static void
+   Resources belong to this operation; return 0 on success or EXIT_FAILURE.  */
+static int
 inspect (const char *path)
 {
-  FT_Library library;
-  FT_Face face;
+  int status = EXIT_FAILURE;
+  FT_Library library = NULL;
+  FT_Face face = NULL;
+  FILE *input = NULL;
+  FT_MM_Var *var = NULL;
+  char *family = NULL;
+  char *style = NULL;
+  char *full = NULL;
 
   if (FT_Init_FreeType (&library))
-    fail ("Cannot initialize FreeType", path);
+    return report_error ("Cannot initialize FreeType", path);
   if (FT_New_Face (library, path, -1, &face))
-    fail ("Cannot open font", path);
+    {
+      report_error ("Cannot open font", path);
+      goto cleanup;
+    }
 
   FT_Long count = face->num_faces;
+  if (count <= 0)
+    {
+      report_error ("Font contains no faces", path);
+      goto cleanup;
+    }
+
   unsigned char magic[4] = { 0 };
-  FILE *input = fopen (path, "rb");
+  input = fopen (path, "rb");
 
   if (!input || fread (magic, 1, sizeof magic, input) != sizeof magic)
-    fail ("Cannot read font header", path);
+    {
+      report_error ("Cannot read font header", path);
+      goto cleanup;
+    }
 
   fclose (input);
+  input = NULL;
 
   int collection = !memcmp (magic, "ttcf", 4);
 
   FT_Done_Face (face);
+  face = NULL;
 
   putchar ('(');
 
   for (FT_Long index = 0; index < count; index++)
     {
       if (FT_New_Face (library, path, index, &face))
-        fail ("Cannot open collection member", path);
+        {
+          report_error ("Cannot open collection member", path);
+          goto cleanup;
+        }
 
-      char *family = read_sfnt_name (face, 16);
+      family = read_sfnt_name (face, 16);
 
       if (!family)
         family = read_sfnt_name (face, 1);
@@ -279,14 +304,14 @@ inspect (const char *path)
             *extension = '\0';
         }
 
-      char *style = read_sfnt_name (face, 17);
+      style = read_sfnt_name (face, 17);
 
       if (!style)
         style = read_sfnt_name (face, 2);
       if (!style)
         style = g_strdup ("Regular");
 
-      char *full = read_sfnt_name (face, 4);
+      full = read_sfnt_name (face, 4);
 
       if (!full)
         full = g_strdup_printf ("%s %s", family, style);
@@ -302,10 +327,11 @@ inspect (const char *path)
                           head && (head->Mac_Style & 2) ? "italic" : "normal");
       write_character_coverage (face);
 
-      FT_MM_Var *var = NULL;
-
       if (FT_HAS_MULTIPLE_MASTERS (face) && FT_Get_MM_Var (face, &var))
-        fail ("Cannot read variable axes", path);
+        {
+          report_error ("Cannot read variable axes", path);
+          goto cleanup;
+        }
 
       fputs ("(\"variants\" . (", stdout);
       fputs ("((\"name\" . ", stdout);
@@ -334,50 +360,89 @@ inspect (const char *path)
       fputs (")))\n", stdout);
 
       if (var)
-        FT_Done_MM_Var (library, var);
-      g_free (family);
-      g_free (style);
-      g_free (full);
+        {
+          FT_Done_MM_Var (library, var);
+          var = NULL;
+        }
+      g_clear_pointer (&family, g_free);
+      g_clear_pointer (&style, g_free);
+      g_clear_pointer (&full, g_free);
       FT_Done_Face (face);
+      face = NULL;
     }
 
   puts (")");
+  status = 0;
 
-  FT_Done_FreeType (library);
+cleanup:
+  if (var)
+    FT_Done_MM_Var (library, var);
+  g_free (family);
+  g_free (style);
+  g_free (full);
+  if (face)
+    FT_Done_Face (face);
+  if (input)
+    fclose (input);
+  if (library)
+    FT_Done_FreeType (library);
+  return status;
 }
 
 /* Validate a nonblank horizontal lossless WebP with transparent borders at
-   PATH.  Write its pixel dimensions as a Scheme vector, or terminate on
-   failure.  */
-static void
+   PATH.  Write its pixel dimensions as a Scheme vector, or return
+   EXIT_FAILURE.  */
+static int
 image_info (const char *path)
 {
-  gchar *contents;
-  gsize length;
+  int status = EXIT_FAILURE;
+  gchar *contents = NULL;
+  gsize length = 0;
   GError *error = NULL;
+  uint8_t *data = NULL;
   WebPBitstreamFeatures features;
 
   if (!g_file_get_contents (path, &contents, &length, &error))
-    fail (error->message, path);
+    {
+      report_error (error->message, path);
+      goto cleanup;
+    }
 
   const uint8_t *encoded = (const uint8_t *)contents;
   if (WebPGetFeatures (encoded, length, &features) != VP8_STATUS_OK)
-    fail ("Invalid WebP", path);
+    {
+      report_error ("Invalid WebP", path);
+      goto cleanup;
+    }
   if (features.has_animation || features.format != 2)
-    fail ("Expected static lossless WebP", path);
+    {
+      report_error ("Expected static lossless WebP", path);
+      goto cleanup;
+    }
 
   int width = features.width;
   int height = features.height;
 
   if (width <= height || height <= 0)
-    fail ("Expected horizontal WebP", path);
+    {
+      report_error ("Expected horizontal WebP", path);
+      goto cleanup;
+    }
   if (!features.has_alpha)
-    fail ("Expected transparent WebP", path);
+    {
+      report_error ("Expected transparent WebP", path);
+      goto cleanup;
+    }
 
-  uint8_t *data = WebPDecodeRGBA (encoded, length, NULL, NULL);
-  g_free (contents);
-  if (!data)
-    fail ("Invalid WebP pixels", path);
+  int decoded_width = 0;
+  int decoded_height = 0;
+  data = WebPDecodeRGBA (encoded, length, &decoded_width, &decoded_height);
+  g_clear_pointer (&contents, g_free);
+  if (!data || decoded_width != width || decoded_height != height)
+    {
+      report_error ("Invalid WebP pixels", path);
+      goto cleanup;
+    }
 
   unsigned min[3] = { 255, 255, 255 };
   unsigned max[3] = { 0, 0, 0 };
@@ -389,7 +454,10 @@ image_info (const char *path)
         unsigned alpha = pixel[3];
 
         if ((x == 0 || y == 0 || x == width - 1 || y == height - 1) && alpha)
-          fail ("Expected transparent WebP borders", path);
+          {
+            report_error ("Expected transparent WebP borders", path);
+            goto cleanup;
+          }
 
         for (int i = 0; i < 3; i++)
           {
@@ -400,11 +468,19 @@ image_info (const char *path)
       }
 
   if (min[0] == max[0] && min[1] == max[1] && min[2] == max[2])
-    fail ("Expected nonblank WebP", path);
+    {
+      report_error ("Expected nonblank WebP", path);
+      goto cleanup;
+    }
 
   printf ("#(%d %d)\n", width, height);
+  status = 0;
 
+cleanup:
+  g_clear_error (&error);
+  g_free (contents);
   WebPFree (data);
+  return status;
 }
 
 /* Dispatch the requested inspection operation; diagnostics go to stderr.  */
@@ -418,14 +494,10 @@ main (int argc, char **argv)
     }
 
   if (!strcmp (argv[1], "inspect"))
-    inspect (argv[2]);
-  else if (!strcmp (argv[1], "image-info"))
-    image_info (argv[2]);
-  else
-    {
-      fputs ("Unknown operation\n", stderr);
-      return 2;
-    }
+    return inspect (argv[2]);
+  if (!strcmp (argv[1], "image-info"))
+    return image_info (argv[2]);
 
-  return 0;
+  fputs ("Unknown operation\n", stderr);
+  return 2;
 }
