@@ -1,9 +1,5 @@
 {
   inputs = {
-    blank = {
-      url = "git+https://github.com/divnix/blank.git?ref=master";
-    };
-
     flake-parts = {
       inputs = {
         nixpkgs-lib = {

@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "blank": {
-      "locked": {
-        "lastModified": 1625557891,
-        "narHash": "sha256-O8/MWsPBGhhyPoPLHZAuoZiiHo9q6FLlEeIDEXuj6T4=",
-        "ref": "master",
-        "rev": "5a5d2684073d9f563072ed07c871d577a6c614a8",
-        "revCount": 1,
-        "type": "git",
-        "url": "https://github.com/divnix/blank.git"
-      },
-      "original": {
-        "ref": "master",
-        "type": "git",
-        "url": "https://github.com/divnix/blank.git"
-      }
-    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
@@ -79,7 +63,6 @@
     },
     "root": {
       "inputs": {
-        "blank": "blank",
         "flake-parts": "flake-parts",
         "hercules-ci-effects": "hercules-ci-effects",
         "nixpkgs": "nixpkgs",
