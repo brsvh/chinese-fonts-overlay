@@ -234,8 +234,14 @@ function showView(next) {
     if (!description) document.head.append(meta);
   } else description?.remove();
 
-  if (!previous && next.kind === 'preview')
-    activatePreview(next).catch(console.error);
+  if (next.kind === 'manual') window.finishSiteStartup();
+  else if (!previous) activatePreview(next).catch(console.error);
+}
+
+function afterReveal(callback) {
+  if (document.documentElement.hasAttribute('data-starting'))
+    window.siteRevealed.then(callback).catch(console.error);
+  else callback();
 }
 
 function cancelNavigation() {
@@ -256,7 +262,7 @@ function cancelNavigation() {
   if (status) status.textContent = '';
 }
 
-function scheduleMove(next, url, position) {
+function scheduleMove(next, url, position, waitForCatalog = true, move = true) {
   cancelAnimationFrame(scrollFrame);
   if (settleController) settleController.abort();
 
@@ -268,21 +274,20 @@ function scheduleMove(next, url, position) {
     if (settleController === controller) settleController = undefined;
 
     if (active === next && active.href === url.href) {
-      moveToPage(url, position);
+      if (move) moveToPage(url, position);
       savePosition();
       syncNotices();
     }
   };
 
-  next.body.addEventListener(
-    'catalog-settled',
-    () => {
-      if (document.documentElement.hasAttribute('data-starting'))
-        window.siteRevealed.then(finish).catch(console.error);
-      else finish();
-    },
-    { once: true, signal: controller.signal },
-  );
+  if (waitForCatalog) {
+    next.body.addEventListener('catalog-settled', () => afterReveal(finish), {
+      once: true,
+      signal: controller.signal,
+    });
+  } else {
+    afterReveal(finish);
+  }
 }
 
 async function navigate(url, fromHistory = false) {
@@ -324,17 +329,15 @@ async function navigate(url, fromHistory = false) {
     next.href = url.href;
     showView(next);
 
-    if (deferMove) scheduleMove(next, url, position);
+    if (deferMove) scheduleMove(next, url, position, true);
 
     if (filterChange) next.body.dispatchEvent(new Event('catalog-location'));
     updateLinks();
-    if (!deferMove) moveToPage(url, position);
 
     const status = document.getElementById('manual-status');
     if (status) status.textContent = `已打开：${next.title}`;
 
-    if (!deferMove) savePosition();
-    syncNotices();
+    if (!deferMove) scheduleMove(next, url, position, false);
   } catch {
     if (pending === request) {
       if (fromHistory) location.replace(url);
@@ -426,8 +429,15 @@ history.scrollRestoration = 'manual';
 
 addEventListener('popstate', () => {
   if (location.href === active.href) {
-    cancelNavigation();
-    syncNotices();
+    if (document.documentElement.hasAttribute('data-starting')) {
+      if (!settleController)
+        afterReveal(() => {
+          if (location.href === active.href) syncNotices();
+        });
+    } else {
+      cancelNavigation();
+      syncNotices();
+    }
   } else navigate(new URL(location.href), true);
 });
 
@@ -442,33 +452,14 @@ addEventListener(
 
 const initialUrl = new URL(location.href);
 const initialPosition = history.state?.position;
+const initialMove = Boolean(initialPosition || initialUrl.hash);
 
 updateLinks();
 selectChapter(initialUrl);
 
 if (active.kind === 'preview') {
-  if (initialPosition || initialUrl.hash)
-    scheduleMove(active, initialUrl, initialPosition);
-  else
-    window.siteRevealed
-      .then(() => {
-        if (active.href === initialUrl.href) {
-          savePosition();
-          syncNotices();
-        }
-      })
-      .catch(console.error);
-
+  scheduleMove(active, initialUrl, initialPosition, initialMove, initialMove);
   activatePreview(active).catch(console.error);
 } else {
-  window.siteRevealed
-    .then(() => {
-      if (active.href === initialUrl.href) {
-        if (initialPosition || initialUrl.hash)
-          moveToPage(initialUrl, initialPosition);
-        savePosition();
-        syncNotices();
-      }
-    })
-    .catch(console.error);
+  scheduleMove(active, initialUrl, initialPosition, false, initialMove);
 }
