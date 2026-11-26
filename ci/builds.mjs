@@ -1,6 +1,5 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import {
   command,
@@ -27,7 +26,7 @@ import {
   workflowPath,
 } from './records.mjs';
 
-const controllerFiles = [
+export const controllerFiles = [
   workflowPath,
   'flake.nix',
   'flake.lock',
@@ -39,16 +38,19 @@ const controllerFiles = [
   'tools/flake.lock',
 ];
 
-export function controllerDigest(root) {
+export function controllerPaths(root) {
   const files = fs
     .readdirSync(path.join(root, 'ci'))
     .filter((file) => /\.(mjs|nix)$/.test(file))
     .map((file) => 'ci/' + file);
   files.push(...controllerFiles);
+  return files.sort();
+}
 
+export function controllerDigest(root) {
   return digest(
     Object.fromEntries(
-      files.sort().map((file) => [
+      controllerPaths(root).map((file) => [
         file,
         createHash('sha256')
           .update(fs.readFileSync(path.join(root, file)))
@@ -223,25 +225,6 @@ export async function preparePlan(root, directory, event, api) {
   return value;
 }
 
-function exportCache(roots, forbidden, destination) {
-  const selected = [...roots].sort();
-  const closure = auditClosure(selected, forbidden);
-
-  fs.rmSync(destination, { recursive: true, force: true });
-  fs.mkdirSync(destination, { recursive: true });
-  const uri = pathToFileURL(path.resolve(destination)).href;
-  command('nix', ['copy', '--to', uri, ...selected]);
-
-  const saved = command('nix', ['path-info', '--all', '--store', uri])
-    .split('\n')
-    .filter(Boolean)
-    .sort();
-  ensure(
-    same(saved, Object.keys(closure).sort()),
-    'Exported cache differs from the audited closure',
-  );
-}
-
 export function buildShard(root, plan, shardId, directory, event) {
   const context = runContext(root, event);
   ensure(
@@ -272,8 +255,6 @@ export function buildShard(root, plan, shardId, directory, event) {
     shard: shardId,
     packages: {},
   };
-  const cachePath = path.join(directory, 'cache');
-  const roots = new Set();
   let failed = false;
 
   for (const name of shard.tasks) {
@@ -293,27 +274,26 @@ export function buildShard(root, plan, shardId, directory, event) {
     receipts.packages[name] = receipt;
 
     try {
-      const built = evaluate(root, 'outputs', [name], true, cachePath);
-      const realized = built.flatMap((result) => Object.values(result.outputs));
+      const built = evaluate(root, 'outputs', [name], true);
+      const realized = [
+        ...new Set(built.flatMap((result) => Object.values(result.outputs))),
+      ].sort();
       ensure(
-        same(
-          [...new Set(realized)].sort(),
-          [...new Set(Object.values(item.outputs))].sort(),
-        ),
+        same(realized, [...new Set(Object.values(item.outputs))].sort()),
         'Realized outputs differ from the plan',
       );
+
+      if (shard.cacheable) {
+        auditClosure(realized, current.forbiddenPaths);
+      }
+
       receipt.buildSucceeded = true;
-      realized.forEach((value) => roots.add(value));
     } catch (error) {
       failed = true;
       console.error('Failed', name, error.message, error.details ?? '');
     } finally {
       writeJson(path.join(artifacts, 'receipts.json'), receipts);
     }
-  }
-
-  if (!failed && shard.cacheable) {
-    exportCache(roots, current.forbiddenPaths, path.join(directory, 'cache'));
   }
 
   return !failed;

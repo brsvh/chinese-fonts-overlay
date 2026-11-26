@@ -23,7 +23,7 @@ let
   system = "x86_64-linux";
   repository = "brsvh/chinese-fonts-overlay";
 
-  pkgs = import packageNixpkgs {
+  fontPkgs = import packageNixpkgs {
     inherit system;
 
     config = {
@@ -35,17 +35,19 @@ let
     ];
   };
 
-  effects = inputs.hercules-ci-effects.lib.withPkgs pkgs;
+  toolPkgs =
+    inputs.nixpkgs.legacyPackages.${system};
+
+  effects = inputs.hercules-ci-effects.lib.withPkgs toolPkgs;
 
   inventory = import ./default.nix {
-    inherit pkgs;
-
     mode = "inventory";
+    pkgs = fontPkgs;
     root = toString projectRoot;
   };
 
   packages = mapAttrs (
-    _: info: attrByPath info.attrPath null pkgs
+    _: info: attrByPath info.attrPath null fontPkgs
   ) inventory.packages;
 
   candidates = filterAttrs (
@@ -68,7 +70,7 @@ let
     }:
     let
       metadata =
-        pkgs.writeText
+        toolPkgs.writeText
           "chinese-fonts-overlay-ci-${action}.json"
           (
             toJSON (
@@ -89,7 +91,7 @@ let
 
       # Opaque derivation paths supply metadata, not dependencies on font outputs.
       derivations =
-        pkgs.writeText
+        toolPkgs.writeText
           "chinese-fonts-overlay-ci-derivations"
           (
             concatMapStringsSep "\n" (
@@ -118,7 +120,7 @@ let
           node ${./.}/publication.mjs ${metadata}
         '';
 
-        inputs = with pkgs; [
+        inputs = with toolPkgs; [
           nix
           nodejs
         ];
@@ -137,7 +139,7 @@ let
       // optionalAttrs (action != "planFonts") {
         # Only the package selected by a verified plan gets realized for publishing.
         ROOTS =
-          pkgs.writeText
+          toolPkgs.writeText
             "chinese-fonts-overlay-ci-public-roots"
             (
               concatMapStringsSep "\n" (

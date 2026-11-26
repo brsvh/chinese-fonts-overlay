@@ -80,13 +80,7 @@ export function withBaseWorktree(root, directory, baseSha, callback) {
   }
 }
 
-export function evaluate(
-  root,
-  mode,
-  selection = [],
-  build = false,
-  cachePath = null,
-) {
+export function evaluate(root, mode, selection = [], build = false) {
   const expression =
     'import (builtins.toPath (builtins.getEnv "FONT_CI_EVALUATOR")) ' +
     '(builtins.fromJSON (builtins.getEnv "FONT_CI_ARGUMENTS"))';
@@ -97,19 +91,6 @@ export function evaluate(
   }
 
   args.push('--expr', expression, ...nixFlags);
-
-  if (cachePath) {
-    const cache = path.resolve(cachePath);
-    const substituters = ['https://cache.brsvh.org'];
-
-    // Opening a missing file cache lets the daemon create root-owned paths
-    // that the runner cannot remove when exporting the audited closure.
-    if (fs.existsSync(path.join(cache, 'nix-cache-info'))) {
-      substituters.push(pathToFileURL(cache).href + '?trusted=1');
-    }
-
-    args.push('--option', 'extra-substituters', substituters.join(' '));
-  }
 
   return parseJson(
     command('nix', args, {

@@ -82,16 +82,6 @@ jobs:
             experimental-features = nix-command flakes ca-derivations
             extra-substituters = https://cache.brsvh.org
             extra-trusted-public-keys = cache.brsvh.org-1:HqcG/vJ7jeSLU48jV4yg8Ot+rUPP2v0vIAAnDEqVSvk=
-      - name: Restore audited binary cache; save only redistributable shards
-        uses: nix-community/cache-nix-action@v7
-        with:
-          nix: false
-          save: ${{ matrix.cacheable }}
-          primary-key: fonts-v2-${{ runner.os }}-${{ runner.arch }}-2.34.8-${{ matrix.cacheKey }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-prefixes-first-match: |
-            fonts-v2-${{ runner.os }}-${{ runner.arch }}-2.34.8-${{ matrix.cacheKey }}-
-            fonts-v2-${{ runner.os }}-${{ runner.arch }}-2.34.8-
-          paths: .ci-work/cache
       - name: Build selected fonts
         env:
           SHARD: ${{ matrix.id }}

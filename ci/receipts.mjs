@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { createHash } from 'node:crypto';
 import {
   ensure,
@@ -10,16 +12,91 @@ import {
   repository,
   sha,
 } from './common.mjs';
-import { GitHub, Superseded } from './github.mjs';
+import { blobSha, GitHub, Superseded } from './github.mjs';
 import {
   same,
   validatePlan,
   validateReceipts,
   workflowPath,
 } from './records.mjs';
-import { controllerDigest } from './builds.mjs';
+import {
+  controllerDigest,
+  controllerFiles,
+  controllerPaths,
+} from './builds.mjs';
 import { updateBuildState } from './build-state.mjs';
 import { unzip } from './artifacts.mjs';
+
+const sealedControllerFiles = new Set(controllerFiles);
+
+function isControllerPath(file) {
+  return (
+    typeof file === 'string' &&
+    (sealedControllerFiles.has(file) || file.startsWith('ci/'))
+  );
+}
+
+async function verifyController(api, root, pull, merge) {
+  const baseSha = merge.parents[0].sha;
+  ensure(matches(sha, baseSha), 'Invalid merge base SHA');
+  ensure(matches(sha, merge.tree?.sha), 'Invalid merge tree SHA');
+
+  const baseCompare = await api.request('/compare/' + baseSha + '...main');
+  if (baseCompare.status !== 'ahead' && baseCompare.status !== 'identical') {
+    throw new Superseded('Build merge base is not on the default branch');
+  }
+
+  const changed = await api.pages('/pulls/' + pull.number + '/files');
+  if (
+    !Number.isSafeInteger(pull.changed_files) ||
+    changed.length !== pull.changed_files
+  ) {
+    throw new Superseded('Cannot verify PR controller diff completeness');
+  }
+
+  for (const entry of changed) {
+    if (
+      isControllerPath(entry.filename) ||
+      isControllerPath(entry.previous_filename)
+    ) {
+      throw new Superseded('PR modifies build controller files');
+    }
+  }
+
+  const tree = await api.request(
+    '/git/trees/' + merge.tree.sha + '?recursive=1',
+  );
+  if (tree.truncated || !Array.isArray(tree.tree)) {
+    throw new Superseded('Build merge tree is truncated');
+  }
+
+  const blobs = Object.create(null);
+  const remoteCiFiles = [];
+
+  for (const entry of tree.tree) {
+    if (entry.type !== 'blob') continue;
+    blobs[entry.path] = entry.sha;
+
+    if (/^ci\/[^/]+\.(mjs|nix)$/.test(entry.path)) {
+      remoteCiFiles.push(entry.path);
+    }
+  }
+
+  const expectedPaths = controllerPaths(root);
+  const expectedCiFiles = expectedPaths.filter((file) =>
+    file.startsWith('ci/'),
+  );
+
+  if (!same(remoteCiFiles.sort(), expectedCiFiles)) {
+    throw new Superseded('Build merge tree ci/ files differ from main');
+  }
+
+  for (const file of expectedPaths) {
+    if (blobs[file] !== blobSha(fs.readFileSync(path.join(root, file)))) {
+      throw new Superseded('Build merge tree controller differs from main');
+    }
+  }
+}
 
 async function resolveRun(api, event) {
   const source = event.workflow_run;
@@ -118,7 +195,7 @@ async function artifactFiles(api, artifacts, name) {
   return unzip(data);
 }
 
-async function readBuildReceipts(api, run, pull, expectedController) {
+async function readBuildReceipts(api, root, run, pull, expectedController) {
   const artifacts = await api.pages(
     '/actions/runs/' + run.id + '/artifacts',
     'artifacts',
@@ -146,6 +223,7 @@ async function readBuildReceipts(api, run, pull, expectedController) {
     merge.parents.length === 2 && merge.parents[1].sha === run.head_sha,
     'Build merge commit does not contain the PR head',
   );
+  await verifyController(api, root, pull, merge);
 
   const jobs = await api.pages(
     '/actions/runs/' + run.id + '/attempts/' + attempt + '/jobs',
@@ -242,6 +320,7 @@ export async function recordBuilds(root = '.') {
 
     const { plan, records, errors } = await readBuildReceipts(
       api,
+      root,
       run,
       pull,
       expectedController,
