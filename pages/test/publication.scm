@@ -409,7 +409,8 @@
                (test-assert "Changed inspector cannot reuse stale face metadata"
                  (and (= 1 (car result))
                       (string-contains (cdr result) "Command failed")
-                      (string-contains (cdr result) failed-inspector)))))))
+                      (string-contains (cdr result) failed-inspector)
+                      (string-contains (cdr result) "\"inspect\"")))))))
         (test-equal "Failed builds preserve the entire previous site"
           snapshot (published-files))
         (let ((missing-image (string-append temporary "/missing.webp")))
