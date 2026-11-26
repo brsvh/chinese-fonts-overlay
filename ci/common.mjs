@@ -142,10 +142,12 @@ export function sanitizedEnv(extra = {}) {
 }
 
 export function command(program, args, options = {}) {
+  const { env, ...rest } = options;
   const result = spawnSync(program, args, {
     encoding: 'utf8',
     maxBuffer: maxData,
-    ...options,
+    ...rest,
+    env: env ?? sanitizedEnv(),
   });
 
   if (result.error) {

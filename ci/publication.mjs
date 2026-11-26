@@ -11,7 +11,6 @@ import {
   policy,
   readJson,
   repository,
-  sanitizedEnv,
   schema,
   sha,
   storePattern,
@@ -133,14 +132,12 @@ function verifyCache(outputs, cache, source) {
     'trusted-public-keys',
     cache.publicKey,
   ];
-  command('nix', [...args, '--recursive', '--no-contents', '--', ...outputs], {
-    env: sanitizedEnv(),
-  });
+  command('nix', [...args, '--recursive', '--no-contents', '--', ...outputs]);
 
   const probe = [...outputs].sort(
     (a, b) => source[a].narSize - source[b].narSize,
   )[0];
-  command('nix', [...args, '--', probe], { env: sanitizedEnv() });
+  command('nix', [...args, '--', probe]);
 }
 
 async function publishCache(outputs, denied, cache, netrc, guard) {
@@ -161,20 +158,16 @@ async function publishCache(outputs, denied, cache, netrc, guard) {
       const file = path.join(directory, 'netrc');
       fs.writeFileSync(file, netrc, { mode: 0o600 });
       await guard();
-      command(
-        'nix',
-        [
-          'copy',
-          '--to',
-          cache.url + '?compression=zstd',
-          '--option',
-          'netrc-file',
-          file,
-          '--',
-          ...outputs,
-        ],
-        { env: sanitizedEnv() },
-      );
+      command('nix', [
+        'copy',
+        '--to',
+        cache.url + '?compression=zstd',
+        '--option',
+        'netrc-file',
+        file,
+        '--',
+        ...outputs,
+      ]);
     } finally {
       fs.rmSync(directory, { recursive: true, force: true });
     }

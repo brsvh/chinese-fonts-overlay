@@ -174,9 +174,7 @@ export function derivationGraph(packages) {
 
   return normalizeGraph(
     parseJson(
-      command('nix', ['derivation', 'show', '--recursive', '--', ...roots], {
-        env: sanitizedEnv(),
-      }),
+      command('nix', ['derivation', 'show', '--recursive', '--', ...roots]),
     ),
   );
 }
@@ -319,9 +317,7 @@ export function pathInfo(outputs, store) {
     args.push('--store', store);
   }
 
-  return parseJson(
-    command('nix', [...args, '--', ...outputs], { env: sanitizedEnv() }),
-  );
+  return parseJson(command('nix', [...args, '--', ...outputs]));
 }
 
 export function auditClosure(outputs, denied) {

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { command, digest, sanitizedEnv } from './common.mjs';
+import { command, digest } from './common.mjs';
 import { evaluate, nixFlags, withBaseWorktree } from './inventory.mjs';
 import { runContext } from './builds.mjs';
 
@@ -73,7 +73,7 @@ export function checkLanguages(root, directory, event) {
         '--',
         ...selected,
       ],
-      { env: sanitizedEnv(), stdio: ['ignore', 'inherit', 'inherit'] },
+      { stdio: ['ignore', 'inherit', 'inherit'] },
     );
   }
 }
