@@ -52,11 +52,13 @@
   (let ((info (false-if-exception (lstat path))))
     (when info
       (if (eq? 'directory (stat:type info))
-          (begin
-            (for-each
-             (lambda (name) (delete-tree (string-append path "/" name)))
-             (scandir path (lambda (name) (not (member name '("." ".."))))))
-            (rmdir path))
+          (let ((entries
+                 (scandir path (lambda (name) (not (member name '("." "..")))))))
+            (when entries
+              (for-each
+               (lambda (name) (delete-tree (string-append path "/" name)))
+               entries)
+              (rmdir path)))
           (delete-file path)))))
 
 (define (files-under path)
@@ -110,9 +112,9 @@
             (close-pipe port))))))
 
 (define (temporary-directory parent)
-  "Create and return a private temporary directory under PARENT."
+  "Create and return an absolute private temporary directory under PARENT."
   (mkdir-p parent)
-  (mkdtemp (string-append parent "/.font-languages-XXXXXX")))
+  (canonicalize-path (mkdtemp (string-append parent "/.font-languages-XXXXXX"))))
 
 (define* (atomic-write file writer #:optional explicit-mode)
   "Replace FILE on success, using EXPLICIT-MODE or preserving existing permissions."
@@ -228,7 +230,7 @@
                            faces))
                          string<?)))
                 ("faces" . ,(list->vector faces)))))
-          (lambda () (delete-tree temporary))))))
+          (lambda () (false-if-exception (delete-tree temporary)))))))
 
 (define (replace-languages source languages)
   "Replace only the website metadata's literal language list in Nix SOURCE."
