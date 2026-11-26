@@ -354,15 +354,7 @@ async function navigate(url, fromHistory = false) {
 }
 
 document.addEventListener('click', (event) => {
-  if (
-    event.defaultPrevented ||
-    event.button !== 0 ||
-    event.metaKey ||
-    event.ctrlKey ||
-    event.shiftKey ||
-    event.altKey
-  )
-    return;
+  if (event.defaultPrevented || event.button !== 0) return;
 
   if (event.target.closest('button[commandfor="site-notices"]')) {
     event.preventDefault();
@@ -372,6 +364,8 @@ document.addEventListener('click', (event) => {
     syncNotices();
     return;
   }
+
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
   const link = event.target.closest('a[href]');
   if (
@@ -430,10 +424,18 @@ history.scrollRestoration = 'manual';
 addEventListener('popstate', () => {
   if (location.href === active.href) {
     if (document.documentElement.hasAttribute('data-starting')) {
-      if (!settleController)
-        afterReveal(() => {
-          if (location.href === active.href) syncNotices();
-        });
+      if (pending) cancelNavigation();
+      if (!settleController) {
+        const current = new URL(location.href);
+        const position = history.state?.position;
+        scheduleMove(
+          active,
+          current,
+          position,
+          false,
+          Boolean(position || current.hash),
+        );
+      }
     } else {
       cancelNavigation();
       syncNotices();
@@ -457,9 +459,5 @@ const initialMove = Boolean(initialPosition || initialUrl.hash);
 updateLinks();
 selectChapter(initialUrl);
 
-if (active.kind === 'preview') {
-  scheduleMove(active, initialUrl, initialPosition, initialMove, initialMove);
-  activatePreview(active).catch(console.error);
-} else {
-  scheduleMove(active, initialUrl, initialPosition, false, initialMove);
-}
+scheduleMove(active, initialUrl, initialPosition, false, initialMove);
+if (active.kind === 'preview') activatePreview(active).catch(console.error);
