@@ -69,8 +69,6 @@ stdenvNoCC.mkDerivation (
     "fontFamily"
   ])
   // {
-    inherit pname;
-
     dontUnpack = args.dontUnpack or true;
     installPhase =
       args.installPhase or defaultInstallPhase;
