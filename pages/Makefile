@@ -136,7 +136,7 @@ $(STATIC_ASSETS): $(WEB)/%: $(SOURCE_DIR)/web/% | $(WEB)
 $(WEB)/input.css: $(SOURCE_DIR)/web/style.css $(SOURCE_DIR)/Makefile \
 	$(SOURCE_DIR)/build-aux/substitute.scm $(BUILD_DIR)/web.settings | $(WEB)
 	test -r "$(DAISYUI)" && test -r "$(DAISYUI_THEME)"
-	$(GUILE) --no-auto-compile "$(SOURCE_DIR)/build-aux/substitute.scm" \
+	$(SCHEME) "$(SOURCE_DIR)/build-aux/substitute.scm" \
 	  "$<" "$@" HTML_SOURCE "$(SOURCE_DIR)/web/index.html" \
 	  NOTICES_SOURCE "$(SOURCE_DIR)/web/notices-dialog.html" \
 	  SCHEME_SOURCE "$(SOURCE_DIR)/web/main.scm" \

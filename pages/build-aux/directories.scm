@@ -4,13 +4,16 @@
 
 (define (output-path path)
   "Resolve PATH through existing parents, normalizing symlinks and dot segments."
-  (let ((trimmed (if (string=? path "/") "/" (string-trim-right path #\/))))
-    (cond ((file-exists? trimmed) (canonicalize-path trimmed))
-          ((false-if-exception (lstat trimmed))
-           (error "Invalid output path" trimmed))
+  (when (string-null? path)
+    (error "Invalid output path" path))
+  (let* ((trimmed (string-trim-right path #\/))
+         (normalized (if (string-null? trimmed) "/" trimmed)))
+    (cond ((file-exists? normalized) (canonicalize-path normalized))
+          ((false-if-exception (lstat normalized))
+           (error "Invalid output path" normalized))
           (else
-           (let ((parent (dirname trimmed))
-                 (name (basename trimmed)))
+           (let ((parent (dirname normalized))
+                 (name (basename normalized)))
              (cond ((string=? name ".") (output-path parent))
                    ((string=? name "..") (dirname (output-path parent)))
                    (else (in-vicinity (output-path parent) name))))))))

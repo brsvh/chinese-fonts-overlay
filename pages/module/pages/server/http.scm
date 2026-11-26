@@ -87,11 +87,12 @@
                           (cache-control no-cache)))
                        (if (eq? (request-method request) 'HEAD)
                            #f
-                           (call-with-input-file
-                               path
-                             get-bytevector-all
-                             #:binary
-                             #t)))
+                           (let ((bytes (call-with-input-file
+                                            path
+                                          get-bytevector-all
+                                          #:binary
+                                          #t)))
+                             (if (eof-object? bytes) #vu8() bytes))))
                       (failure 404 "Not found\n"))))
               (lambda args
                 (if (memv (system-error-errno args) (list ENOENT ENOTDIR))

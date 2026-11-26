@@ -1,7 +1,8 @@
-(use-modules (ice-9 format)
-             (ice-9 match)
-             (ice-9 textual-ports)
-             (srfi srfi-1))
+(use-modules ((chinese-fonts-overlay pages presentation layout)
+              #:select (substitute-template))
+             (chinese-fonts-overlay pages util)
+             (ice-9 format)
+             (ice-9 match))
 
 (define (css-string value)
   "Format VALUE as a double-quoted CSS string literal."
@@ -19,51 +20,19 @@
          (string->list value)))
    "\""))
 
-(define (parse-replacements css? arguments)
-  "Convert flat KEY VALUE pairs into placeholder replacement entries."
+(define (parse-replacements arguments)
+  "Convert flat KEY VALUE pairs into quoted CSS placeholder entries."
   (let loop ((rest arguments) (entries '()))
     (match rest
       (() (reverse entries))
       ((key value . tail)
-       (let* ((token (string-append "@" key "@"))
-              ;; CSS keeps placeholders quoted so its source is parseable.
-              (placeholder (if css? (string-append "\"" token "\"") token))
-              (replacement (if css? (css-string value) (object->string value))))
-         (loop tail (cons (cons placeholder replacement) entries))))
+       (let ((placeholder (string-append "\"@" key "@\"")))
+         (loop tail (cons (cons placeholder (css-string value)) entries))))
       (_ (error "Usage: substitute.scm INPUT OUTPUT KEY VALUE ...")))))
-
-(define (replace-once template substitutions)
-  "Replace placeholder tokens in TEMPLATE in a single pass."
-  (call-with-output-string
-   (lambda (port)
-     (let loop ((start 0))
-       (let ((next
-              (fold (lambda (entry found)
-                      (let ((position (string-contains template (car entry) start)))
-                        (if (and position
-                                 (or (not found) (< position (car found))))
-                            (cons position entry)
-                            found)))
-                    #f substitutions)))
-         (if next
-             (begin
-               (display (substring template start (car next)) port)
-               (display (cddr next) port)
-               (loop (+ (car next) (string-length (cadr next)))))
-             (display (substring template start) port)))))))
 
 (match (cdr (command-line))
   ((input output . replacements)
-   (let* ((entries (parse-replacements (string-suffix? ".css" input)
-                                       replacements))
-          (text (call-with-input-file input
-                  (lambda (port)
-                    (set-port-encoding! port "UTF-8")
-                    (get-string-all port))))
-          (rendered (replace-once text entries)))
-     (call-with-output-file output
-       (lambda (port)
-         (set-port-encoding! port "UTF-8")
-         (display rendered port)))))
+   (let ((entries (parse-replacements replacements)))
+     (write-text output (substitute-template (read-text input) entries))))
   (_
    (error "Usage: substitute.scm INPUT OUTPUT KEY VALUE ...")))

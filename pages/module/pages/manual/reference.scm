@@ -29,8 +29,10 @@
   "Encode VALUE into a stable ASCII Texinfo node identifier suffix."
   (string-concatenate
    (map (lambda (character)
-          (if (or (char-alphabetic? character) (char-numeric? character)
-                  (char=? character #\-))
+          (if (and (char-set-contains? char-set:ascii character)
+                   (or (char-alphabetic? character)
+                       (char-numeric? character)
+                       (char=? character #\-)))
               (string character)
               (string-append "_" (number->string (char->integer character) 16) "_")))
         (string->list value))))
