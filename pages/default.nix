@@ -77,7 +77,6 @@
             ];
 
             packages = with pkgs; [
-              fontPkgs.fontconfig
               git
               gnumake
               gnutar
