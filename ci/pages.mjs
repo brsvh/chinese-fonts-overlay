@@ -81,7 +81,7 @@ function actionsApi() {
   return new GitHub(environment('GITHUB_TOKEN'));
 }
 
-export async function buildPages(source) {
+async function buildPages(source) {
   ensure(sha.test(source), 'Invalid site source revision');
   ensure(
     environment('HERCULES_CI_PROJECT_PATH') === 'github/' + repository,
@@ -120,8 +120,10 @@ export async function buildPages(source) {
 
 function storedArchive(store, source, metadata) {
   ensure(metadata, 'No completed artifact for current main; retry buildPages');
+
   const { manifest, base } = readArtifactManifest(metadata.file);
   ensure(manifest.source === source, 'Stored source differs');
+
   const key = source + '/' + base + '.tar.gz';
   const archive = store.call('head-object', '--key', key);
   ensure(
@@ -129,6 +131,7 @@ function storedArchive(store, source, metadata) {
       archive.Metadata?.sha256 === manifest.sha256,
     'Stored Pages archive differs from its manifest',
   );
+
   return { file: metadata.file, key, size: manifest.size };
 }
 
@@ -243,6 +246,7 @@ function buildArchive(source, library) {
 
   const releases = path.join(stateDirectory, 'releases');
   fs.mkdirSync(releases, { recursive: true });
+
   for (const name of fs.readdirSync(releases)) {
     if (/^\.staging-[A-Za-z0-9]+$/.test(name)) {
       fs.rmSync(path.join(releases, name), { recursive: true, force: true });
@@ -257,6 +261,7 @@ function buildArchive(source, library) {
         fs.statSync(path.join(releases, b)).mtimeMs -
         fs.statSync(path.join(releases, a)).mtimeMs,
     );
+
   for (const name of previous.slice(1)) {
     fs.rmSync(path.join(releases, name), { recursive: true, force: true });
   }
@@ -277,7 +282,7 @@ function buildArchive(source, library) {
   }
 }
 
-export async function receivePagesArtifact(destination) {
+async function receivePagesArtifact(destination) {
   const api = actionsApi();
   const event = readJson(environment('GITHUB_EVENT_PATH'));
   const current = await mainRevision(api);
@@ -325,7 +330,7 @@ export async function receivePagesArtifact(destination) {
   }
 }
 
-export async function checkDeploymentRevision(source) {
+async function checkDeploymentRevision(source) {
   ensure(sha.test(source), 'Invalid deployment source');
   output({ ready: source === (await mainRevision(actionsApi())) });
 }

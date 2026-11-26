@@ -7,6 +7,7 @@ import {
   command,
   ensure,
   identifier,
+  matches,
   policy,
   readJson,
   repository,
@@ -26,9 +27,8 @@ import { same } from './records.mjs';
 import { createTrigger, deleteTrigger, triggerKey } from './triggers.mjs';
 
 const planKey = 'main-plan';
-const kinds = ['cache'];
 
-export class State {
+class State {
   constructor(token, baseUrl, guard) {
     const url = new URL(baseUrl);
     ensure(url.protocol === 'https:' && token, 'Invalid state connection');
@@ -65,13 +65,13 @@ export class State {
   }
 }
 
-export function publicationKey(kind, name) {
-  ensure(kinds.includes(kind) && identifier.test(name), 'Invalid state name');
-  return kind + '-' + createHash('sha256').update(name).digest('hex');
+function publicationKey(name) {
+  ensure(matches(identifier, name), 'Invalid state name');
+  return 'cache-' + createHash('sha256').update(name).digest('hex');
 }
 
-export async function current(api, revision) {
-  ensure(sha.test(revision), 'Invalid main revision');
+async function current(api, revision) {
+  ensure(matches(sha, revision), 'Invalid main revision');
 
   const ref = await api.request('/git/ref/heads/main');
 
@@ -80,7 +80,7 @@ export async function current(api, revision) {
   }
 }
 
-export async function rootsAvailable(outputs, cache) {
+async function rootsAvailable(outputs, cache) {
   for (const value of outputs) {
     ensure(storePattern.test(value), 'Invalid cache output');
     const hash = path.basename(value).slice(0, 32);
@@ -101,7 +101,7 @@ export async function rootsAvailable(outputs, cache) {
   return outputs.length > 0;
 }
 
-export function cacheIdentity(closure) {
+function cacheIdentity(closure) {
   return Object.fromEntries(
     Object.entries(closure).map(([name, item]) => [
       name,
@@ -114,7 +114,7 @@ export function cacheIdentity(closure) {
   );
 }
 
-export function verifyCache(outputs, cache, source) {
+function verifyCache(outputs, cache, source) {
   const target = pathInfo(outputs, cache.url);
   ensure(
     same(cacheIdentity(source), cacheIdentity(target)),
@@ -140,7 +140,7 @@ export function verifyCache(outputs, cache, source) {
   command('nix', [...args, probe]);
 }
 
-export async function publishCache(outputs, denied, cache, netrc, guard) {
+async function publishCache(outputs, denied, cache, netrc, guard) {
   const source = auditClosure(outputs, denied);
   await guard();
 
@@ -181,7 +181,7 @@ function eligible(item) {
   return item?.cacheable === true && item.windows === false;
 }
 
-export function candidates(baseline, inventory, pending) {
+function candidates(baseline, inventory, pending) {
   return Object.entries(inventory.packages)
     .filter(
       ([name, item]) =>
@@ -193,7 +193,7 @@ export function candidates(baseline, inventory, pending) {
     .sort();
 }
 
-export async function planFonts(api, state, metadata, inventory) {
+async function planFonts(api, state, metadata, inventory) {
   const revision = metadata.rev;
   await current(api, revision);
 
@@ -205,6 +205,7 @@ export async function planFonts(api, state, metadata, inventory) {
 
   const baseline = previous?.inventory ?? { packages: {} };
   if (previous) {
+    ensure(matches(sha, previous.observedRev), 'Invalid baseline revision');
     const comparison = await api.request(
       '/compare/' + previous.observedRev + '...' + revision,
     );
@@ -225,7 +226,7 @@ export async function planFonts(api, state, metadata, inventory) {
 
   for (const name of selected) {
     const item = inventory.packages[name];
-    const published = await state.get(publicationKey('cache', name));
+    const published = await state.get(publicationKey(name));
     const complete =
       published?.schema === schema &&
       published.policy === policy &&
@@ -297,7 +298,7 @@ export async function planFonts(api, state, metadata, inventory) {
   return observed;
 }
 
-export async function verifyRequest(api, state, metadata, inventory) {
+async function verifyRequest(api, state, metadata, inventory) {
   await current(api, metadata.rev);
   const item = inventory.packages[metadata.name];
   ensure(eligible(item), 'Package cannot enter the public build pipeline');
@@ -317,7 +318,7 @@ export async function verifyRequest(api, state, metadata, inventory) {
   return { item, selected };
 }
 
-export async function publishFont(api, state, metadata, inventory, secrets) {
+async function publishFont(api, state, metadata, inventory, secrets) {
   const { item } = await verifyRequest(api, state, metadata, inventory);
   const guard = () => verifyRequest(api, state, metadata, inventory);
   await state.put(triggerKey(metadata.tag), {
@@ -350,10 +351,10 @@ export async function publishFont(api, state, metadata, inventory, secrets) {
   record.cache = metadata.cache;
 
   await guard();
-  await state.put(publicationKey('cache', metadata.name), record);
+  await state.put(publicationKey(metadata.name), record);
 }
 
-export async function run(metadata) {
+async function run(metadata) {
   ensure(
     process.env.HERCULES_CI_PROJECT_PATH === 'github/' + repository &&
       metadata.repository === repository,
@@ -398,7 +399,7 @@ if (
   try {
     await run(readJson(process.argv[2]));
   } catch (error) {
-    console.error(error.message);
+    console.error(error.message, error.details ?? '');
     process.exitCode = 1;
   }
 }

@@ -15,6 +15,7 @@ import {
   cacheRestrictions,
   evaluate,
   inventory,
+  withBaseWorktree,
 } from './inventory.mjs';
 import { output } from './github.mjs';
 import { readState } from './build-state.mjs';
@@ -26,12 +27,23 @@ import {
   workflowPath,
 } from './records.mjs';
 
-function controllerDigest(root) {
+const controllerFiles = [
+  workflowPath,
+  'flake.nix',
+  'flake.lock',
+  'lib/default.nix',
+  'lib/flake.nix',
+  'tools/default.nix',
+  'tools/flake.nix',
+  'tools/flake.lock',
+];
+
+export function controllerDigest(root) {
   const files = fs
     .readdirSync(path.join(root, 'ci'))
     .filter((file) => /\.(mjs|nix)$/.test(file))
     .map((file) => 'ci/' + file);
-  files.push(workflowPath);
+  files.push(...controllerFiles);
 
   return digest(
     Object.fromEntries(
@@ -79,15 +91,12 @@ export function runContext(root, event, env = process.env) {
 }
 
 function baselineInventory(root, directory, event) {
-  const base = path.join(directory, 'base');
-  ensure(!fs.existsSync(base), 'Use a fresh baseline directory');
-  git(root, 'worktree', 'add', '--detach', base, event.pull_request.base.sha);
-
-  try {
-    return inventory(base);
-  } finally {
-    git(root, 'worktree', 'remove', '--force', base);
-  }
+  return withBaseWorktree(
+    root,
+    directory,
+    event.pull_request.base.sha,
+    (base) => inventory(base),
+  );
 }
 
 function planBuilds(base, current, receipts) {
@@ -97,6 +106,7 @@ function planBuilds(base, current, receipts) {
       base.system === current.system,
     'A matching evaluated baseline is required',
   );
+
   const packages = {};
   const tasks = [];
   const reused = [];
@@ -164,7 +174,8 @@ export async function preparePlan(root, directory, event, api) {
   const current = inventory(root);
   const controller = controllerDigest(root);
   const number = event.number;
-  const headRepository = event.pull_request.head.repo.full_name;
+  const headRepository = event.pull_request.head.repo?.full_name;
+  ensure(typeof headRepository === 'string', 'Missing PR head repository');
   const state = await readState(api, number, headRepository, controller);
 
   const { packages, tasks, shards, reused, skipped } = planBuilds(
@@ -192,10 +203,7 @@ export async function preparePlan(root, directory, event, api) {
     matrix: JSON.stringify(
       value.shards.map((shard) => ({
         id: shard.id,
-        label:
-          shard.tasks.length === 1
-            ? packages[shard.tasks[0]].pname
-            : String(shard.id),
+        label: shard.tasks.length === 1 ? shard.tasks[0] : String(shard.id),
         cacheable: shard.cacheable,
         cacheKey: digest(shard.tasks.map((name) => packages[name].buildKey)),
       })),
@@ -263,9 +271,9 @@ export function buildShard(root, plan, shardId, directory, event) {
     shard: shardId,
     packages: {},
   };
+  const cachePath = path.join(directory, 'cache');
   const roots = new Set();
   let failed = false;
-  process.env.FONT_CI_CACHE_PATH = path.join(directory, 'cache');
 
   for (const name of shard.tasks) {
     const item = current.packages[name];
@@ -284,7 +292,7 @@ export function buildShard(root, plan, shardId, directory, event) {
     receipts.packages[name] = receipt;
 
     try {
-      const built = evaluate(root, 'outputs', [name], true);
+      const built = evaluate(root, 'outputs', [name], true, cachePath);
       const realized = built.flatMap((result) => Object.values(result.outputs));
       ensure(
         same(

@@ -30,7 +30,64 @@ export const nixFlags = [
   '--no-write-lock-file',
 ];
 
-export function evaluate(root, mode, selection = [], build = false) {
+export function withBaseWorktree(root, directory, baseSha, callback) {
+  const base = fs.mkdtempSync(path.join(path.resolve(directory), 'base-'));
+  let added = false;
+
+  try {
+    command('git', [
+      '-C',
+      path.resolve(root),
+      'worktree',
+      'add',
+      '--detach',
+      base,
+      baseSha,
+    ]);
+    added = true;
+
+    const result = callback(base);
+
+    command('git', [
+      '-C',
+      path.resolve(root),
+      'worktree',
+      'remove',
+      '--force',
+      base,
+    ]);
+    added = false;
+
+    return result;
+  } catch (error) {
+    try {
+      if (added) {
+        command('git', [
+          '-C',
+          path.resolve(root),
+          'worktree',
+          'remove',
+          '--force',
+          base,
+        ]);
+      } else {
+        fs.rmSync(base, { recursive: true, force: true });
+      }
+    } catch (cleanupError) {
+      throw new AggregateError([error, cleanupError], error.message);
+    }
+
+    throw error;
+  }
+}
+
+export function evaluate(
+  root,
+  mode,
+  selection = [],
+  build = false,
+  cachePath = null,
+) {
   const expression =
     'import (builtins.toPath (builtins.getEnv "FONT_CI_EVALUATOR")) ' +
     '(builtins.fromJSON (builtins.getEnv "FONT_CI_ARGUMENTS"))';
@@ -42,8 +99,8 @@ export function evaluate(root, mode, selection = [], build = false) {
 
   args.push('--expr', expression, ...nixFlags);
 
-  if (process.env.FONT_CI_CACHE_PATH) {
-    const cache = path.resolve(process.env.FONT_CI_CACHE_PATH);
+  if (cachePath) {
+    const cache = path.resolve(cachePath);
     const substituters = ['https://cache.brsvh.org'];
 
     // Opening a missing file cache lets the daemon create root-owned paths

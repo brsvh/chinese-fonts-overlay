@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { ensure, readJson, sha } from './common.mjs';
+import { ensure, matches, sha } from './common.mjs';
 import { GarageBucket } from './garage.mjs';
 
 const objectKey =
@@ -13,9 +13,12 @@ export class PagesArtifactStore extends GarageBucket {
   }
 
   objects() {
-    const objects = this.call('list-objects-v2').Contents ?? [];
+    const response = this.call('list-objects-v2');
+    ensure(!response.IsTruncated, 'Site bucket object listing is truncated');
+
+    const objects = response.Contents ?? [];
     ensure(
-      objects.every((item) => objectKey.test(item.Key)),
+      objects.every((item) => matches(objectKey, item.Key)),
       'Unexpected object in site bucket; refusing cleanup',
     );
     return objects;
@@ -23,7 +26,7 @@ export class PagesArtifactStore extends GarageBucket {
 
   download(key, file, size) {
     ensure(
-      objectKey.test(key) && size > 0 && size < 1000000000,
+      matches(objectKey, key) && size > 0 && size < 1000000000,
       'Invalid site download',
     );
 
@@ -32,7 +35,7 @@ export class PagesArtifactStore extends GarageBucket {
   }
 
   manifest(source) {
-    ensure(sha.test(source), 'Invalid source revision');
+    ensure(matches(sha, source), 'Invalid source revision');
 
     const object = this.objects().find(
       (item) => item.Key === source + '/manifest.json',
@@ -43,21 +46,22 @@ export class PagesArtifactStore extends GarageBucket {
 
     const file = path.join(this.directory, 'manifest.json');
     this.download(object.Key, file, object.Size);
-    return { file, data: readJson(file) };
+    return { file };
   }
 
   remove(key) {
-    ensure(objectKey.test(key), 'Invalid cleanup key');
+    ensure(matches(objectKey, key), 'Invalid cleanup key');
     this.call('delete-object', '--key', key);
   }
 
   reserve(source, base, limit) {
     // The Hercules mount lock serializes every writer, including retries.
     ensure(limit === 1 || limit === 2, 'Invalid Pages retention limit');
+
     const objects = this.objects();
     const complete = objects
       .filter((item) => item.Key.endsWith('/manifest.json'))
-      .sort((a, b) => b.LastModified.localeCompare(a.LastModified));
+      .sort((a, b) => Date.parse(b.LastModified) - Date.parse(a.LastModified));
     const keep = complete
       .filter((item) => !item.Key.startsWith(source + '/'))
       .slice(0, limit - 1)
@@ -76,9 +80,17 @@ export class PagesArtifactStore extends GarageBucket {
         this.remove(item.Key);
     }
 
-    const uploads = this.call('list-multipart-uploads').Uploads ?? [];
+    const multipart = this.call('list-multipart-uploads');
+    ensure(
+      !multipart.IsTruncated,
+      'Site bucket multipart upload listing is truncated',
+    );
+
+    const uploads = multipart.Uploads ?? [];
+
     for (const upload of uploads) {
-      ensure(objectKey.test(upload.Key), 'Unexpected multipart upload');
+      ensure(matches(objectKey, upload.Key), 'Unexpected multipart upload');
+
       if (Date.parse(upload.Initiated) < Date.now() - 86400000) {
         this.call(
           'abort-multipart-upload',
@@ -92,16 +104,18 @@ export class PagesArtifactStore extends GarageBucket {
   }
 
   async upload(key, file) {
-    ensure(objectKey.test(key), 'Invalid upload key');
+    ensure(matches(objectKey, key), 'Invalid upload key');
 
     const md5 = createHash('md5');
     const sha256 = createHash('sha256');
+
     for await (const chunk of fs.createReadStream(file)) {
       md5.update(chunk);
       sha256.update(chunk);
     }
 
     const checksum = sha256.digest('hex');
+
     if (this.objects().some((item) => item.Key === key)) {
       const existing = this.call('head-object', '--key', key);
       ensure(

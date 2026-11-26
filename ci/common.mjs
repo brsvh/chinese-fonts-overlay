@@ -22,6 +22,10 @@ export function positiveInteger(value) {
   return Number.isSafeInteger(value) && value > 0;
 }
 
+export function matches(pattern, value) {
+  return typeof value === 'string' && pattern.test(value);
+}
+
 export function canonical(value) {
   if (Array.isArray(value)) {
     return value.map(canonical);

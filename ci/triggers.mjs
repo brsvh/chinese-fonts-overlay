@@ -1,12 +1,13 @@
 import { createHash } from 'node:crypto';
-import { ensure, identifier } from './common.mjs';
+import { ensure, identifier, matches } from './common.mjs';
 
-export function triggerInfo(tag) {
-  const font = /^ci\/package\/([^/]+)\/([a-f0-9]{40})\/[a-f0-9-]{36}$/.exec(
-    tag,
-  );
-  ensure(font && identifier.test(font[1]), 'Invalid internal trigger');
-  return { kind: 'cache', name: font[1], rev: font[2] };
+function triggerInfo(tag) {
+  const font =
+    typeof tag === 'string'
+      ? /^ci\/package\/([^/]+)\/([a-f0-9]{40})\/[a-f0-9-]{36}$/.exec(tag)
+      : null;
+  ensure(font && matches(identifier, font[1]), 'Invalid internal trigger');
+  return { name: font[1], rev: font[2] };
 }
 
 export function triggerKey(tag) {

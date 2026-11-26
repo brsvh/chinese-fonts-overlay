@@ -1,12 +1,14 @@
 import { createHash } from 'node:crypto';
 import {
   ensure,
+  matches,
   maxData,
   parseJson,
   policy,
   positiveInteger,
   readJson,
   repository,
+  sha,
 } from './common.mjs';
 import { GitHub, Superseded } from './github.mjs';
 import {
@@ -15,6 +17,7 @@ import {
   validateReceipts,
   workflowPath,
 } from './records.mjs';
+import { controllerDigest } from './builds.mjs';
 import { updateBuildState } from './build-state.mjs';
 import { unzip } from './artifacts.mjs';
 
@@ -40,6 +43,14 @@ async function resolveRun(api, event) {
     throw new Superseded('A newer workflow attempt exists');
   }
 
+  ensure(matches(sha, run.head_sha), 'Invalid workflow run head SHA');
+
+  const headRepository = run.head_repository?.full_name;
+  ensure(
+    typeof headRepository === 'string',
+    'Missing workflow head repository',
+  );
+
   let pulls = run.pull_requests;
 
   if (!pulls.length) {
@@ -56,7 +67,7 @@ async function resolveRun(api, event) {
       pull.base.repo.full_name === repository &&
       pull.base.ref === 'main' &&
       pull.head.sha === run.head_sha &&
-      pull.head.repo?.full_name === run.head_repository.full_name &&
+      pull.head.repo?.full_name === headRepository &&
       (pull.state === 'open' || pull.merged)
     ) {
       candidates.push(pull);
@@ -107,7 +118,7 @@ async function artifactFiles(api, artifacts, name) {
   return unzip(data);
 }
 
-async function readBuildReceipts(api, run, pull) {
+async function readBuildReceipts(api, run, pull, expectedController) {
   const artifacts = await api.pages(
     '/actions/runs/' + run.id + '/artifacts',
     'artifacts',
@@ -126,6 +137,10 @@ async function readBuildReceipts(api, run, pull) {
     'Plan context differs from authenticated workflow run',
   );
 
+  if (plan.controller !== expectedController) {
+    throw new Superseded('Build controller differs from the default branch');
+  }
+
   const merge = await api.request('/git/commits/' + plan.context.mergeSha);
   ensure(
     merge.parents.length === 2 && merge.parents[1].sha === run.head_sha,
@@ -142,9 +157,7 @@ async function readBuildReceipts(api, run, pull) {
   for (const shard of plan.shards) {
     try {
       const label =
-        shard.tasks.length === 1
-          ? plan.packages[shard.tasks[0]].pname
-          : String(shard.id);
+        shard.tasks.length === 1 ? shard.tasks[0] : String(shard.id);
       const matching = jobs.filter(
         (job) => job.name === 'Build fonts / ' + label,
       );
@@ -208,14 +221,17 @@ async function saveReceipts(api, run, pull, plan, records) {
   );
 }
 
-export async function recordBuilds() {
+export async function recordBuilds(root = '.') {
   ensure(
     process.env.GITHUB_EVENT_NAME === 'workflow_run' &&
       process.env.GITHUB_REPOSITORY === repository,
     'Receipt publisher requires an upstream workflow_run context',
   );
+  ensure(process.env.GITHUB_EVENT_PATH, 'Missing GITHUB_EVENT_PATH');
 
+  const expectedController = controllerDigest(root);
   const api = new GitHub(process.env.GITHUB_TOKEN, true);
+
   try {
     const { run, pull } = await resolveRun(
       api,
@@ -224,7 +240,12 @@ export async function recordBuilds() {
     ensure(run.status === 'completed', 'Build run is incomplete');
     await currentGuard(api, run, pull);
 
-    const { plan, records, errors } = await readBuildReceipts(api, run, pull);
+    const { plan, records, errors } = await readBuildReceipts(
+      api,
+      run,
+      pull,
+      expectedController,
+    );
     await saveReceipts(api, run, pull, plan, records);
 
     ensure(errors.length === 0, errors.join('\n'));

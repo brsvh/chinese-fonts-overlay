@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { command, digest } from './common.mjs';
-import { evaluate, nixFlags } from './inventory.mjs';
+import { evaluate, nixFlags, withBaseWorktree } from './inventory.mjs';
 import { runContext } from './builds.mjs';
 
 export function checkLanguages(root, directory, event) {
@@ -12,40 +12,23 @@ export function checkLanguages(root, directory, event) {
   directory = path.resolve(directory);
   fs.mkdirSync(directory, { recursive: true });
 
-  const base = fs.mkdtempSync(path.join(directory, 'languages-base-'));
-  let previous;
-  let added = false;
-
-  try {
-    command('git', [
-      '-C',
-      root,
-      'worktree',
-      'add',
-      '--detach',
-      base,
-      event.pull_request.base.sha,
-    ]);
-    added = true;
-    previous = evaluate(base, 'languages');
-  } finally {
-    if (added) {
-      command('git', ['-C', root, 'worktree', 'remove', '--force', base]);
-    } else {
-      fs.rmdirSync(base);
-    }
-  }
-
+  const previous = withBaseWorktree(
+    root,
+    directory,
+    event.pull_request.base.sha,
+    (base) => evaluate(base, 'languages'),
+  );
   const current = evaluate(root, 'languages');
   const scannerChanged = previous.scanner !== current.scanner;
   const selected = [];
   const skipped = [];
 
   for (const [attribute, item] of Object.entries(current.packages)) {
-    if (
-      !scannerChanged &&
-      digest(item) === digest(previous.packages[attribute] ?? null)
-    ) {
+    const prior = Object.hasOwn(previous.packages, attribute)
+      ? previous.packages[attribute]
+      : null;
+
+    if (!scannerChanged && digest(item) === digest(prior)) {
       continue;
     }
 

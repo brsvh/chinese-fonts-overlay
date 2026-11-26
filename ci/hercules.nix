@@ -151,6 +151,7 @@ let
     rev:
     import ./pages.nix {
       inherit inputs rev;
+
       root = projectRoot;
     };
 in
@@ -204,6 +205,7 @@ in
                   effects = {
                     publishFont = makeEffect {
                       inherit name rev tag;
+
                       action = "publishFont";
                     };
                   };
@@ -216,6 +218,8 @@ in
                 branch == "main"
                 && ref == "refs/heads/main"
                 && tag == null
+                && rev != null
+                && match "[0-9a-f]{40}" rev != null
               )
               {
                 buildPages = {
@@ -231,6 +235,7 @@ in
                     effects = {
                       planFonts = makeEffect {
                         inherit rev;
+
                         action = "planFonts";
                       };
                     };

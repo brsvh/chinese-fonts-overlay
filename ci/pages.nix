@@ -7,6 +7,7 @@ let
   pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
 
   inherit (pkgs.lib)
+    escapeShellArg
     toJSON
     ;
 
@@ -31,7 +32,7 @@ effects.mkEffect {
     set -euo pipefail
     umask 077
     flock /pages-state/build.lock \
-      node ${root}/ci/pages.mjs buildPages ${rev}
+      node ${root}/ci/pages.mjs buildPages ${escapeShellArg rev}
   '';
 
   inputs = with pkgs; [

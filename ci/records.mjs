@@ -3,6 +3,7 @@ import {
   ensure,
   fingerprint,
   identifier,
+  matches,
   policy,
   positiveInteger,
   repository,
@@ -12,6 +13,8 @@ import {
 export const packageName = /^[a-z0-9][a-z0-9_+-]*$/;
 export const workflowPath = '.github/workflows/build.yml';
 export const recordSchema = 2;
+
+const headRepositoryPattern = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
 
 export function same(left, right) {
   return JSON.stringify(canonical(left)) === JSON.stringify(canonical(right));
@@ -34,7 +37,13 @@ export function safePath(value) {
       !value.startsWith('/') &&
       !value.includes('\\') &&
       !/[\x00-\x1f\x7f]/.test(value) &&
-      !value.split('/').some((part) => ['', '.', '..'].includes(part)) &&
+      !value
+        .split('/')
+        .some((part) =>
+          ['', '.', '..', '__proto__', 'constructor', 'prototype'].includes(
+            part,
+          ),
+        ) &&
       Buffer.byteLength(value) <= 1024,
     'Unsafe relative path',
   );
@@ -44,8 +53,8 @@ export function safePath(value) {
 export function validateContext(value) {
   fields(value, ['headSha', 'mergeSha', 'runId', 'runAttempt']);
   ensure(
-    sha.test(value.headSha) &&
-      sha.test(value.mergeSha) &&
+    matches(sha, value.headSha) &&
+      matches(sha, value.mergeSha) &&
       positiveInteger(value.runId) &&
       positiveInteger(value.runAttempt),
     'Invalid run context',
@@ -72,8 +81,8 @@ export function validatePlan(value) {
       value.policy === policy &&
       value.repository === repository &&
       positiveInteger(value.pr) &&
-      /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(value.headRepository) &&
-      fingerprint.test(value.controller),
+      matches(headRepositoryPattern, value.headRepository) &&
+      matches(fingerprint, value.controller),
     'Invalid plan identity',
   );
 
@@ -89,11 +98,10 @@ export function validatePlan(value) {
   for (const [name, item] of Object.entries(value.packages)) {
     fields(item, ['vendor', 'pname', 'buildKey', 'cacheable', 'affected']);
     ensure(
-      identifier.test(name) &&
+      matches(identifier, name) &&
         item.vendor === name.split('.')[0] &&
-        typeof item.pname === 'string' &&
-        packageName.test(item.pname) &&
-        fingerprint.test(item.buildKey) &&
+        matches(packageName, item.pname) &&
+        matches(fingerprint, item.buildKey) &&
         ['cacheable', 'affected'].every(
           (key) => typeof item[key] === 'boolean',
         ),
@@ -153,7 +161,10 @@ export function validateReceipts(value, plan, shard) {
     value.schema === recordSchema &&
       same(value.context, plan.context) &&
       value.controller === plan.controller &&
-      value.shard === shard.id,
+      value.shard === shard.id &&
+      value.packages !== null &&
+      typeof value.packages === 'object' &&
+      !Array.isArray(value.packages),
     'Receipt run mismatch',
   );
 

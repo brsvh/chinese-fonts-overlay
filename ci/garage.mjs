@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { command, ensure } from './common.mjs';
+import { command, ensure, parseJson } from './common.mjs';
 
 const endpoint = 'https://s3.bingshan.org';
 
@@ -59,6 +59,6 @@ export class GarageBucket {
       { env: this.env },
     );
 
-    return result ? JSON.parse(result) : {};
+    return result ? parseJson(result) : {};
   }
 }

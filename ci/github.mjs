@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import {
   ensure,
+  matches,
   maxData,
   positiveInteger,
   repository,
@@ -21,6 +22,24 @@ export function blobSha(data) {
     .digest('hex');
 }
 
+function hasDotSegment(rawPath) {
+  const pathname = rawPath.split('?')[0];
+
+  for (const part of pathname.split('/')) {
+    try {
+      const decoded = decodeURIComponent(part);
+
+      if (decoded === '.' || decoded === '..' || decoded.includes('/')) {
+        return true;
+      }
+    } catch {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export class GitHub {
   constructor(token, writable = false) {
     this.token = token;
@@ -29,17 +48,26 @@ export class GitHub {
 
   async request(path, options = {}) {
     ensure(
-      path.startsWith('/') &&
+      typeof path === 'string' &&
+        path.startsWith('/') &&
         !path.startsWith('//') &&
-        !/[#\\\x00-\x20]/.test(path),
+        !/[#\\\x00-\x20]/.test(path) &&
+        !hasDotSegment(path),
       'Invalid GitHub API path',
+    );
+
+    const target = new URL(apiRoot + path);
+    ensure(
+      target.origin === 'https://api.github.com' &&
+        target.pathname.startsWith('/repos/' + repository + '/'),
+      'GitHub API path escaped repository scope',
     );
     ensure(
       this.writable || !options.method || options.method === 'GET',
       'Read-only GitHub client',
     );
 
-    return request(apiRoot + path, this.token, {
+    return request(target.href, this.token, {
       ...options,
       limit: maxJson,
       headers: { 'x-github-api-version': '2022-11-28' },
@@ -107,7 +135,7 @@ export class GitHub {
     ensure(
       entry.mode === '100644' &&
         entry.type === 'blob' &&
-        sha.test(entry.sha) &&
+        matches(sha, entry.sha) &&
         (entry.size ?? 0) <= limit,
       'Invalid record branch entry',
     );

@@ -117,6 +117,7 @@ else if mode == "languages" then
       import (projectRoot + /packages/font-catalog.nix)
         {
           inherit projectRoot;
+
           pkgs = fontPkgs;
         };
   in

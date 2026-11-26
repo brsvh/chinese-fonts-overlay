@@ -3,6 +3,7 @@ import {
   ensure,
   fingerprint,
   identifier,
+  matches,
   parseJson,
   policy,
   positiveInteger,
@@ -29,9 +30,11 @@ async function readBuildTree(api) {
     return { parent: null, tree: null, entries: {} };
   }
 
-  ensure(sha.test(ref.object.sha), 'Invalid branch revision');
+  ensure(matches(sha, ref.object.sha), 'Invalid branch revision');
 
   const commit = await api.request('/git/commits/' + ref.object.sha);
+  ensure(matches(sha, commit.tree?.sha), 'Invalid branch tree revision');
+
   const tree = await api.request(
     '/git/trees/' + commit.tree.sha + '?recursive=1',
   );
@@ -93,14 +96,19 @@ export async function readState(
       state.headRepository === headRepository &&
       positiveInteger(state.runId) &&
       positiveInteger(state.runAttempt) &&
-      fingerprint.test(state.controller) &&
+      matches(fingerprint, state.controller) &&
       state.receipts !== null &&
       typeof state.receipts === 'object' &&
       !Array.isArray(state.receipts),
     'PR state identity mismatch',
   );
 
-  state.controller = controller;
+  if (state.controller !== controller) {
+    state.controller = controller;
+    state.receipts = {};
+    return state;
+  }
+
   for (const [name, item] of Object.entries(state.receipts)) {
     fields(item, [
       'policy',
@@ -113,12 +121,11 @@ export async function readState(
       'runAttempt',
     ]);
     ensure(
-      identifier.test(name) &&
+      matches(identifier, name) &&
         item.policy === policy &&
         item.buildSucceeded === true &&
-        typeof item.pname === 'string' &&
-        packageName.test(item.pname) &&
-        fingerprint.test(item.buildKey),
+        matches(packageName, item.pname) &&
+        matches(fingerprint, item.buildKey),
       'Invalid successful receipt',
     );
     validateContext({

@@ -23,8 +23,10 @@ try {
   const [command] = positionals;
 
   if (command === 'inventory') {
+    ensure(values.output, 'Missing --output path');
     writeJson(values.output, inventory(values.root));
   } else if (command === 'pr-plan') {
+    ensure(process.env.GITHUB_EVENT_PATH, 'Missing GITHUB_EVENT_PATH');
     await preparePlan(
       values.root,
       values.directory,
@@ -32,6 +34,12 @@ try {
       new GitHub(process.env.GITHUB_TOKEN),
     );
   } else if (command === 'pr-build') {
+    ensure(values.plan, 'Missing --plan path');
+    ensure(process.env.GITHUB_EVENT_PATH, 'Missing GITHUB_EVENT_PATH');
+    ensure(
+      typeof values.shard === 'string' && /^\d+$/.test(values.shard),
+      'Invalid shard',
+    );
     const shard = Number(values.shard);
     ensure(Number.isSafeInteger(shard) && shard >= 0, 'Invalid shard');
 
@@ -45,13 +53,14 @@ try {
 
     process.exitCode = ok ? 0 : 1;
   } else if (command === 'pr-check-languages') {
+    ensure(process.env.GITHUB_EVENT_PATH, 'Missing GITHUB_EVENT_PATH');
     checkLanguages(
       values.root,
       values.directory,
       readJson(process.env.GITHUB_EVENT_PATH),
     );
   } else if (command === 'record-builds') {
-    await recordBuilds();
+    await recordBuilds(values.root);
   } else {
     throw new Error('Unknown command: ' + command);
   }

@@ -32,7 +32,7 @@ export function unzip(data) {
     'Unsupported or inconsistent ZIP directory',
   );
 
-  const files = {};
+  const files = Object.create(null);
   const seen = new Set();
   const spans = [];
   let total = 0;
