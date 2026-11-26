@@ -13,7 +13,6 @@ let
     escapeShellArg
     getExe
     makeBinPath
-    map
     mapAttrsToList
     removeAttrs
     unique
@@ -172,8 +171,6 @@ let
 
         repos = [
           {
-            repo = "local";
-
             hooks = [
               {
                 entry = "treefmt --fail-on-change";
@@ -186,6 +183,8 @@ let
                 ];
               }
             ];
+
+            repo = "local";
           }
         ];
       };
