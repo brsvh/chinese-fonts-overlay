@@ -200,13 +200,6 @@ let
 
     treefmt = rec {
       data = {
-        global = {
-          excludes = [
-            "pages/build/**"
-            "pages/.cache/**"
-          ];
-        };
-
         formatter =
           let
             # Biome scopes an absolute config path to its directory.
@@ -269,6 +262,13 @@ let
               ];
             };
           };
+
+        global = {
+          excludes = [
+            "pages/build/**"
+            "pages/.cache/**"
+          ];
+        };
       };
 
       file = toml output data;

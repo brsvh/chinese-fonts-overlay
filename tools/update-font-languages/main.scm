@@ -53,7 +53,8 @@
     (when info
       (if (eq? 'directory (stat:type info))
           (let ((entries
-                 (scandir path (lambda (name) (not (member name '("." "..")))))))
+                 (scandir path
+                          (lambda (name) (not (member name '("." "..")))))))
             (when entries
               (for-each
                (lambda (name) (delete-tree (string-append path "/" name)))
@@ -62,7 +63,7 @@
           (delete-file path)))))
 
 (define (files-under path)
-  "List regular files beneath PATH in sorted order, following directory symlinks safely."
+  "List regular files beneath PATH in sorted order, following symlinks safely."
   (let walk ((directory path) (visited '()))
     (let ((info (false-if-exception (stat directory))))
       (if (or (not info) (not (eq? 'directory (stat:type info))))
@@ -113,10 +114,11 @@
 (define (temporary-directory parent)
   "Create and return an absolute private temporary directory under PARENT."
   (mkdir-p parent)
-  (canonicalize-path (mkdtemp (string-append parent "/.font-languages-XXXXXX"))))
+  (canonicalize-path
+   (mkdtemp (string-append parent "/.font-languages-XXXXXX"))))
 
 (define* (atomic-write file writer #:optional explicit-mode)
-  "Replace FILE on success, using EXPLICIT-MODE or preserving existing permissions."
+  "Replace FILE on success with EXPLICIT-MODE or existing permissions."
   (mkdir-p (dirname file))
   (let* ((mode (or explicit-mode
                    (and (file-exists? file) (stat:perms (stat file)))))
@@ -260,7 +262,8 @@
                block)))
         (unless (= 1 (length matches))
           (error
-           "Expected one literal languages list inside chinese-fonts-overlay-pages"))
+           (string-append "Expected one literal languages list inside "
+                          "chinese-fonts-overlay-pages")))
         (let* ((match (car matches))
                (padding (match:substring match 1))
                (replacement
@@ -407,7 +410,8 @@ in "
          (write? (option-ref options 'write #f))
          (check? (option-ref options 'check #f))
          (source-root
-          (canonicalize-path (or (option-ref options 'source-root #f) (checkout)))))
+          (canonicalize-path
+           (or (option-ref options 'source-root #f) (checkout)))))
     (when (or (and all? (pair? selected)) (and (not all?) (null? selected)))
       (error "Specify package attributes, package.nix paths, or --all"))
     (when (and write? check?)
@@ -461,19 +465,25 @@ in "
                            (output (value #t)) (source-root (value #t))))))
         (if (or (null? arguments) (option-ref options 'help #f))
             (begin
-              (display "Usage: chinese-fonts-overlay-update-font-languages [OPTIONS] PACKAGE...
-
-PACKAGE is a full attribute (naverPackages.maru-buri) or a package.nix path.
-  --package PACKAGE   Select another package (repeatable).
-  --all               Select every package in the repository.
-  --check             Fail if recorded language coverage is stale.
-  --write             Update language lists after all scans succeed.
-  --output FILE       Write the coverage report to FILE instead of stdout.
-  --source-root DIR   Select the repository explicitly.
-  --help              Show this help.
-
-Without --check or --write, only report detected coverage.
-")
+              (display
+               (string-append
+                "Usage: chinese-fonts-overlay-update-font-languages "
+                "[OPTIONS] PACKAGE...\n\n"
+                "PACKAGE is a full attribute (naverPackages.maru-buri) "
+                "or a package.nix path.\n"
+                "  --package PACKAGE   Select another package (repeatable).\n"
+                "  --all               Select every package in the "
+                "repository.\n"
+                "  --check             Fail if recorded language coverage "
+                "is stale.\n"
+                "  --write             Update language lists after all "
+                "scans succeed.\n"
+                "  --output FILE       Write the coverage report to FILE "
+                "instead of stdout.\n"
+                "  --source-root DIR   Select the repository explicitly.\n"
+                "  --help              Show this help.\n\n"
+                "Without --check or --write, only report detected "
+                "coverage.\n"))
               0)
             (update-font-languages options))))
     (lambda (key . arguments)
