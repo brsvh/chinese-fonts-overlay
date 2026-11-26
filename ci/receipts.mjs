@@ -108,59 +108,58 @@ async function verifyAncestor(api, ancestor, descendant, message) {
   }
 }
 
-async function verifyController(api, root, run, pull, merge) {
-  const mainSha = command('git', [
-    '-C',
-    path.resolve(root),
-    'rev-parse',
-    'HEAD',
-  ]);
-  const baseSha = merge.parents[0].sha;
+async function verifyPullController(api, mainSha, run, pull) {
   const compareBase = pull.merged ? pull.base.sha : mainSha;
-
-  ensure(matches(sha, mainSha), 'Invalid default branch HEAD SHA');
-  ensure(matches(sha, baseSha), 'Invalid merge base SHA');
   ensure(matches(sha, compareBase), 'Invalid PR base SHA');
-  ensure(matches(sha, merge.tree?.sha), 'Invalid merge tree SHA');
 
   await verifyAncestor(
     api,
-    baseSha,
+    compareBase,
     mainSha,
-    'Build merge base is not on the default branch',
+    'PR base is not on the default branch',
   );
 
-  if (compareBase !== baseSha) {
-    await verifyAncestor(
-      api,
-      compareBase,
-      mainSha,
-      'PR base is not on the default branch',
-    );
-  }
-
-  const [baseCommit, prCompare, headCommit] = await Promise.all([
-    api.request('/git/commits/' + baseSha),
+  const [prCompare, headCommit] = await Promise.all([
     api.request('/compare/' + compareBase + '...' + run.head_sha),
     api.request('/git/commits/' + run.head_sha),
   ]);
   const mergeBaseTreeSha = prCompare.merge_base_commit?.commit?.tree?.sha;
 
-  const [baseEntries, mergeBaseEntries, headEntries, mergeEntries] =
-    await Promise.all([
-      readControllerTree(api, baseCommit.tree?.sha),
-      readControllerTree(api, mergeBaseTreeSha),
-      readControllerTree(api, headCommit.tree?.sha),
-      readControllerTree(api, merge.tree.sha),
-    ]);
+  const [mergeBaseEntries, headEntries] = await Promise.all([
+    readControllerTree(api, mergeBaseTreeSha),
+    readControllerTree(api, headCommit.tree?.sha),
+  ]);
+
+  if (!sameControllerTree(headEntries, mergeBaseEntries)) {
+    throw new Superseded('PR modifies build controller files');
+  }
+
+  return compareBase;
+}
+
+async function verifyMergeController(api, root, mainSha, compareBase, merge) {
+  const baseSha = merge.parents[0].sha;
+  ensure(matches(sha, baseSha), 'Invalid merge base SHA');
+  ensure(matches(sha, merge.tree?.sha), 'Invalid merge tree SHA');
+
+  if (baseSha !== compareBase) {
+    await verifyAncestor(
+      api,
+      baseSha,
+      mainSha,
+      'Build merge base is not on the default branch',
+    );
+  }
+
+  const baseCommit = await api.request('/git/commits/' + baseSha);
+  const [baseEntries, mergeEntries] = await Promise.all([
+    readControllerTree(api, baseCommit.tree?.sha),
+    readControllerTree(api, merge.tree.sha),
+  ]);
   const expectedEntries = readLocalController(root);
 
   if (!sameControllerTree(baseEntries, expectedEntries)) {
     throw new Superseded('Build merge base controller differs from main');
-  }
-
-  if (!sameControllerTree(headEntries, mergeBaseEntries)) {
-    throw new Superseded('PR modifies build controller files');
   }
 
   if (!sameControllerTree(mergeEntries, expectedEntries)) {
@@ -266,6 +265,15 @@ async function artifactFiles(api, artifacts, name) {
 }
 
 async function readBuildReceipts(api, root, run, pull, expectedController) {
+  const mainSha = command('git', [
+    '-C',
+    path.resolve(root),
+    'rev-parse',
+    'HEAD',
+  ]);
+  ensure(matches(sha, mainSha), 'Invalid default branch HEAD SHA');
+  const compareBase = await verifyPullController(api, mainSha, run, pull);
+
   const artifacts = await api.pages(
     '/actions/runs/' + run.id + '/artifacts',
     'artifacts',
@@ -293,7 +301,7 @@ async function readBuildReceipts(api, root, run, pull, expectedController) {
     merge.parents.length === 2 && merge.parents[1].sha === run.head_sha,
     'Build merge commit does not contain the PR head',
   );
-  await verifyController(api, root, run, pull, merge);
+  await verifyMergeController(api, root, mainSha, compareBase, merge);
 
   const jobs = await api.pages(
     '/actions/runs/' + run.id + '/attempts/' + attempt + '/jobs',
