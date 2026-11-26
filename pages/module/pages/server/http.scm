@@ -67,44 +67,47 @@
        (build-response #:code 405 #:headers '((allow GET HEAD)))
        "Method not allowed\n")
       (let ((name (decode-path (uri-path (request-uri request)))))
-        (if (not name)
-            (failure 400 "Malformed path\n")
-            (catch 'system-error
-              (lambda ()
-                (let* ((base (canonicalize-path root))
-                       (path (canonicalize-path
-                              (string-append
-                               base
-                               name
-                               (if (string-suffix? "/" name) "index.html" ""))))
-                       (info (stat path)))
-                  (if (and (string-prefix? (string-append base "/") path)
-                           (eq? 'regular (stat:type info)))
-                      (values
-                       (build-response
-                        #:headers
-                        `((content-type . ,(content-type path))
-                          (content-length . ,(stat:size info))
-                          (cache-control no-cache)))
-                       (if (eq? (request-method request) 'HEAD)
-                           #f
-                           (let ((bytes (call-with-input-file
-                                            path
-                                          get-bytevector-all
-                                          #:binary
-                                          #t)))
-                             (if (eof-object? bytes) #vu8() bytes))))
-                      (failure 404 "Not found\n"))))
-              (lambda args
-                (if (memv (system-error-errno args) (list ENOENT ENOTDIR))
-                    (failure 404 "Not found\n")
-                    (begin
-                      (print-exception
-                       (current-error-port)
-                       #f
-                       (car args)
-                       (cdr args))
-                      (failure 500 "Internal server error\n")))))))))
+        (cond
+         ((not name) (failure 400 "Malformed path\n"))
+         ((member ".." (string-split name #\/)) (failure 404 "Not found\n"))
+         (else
+          (catch 'system-error
+            (lambda ()
+              (let* ((base (canonicalize-path root))
+                     (path (canonicalize-path
+                            (string-append
+                             base
+                             name
+                             (if (string-suffix? "/" name) "index.html" ""))))
+                     (info (stat path)))
+                (if (and (string-prefix? (string-append base "/") path)
+                         (eq? 'regular (stat:type info)))
+                    (values
+                     (build-response
+                      #:headers
+                      `((content-type . ,(content-type path))
+                        (content-length . ,(stat:size info))
+                        (cache-control no-cache)))
+                     (if (eq? (request-method request) 'HEAD)
+                         #f
+                         (let ((bytes (call-with-input-file
+                                          path
+                                        get-bytevector-all
+                                        #:binary
+                                        #t)))
+                           (if (eof-object? bytes) #vu8() bytes))))
+                    (failure 404 "Not found\n"))))
+            (lambda args
+              (if (memv (system-error-errno args)
+                        (list ENOENT ENOTDIR ENAMETOOLONG))
+                  (failure 404 "Not found\n")
+                  (begin
+                    (print-exception
+                     (current-error-port)
+                     #f
+                     (car args)
+                     (cdr args))
+                    (failure 500 "Internal server error\n"))))))))))
 
 (define (serve-site output port)
   "Serve OUTPUT on loopback PORT until interrupted."

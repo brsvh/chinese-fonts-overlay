@@ -97,11 +97,13 @@
   (let ((info (false-if-exception (lstat path))))
     (when info
       (if (eq? 'directory (stat:type info))
-          (begin
-            (for-each
-             (lambda (name) (delete-tree (string-append path "/" name)))
-             (scandir path (lambda (name) (not (member name '("." ".."))))))
-            (rmdir path))
+          (let ((entries
+                 (scandir path (lambda (name) (not (member name '("." "..")))))))
+            (when entries
+              (for-each
+               (lambda (name) (delete-tree (string-append path "/" name)))
+               entries)
+              (rmdir path)))
           (delete-file path)))))
 
 (define (files-under path)
