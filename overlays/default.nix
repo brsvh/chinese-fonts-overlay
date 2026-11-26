@@ -368,6 +368,5 @@ in
       );
 
   xiaomi-fonts = xiaomiPackages.combine (_: true);
-
 }
 // import ./renamed.nix { inherit lib; }
