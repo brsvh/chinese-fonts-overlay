@@ -6,6 +6,7 @@ import {
   digest,
   ensure,
   identifier,
+  matches,
   parseJson,
   policy,
   schema,
@@ -80,18 +81,7 @@ export function withBaseWorktree(root, directory, baseSha, callback) {
   }
 }
 
-export function evaluate(root, mode, selection = [], build = false) {
-  const expression =
-    'import (builtins.toPath (builtins.getEnv "FONT_CI_EVALUATOR")) ' +
-    '(builtins.fromJSON (builtins.getEnv "FONT_CI_ARGUMENTS"))';
-  const args = [build ? 'build' : 'eval', '--impure', '--json'];
-
-  if (build) {
-    args.push('--no-link', '--print-build-logs');
-  }
-
-  args.push('--expr', expression, ...nixFlags);
-
+export function sanitizedEnv(extra = {}) {
   const env = { ...process.env };
 
   for (const key of [
@@ -105,10 +95,24 @@ export function evaluate(root, mode, selection = [], build = false) {
     delete env[key];
   }
 
+  return { ...env, ...extra };
+}
+
+export function evaluate(root, mode, selection = [], build = false) {
+  const expression =
+    'import (builtins.toPath (builtins.getEnv "FONT_CI_EVALUATOR")) ' +
+    '(builtins.fromJSON (builtins.getEnv "FONT_CI_ARGUMENTS"))';
+  const args = [build ? 'build' : 'eval', '--impure', '--json'];
+
+  if (build) {
+    args.push('--no-link', '--print-build-logs');
+  }
+
+  args.push('--expr', expression, ...nixFlags);
+
   return parseJson(
     command('nix', args, {
-      env: {
-        ...env,
+      env: sanitizedEnv({
         // A language report uses the catalog layout of the revision it describes.
         FONT_CI_EVALUATOR:
           mode === 'languages'
@@ -120,7 +124,7 @@ export function evaluate(root, mode, selection = [], build = false) {
           mode,
           selection,
         }),
-      },
+      }),
     }),
   );
 }
@@ -169,7 +173,15 @@ function normalizeGraph(document) {
 
 export function derivationGraph(packages) {
   const roots = [
-    ...new Set(Object.values(packages).map((item) => item.drvPath)),
+    ...new Set(
+      Object.values(packages).map((item) => {
+        ensure(
+          matches(storePattern, item.drvPath) && item.drvPath.endsWith('.drv'),
+          'Invalid derivation path',
+        );
+        return item.drvPath;
+      }),
+    ),
   ].sort();
 
   if (!roots.length) {
@@ -177,7 +189,11 @@ export function derivationGraph(packages) {
   }
 
   return normalizeGraph(
-    parseJson(command('nix', ['derivation', 'show', '--recursive', ...roots])),
+    parseJson(
+      command('nix', ['derivation', 'show', '--recursive', '--', ...roots], {
+        env: sanitizedEnv(),
+      }),
+    ),
   );
 }
 
@@ -308,13 +324,20 @@ export function cacheRestrictions(current, baseline) {
 }
 
 export function pathInfo(outputs, store) {
+  ensure(
+    outputs.length > 0 &&
+      outputs.every((value) => matches(storePattern, value)),
+    'Invalid store paths',
+  );
   const args = ['path-info', '--recursive', '--json', '--json-format', '1'];
 
   if (store) {
     args.push('--store', store);
   }
 
-  return parseJson(command('nix', [...args, ...outputs]));
+  return parseJson(
+    command('nix', [...args, '--', ...outputs], { env: sanitizedEnv() }),
+  );
 }
 
 export function auditClosure(outputs, denied) {

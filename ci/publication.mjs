@@ -20,6 +20,7 @@ import {
   auditClosure,
   derivationGraph,
   pathInfo,
+  sanitizedEnv,
 } from './inventory.mjs';
 import { ApiError, fetchResponse, request } from './http.mjs';
 import { GitHub, Superseded } from './github.mjs';
@@ -132,12 +133,14 @@ function verifyCache(outputs, cache, source) {
     'trusted-public-keys',
     cache.publicKey,
   ];
-  command('nix', [...args, '--recursive', '--no-contents', ...outputs]);
+  command('nix', [...args, '--recursive', '--no-contents', '--', ...outputs], {
+    env: sanitizedEnv(),
+  });
 
   const probe = [...outputs].sort(
     (a, b) => source[a].narSize - source[b].narSize,
   )[0];
-  command('nix', [...args, probe]);
+  command('nix', [...args, '--', probe], { env: sanitizedEnv() });
 }
 
 async function publishCache(outputs, denied, cache, netrc, guard) {
@@ -158,15 +161,20 @@ async function publishCache(outputs, denied, cache, netrc, guard) {
       const file = path.join(directory, 'netrc');
       fs.writeFileSync(file, netrc, { mode: 0o600 });
       await guard();
-      command('nix', [
-        'copy',
-        '--to',
-        cache.url + '?compression=zstd',
-        '--option',
-        'netrc-file',
-        file,
-        ...outputs,
-      ]);
+      command(
+        'nix',
+        [
+          'copy',
+          '--to',
+          cache.url + '?compression=zstd',
+          '--option',
+          'netrc-file',
+          file,
+          '--',
+          ...outputs,
+        ],
+        { env: sanitizedEnv() },
+      );
     } finally {
       fs.rmSync(directory, { recursive: true, force: true });
     }

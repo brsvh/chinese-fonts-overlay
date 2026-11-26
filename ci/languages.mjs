@@ -2,7 +2,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { command, digest } from './common.mjs';
-import { evaluate, nixFlags, withBaseWorktree } from './inventory.mjs';
+import {
+  evaluate,
+  nixFlags,
+  sanitizedEnv,
+  withBaseWorktree,
+} from './inventory.mjs';
 import { runContext } from './builds.mjs';
 
 export function checkLanguages(root, directory, event) {
@@ -70,9 +75,10 @@ export function checkLanguages(root, directory, event) {
         '--check',
         '--output',
         path.join(directory, 'languages.json'),
+        '--',
         ...selected,
       ],
-      { stdio: ['ignore', 'inherit', 'inherit'] },
+      { env: sanitizedEnv(), stdio: ['ignore', 'inherit', 'inherit'] },
     );
   }
 }

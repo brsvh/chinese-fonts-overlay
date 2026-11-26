@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import {
+  command,
   ensure,
   matches,
   maxData,
@@ -65,55 +66,105 @@ async function readControllerTree(api, treeSha) {
   return entries;
 }
 
-async function verifyController(api, root, run, merge) {
-  const baseSha = merge.parents[0].sha;
-  ensure(matches(sha, baseSha), 'Invalid merge base SHA');
-  ensure(matches(sha, merge.tree?.sha), 'Invalid merge tree SHA');
+function readLocalController(root) {
+  const entries = Object.create(null);
 
-  const baseCompare = await api.request('/compare/' + baseSha + '...main');
-  if (baseCompare.status !== 'ahead' && baseCompare.status !== 'identical') {
-    throw new Superseded('Build merge base is not on the default branch');
+  for (const file of controllerPaths(root)) {
+    const full = path.join(root, file);
+    const mode = (fs.statSync(full).mode & 0o111) !== 0 ? '100755' : '100644';
+    entries[file] = {
+      mode,
+      sha: blobSha(fs.readFileSync(full)),
+    };
   }
 
-  const prCompare = await api.request(
-    '/compare/' + baseSha + '...' + run.head_sha,
-  );
-  const mergeBaseTreeSha = prCompare.merge_base_commit?.commit?.tree?.sha;
-  const headCommit = await api.request('/git/commits/' + run.head_sha);
+  return entries;
+}
 
-  const [mergeBaseEntries, headEntries, mergeEntries] = await Promise.all([
-    readControllerTree(api, mergeBaseTreeSha),
-    readControllerTree(api, headCommit.tree?.sha),
-    readControllerTree(api, merge.tree.sha),
-  ]);
+function sameControllerTree(left, right) {
+  const leftKeys = Object.keys(left).sort();
+  const rightKeys = Object.keys(right).sort();
 
-  const mergeBaseKeys = Object.keys(mergeBaseEntries).sort();
-  const headKeys = Object.keys(headEntries).sort();
-
-  if (
-    !same(headKeys, mergeBaseKeys) ||
-    headKeys.some(
+  return (
+    same(leftKeys, rightKeys) &&
+    leftKeys.every(
       (file) =>
-        headEntries[file].sha !== mergeBaseEntries[file].sha ||
-        headEntries[file].mode !== mergeBaseEntries[file].mode,
+        left[file].sha === right[file].sha &&
+        left[file].mode === right[file].mode,
     )
-  ) {
+  );
+}
+
+async function verifyAncestor(api, ancestor, descendant, message) {
+  if (ancestor === descendant) {
+    return;
+  }
+
+  const comparison = await api.request(
+    '/compare/' + ancestor + '...' + descendant,
+  );
+  if (comparison.status !== 'ahead' && comparison.status !== 'identical') {
+    throw new Superseded(message);
+  }
+}
+
+async function verifyController(api, root, run, pull, merge) {
+  const mainSha = command('git', [
+    '-C',
+    path.resolve(root),
+    'rev-parse',
+    'HEAD',
+  ]);
+  const baseSha = merge.parents[0].sha;
+  const compareBase = pull.merged ? pull.base.sha : mainSha;
+
+  ensure(matches(sha, mainSha), 'Invalid default branch HEAD SHA');
+  ensure(matches(sha, baseSha), 'Invalid merge base SHA');
+  ensure(matches(sha, compareBase), 'Invalid PR base SHA');
+  ensure(matches(sha, merge.tree?.sha), 'Invalid merge tree SHA');
+
+  await verifyAncestor(
+    api,
+    baseSha,
+    mainSha,
+    'Build merge base is not on the default branch',
+  );
+
+  if (compareBase !== baseSha) {
+    await verifyAncestor(
+      api,
+      compareBase,
+      mainSha,
+      'PR base is not on the default branch',
+    );
+  }
+
+  const [baseCommit, prCompare, headCommit] = await Promise.all([
+    api.request('/git/commits/' + baseSha),
+    api.request('/compare/' + compareBase + '...' + run.head_sha),
+    api.request('/git/commits/' + run.head_sha),
+  ]);
+  const mergeBaseTreeSha = prCompare.merge_base_commit?.commit?.tree?.sha;
+
+  const [baseEntries, mergeBaseEntries, headEntries, mergeEntries] =
+    await Promise.all([
+      readControllerTree(api, baseCommit.tree?.sha),
+      readControllerTree(api, mergeBaseTreeSha),
+      readControllerTree(api, headCommit.tree?.sha),
+      readControllerTree(api, merge.tree.sha),
+    ]);
+  const expectedEntries = readLocalController(root);
+
+  if (!sameControllerTree(baseEntries, expectedEntries)) {
+    throw new Superseded('Build merge base controller differs from main');
+  }
+
+  if (!sameControllerTree(headEntries, mergeBaseEntries)) {
     throw new Superseded('PR modifies build controller files');
   }
 
-  const expectedPaths = controllerPaths(root);
-  const mergeKeys = Object.keys(mergeEntries).sort();
-
-  if (!same(mergeKeys, expectedPaths)) {
-    throw new Superseded('Build merge tree controller paths differ from main');
-  }
-
-  for (const file of expectedPaths) {
-    if (
-      mergeEntries[file].sha !== blobSha(fs.readFileSync(path.join(root, file)))
-    ) {
-      throw new Superseded('Build merge tree controller differs from main');
-    }
+  if (!sameControllerTree(mergeEntries, expectedEntries)) {
+    throw new Superseded('Build merge tree controller differs from main');
   }
 }
 
@@ -242,7 +293,7 @@ async function readBuildReceipts(api, root, run, pull, expectedController) {
     merge.parents.length === 2 && merge.parents[1].sha === run.head_sha,
     'Build merge commit does not contain the PR head',
   );
-  await verifyController(api, root, run, merge);
+  await verifyController(api, root, run, pull, merge);
 
   const jobs = await api.pages(
     '/actions/runs/' + run.id + '/attempts/' + attempt + '/jobs',
