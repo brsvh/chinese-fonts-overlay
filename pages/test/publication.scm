@@ -103,7 +103,7 @@
                 ("vendor" . "test")
                 ("vendorName" . "测试字库")
                 ("description" . "<script>unsafe</script>")
-                ("longDescription" . "详细说明")
+                ("longDescription" . "详细说明，\n支持多行中文")
                 ("languages" . ,languages)
                 ("styles" . #("sans"))
                 ("embedding" . #t)
@@ -228,6 +228,28 @@
                  (file-exists?
                   (string-append output
                                  "/manual/chinese-fonts-overlay.info")))))
+        (test-assert
+          "Manual HTML collapses CJK line breaks without altering code or Latin spacing"
+          (let ((manual-index
+                 (read-text (string-append output "/manual/index.html")))
+                (manual-vendor
+                 (read-text
+                  (string-append output "/manual/Vendor_002dtest.html")))
+                (manual-installation
+                 (read-text
+                  (string-append output "/manual/Installation.html")))
+                (manual-attributes
+                 (read-text
+                  (string-append output "/manual/Package_002dAttributes.html")))
+                (manual-nixos
+                 (read-text (string-append output "/manual/NixOS.html"))))
+            (and (string-contains manual-index "由于同步收录发行方")
+                 (not (string-contains manual-index "由于同步收录\n发行方"))
+                 (string-contains manual-vendor "详细说明，支持多行中文")
+                 (string-contains manual-installation "启用\noverlay")
+                 (string-contains manual-attributes "而\n마루 부리")
+                 (string-contains manual-nixos
+                                  "chinese-fonts-overlay = {\n  url ="))))
         (test-assert
           "Both entry points include the MB Type and Tsanger font licenses"
           (let ((chapter

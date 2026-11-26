@@ -53,6 +53,7 @@
          (languages (string-append source "/etc/language-names.json"))
          (makeinfo (nonempty-env "MAKEINFO" "makeinfo"))
          (doc (string-append source "/doc"))
+         (html-init (in-vicinity doc "html.pm"))
          (modules (in-vicinity source "module/pages"))
          (inputs (append (filter (lambda (file) (string-suffix? ".texi" file))
                                  (files-under doc))
@@ -60,7 +61,7 @@
                               '("manual/build.scm" "manual/reference.scm"
                                 "manual/navigation.scm" "manual/validation.scm"
                                 "util.scm"))
-                         (list languages)))
+                         (list html-init languages)))
          (digest (fingerprint inputs (list revision catalog makeinfo
                                            (capture makeinfo "--version"))))
          (stamp (string-append directory "/manual.sha256"))
@@ -80,6 +81,7 @@
                    "-o" (string-append staging "/chinese-fonts-overlay.info")
                    main)
               (run makeinfo "--html" "--split=section" "--no-headers"
+                   "--init-file" html-init
                    "-c" "FORMAT_MENU=menu"
                    "-c" "USE_NODES=0"
                    "-c" "NODE_FILES=0"
