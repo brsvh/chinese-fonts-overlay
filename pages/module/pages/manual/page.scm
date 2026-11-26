@@ -12,7 +12,8 @@
 (define (navigation-entries navigation)
   "Flatten NAVIGATION in reading order, retaining headings at every level."
   (append-map (lambda (entry)
-                (cons entry (navigation-entries (jarray (jref entry "children")))))
+                (cons entry
+                      (navigation-entries (jarray (jref entry "children")))))
               navigation))
 
 (define (contains-entry? entry current)
@@ -31,14 +32,19 @@
 (define (navigation-item entry current)
   "Render ENTRY and its nested sections, opening CURRENT's ancestry."
   (let ((children (jarray (jref entry "children"))))
-    `(li ,(if (null? children)
-              (navigation-link entry current)
-              `(details
-                (@ ,@(if (contains-entry? entry current)
-                         '((open "open")) '()))
-                (summary ,(navigation-link entry current))
-                (ul ,@(map (lambda (child) (navigation-item child current))
-                           children)))))))
+    (if (null? children)
+        `(li ,(navigation-link entry current))
+        `(li (@ (class "manual-branch"))
+             ,(navigation-link entry current)
+             (details
+              (@ ,@(if (contains-entry? entry current)
+                       '((open "open"))
+                       '()))
+              (summary (@ (aria-label ,(string-append "展开或收起 "
+                                                      (jref entry "label"))))
+                       "")
+              (ul ,@(map (lambda (child) (navigation-item child current))
+                         children)))))))
 
 (define (manual-sidebar navigation current)
   "Render the nested chapter directory, selecting CURRENT's exact link."
@@ -49,7 +55,8 @@
      (div (@ (class "sidebar-heading")) (h2 "使用手册"))
      (nav (@ (aria-label "章节"))
           (ul (@ (class "manual-chapters"))
-              ,@(map (lambda (entry) (navigation-item entry current)) navigation)))
+              ,@(map (lambda (entry) (navigation-item entry current))
+                     navigation)))
      (a (@ (class "manual-download") (href "chinese-fonts-overlay.info")
            (download "chinese-fonts-overlay.info")) "下载 Info 手册 ↓"))))
 
@@ -60,16 +67,18 @@
     (site-markup
      `(nav (@ (class "manual-pager") (aria-label "前后页面")) ""
            ,@(if (and index (> index 0))
-                 `((a (@ (rel "prev")
-                         (href ,(jref (list-ref navigation (- index 1)) "href")))
-                      "← " ,(jref (list-ref navigation (- index 1)) "label"))) '())
+                 (let ((previous (list-ref navigation (- index 1))))
+                   `((a (@ (rel "prev") (href ,(jref previous "href")))
+                        "← " ,(jref previous "label"))))
+                 '())
            ,@(if (and index (< (+ index 1) (length navigation)))
-                 `((a (@ (rel "next")
-                         (href ,(jref (list-ref navigation (+ index 1)) "href")))
-                      ,(jref (list-ref navigation (+ index 1)) "label") " →")) '())))))
+                 (let ((next (list-ref navigation (+ index 1))))
+                   `((a (@ (rel "next") (href ,(jref next "href")))
+                        ,(jref next "label") " →")))
+                 '())))))
 
 (define (manual-body text)
-  "Extract compiler-produced HTML between explicit Texinfo customization markers."
+  "Extract compiler-produced HTML between explicit Texinfo markers."
   (let* ((start-marker "<!-- manual-start -->")
          (start (string-contains text start-marker))
          (end (string-contains text "<!-- manual-end -->")))
@@ -80,7 +89,8 @@
 (define (install-manual source output revision)
   "Wrap compiled SOURCE with shared site components in OUTPUT/manual."
   (validate-manual source)
-  (let* ((navigation (jarray (read-json (string-append source "/navigation.json"))))
+  (let* ((navigation
+          (jarray (read-json (string-append source "/navigation.json"))))
          (entries (navigation-entries navigation))
          (pages (delete-duplicates entries
                                    (lambda (a b)
@@ -109,17 +119,22 @@
                        (content "width=device-width, initial-scale=1")))
               (meta (@ (name "color-scheme") (content "light dark")))
               (title ,title " · Chinese Fonts Overlay")
-              (link (@ (rel "icon") (type "image/svg+xml") (href "../favicon.svg")))))
+              (link (@ (rel "icon") (type "image/svg+xml")
+                       (href "../favicon.svg")))))
            (site-presentation-head "../")
            "</head><body class=\"manual-page\" data-view=\"manual\">"
            (site-loader)
            "<p id=\"manual-status\" class=\"sr-only\" role=\"status\"></p>"
            "<a class=\"skip-link\" href=\"#manual-main\">跳转到正文</a>"
            (site-header "../" 'manual)
-           "<input type=\"checkbox\" id=\"manual-menu-toggle\" class=\"manual-menu-toggle\" aria-label=\"显示手册目录\" aria-controls=\"manual-sidebar\">"
+           "<input type=\"checkbox\" id=\"manual-menu-toggle\""
+           " class=\"manual-menu-toggle\""
+           " aria-label=\"显示手册目录\""
+           " aria-controls=\"manual-sidebar\">"
            "<div class=\"shell\">"
            (manual-sidebar navigation (and entry (jref entry "href")))
-           "<main id=\"manual-main\" class=\"main manual-main\" tabindex=\"-1\">"
+           "<main id=\"manual-main\" class=\"main manual-main\""
+           " tabindex=\"-1\">"
            "<article class=\"manual-content\">"
            (manual-body (read-text file)) "</article>"
            (manual-pager pages name) (site-footer "../" revision)

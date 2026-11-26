@@ -1347,15 +1347,37 @@ html:has(.notices-dialog[open]) {
   border-radius: var(--radius-field);
 }
 
+.manual-branch {
+  position: relative;
+}
+
+.manual-branch > a {
+  padding-right: 36px;
+}
+
 .manual-chapters summary {
-  display: flex;
-  align-items: baseline;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  border-radius: var(--radius-field);
+}
+
+.manual-chapters summary:hover {
+  color: var(--color-primary);
+  background: var(--selected-bg);
 }
 
 .manual-chapters summary::before {
   content: "›";
-  flex: 0 0 10px;
-  color: var(--muted);
+  font-size: 15px;
+  line-height: 1;
 }
 
 .manual-chapters details[open] > summary::before {

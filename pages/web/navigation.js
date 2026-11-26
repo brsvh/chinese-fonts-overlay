@@ -89,6 +89,9 @@ function selectChapter(url) {
   if (!current) return;
   current.setAttribute('aria-current', exact ? 'location' : 'page');
 
+  const branch = current.parentElement?.querySelector(':scope > details');
+  if (branch) branch.open = true;
+
   for (
     let parent = current.parentElement;
     parent !== sidebar;
