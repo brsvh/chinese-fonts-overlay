@@ -336,12 +336,9 @@ async function publishFont(api, state, metadata, inventory, secrets) {
     package: metadata.name,
     buildKey: item.buildKey,
     rev: metadata.rev,
+    cache: metadata.cache,
   };
 
-  ensure(
-    metadata.action === 'publishFont',
-    'Only audited font caches are published',
-  );
   await publishCache(
     Object.values(item.outputs),
     inventory.forbiddenPaths,
@@ -349,7 +346,6 @@ async function publishFont(api, state, metadata, inventory, secrets) {
     secrets['public-cache']?.data.netrc,
     guard,
   );
-  record.cache = metadata.cache;
 
   await guard();
   await state.put(publicationKey(metadata.name), record);
