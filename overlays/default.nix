@@ -138,6 +138,8 @@ let
 
   huaweiPackages = mkVendorPackages "huawei";
 
+  huozicoolPackages = mkVendorPackages "huozicool";
+
   ichitenfontPackages = mkVendorPackages "ichitenfont";
 
   itoPackages = mkVendorPackages "ito";
@@ -216,6 +218,7 @@ in
     foundertypePackages
     hanwangPackages
     huaweiPackages
+    huozicoolPackages
     ichitenfontPackages
     itoPackages
     jikaseiPackages
@@ -303,6 +306,10 @@ in
       (drv: elem drv harmonyosSansVfPackages);
 
   huawei-fonts = huaweiPackages.combine (_: true);
+
+  huozicool-fonts = huozicoolPackages.combine (
+    _: true
+  );
 
   ichitenfont-fonts = ichitenfontPackages.combine (
     _: true

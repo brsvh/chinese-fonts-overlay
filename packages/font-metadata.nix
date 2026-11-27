@@ -61,6 +61,7 @@ let
     foundertype = "FounderType（方正字库）";
     hanwang = "H.T.Wang Free Fonts（王漢宗自由字型）";
     huawei = "Huawei（华为）";
+    huozicool = "Huozicool（特里活字库）";
     ichitenfont = "I.字坊／刻石錄";
     ito = "糸 FONT";
     jikasei = "自家製フォント工房";

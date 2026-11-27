@@ -107,6 +107,7 @@
                 harmonyos-sans-fonts
                 harmonyos-sans-vf-fonts
                 huawei-fonts
+                huozicool-fonts
                 ichitenfont-fonts
                 ito-fonts
                 jikasei-fonts
