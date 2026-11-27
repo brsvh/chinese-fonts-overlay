@@ -345,10 +345,11 @@
                   "style"
                   "风格"
                   (prioritize-entries
-                   '("sans" "serif" "hei" "song" "kai" "fangsong")
+                   '("sans" "serif" "hei" "song" "kai" "fangsong"
+                     "mono" "rounded")
                    (jref catalog "styleLabels"))
                   '("sans")
-                  6
+                  8
                   #t)
                  (facet-html "vendor" "字库" vendors (map car vendors) 4 #t)
                  (facet-html "cost" "费用" costs (map car costs) 4 #f)
