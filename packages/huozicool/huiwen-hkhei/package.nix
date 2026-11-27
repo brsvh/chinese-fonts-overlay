@@ -1,0 +1,190 @@
+{
+  fetchurl,
+  lib,
+  stdenvNoCC,
+  ...
+}:
+let
+  inherit (lib)
+    licenses
+    maintainers
+    platforms
+    ;
+
+  pname = "huozicool-huiwen-hkhei";
+  version = "1.001";
+
+  src = fetchurl {
+    hash = "sha256-xddlgcqHD0x36uM/gtWJyEVlbMkadE9K0MF/PtlrFMU=";
+    name = "Huiwen-HKHei-Regular.ttf";
+    url = "https://huozi.cool/newfonts/%C3%A6%C2%B1%C2%87%C3%A6%C2%96%C2%87%C3%A6%C2%B8%C2%AF%C3%A9%C2%BB%C2%91v1.001.ttf";
+  };
+
+  meta = {
+    description = "Huiwen HKHei retro phototypesetting sans-serif font from Huozicool";
+
+    homepage = [
+      "https://huozi.cool/"
+      "https://huozi.cool/article/1780107161300.html"
+    ];
+
+    license = licenses.huozicool-huiwen-license;
+
+    longDescription = ''
+      Provides Huiwen HKHei, a vintage Chinese sans-serif font from
+      TerryWang and Huozicool derived from Hong Kong phototypesetting
+      matrix plates.
+
+      The Huozicool Huiwen Series font license permits free personal
+      and commercial use, embedding, free redistribution, and
+      modification. Third parties may not charge for providing the
+      font or sell the font files standalone or as part of a paid
+      resource pack.
+    '';
+
+    maintainers = with maintainers; [ brsvh ];
+    platforms = platforms.all;
+    redistributable = true;
+  };
+in
+stdenvNoCC.mkDerivation {
+  inherit
+    meta
+    pname
+    src
+    version
+    ;
+
+  dontUnpack = true;
+
+  installPhase = ''
+    runHook preInstall
+
+    fontDir=$out/share/fonts/truetype/huozicool
+    install -Dm444 $src $fontDir/Huiwen-HKHei-Regular.ttf
+
+    runHook postInstall
+  '';
+
+  passthru = {
+    chinese-fonts-overlay-pages = {
+      displayName = "汇文港黑";
+
+      languages = [
+        "aa"
+        "agr"
+        "an"
+        "ay"
+        "ayc"
+        "bem"
+        "bg"
+        "bi"
+        "br"
+        "ch"
+        "co"
+        "cy"
+        "da"
+        "de"
+        "en"
+        "es"
+        "eu"
+        "fil"
+        "fj"
+        "fo"
+        "fr"
+        "fur"
+        "fy"
+        "gd"
+        "gl"
+        "gv"
+        "ho"
+        "ht"
+        "ia"
+        "id"
+        "ie"
+        "io"
+        "is"
+        "it"
+        "kj"
+        "kum"
+        "kwm"
+        "lb"
+        "lg"
+        "li"
+        "lij"
+        "mfe"
+        "mg"
+        "mhr"
+        "mjw"
+        "ms"
+        "nb"
+        "nds"
+        "ng"
+        "nhn"
+        "niu"
+        "nl"
+        "nn"
+        "no"
+        "nr"
+        "ny"
+        "oc"
+        "om"
+        "os"
+        "pap-an"
+        "pap-aw"
+        "pt"
+        "rm"
+        "rn"
+        "ru"
+        "rw"
+        "sc"
+        "sel"
+        "sg"
+        "sma"
+        "smj"
+        "sn"
+        "sq"
+        "ss"
+        "st"
+        "sv"
+        "sw"
+        "tpi"
+        "ts"
+        "unm"
+        "uz"
+        "vo"
+        "wa"
+        "wae"
+        "wo"
+        "xh"
+        "yap"
+        "yuw"
+        "za"
+        "zh-cn"
+        "zh-sg"
+        "zu"
+      ];
+
+      licenseCost = "gratisCommercialUse";
+
+      notices = [
+        {
+          level = "important";
+
+          text = ''
+            汇文系列允许免费商用、嵌入文档或软件设备、自由转发传播及修改衍生，但禁止第三方在任何平台收费提供字体，或将字体文件单独及打包出售牟利。
+          '';
+
+          url = "https://huozi.cool/article/1780107161300.html";
+        }
+      ];
+
+      styles = [
+        "hei"
+        "sans"
+      ];
+
+      vendor = "huozicool";
+    };
+  };
+}
