@@ -448,6 +448,7 @@ stdenvNoCC.mkDerivation {
         "handwritten"
         "hei"
         "kai"
+        "mono"
         "sans"
         "serif"
         "song"

@@ -264,6 +264,7 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "hei"
+        "mono"
         "sans"
       ];
 

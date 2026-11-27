@@ -247,6 +247,7 @@ mkMicrosoftFontDerivation {
       ];
 
       styles = [
+        "mono"
         "serif"
       ];
 

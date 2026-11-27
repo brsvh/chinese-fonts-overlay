@@ -118,6 +118,7 @@ mkMicrosoftFontDerivation {
       ];
 
       styles = [
+        "mono"
         "serif"
         "song"
       ];

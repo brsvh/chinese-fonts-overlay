@@ -172,6 +172,7 @@ mkMicrosoftFontDerivation {
       ];
 
       styles = [
+        "mono"
         "sans"
       ];
 

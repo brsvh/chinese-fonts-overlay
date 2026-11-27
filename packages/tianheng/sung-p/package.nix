@@ -262,6 +262,7 @@ stdenvNoCC.mkDerivation {
       ];
 
       styles = [
+        "mono"
         "serif"
         "song"
       ];

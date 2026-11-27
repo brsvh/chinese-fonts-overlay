@@ -279,6 +279,7 @@ stdenvNoCC.mkDerivation {
       licenseCost = "free";
 
       styles = [
+        "mono"
         "rounded"
         "sans"
       ];

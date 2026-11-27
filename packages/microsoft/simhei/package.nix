@@ -73,6 +73,7 @@ mkMicrosoftFontDerivation {
 
       styles = [
         "hei"
+        "mono"
         "sans"
       ];
 

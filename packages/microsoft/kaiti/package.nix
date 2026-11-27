@@ -73,6 +73,7 @@ mkMicrosoftFontDerivation {
 
       styles = [
         "kai"
+        "mono"
       ];
 
       vendor = "microsoft";

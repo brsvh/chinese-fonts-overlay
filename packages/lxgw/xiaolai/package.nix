@@ -272,6 +272,7 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "handwritten"
+        "mono"
       ];
 
       vendor = "lxgw";

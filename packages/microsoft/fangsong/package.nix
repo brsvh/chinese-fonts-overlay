@@ -73,6 +73,7 @@ mkMicrosoftFontDerivation {
 
       styles = [
         "fangsong"
+        "mono"
         "serif"
       ];
 

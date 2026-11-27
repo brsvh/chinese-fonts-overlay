@@ -288,6 +288,7 @@ stdenvNoCC.mkDerivation {
 
       styles = [
         "kai"
+        "mono"
       ];
 
       vendor = "tianheng";
