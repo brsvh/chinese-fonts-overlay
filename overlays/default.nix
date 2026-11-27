@@ -148,6 +148,15 @@ let
 
   justfontPackages = mkVendorPackages "justfont";
 
+  kinghwaOldsongPackages = with huozicoolPackages; [
+    kinghwa-oldsong
+    kinghwa-oldsong-gb
+    kinghwa-oldsong-gj
+    kinghwa-oldsong-i
+    kinghwa-oldsong-lt
+    kinghwa-oldsong-mn
+  ];
+
   lingdongPackages = mkVendorPackages "lingdong";
 
   lxgwPackages = mkVendorPackages "lxgw";
@@ -322,6 +331,10 @@ in
   justfont-fonts = justfontPackages.combine (
     _: true
   );
+
+  kinghwa-oldsong-fonts =
+    huozicoolPackages.combine' "kinghwa-oldsong-fonts"
+      (drv: elem drv kinghwaOldsongPackages);
 
   lingdong-fonts = lingdongPackages.combine (
     _: true

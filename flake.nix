@@ -112,6 +112,7 @@
                 ito-fonts
                 jikasei-fonts
                 justfont-fonts
+                kinghwa-oldsong-fonts
                 lingdong-fonts
                 lxgw-fonts
                 naver-fonts
