@@ -22,8 +22,15 @@ in
     }:
     let
       inherit (lib)
+        filterAttrs
         getExe
-        toJSON
+        hasSuffix
+        mapAttrs'
+        nameValuePair
+        pathExists
+        pipe
+        readDir
+        removeSuffix
         ;
 
       baseFontPkgs = import packageNixpkgs {
@@ -44,6 +51,46 @@ in
 
       languageFontconfig = baseFontPkgs.fontconfig;
 
+      checksDirectory = projectRoot + /tools/checks;
+
+      checkArguments = {
+        inherit
+          fontPkgs
+          lib
+          pkgs
+          projectRoot
+          ;
+      };
+
+      isCheckEntry =
+        name: type:
+        (type == "regular" && hasSuffix ".nix" name)
+        || (
+          type == "directory"
+          && pathExists (
+            checksDirectory + "/${name}/default.nix"
+          )
+        );
+
+      loadCheck =
+        name: type:
+        let
+          checkName =
+            if type == "regular" then
+              removeSuffix ".nix" name
+            else
+              name;
+
+          path =
+            if type == "regular" then
+              checksDirectory + "/${name}"
+            else
+              checksDirectory + "/${name}/default.nix";
+        in
+        nameValuePair checkName (
+          import path checkArguments
+        );
+
       updateFontLanguages =
         pkgs.callPackage
           ./update-font-languages/package.nix
@@ -54,14 +101,6 @@ in
               pkg-config
               stdenv
               ;
-          };
-
-      fontCatalog =
-        import (projectRoot + /packages/font-catalog.nix)
-          {
-            inherit projectRoot;
-
-            pkgs = fontPkgs;
           };
     in
     {
@@ -99,11 +138,10 @@ in
         };
       };
 
-      checks = {
-        font-metadata = pkgs.writeText "font-metadata.json" (
-          toJSON fontCatalog
-        );
-      };
+      checks = pipe (readDir checksDirectory) [
+        (filterAttrs isCheckEntry)
+        (mapAttrs' loadCheck)
+      ];
 
       devShells = {
         ci = pkgs.mkShell {
