@@ -74,6 +74,38 @@
     url = "https://raw.gitcode.com/openharmony/global_system_resources/raw/a52632e5d3901cc860b87fe923142077de194b42/LICENSE_Fonts";
   };
 
+  huozicool-huiwen-license = {
+    free = false;
+    fullName = "特里活字库《汇文系列》字体授权声明";
+    redistributable = true;
+    shortName = "huozicool-huiwen-license";
+    url = "https://huozi.cool/article/1780107161300.html";
+  };
+
+  huozicool-kinghwa-oldsong-license = {
+    free = false;
+    fullName = "特里活字库《京華老宋体》授权声明";
+    redistributable = true;
+    shortName = "huozicool-kinghwa-oldsong-license";
+    url = "https://huozi.cool/article/1780107524889.html";
+  };
+
+  huozicool-zhaohua-title-license = {
+    free = false;
+    fullName = "特里活字库《朝華標題》字体版权声明";
+    redistributable = true;
+    shortName = "huozicool-zhaohua-title-license";
+    url = "https://huozi.cool/article/1780107571976.html";
+  };
+
+  huozicool-zhaohua-typewriter-license = {
+    free = false;
+    fullName = "特里活字库《打字油印系列》字体版权声明";
+    redistributable = true;
+    shortName = "huozicool-zhaohua-typewriter-license";
+    url = "https://huozi.cool/article/1780107609923.html";
+  };
+
   justfont-elffont-license = {
     free = false;
     fullName = "做作的Daphne 與 justfont《精靈文》字型授權規範";
