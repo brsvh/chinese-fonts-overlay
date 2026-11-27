@@ -1,3 +1,4 @@
+import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -5,9 +6,12 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
   command,
   ensure,
+  matches,
+  maxData,
   positiveInteger,
   readJson,
   repository,
+  sanitizedEnv,
   sha,
 } from './common.mjs';
 import { GitHub, output } from './github.mjs';
@@ -15,12 +19,39 @@ import { GarageBucket } from './garage.mjs';
 import { PagesArtifactStore } from './pages-artifacts.mjs';
 import {
   deployWorkflow,
+  latestDeployedPages,
   notifyPages,
   pagesRepositoryId,
 } from './pages-dispatch.mjs';
 
 const stateDirectory = '/pages-state';
 const root = fileURLToPath(new URL('..', import.meta.url));
+const websiteIgnoredPaths = new Set(['README', 'pages/README']);
+const websiteExactPaths = new Set([
+  'default.nix',
+  'flake.lock',
+  'flake.nix',
+  'tools/default.nix',
+  'tools/flake.lock',
+  'tools/flake.nix',
+]);
+const websitePrefixes = ['lib/', 'overlays/', 'packages/', 'pages/'];
+
+export function affectsWebsite(file) {
+  if (typeof file !== 'string' || file.length === 0) {
+    return false;
+  }
+
+  if (websiteIgnoredPaths.has(file)) {
+    return false;
+  }
+
+  if (websiteExactPaths.has(file)) {
+    return true;
+  }
+
+  return websitePrefixes.some((prefix) => file.startsWith(prefix));
+}
 
 function environment(name) {
   ensure(process.env[name], 'Missing environment variable: ' + name);
@@ -92,14 +123,52 @@ async function buildPages(source) {
   if (source !== remoteMain()) return;
 
   const secrets = readJson(environment('HERCULES_CI_SECRETS_JSON'));
+  const deployed = await latestDeployedPages(secrets.pagesDispatch.data);
+
+  if (deployed === source) {
+    console.log('Pages already deployed for ' + source);
+    return;
+  }
 
   const store = new PagesArtifactStore(secrets.pagesArtifacts.data);
 
   try {
     const limit = secrets.pagesArtifacts.data.maxVersions ?? 2;
     let existing = store.manifest(source);
+
     if (!existing) {
-      if (!(await uploadPagesArchive(source, store, secrets, limit))) return;
+      const checkout = prepareSource('source');
+
+      try {
+        if (
+          command('git', [
+            '-C',
+            checkout,
+            'rev-parse',
+            'refs/remotes/origin/main',
+          ]) !== source
+        ) {
+          return;
+        }
+
+        if (deployed && !hasWebsiteChanges(checkout, deployed, source)) {
+          console.log(
+            'No website-affecting changes since ' +
+              deployed +
+              '; skipping buildPages',
+          );
+          return;
+        }
+
+        if (
+          !(await uploadPagesArchive(source, checkout, store, secrets, limit))
+        ) {
+          return;
+        }
+      } finally {
+        fs.rmSync(checkout, { recursive: true, force: true });
+      }
+
       existing = store.manifest(source);
     }
 
@@ -135,7 +204,113 @@ function storedArchive(store, source, metadata) {
   return { file: metadata.file, key, size: manifest.size };
 }
 
-async function uploadPagesArchive(source, store, secrets, limit) {
+function prepareSource(directory) {
+  fs.rmSync(directory, { recursive: true, force: true });
+
+  command(
+    'git',
+    [
+      'clone',
+      '--config',
+      'http.version=HTTP/1.1',
+      '--no-checkout',
+      '--filter=blob:none',
+      '--single-branch',
+      '--branch',
+      'main',
+      'https://github.com/' + repository + '.git',
+      directory,
+    ],
+    { stdio: 'inherit' },
+  );
+
+  return directory;
+}
+
+export function hasWebsiteChanges(repositoryDirectory, deployed, source) {
+  ensure(
+    typeof repositoryDirectory === 'string' && repositoryDirectory.length > 0,
+    'Invalid repository directory',
+  );
+  ensure(matches(sha, deployed), 'Invalid deployed revision');
+  ensure(matches(sha, source), 'Invalid source revision');
+
+  command('git', [
+    '--no-lazy-fetch',
+    '-C',
+    repositoryDirectory,
+    'cat-file',
+    '-e',
+    source + '^{commit}',
+  ]);
+
+  const ancestry = spawnSync(
+    'git',
+    [
+      '--no-lazy-fetch',
+      '-C',
+      repositoryDirectory,
+      'merge-base',
+      '--is-ancestor',
+      deployed + '^{commit}',
+      source + '^{commit}',
+    ],
+    { encoding: 'utf8', env: sanitizedEnv() },
+  );
+
+  if (ancestry.error) {
+    throw ancestry.error;
+  }
+
+  if (ancestry.signal) {
+    throw new Error('git terminated by ' + ancestry.signal);
+  }
+
+  if (ancestry.status !== 0) {
+    return true;
+  }
+
+  const diff = spawnSync(
+    'git',
+    [
+      '--no-lazy-fetch',
+      '-C',
+      repositoryDirectory,
+      'diff-tree',
+      '-r',
+      '--no-commit-id',
+      '--name-only',
+      '--no-renames',
+      '-z',
+      deployed,
+      source,
+      '--',
+    ],
+    { encoding: 'utf8', maxBuffer: maxData, env: sanitizedEnv() },
+  );
+
+  if (diff.error) {
+    throw diff.error;
+  }
+
+  if (diff.signal) {
+    throw new Error('git terminated by ' + diff.signal);
+  }
+
+  if (diff.status !== 0) {
+    const error = new Error('git exited with ' + diff.status);
+    error.details = diff.stderr ?? '';
+    throw error;
+  }
+
+  const files = (diff.stdout ?? '')
+    .split('\0')
+    .filter((file) => file.length > 0);
+
+  return files.some(affectsWebsite);
+}
+
+async function uploadPagesArchive(source, checkout, store, secrets, limit) {
   const inputs = new GarageBucket(
     'chinese-fonts-overlay-webfonts',
     secrets.webfonts.data,
@@ -143,7 +318,7 @@ async function uploadPagesArchive(source, store, secrets, limit) {
   try {
     const library = path.join(inputs.directory, 'library');
     downloadWebfonts(inputs, library);
-    buildArchive(source, library);
+    buildArchive(source, checkout, library);
   } finally {
     inputs.close();
   }
@@ -194,32 +369,16 @@ function downloadWebfonts(bucket, library) {
   }
 }
 
-function buildArchive(source, library) {
-  command(
-    'git',
-    [
-      '-c',
-      'http.version=HTTP/1.1',
-      'clone',
-      '--no-checkout',
-      '--filter=blob:none',
-      '--single-branch',
-      '--branch',
-      'main',
-      'https://github.com/' + repository + '.git',
-      'source',
-    ],
-    { stdio: 'inherit' },
-  );
-  command('git', ['-C', 'source', 'checkout', '--detach', source], {
+function buildArchive(source, checkout, library) {
+  command('git', ['-C', checkout, 'checkout', '--detach', source], {
     stdio: 'inherit',
   });
   ensure(
-    command('git', ['-C', 'source', 'rev-parse', 'HEAD']) === source,
+    command('git', ['-C', checkout, 'rev-parse', 'HEAD']) === source,
     'Unexpected source checkout',
   );
 
-  const sourceRoot = fs.realpathSync('source');
+  const sourceRoot = fs.realpathSync(checkout);
   const build = path.join(stateDirectory, 'build');
   fs.mkdirSync(build, { recursive: true });
 
@@ -305,7 +464,8 @@ async function receivePagesArtifact(destination) {
       process.env.GITHUB_EVENT_NAME === 'workflow_dispatch',
       'Unexpected deployment event',
     );
-    source = current;
+    source = environment('GITHUB_SHA');
+    ensure(matches(sha, source), 'Invalid workflow dispatch revision');
   }
 
   if (source !== current) return output({ ready: false });

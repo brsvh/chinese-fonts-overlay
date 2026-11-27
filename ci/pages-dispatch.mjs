@@ -7,7 +7,13 @@ import { ApiError, request } from './http.mjs';
 export const pagesRepositoryId = 772409384;
 export const deployWorkflow = '.github/workflows/deploy.yml';
 
-async function installationClient({ clientId, installationId, privateKey }) {
+const deployTitlePattern = /^Deploy Pages ([0-9a-f]{40})$/;
+
+async function installationClient(
+  { clientId, installationId, privateKey },
+  permissions = { actions: 'read', contents: 'write' },
+  writable = true,
+) {
   ensure(
     typeof clientId === 'string' &&
       clientId.length > 0 &&
@@ -34,7 +40,7 @@ async function installationClient({ clientId, installationId, privateKey }) {
       method: 'POST',
       body: {
         repository_ids: [pagesRepositoryId],
-        permissions: { actions: 'read', contents: 'write' },
+        permissions,
       },
       limit: 65536,
     },
@@ -45,7 +51,108 @@ async function installationClient({ clientId, installationId, privateKey }) {
     'Missing Pages dispatch installation token',
   );
 
-  return new GitHub(installation.token, true);
+  return new GitHub(installation.token, writable);
+}
+
+function deployedRevisionFromRun(run, botId) {
+  if (
+    run.head_branch !== 'main' ||
+    run.path !== deployWorkflow ||
+    run.status !== 'completed' ||
+    run.conclusion !== 'success'
+  ) {
+    return null;
+  }
+
+  const isBotDispatch =
+    run.event === 'repository_dispatch' &&
+    run.actor?.id === botId &&
+    run.actor.type === 'Bot';
+
+  if (!isBotDispatch && run.event !== 'workflow_dispatch') {
+    return null;
+  }
+
+  const match =
+    typeof run.display_title === 'string'
+      ? run.display_title.match(deployTitlePattern)
+      : null;
+
+  if (!match || run.head_sha !== match[1]) {
+    return null;
+  }
+
+  return match[1];
+}
+
+async function runCompletedPagesDeploy(api, runId) {
+  ensure(positiveInteger(runId), 'Invalid workflow run ID');
+
+  const response = await api.request(
+    '/actions/runs/' + runId + '/jobs?filter=latest&per_page=100',
+  );
+  ensure(Array.isArray(response?.jobs), 'Invalid workflow jobs response');
+
+  const deployJob = response.jobs.find(
+    (job) => job.name === 'Deploy to GitHub Pages',
+  );
+
+  if (
+    !deployJob ||
+    deployJob.status !== 'completed' ||
+    deployJob.conclusion !== 'success' ||
+    !Array.isArray(deployJob.steps)
+  ) {
+    return false;
+  }
+
+  // Coupled to the unnamed actions/deploy-pages step in deploy.yml.
+  return deployJob.steps.some(
+    (step) =>
+      typeof step.name === 'string' &&
+      step.name.startsWith('Run actions/deploy-pages@') &&
+      step.status === 'completed' &&
+      step.conclusion === 'success',
+  );
+}
+
+export async function latestDeployedPages(credentials) {
+  const { botId } = credentials;
+  ensure(positiveInteger(botId), 'Invalid Pages dispatch bot ID');
+
+  const api = await installationClient(credentials, { actions: 'read' }, false);
+  const query = new URLSearchParams({
+    branch: 'main',
+    status: 'success',
+    per_page: '100',
+  });
+  const response = await api.request(
+    '/actions/workflows/deploy.yml/runs?' + query,
+  );
+  ensure(
+    Array.isArray(response?.workflow_runs),
+    'Invalid workflow runs response',
+  );
+
+  const runs = [...response.workflow_runs].sort(
+    (a, b) =>
+      (Date.parse(b.updated_at ?? b.created_at) || 0) -
+      (Date.parse(a.updated_at ?? a.created_at) || 0),
+  );
+
+  for (const run of runs) {
+    const revision = deployedRevisionFromRun(run, botId);
+
+    if (!revision) {
+      continue;
+    }
+
+    if (await runCompletedPagesDeploy(api, run.id)) {
+      return revision;
+    }
+  }
+
+  return null;
 }
 
 async function findDeployment(api, source, botId) {
