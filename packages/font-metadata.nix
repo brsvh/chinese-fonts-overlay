@@ -43,6 +43,7 @@ let
     hei = "黑体";
     kai = "楷体";
     li = "隶书";
+    mono = "等宽字体";
     rounded = "圆体";
     sans = "无衬线体";
     serif = "衬线体";
