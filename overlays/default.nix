@@ -93,6 +93,8 @@ let
 
   buttaiwanPackages = mkVendorPackages "buttaiwan";
 
+  chironPackages = mkVendorPackages "chiron";
+
   cwtexPackages = mkVendorPackages "cwtex";
 
   dingtalkPackages = mkVendorPackages "dingtalk";
@@ -222,6 +224,7 @@ in
     alibabaPackages
     alimamaPackages
     buttaiwanPackages
+    chironPackages
     cwtexPackages
     dingtalkPackages
     foundertypePackages
@@ -257,6 +260,8 @@ in
   buttaiwan-fonts = buttaiwanPackages.combine (
     _: true
   );
+
+  chiron-fonts = chironPackages.combine (_: true);
 
   cwtex-fonts = cwtexPackages.combine (_: true);
 
