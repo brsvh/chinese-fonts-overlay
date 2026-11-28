@@ -104,6 +104,15 @@ let
     chill-jinshu-song-tc
   ];
 
+  chillMovableTypePackages =
+    with chilltypePackages; [
+      chill-huo-fang-kai
+      chill-huo-fang-song
+      chill-huo-gothic
+      chill-huo-kai
+      chill-huo-song
+    ];
+
   chilltypePackages = mkVendorPackages "chilltype";
 
   chilltypeVfPackages = with chilltypePackages; [
@@ -315,6 +324,11 @@ in
   chill-jinshu-fonts =
     chilltypePackages.combine' "chill-jinshu-fonts"
       (drv: elem drv chillJinshuPackages);
+
+  chill-movable-type-fonts =
+    chilltypePackages.combine'
+      "chill-movable-type-fonts"
+      (drv: elem drv chillMovableTypePackages);
 
   chilltype-fonts = chilltypePackages.combine (
     _: true
