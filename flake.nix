@@ -129,6 +129,7 @@
                 windows-fonts
                 xiaomi-fonts
                 zevacode-fonts
+                zevacode-vf-fonts
                 ;
             };
           };
