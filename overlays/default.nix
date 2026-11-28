@@ -95,6 +95,14 @@ let
 
   chironPackages = mkVendorPackages "chiron";
 
+  chironVfPackages = with chironPackages; [
+    chiron-go-round-tc-vf
+    chiron-hei-hk-vf
+    chiron-sung-hk-vf
+    zev-hei-tc-f
+    zev-hei-tc-n
+  ];
+
   cwtexPackages = mkVendorPackages "cwtex";
 
   dingtalkPackages = mkVendorPackages "dingtalk";
@@ -262,6 +270,10 @@ in
   );
 
   chiron-fonts = chironPackages.combine (_: true);
+
+  chiron-vf-fonts =
+    chironPackages.combine' "chiron-vf-fonts"
+      (drv: elem drv chironVfPackages);
 
   cwtex-fonts = cwtexPackages.combine (_: true);
 
