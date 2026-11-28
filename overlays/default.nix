@@ -93,6 +93,34 @@ let
 
   buttaiwanPackages = mkVendorPackages "buttaiwan";
 
+  chillJinshuPackages = with chilltypePackages; [
+    chill-jinshu-mincho-b1
+    chill-jinshu-mincho-b1-soft
+    chill-jinshu-mincho-b2
+    chill-jinshu-mincho-b2-soft
+    chill-jinshu-mincho-jp
+    chill-jinshu-song
+    chill-jinshu-song-pro
+    chill-jinshu-song-tc
+  ];
+
+  chillMovableTypePackages =
+    with chilltypePackages; [
+      chill-huo-fang-kai
+      chill-huo-fang-song
+      chill-huo-gothic
+      chill-huo-kai
+      chill-huo-song
+    ];
+
+  chilltypePackages = mkVendorPackages "chilltype";
+
+  chilltypeVfPackages = with chilltypePackages; [
+    chill-din-gothic-vf
+    chill-din-vf
+    chill-duan-sans-vf
+  ];
+
   chironPackages = mkVendorPackages "chiron";
 
   chironVfPackages = with chironPackages; [
@@ -255,6 +283,7 @@ in
     alibabaPackages
     alimamaPackages
     buttaiwanPackages
+    chilltypePackages
     chironPackages
     cwtexPackages
     dingtalkPackages
@@ -291,6 +320,23 @@ in
   buttaiwan-fonts = buttaiwanPackages.combine (
     _: true
   );
+
+  chill-jinshu-fonts =
+    chilltypePackages.combine' "chill-jinshu-fonts"
+      (drv: elem drv chillJinshuPackages);
+
+  chill-movable-type-fonts =
+    chilltypePackages.combine'
+      "chill-movable-type-fonts"
+      (drv: elem drv chillMovableTypePackages);
+
+  chilltype-fonts = chilltypePackages.combine (
+    _: true
+  );
+
+  chilltype-vf-fonts =
+    chilltypePackages.combine' "chilltype-vf-fonts"
+      (drv: elem drv chilltypeVfPackages);
 
   chiron-fonts = chironPackages.combine (_: true);
 

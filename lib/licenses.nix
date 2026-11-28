@@ -50,6 +50,30 @@
     url = "https://www.yuque.com/alimama_ai-font/vfse9w/msvuh9i9895org09";
   };
 
+  chilltype-bitmap-7px-license = {
+    free = true;
+    fullName = "寒蝉点阵体 7px 自由字体许可协议";
+    redistributable = true;
+    shortName = "chilltype-bitmap-7px-license";
+    url = "https://github.com/Warren2060/ChillBitmap/blob/f9e3b2f988a2c4107f866aa43c3d61a2b27254d5/LICENSE.md";
+  };
+
+  chilltype-matrix-license = {
+    free = false;
+    fullName = "寒蝉矩阵体使用协议";
+    redistributable = false;
+    shortName = "chilltype-matrix-license";
+    url = "https://github.com/Warren2060/ChillMatrix/releases/tag/v2.0";
+  };
+
+  chilltype-shouzhuo-license = {
+    free = false;
+    fullName = "寒蝉手拙体使用声明";
+    redistributable = false;
+    shortName = "chilltype-shouzhuo-license";
+    url = "https://github.com/Warren2060/ChillShouZhuo/blob/763e4380fce1443ae5e5bc3ccfd124863c2dc39f/README.md";
+  };
+
   foundertype-commercial-license = {
     free = false;
     fullName = "方正字库“商业发布”授权说明";
