@@ -128,6 +128,7 @@
                 tsangertype-gpu-fonts
                 windows-fonts
                 xiaomi-fonts
+                zevacode-fonts
                 ;
             };
           };

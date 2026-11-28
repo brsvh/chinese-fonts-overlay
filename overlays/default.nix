@@ -226,6 +226,21 @@ let
   tsangertypePackages = mkVendorPackages "tsangertype";
 
   xiaomiPackages = mkVendorPackages "xiaomi";
+
+  zevacodePackages = with chironPackages; [
+    zevacode-cascode
+    zevacode-cascode-nf
+    zevacode-casmono
+    zevacode-casmono-nf
+    zevacode-gima
+    zevacode-gima-semicondensed
+    zevacode-gimaspace-arg
+    zevacode-gimaspace-arg-nf
+    zevacode-gimaspace-neo
+    zevacode-gimaspace-neo-nf
+    zevacode-jetmono
+    zevacode-jetmono-nl
+  ];
 in
 {
   inherit
@@ -405,5 +420,9 @@ in
       );
 
   xiaomi-fonts = xiaomiPackages.combine (_: true);
+
+  zevacode-fonts =
+    chironPackages.combine' "zevacode-fonts"
+      (drv: elem drv zevacodePackages);
 }
 // import ./renamed.nix { inherit lib; }
