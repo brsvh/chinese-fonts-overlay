@@ -96,6 +96,7 @@
                 alibaba-fonts
                 alimama-fonts
                 buttaiwan-fonts
+                chiron-fonts
                 cwtex-fonts
                 dingtalk-fonts
                 foundertype-ctex-fonts
