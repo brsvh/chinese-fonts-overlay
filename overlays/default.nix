@@ -241,6 +241,14 @@ let
     zevacode-jetmono
     zevacode-jetmono-nl
   ];
+
+  zevacodeVfPackages = with chironPackages; [
+    zevacode-cascode-vf
+    zevacode-casmono-vf
+    zevacode-gimaspace-arg-vf
+    zevacode-gimaspace-neo-vf
+    zevacode-jetmono-vf
+  ];
 in
 {
   inherit
@@ -424,5 +432,9 @@ in
   zevacode-fonts =
     chironPackages.combine' "zevacode-fonts"
       (drv: elem drv zevacodePackages);
+
+  zevacode-vf-fonts =
+    chironPackages.combine' "zevacode-vf-fonts"
+      (drv: elem drv zevacodeVfPackages);
 }
 // import ./renamed.nix { inherit lib; }
