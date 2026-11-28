@@ -97,6 +97,7 @@
                 alimama-fonts
                 buttaiwan-fonts
                 chiron-fonts
+                chiron-vf-fonts
                 cwtex-fonts
                 dingtalk-fonts
                 foundertype-ctex-fonts
