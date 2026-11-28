@@ -64,7 +64,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
         with:
-          fetch-depth: 2
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/download-artifact@v8.0.2
         with:
