@@ -93,6 +93,17 @@ let
 
   buttaiwanPackages = mkVendorPackages "buttaiwan";
 
+  chillJinshuPackages = with chilltypePackages; [
+    chill-jinshu-mincho-b1
+    chill-jinshu-mincho-b1-soft
+    chill-jinshu-mincho-b2
+    chill-jinshu-mincho-b2-soft
+    chill-jinshu-mincho-jp
+    chill-jinshu-song
+    chill-jinshu-song-pro
+    chill-jinshu-song-tc
+  ];
+
   chilltypePackages = mkVendorPackages "chilltype";
 
   chironPackages = mkVendorPackages "chiron";
@@ -294,6 +305,10 @@ in
   buttaiwan-fonts = buttaiwanPackages.combine (
     _: true
   );
+
+  chill-jinshu-fonts =
+    chilltypePackages.combine' "chill-jinshu-fonts"
+      (drv: elem drv chillJinshuPackages);
 
   chilltype-fonts = chilltypePackages.combine (
     _: true

@@ -96,6 +96,7 @@
                 alibaba-fonts
                 alimama-fonts
                 buttaiwan-fonts
+                chill-jinshu-fonts
                 chilltype-fonts
                 chiron-fonts
                 chiron-vf-fonts
