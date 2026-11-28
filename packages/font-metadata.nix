@@ -56,6 +56,7 @@ let
     alibaba = "Alibaba Design（阿里巴巴）";
     alimama = "Alimama（阿里妈妈）";
     buttaiwan = "ZiHi（字嗨）";
+    chilltype = "ChillType（寒蝉字型）";
     chiron = "Chiron Fonts（昭源字體）";
     cwtex = "cwTeX Q";
     dingtalk = "DingTalk（钉钉）";
