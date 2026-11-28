@@ -106,6 +106,12 @@ let
 
   chilltypePackages = mkVendorPackages "chilltype";
 
+  chilltypeVfPackages = with chilltypePackages; [
+    chill-din-gothic-vf
+    chill-din-vf
+    chill-duan-sans-vf
+  ];
+
   chironPackages = mkVendorPackages "chiron";
 
   chironVfPackages = with chironPackages; [
@@ -313,6 +319,10 @@ in
   chilltype-fonts = chilltypePackages.combine (
     _: true
   );
+
+  chilltype-vf-fonts =
+    chilltypePackages.combine' "chilltype-vf-fonts"
+      (drv: elem drv chilltypeVfPackages);
 
   chiron-fonts = chironPackages.combine (_: true);
 

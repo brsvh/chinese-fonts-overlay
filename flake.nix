@@ -98,6 +98,7 @@
                 buttaiwan-fonts
                 chill-jinshu-fonts
                 chilltype-fonts
+                chilltype-vf-fonts
                 chiron-fonts
                 chiron-vf-fonts
                 cwtex-fonts
